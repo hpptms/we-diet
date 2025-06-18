@@ -1,0 +1,27 @@
+/* M PLUS 1p: Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap');
+
+/* しっぽり明朝 B1: FontPlus CDN（サンプル/商用利用は要契約） */
+@import url('https://webfont.fontplus.jp/accessor/css/accessor.css?font=shippori-mincho-b1');
+
+/* 基本はNoto Serif JP、見出しはしっぽり明朝B1 */
+html,
+body {
+    font-family: 'M PLUS 1p', serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Shippori Mincho B1', 'Noto Serif JP', serif;
+    font-weight: 700;
+}
+
+/* 強調やキャプションなどにも適用例 */
+.caption,
+.emphasis {
+    font-family: 'Shippori Mincho B1', 'M PLUS 1p', serif;
+}
