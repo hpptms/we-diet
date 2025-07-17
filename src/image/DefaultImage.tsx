@@ -1,0 +1,35 @@
+// Cloudinaryプリセット画像のDB IDとURLの対応表
+
+export type DefaultImage = { id: number; url: string };
+
+export const DEFAULT_IMAGES: DefaultImage[] = [
+  { id: 1, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-two-ponytails-hair-lady-with-green-glasses_gll4km.webp" },
+  { id: 2, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-short-hair-business-lady-with-glasses_rqqhzs.webp" },
+  { id: 3, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-short-curly-hair-lady-in-pink-shirt_q0iphd.webp" },
+  { id: 4, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-red-short-hair-lady-in-yellow-shirt_aajwjs.webp" },
+  { id: 5, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-with-yellow-tie-in-jacket_vnmsxo.webp" },
+  { id: 6, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-with-orange-tie_m7vqp1.webp" },
+  { id: 7, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-with-brown-hair-in-green-sweater_g4pmr6.webp" },
+  { id: 8, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-with-beard-in-violet-shirt_t82hnx.webp" },
+  { id: 9, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-with-beard-in-suit_msoi3w.webp" },
+  { id: 10, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-in-yellow-striped-sweater_sirzjr.webp" },
+  { id: 11, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-in-white-shirt_vprdga.webp" },
+  { id: 12, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-in-white-shirt-2_og5hct.webp" },
+  { id: 13, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-in-striped-shirt_vnuhr1.webp" },
+  { id: 14, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-in-red-jacket_qhhosa.webp" },
+  { id: 15, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-in-green-tie_oash9q.webp" },
+  { id: 16, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-in-green-sweater_aiwvg2.webp" },
+  { id: 17, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-man-in-blue-t-shirt_xzkzvi.webp" },
+  { id: 18, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-long-curly-hair-lady-with-glasses_menxoe.webp" },
+  { id: 19, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-indian-lady_s8rmzv.webp" },
+  { id: 20, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-business-man-in-yellow-glasses_ingylb.webp" },
+  { id: 21, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-brown-long-hair-lady-with-red-glasses_ttliec.webp" },
+  { id: 22, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-brown-pigtail-hair-lady_gl5pqp.webp" },
+  { id: 23, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-brown-short-hair-lady-in-yellow-shirt_blois0.webp" },
+  { id: 24, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-brown-hair-business-lady-with-glasses_eqh1ks.webp" },
+  { id: 25, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-brown-long-curly-hair-lady_wiv2hv.webp" },
+  { id: 26, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-brown-curly-hair-lady-with-golden-earrings_klefjd.webp" },
+  { id: 27, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-brown-curly-hair-lady-in-light-green-shirt_snysx0.webp" },
+  { id: 28, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-bald-man-in-green-jacket_qqneuy.webp" },
+  { id: 29, url: "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750398253/icons8-blond-curly-hair-business-lady_mi7ugx.webp" },
+];

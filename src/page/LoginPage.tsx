@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
+import { Box, Typography, Button } from "@mui/material";
 import { MdLogin } from "react-icons/md";
 import axios from "axios";
 import { encodeMailRegisterRequest, decodeMailRegisterResponse } from "../proto/mail_register_pb";
@@ -34,7 +35,7 @@ const LoginPage: React.FC = () => {
       // Protobufでリクエストをエンコード
       const reqBin = encodeMailRegisterRequest({ email: registerEmail });
       const response = await axios.post(
-        `${import.meta.env.VITE_API_ENDPOINT}/register/mail`,
+        `${import.meta.env.VITE_API_ENDPOINT}register/mail`,
         reqBin,
         {
           headers: {
@@ -77,17 +78,26 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    console.log("ログイン開始:", { email, password: "***" });
+    console.log("API Endpoint:", `${import.meta.env.VITE_API_ENDPOINT}login`);
+    
     try {
-      const response = await axios.post("/login", {
-        username: email,
-        password,
-      });
-      // 仮: レスポンスからアカウント名を取得しlocalStorageに保存
-      // 実際はAPIのレスポンスに合わせて修正
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_ENDPOINT}login`,
+        {
+          email,
+          password,
+        }
+      );
+      console.log("ログイン成功:", response.data);
+      
+      // レスポンスからアカウント名を取得しlocalStorageに保存
       const data = response.data;
       localStorage.setItem("accountName", data.accountName || email);
+      console.log("localStorageに保存:", data.accountName || email);
       navigate("/dashboard");
     } catch (err: any) {
+      console.error("ログインエラー:", err);
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
@@ -97,15 +107,17 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column",background: '#f5f5f7' }}>
+    <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: '#f5f5f7' }}>
       <Header />
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <div style={{ maxWidth: 600, background: '#FFF', margin: "40px auto", padding: 24, border: "1px solid #ccc", borderRadius: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <h2>ログイン</h2>
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <Box sx={{ maxWidth: 600, background: '#FFF', m: "40px auto", p: 3, border: "1px solid #ccc", borderRadius: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
+            ログイン
+          </Typography>
           <form onSubmit={handleSubmit} style={{ width: "100%", maxWidth: 400, display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ width: "100%" }}>
+            <Box sx={{ width: "100%", mb: 2 }}>
               <label style={{ width: "100%", display: "block" }}>
-                メールアドレス
+                メールアドレス or ユーザーネーム
                 <input
                   type="email"
                   value={email}
@@ -114,8 +126,8 @@ const LoginPage: React.FC = () => {
                   style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
                 />
               </label>
-            </div>
-            <div style={{ width: "100%" }}>
+            </Box>
+            <Box sx={{ width: "100%", mb: 2 }}>
               <label style={{ width: "100%", display: "block" }}>
                 パスワード
                 <input
@@ -126,22 +138,32 @@ const LoginPage: React.FC = () => {
                   style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
                 />
               </label>
-            </div>
-            {error && <div style={{ color: "red", marginBottom: 8, width: "100%", textAlign: "center" }}>{error}</div>}
-            <button type="submit" style={{ width: "100%", padding: 12, background: "#1976d2", color: "#fff", border: "none", borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontWeight: 500, fontSize: 16 }}>
-              <MdLogin size={22} style={{ marginRight: 4 }} />
+            </Box>
+            {error && (
+              <Typography color="error" sx={{ mb: 1, width: "100%", textAlign: "center" }}>
+                {error}
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              startIcon={<MdLogin size={22} />}
+              sx={{ py: 1.5, fontWeight: 500, fontSize: 16, borderRadius: 1, mt: 1 }}
+            >
               ログイン
-            </button>
+            </Button>
           </form>
           {/* メールで登録ボタン */}
-          <div style={{ marginTop: 12, textAlign: "center", width: "100%", maxWidth: 400 }}>
+          <Box sx={{ mt: 1.5, textAlign: "center", width: "100%", maxWidth: 400 }}>
             <MailRegisterButton onClick={() => setShowEmailModal(true)} />
-          </div>
-          <div style={{ marginTop: 24, textAlign: "center", width: "100%", maxWidth: 400 }}>
+          </Box>
+          <Box sx={{ mt: 3, textAlign: "center", width: "100%", maxWidth: 400 }}>
             <GoogleLoginButton />
             <FacebookLoginButton />
             <TiktokLoginButton />
-          </div>
+          </Box>
           {/* メールアドレス入力用モーダル */}
           <MailRegisterModal
             open={showEmailModal}
@@ -152,10 +174,10 @@ const LoginPage: React.FC = () => {
             registerError={registerError}
             registerSuccess={registerSuccess}
           />
-        </div>
-      </div>
+        </Box>
+      </Box>
       <Footer />
-    </div>
+    </Box>
   );
 };
 
