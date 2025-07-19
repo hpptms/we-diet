@@ -9,6 +9,7 @@ export interface ProfileSettingsState {
     uploadedIcon: string | null;
     gender: GenderType;
     age: string;
+    height: string;
     activityLevel: string;
     currentWeight: string;
     targetWeight: string;
@@ -16,6 +17,7 @@ export interface ProfileSettingsState {
     prText: string;
     isGenderPrivate: boolean;
     isAgePrivate: boolean;
+    isHeightPrivate: boolean;
     isActivityPrivate: boolean;
     isCurrentWeightPrivate: boolean;
     isTargetWeightPrivate: boolean;
@@ -30,6 +32,7 @@ export const profileSettingsState = atom<ProfileSettingsState>({
         uploadedIcon: null,
         gender: 'male',
         age: '',
+        height: '',
         activityLevel: '',
         currentWeight: '',
         targetWeight: '',
@@ -37,6 +40,7 @@ export const profileSettingsState = atom<ProfileSettingsState>({
         prText: '',
         isGenderPrivate: false,
         isAgePrivate: false,
+        isHeightPrivate: false,
         isActivityPrivate: false,
         isCurrentWeightPrivate: false,
         isTargetWeightPrivate: false,

@@ -9,6 +9,7 @@ export interface UserProfile {
     uploaded_icon?: string | null;
     gender?: string;
     age?: number | null;
+    height?: number | null;
     activity_level?: string;
     current_weight?: number | null;
     target_weight?: number | null;
@@ -16,6 +17,7 @@ export interface UserProfile {
     pr_text?: string;
     is_gender_private?: boolean;
     is_age_private?: boolean;
+    is_height_private?: boolean;
     is_activity_private?: boolean;
     is_current_weight_private?: boolean;
     is_target_weight_private?: boolean;
@@ -31,6 +33,7 @@ export interface CreateUserProfileRequest {
     uploaded_icon?: string | null;
     gender: string;
     age?: number | null;
+    height?: number | null;
     activity_level: string;
     current_weight?: number | null;
     target_weight?: number | null;
@@ -38,6 +41,7 @@ export interface CreateUserProfileRequest {
     pr_text: string;
     is_gender_private: boolean;
     is_age_private: boolean;
+    is_height_private: boolean;
     is_activity_private: boolean;
     is_current_weight_private: boolean;
     is_target_weight_private: boolean;
@@ -65,6 +69,7 @@ export interface UpdateUserProfileRequest {
     uploaded_icon?: string | null;
     gender: string;
     age?: number | null;
+    height?: number | null;
     activity_level: string;
     current_weight?: number | null;
     target_weight?: number | null;
@@ -72,6 +77,7 @@ export interface UpdateUserProfileRequest {
     pr_text: string;
     is_gender_private: boolean;
     is_age_private: boolean;
+    is_height_private: boolean;
     is_activity_private: boolean;
     is_current_weight_private: boolean;
     is_target_weight_private: boolean;

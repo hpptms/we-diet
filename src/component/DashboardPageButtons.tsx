@@ -4,9 +4,10 @@ type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'meal' | 'd
 
 interface DashboardPageButtonsProps {
   onViewChange: (view: CurrentView) => void;
+  hasWeightInput?: boolean;
 }
 
-const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChange }) => {
+const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChange, hasWeightInput }) => {
   return (
     <div style={{ 
       display: "grid", 
@@ -55,7 +56,14 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           onViewChange('exercise');
         }}
       >
-        運動を記録
+        {hasWeightInput ? (() => {
+          const icons = [
+            "💪", "🏃", "🚴", "🏊", "⚽", "🏀", "🎾", "🏓", "🏸", "🥊",
+            "🤸", "🧘", "🤾", "🏋️", "🤺", "🏇", "⛷️", "🏂", "🤸‍♀️", "🧗"
+          ];
+          const icon = icons[Math.floor(Math.random() * icons.length)];
+          return `運動記録済${icon}`;
+        })() : "運動を記録"}
       </button>
       
       <button
@@ -73,11 +81,11 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
         onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#FF9800"}
         onClick={() => {
           // 体重を記録の処理
-          console.log("体重を記録がクリックされました");
+          console.log("体重を管理がクリックされました");
           onViewChange('weight');
         }}
       >
-        体重を記録
+        体重を管理
       </button>
       
       <button

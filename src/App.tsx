@@ -6,7 +6,6 @@ import DashboardPage from './page/DashboardPage';
 import RegisterCompletePage from './page/RegisterCompletePage';
 import ProfileSettings from './page/MainContent/ProfileSettings';
 import DashboardLayout from './component/DashboardLayout';
-import { RecoilRoot } from 'recoil';
 
 // 認証判定用のラップコンポーネント
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -17,29 +16,41 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
 
 function App() {
   return (
-    <RecoilRoot>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/Dashboard" element={
-            <PrivateRoute>
-              <DashboardLayout>
-                <DashboardPage />
-              </DashboardLayout>
-            </PrivateRoute>
-          } />
-          <Route path="/ProfileSettings" element={
-            <PrivateRoute>
-              <DashboardLayout>
-                <ProfileSettings />
-              </DashboardLayout>
-            </PrivateRoute>
-          } />
-          <Route path="/register/complete" element={<RegisterCompletePage />} />
-          <Route path="/" element={<TopPage />} />
-        </Routes>
-      </BrowserRouter>
-    </RecoilRoot>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/Dashboard" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <DashboardPage />
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
+        <Route path="/ProfileSettings" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <ProfileSettings />
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
+        <Route path="/Exercise" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <DashboardPage initialView="exercise" />
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
+        <Route path="/WeightManagement" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <DashboardPage initialView="weight" />
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
+        <Route path="/register/complete" element={<RegisterCompletePage />} />
+        <Route path="/" element={<TopPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

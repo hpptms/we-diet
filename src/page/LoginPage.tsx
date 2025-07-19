@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
       const response = await axios.post(
         `${import.meta.env.VITE_API_ENDPOINT}login`,
         {
-          email,
+          email: email,
           password,
         }
       );

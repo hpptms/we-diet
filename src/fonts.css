@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap');
 
 /* しっぽり明朝 B1: FontPlus CDN（サンプル/商用利用は要契約） */
-@import url('https://webfont.fontplus.jp/accessor/css/accessor.css?font=shippori-mincho-b1');
+/* Font import removed to prevent 404 error - using fallback fonts */
 
 /* 基本はNoto Serif JP、見出しはしっぽり明朝B1 */
 html,

@@ -4,6 +4,12 @@ import Header from "../component/Header";
 import Footer from "../component/Footer";
 import DashboardPageButtons from "../component/DashboardPageButtons";
 import ProfileSettings from "./MainContent/ProfileSettings";
+import ExerciseRecord from "./MainContent/ExerciseRecord";
+import WeightManagement from "./MainContent/WeightManagement";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { exerciseRecordState } from "../recoil/exerciseRecordAtom";
+import { weightRecordedDateAtom } from "../recoil/weightRecordedDateAtom";
+import { clearWeightCacheAtom, weightRecordCacheAtom } from "../recoil/weightRecordCacheAtom";
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'meal' | 'dieter';
 
@@ -13,18 +19,44 @@ const getAccountName = () => {
   return localStorage.getItem("accountName") || "ユーザー";
 };
 
-const DashboardPage: React.FC = () => {
+interface DashboardPageProps {
+  initialView?: CurrentView;
+}
+
+const DashboardPage: React.FC<DashboardPageProps> = ({ initialView }) => {
   const accountName = getAccountName();
-  const [currentView, setCurrentView] = useState<CurrentView>('dashboard');
+  const [currentView, setCurrentView] = useState<CurrentView>(initialView || 'dashboard');
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Recoil atomからweightRecordedDateを取得
+  const weightRecordedDate = useRecoilValue(weightRecordedDateAtom);
+  const setClearWeightCache = useSetRecoilState(clearWeightCacheAtom);
+  const setWeightCache = useSetRecoilState(weightRecordCacheAtom);
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const hasWeightInput = weightRecordedDate === todayStr;
+
   const handleViewChange = (view: CurrentView) => {
+    // ダッシュボードに戻る時にWeightManagementのキャッシュをクリア
+    if (view === "dashboard" && currentView === "weight") {
+      setClearWeightCache(true);
+      setWeightCache({
+        monthlyRecords: {},
+        yearlyRecords: {},
+        currentDate: new Date(),
+        viewPeriod: 'month'
+      });
+    }
+    
     setCurrentView(view);
     if (view === "profile") {
       navigate("/ProfileSettings");
     } else if (view === "dashboard") {
       navigate("/Dashboard");
+    } else if (view === "exercise") {
+      navigate("/Exercise");
+    } else if (view === "weight") {
+      navigate("/WeightManagement");
     }
     // 他のviewはURL変更なし
   };
@@ -35,6 +67,8 @@ const DashboardPage: React.FC = () => {
       setCurrentView("profile");
     } else if (location.pathname === "/Dashboard") {
       setCurrentView("dashboard");
+    } else if (location.pathname === "/WeightManagement") {
+      setCurrentView("weight");
     }
     // 他のviewは従来通り
   }, [location.pathname]);
@@ -44,9 +78,19 @@ const DashboardPage: React.FC = () => {
       case 'profile':
         return <ProfileSettings />;
       case 'exercise':
-        return <div>運動記録画面（未実装）</div>;
+        return <ExerciseRecord onBack={() => { setCurrentView('dashboard'); navigate('/Dashboard'); }} />;
       case 'weight':
-        return <div>体重記録画面（未実装）</div>;
+        return <WeightManagement onBack={() => { 
+          setClearWeightCache(true);
+          setWeightCache({
+            monthlyRecords: {},
+            yearlyRecords: {},
+            currentDate: new Date(),
+            viewPeriod: 'month'
+          });
+          setCurrentView('dashboard'); 
+          navigate('/Dashboard'); 
+        }} />;
       case 'meal':
         return <div>食事記録画面（未実装）</div>;
       case 'dieter':
@@ -55,7 +99,7 @@ const DashboardPage: React.FC = () => {
         return (
           <>
             <h1 style={{ marginBottom: "40px" }}>ようこそ {accountName} さん</h1>
-            <DashboardPageButtons onViewChange={handleViewChange} />
+            <DashboardPageButtons onViewChange={handleViewChange} hasWeightInput={hasWeightInput} />
           </>
         );
     }
