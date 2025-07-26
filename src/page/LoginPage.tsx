@@ -79,11 +79,11 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setError("");
     console.log("ログイン開始:", { email, password: "***" });
-    console.log("API Endpoint:", `${import.meta.env.VITE_API_ENDPOINT}login`);
+    console.log("API Endpoint:", "/api/login");
     
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_ENDPOINT}login`,
+        "/api/login",
         {
           email: email,
           password,

@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Grid } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { exerciseRecordState, ExerciseRecordData } from '../../recoil/exerciseRecordAtom';
+import { exerciseRecordState, ExerciseRecordData, checkAndResetIfDateChanged, isExerciseDataEmpty } from '../../recoil/exerciseRecordAtom';
 import { useSetRecoilState } from 'recoil';
 import { weightRecordedDateAtom } from '../../recoil/weightRecordedDateAtom';
 
@@ -26,6 +26,70 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
 
+  // サーバーから本日のデータを取得する関数
+  const loadTodayData = async () => {
+    try {
+      const userId = exerciseData.userId || 1;
+      const today = new Date().toISOString().slice(0, 10);
+      
+      const response = await axios.get(
+        `/api/exercise_record?user_id=${userId}&date=${today}`
+      );
+      
+      if (response.status === 200 && response.data && response.data.record) {
+        const record = response.data.record;
+        
+        // サーバーから取得したデータでRecoil状態を更新
+        setExerciseData({
+          ...exerciseData,
+          walkingDistance: record.walking_distance || '',
+          walkingTime: record.walking_time || '',
+          runningDistance: record.running_distance || '',
+          runningTime: record.running_time || '',
+          pushUps: record.push_ups || '',
+          sitUps: record.sit_ups || '',
+          squats: record.squats || '',
+          otherExerciseTime: record.other_exercise_time || '',
+          todayWeight: record.today_weight || '',
+          exerciseNote: record.exercise_note || '',
+          isPublic: record.is_public || false,
+          hasWeightInput: record.has_weight_input || false,
+          // 画像URLを取得（存在する場合）
+          imageUrls: record.image_urls || [],
+          todayImages: [], // File型は空配列
+        });
+        
+        console.log('本日の運動記録データを読み込みました');
+      }
+    } catch (error: any) {
+      // 404エラー（データが存在しない）は正常なので無視
+      if (error.response && error.response.status === 404) {
+        console.log('本日の運動記録データはありません');
+      } else {
+        console.error('運動記録データの取得に失敗しました:', error);
+      }
+    }
+  };
+
+  // コンポーネントマウント時に日付チェックとデータ読み込み
+  useEffect(() => {
+    const resetData = checkAndResetIfDateChanged();
+    if (resetData) {
+      setExerciseData(resetData);
+      console.log('日付が変わったため、運動記録データをリセットしました');
+      return; // リセットした場合は、サーバーへの問い合わせは不要
+    }
+    
+    // 現在のRecoil状態（ローカルストレージから復元済み）をチェック
+    if (isExerciseDataEmpty(exerciseData)) {
+      // データが空の場合のみサーバーに問い合わせ
+      console.log('ローカルデータが空のため、サーバーからデータを取得します');
+      loadTodayData();
+    } else {
+      console.log('ローカルストレージからデータを復元しました');
+    }
+  }, [setExerciseData]);
+
   const handleInputChange = (field: keyof ExerciseRecordData) => (value: string) => {
     setExerciseData({
       ...exerciseData,
@@ -38,7 +102,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     const files = event.target.files;
     if (files) {
       const newImages = Array.from(files);
-      const totalImages = exerciseData.todayImages.length + newImages.length;
+      const currentImageCount = (exerciseData.imageUrls?.length || 0) + exerciseData.todayImages.length;
+      const totalImages = currentImageCount + newImages.length;
       
       if (totalImages <= 3) {
         setExerciseData({
@@ -64,23 +129,30 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       const userId = exerciseData.userId || 1;
       const today = new Date().toISOString().slice(0, 10);
 
+      console.log('=== 運動記録保存開始 ===');
+      console.log('userId:', userId);
+      console.log('date:', today);
+
       // 既存データがあるか確認（REST GET）
       let recordExists = false;
       try {
+        console.log('既存データをチェック中...');
         const checkRes = await axios.get(
           `/api/exercise_record?user_id=${userId}&date=${today}`
         );
+        console.log('既存データチェック結果:', checkRes.data);
         if (checkRes.status === 200 && checkRes.data && checkRes.data.record) {
           recordExists = true;
         }
       } catch (err: any) {
+        console.log('既存データチェックエラー:', err.response?.status, err.message);
         // 404なら未登録、他はエラー
         if (err.response && err.response.status !== 404) {
           throw err;
         }
       }
       if (recordExists) {
-        const overwrite = window.confirm('既に本日の運動記録があります。上書きしますがよろしいですか？');
+        const overwrite = window.confirm('既に本日の運動記録があります。上書きすると古い写真は自動的に削除され、新しい写真で置き換えられます。よろしいですか？');
         if (!overwrite) {
           return;
         }
@@ -106,6 +178,12 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         formData.append('images', img, img.name || `image${idx}.jpg`);
       });
 
+      console.log('=== FormData内容 ===');
+      formData.forEach((value, key) => {
+        console.log(key, ':', value);
+      });
+
+      console.log('運動記録をサーバーに送信中...');
       const res = await axios.post(
         '/api/exercise_record',
         formData,
@@ -113,6 +191,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
+
+      console.log('サーバーレスポンス:', res.data);
 
       if (res.status !== 200) throw new Error('保存に失敗しました');
       const caloriesBurned = res.data?.calories_burned ?? 0;
@@ -124,26 +204,35 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         setWeightRecordedDate(todayStr);
       }
 
+      // 保存後は入力をクリアしない - データを保持する
+      // 画像のみクリア（アップロード済みなので）
       setExerciseData({
-        walkingDistance: '',
-        walkingTime: '',
-        runningDistance: '',
-        runningTime: '',
-        pushUps: '',
-        sitUps: '',
-        squats: '',
-        otherExerciseTime: '',
-        todayWeight: '',
-        exerciseNote: '',
+        ...exerciseData,
         todayImages: [],
-        isPublic: false,
-        hasWeightInput: exerciseData.hasWeightInput,
       });
 
-      alert(`今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`);
-    } catch (error) {
-      console.error('保存に失敗しました:', error);
-      alert('保存に失敗しました。もう一度お試しください。');
+      const isUpdate = recordExists;
+      const message = isUpdate 
+        ? `運動記録を更新しました！古い写真は自動的に削除されました。\n今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`
+        : `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
+      alert(message);
+    } catch (error: any) {
+      console.error('=== 保存エラー詳細 ===');
+      console.error('Error object:', error);
+      console.error('Error message:', error.message);
+      console.error('Error response:', error.response);
+      if (error.response) {
+        console.error('Response status:', error.response.status);
+        console.error('Response data:', error.response.data);
+        console.error('Response headers:', error.response.headers);
+      }
+      console.error('=== エラー詳細終了 ===');
+      
+      let errorMessage = '保存に失敗しました。もう一度お試しください。';
+      if (error.response && error.response.data && error.response.data.error) {
+        errorMessage = `保存に失敗しました: ${error.response.data.error}`;
+      }
+      alert(errorMessage);
     }
   };
 

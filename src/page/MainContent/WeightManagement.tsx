@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import {
     Chart as ChartJS,
@@ -14,12 +14,26 @@ import { Box } from '@mui/material';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { weightRecordCacheAtom, clearWeightCacheAtom } from '../../recoil/weightRecordCacheAtom';
 
+// Import protobuf types
+import {
+    WeightRecord,
+    CreateWeightRecordRequest,
+    CreateWeightRecordResponse,
+    GetWeightRecordRequest,
+    GetWeightRecordResponse,
+    GetWeightRecordsRequest,
+    GetWeightRecordsResponse,
+    UpdateWeightRecordRequest,
+    UpdateWeightRecordResponse
+} from '../../proto/weight_record_pb';
+
 // Import components
 import WeightManagementHeader from '../../component/WeightManagement/WeightManagementHeader';
 import WeightActionButtons from '../../component/WeightManagement/WeightActionButtons';
 import WeightChart from '../../component/WeightManagement/WeightChart';
 import WeightRecordsList from '../../component/WeightManagement/WeightRecordsList';
 import WeightRecordModal from '../../component/WeightManagement/WeightRecordModal';
+import OverwriteConfirmDialog from '../../component/WeightManagement/OverwriteConfirmDialog';
 
 ChartJS.register(
     CategoryScale,
@@ -31,11 +45,77 @@ ChartJS.register(
     Legend
 );
 
+// Protobuf communication utilities
+const sendProtobufRequest = async (endpoint: string, requestData: any): Promise<any> => {
+    const token = localStorage.getItem("token");
+    const headers: any = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    };
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(requestData)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `HTTP ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Protobuf request failed:', error);
+        throw error;
+    }
+};
+
+const sendProtobufGetRequest = async (endpoint: string, params?: any): Promise<any> => {
+    const token = localStorage.getItem("token");
+    const headers: any = {
+        'Accept': 'application/json'
+    };
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
+
+    const url = new URL(endpoint, window.location.origin);
+    if (params) {
+        Object.keys(params).forEach(key => {
+            if (params[key] !== undefined && params[key] !== null) {
+                url.searchParams.append(key, params[key].toString());
+            }
+        });
+    }
+
+    try {
+        const response = await fetch(url.toString(), {
+            method: 'GET',
+            headers
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `HTTP ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Protobuf GET request failed:', error);
+        throw error;
+    }
+};
+
 interface WeightManagementProps {
     onBack?: () => void;
 }
 
-const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
+const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightManagementProps) => {
     // Recoil state
     const [cache, setCache] = useRecoilState(weightRecordCacheAtom);
     const setClearCache = useSetRecoilState(clearWeightCacheAtom);
@@ -44,6 +124,9 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
     const [weightRecords, setWeightRecords] = useState<any[]>([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isPastRecordModalOpen, setIsPastRecordModalOpen] = useState(false);
+    const [isOverwriteDialogOpen, setIsOverwriteDialogOpen] = useState(false);
+    const [existingRecord, setExistingRecord] = useState<any>(null);
+    const [pendingRecord, setPendingRecord] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     
@@ -60,18 +143,22 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
         note: ''
     });
 
-    // Current date and view period
-    const [currentDate, setCurrentDate] = useState(cache.currentDate);
+    // Current date and view period (常に月の1日に設定)
+    const [currentDate, setCurrentDate] = useState(() => {
+        const date = cache.currentDate || new Date();
+        return new Date(date.getFullYear(), date.getMonth(), 1);
+    });
     const [viewPeriod, setViewPeriod] = useState<'month' | 'year'>(cache.viewPeriod);
 
     const userId = 1;
 
     useEffect(() => {
         fetchWeightRecords();
-    }, [viewPeriod, currentDate]);
+    }, [viewPeriod, currentDate, cache]);
 
     // Handle back navigation
     const handleBack = () => {
+        // キャッシュを完全にクリア
         setClearCache(true);
         setCache({
             monthlyRecords: {},
@@ -79,6 +166,12 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
             currentDate: new Date(),
             viewPeriod: 'month'
         });
+        
+        // ローカルのステートもリセット
+        setWeightRecords([]);
+        setCurrentDate(new Date());
+        setViewPeriod('month');
+        
         if (onBack) {
             onBack();
         }
@@ -97,14 +190,22 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
     const fetchWeightRecords = async () => {
         const cacheKey = generateCacheKey(currentDate, viewPeriod);
         
-        // Try to get from cache
-        if (viewPeriod === 'month' && cache.monthlyRecords[cacheKey]) {
-            setWeightRecords(cache.monthlyRecords[cacheKey]);
-            return;
-        }
-        if (viewPeriod === 'year' && cache.yearlyRecords[cacheKey]) {
-            setWeightRecords(cache.yearlyRecords[cacheKey]);
-            return;
+        // 現在の月の場合は常にキャッシュを無視して最新データを取得
+        const now = new Date();
+        const isCurrentMonth = viewPeriod === 'month' && 
+                              currentDate.getFullYear() === now.getFullYear() && 
+                              currentDate.getMonth() === now.getMonth();
+        
+        // Try to get from cache (現在の月以外の場合のみ)
+        if (!isCurrentMonth) {
+            if (viewPeriod === 'month' && cache.monthlyRecords[cacheKey]) {
+                setWeightRecords(cache.monthlyRecords[cacheKey]);
+                return;
+            }
+            if (viewPeriod === 'year' && cache.yearlyRecords[cacheKey]) {
+                setWeightRecords(cache.yearlyRecords[cacheKey]);
+                return;
+            }
         }
 
         setLoading(true);
@@ -116,8 +217,21 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
             if (viewPeriod === 'month') {
+                // 月の開始日（1日）から終了日を設定
                 startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-                endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+                
+                // 現在の月の場合は今日まで、過去の月の場合は月末まで
+                const now = new Date();
+                const isCurrentMonth = currentDate.getFullYear() === now.getFullYear() && 
+                                     currentDate.getMonth() === now.getMonth();
+                
+                if (isCurrentMonth) {
+                    // 現在の月の場合は今日まで
+                    endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                } else {
+                    // 過去または未来の月の場合は月末まで
+                    endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+                }
                 
                 const response = await axios.get('/api/weight_records', {
                     params: {
@@ -127,10 +241,12 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
                     },
                     headers
                 });
+                console.log('API Response:', response.data);
                 const records = response.data.records || [];
+                console.log('Extracted records:', records);
                 setWeightRecords(records);
                 
-                setCache(prev => ({
+                setCache((prev: any) => ({
                     ...prev,
                     monthlyRecords: {
                         ...prev.monthlyRecords,
@@ -152,10 +268,12 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
                     },
                     headers
                 });
+                console.log('Year API Response:', response.data);
                 const records = response.data.monthly_averages || [];
+                console.log('Extracted year records:', records);
                 setWeightRecords(records);
                 
-                setCache(prev => ({
+                setCache((prev: any) => ({
                     ...prev,
                     yearlyRecords: {
                         ...prev.yearlyRecords,
@@ -179,10 +297,128 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
         }
     };
 
+    // Check if record exists for given date
+    const checkExistingRecord = async (date: string) => {
+        try {
+            const token = localStorage.getItem("token");
+            const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+            const response = await axios.get('/api/weight_record', {
+                params: {
+                    user_id: userId,
+                    date: date
+                },
+                headers
+            });
+
+            return response.data.record;
+        } catch (error) {
+            console.error('既存記録の確認に失敗しました:', error);
+            return null;
+        }
+    };
+
+    // Overwrite weight record
+    const handleOverwriteRecord = async () => {
+        if (!pendingRecord) return;
+
+        try {
+            const token = localStorage.getItem("token");
+            const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+            console.log('Sending overwrite request:', pendingRecord);
+            const response = await axios.put('/api/weight_record/overwrite', pendingRecord, { headers });
+            console.log('Overwrite response:', response.data);
+            
+            // Reset states
+            setFormData({
+                date: new Date().toISOString().slice(0, 10),
+                weight: '',
+                note: ''
+            });
+            setPastFormData({
+                date: new Date().toISOString().slice(0, 10),
+                weight: '',
+                note: ''
+            });
+            
+            setIsAddModalOpen(false);
+            setIsPastRecordModalOpen(false);
+            setIsOverwriteDialogOpen(false);
+            setExistingRecord(null);
+            setPendingRecord(null);
+            
+            // Clear cache and refetch
+            const cacheKey = generateCacheKey(currentDate, viewPeriod);
+            if (viewPeriod === 'month') {
+                setCache((prev: any) => {
+                    const newMonthlyRecords = { ...prev.monthlyRecords };
+                    delete newMonthlyRecords[cacheKey];
+                    return {
+                        ...prev,
+                        monthlyRecords: newMonthlyRecords
+                    };
+                });
+            } else {
+                setCache((prev: any) => {
+                    const newYearlyRecords = { ...prev.yearlyRecords };
+                    delete newYearlyRecords[cacheKey];
+                    return {
+                        ...prev,
+                        yearlyRecords: newYearlyRecords
+                    };
+                });
+            }
+            
+            // Clear all caches for past records
+            setCache((prev: any) => ({
+                ...prev,
+                monthlyRecords: {},
+                yearlyRecords: {}
+            }));
+            
+            fetchWeightRecords();
+            alert('体重記録を上書きしました');
+        } catch (error: any) {
+            console.error('体重記録の上書きに失敗しました:', error);
+            console.error('Error response:', error.response?.data);
+            console.error('Error status:', error.response?.status);
+            
+            if (error.response?.data?.error) {
+                alert(`体重記録の上書きに失敗しました: ${error.response.data.error}`);
+            } else {
+                alert('体重記録の上書きに失敗しました');
+            }
+        }
+    };
+
     // Add weight record handlers
     const handleAddWeight = async () => {
         if (!formData.weight) {
             alert('体重を入力してください');
+            return;
+        }
+
+        // 体重の値をチェック
+        const weightValue = parseFloat(formData.weight);
+        if (isNaN(weightValue) || weightValue <= 0) {
+            alert('正しい体重を入力してください');
+            return;
+        }
+
+        // Check if record already exists
+        const existing = await checkExistingRecord(formData.date);
+        if (existing) {
+            const request = {
+                user_id: userId,
+                date: formData.date,
+                weight: weightValue,
+                note: formData.note,
+                is_public: "false"
+            };
+            setExistingRecord(existing);
+            setPendingRecord(request);
+            setIsOverwriteDialogOpen(true);
             return;
         }
 
@@ -193,12 +429,16 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
             const request = {
                 user_id: userId,
                 date: formData.date,
-                weight: parseFloat(formData.weight),
+                weight: weightValue,
                 note: formData.note,
                 is_public: "false"
             };
 
-            await axios.post('/api/weight_record', request, { headers });
+            console.log('体重記録送信データ:', request);
+
+            const response = await axios.post('/api/weight_record', request, { headers });
+            
+            console.log('体重記録レスポンス:', response.data);
             
             setFormData({
                 date: new Date().toISOString().slice(0, 10),
@@ -211,7 +451,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
             // Clear cache and refetch
             const cacheKey = generateCacheKey(currentDate, viewPeriod);
             if (viewPeriod === 'month') {
-                setCache(prev => {
+                setCache((prev: any) => {
                     const newMonthlyRecords = { ...prev.monthlyRecords };
                     delete newMonthlyRecords[cacheKey];
                     return {
@@ -220,7 +460,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
                     };
                 });
             } else {
-                setCache(prev => {
+                setCache((prev: any) => {
                     const newYearlyRecords = { ...prev.yearlyRecords };
                     delete newYearlyRecords[cacheKey];
                     return {
@@ -232,15 +472,61 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
             
             fetchWeightRecords();
             alert('体重記録を追加しました');
-        } catch (error) {
+        } catch (error: any) {
             console.error('体重記録の追加に失敗しました:', error);
-            alert('体重記録の追加に失敗しました');
+            
+            let errorMessage = '体重記録の追加に失敗しました';
+            
+            if (error.response) {
+                // サーバーからのエラーレスポンス
+                console.error('サーバーエラー:', error.response.data);
+                if (error.response.data && error.response.data.error) {
+                    errorMessage = error.response.data.error;
+                } else if (error.response.status === 409) {
+                    errorMessage = 'この日付の体重記録は既に存在します';
+                } else if (error.response.status === 400) {
+                    errorMessage = 'リクエストが不正です。入力内容を確認してください';
+                } else if (error.response.status === 401) {
+                    errorMessage = '認証エラーです。再度ログインしてください';
+                } else if (error.response.status >= 500) {
+                    errorMessage = 'サーバーエラーが発生しました。しばらく時間をおいて再試行してください';
+                }
+            } else if (error.request) {
+                // ネットワークエラー
+                console.error('ネットワークエラー:', error.request);
+                errorMessage = 'ネットワークエラーが発生しました。接続を確認してください';
+            }
+            
+            alert(errorMessage);
         }
     };
 
     const handleAddPastWeight = async () => {
         if (!pastFormData.weight) {
             alert('体重を入力してください');
+            return;
+        }
+
+        // 体重の値をチェック
+        const weightValue = parseFloat(pastFormData.weight);
+        if (isNaN(weightValue) || weightValue <= 0) {
+            alert('正しい体重を入力してください');
+            return;
+        }
+
+        // Check if record already exists
+        const existing = await checkExistingRecord(pastFormData.date);
+        if (existing) {
+            const request = {
+                user_id: userId,
+                date: pastFormData.date,
+                weight: weightValue,
+                note: pastFormData.note,
+                is_public: "false"
+            };
+            setExistingRecord(existing);
+            setPendingRecord(request);
+            setIsOverwriteDialogOpen(true);
             return;
         }
 
@@ -251,12 +537,16 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
             const request = {
                 user_id: userId,
                 date: pastFormData.date,
-                weight: parseFloat(pastFormData.weight),
+                weight: weightValue,
                 note: pastFormData.note,
                 is_public: "false"
             };
 
-            await axios.post('/api/weight_record', request, { headers });
+            console.log('過去の体重記録送信データ:', request);
+
+            const response = await axios.post('/api/weight_record', request, { headers });
+            
+            console.log('過去の体重記録レスポンス:', response.data);
             
             setPastFormData({
                 date: new Date().toISOString().slice(0, 10),
@@ -266,7 +556,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
             
             setIsPastRecordModalOpen(false);
             
-            setCache(prev => ({
+            setCache((prev: any) => ({
                 ...prev,
                 monthlyRecords: {},
                 yearlyRecords: {}
@@ -274,9 +564,32 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
             
             fetchWeightRecords();
             alert('過去の体重記録を追加しました');
-        } catch (error) {
+        } catch (error: any) {
             console.error('体重記録の追加に失敗しました:', error);
-            alert('体重記録の追加に失敗しました');
+            
+            let errorMessage = '体重記録の追加に失敗しました';
+            
+            if (error.response) {
+                // サーバーからのエラーレスポンス
+                console.error('サーバーエラー:', error.response.data);
+                if (error.response.data && error.response.data.error) {
+                    errorMessage = error.response.data.error;
+                } else if (error.response.status === 409) {
+                    errorMessage = 'この日付の体重記録は既に存在します';
+                } else if (error.response.status === 400) {
+                    errorMessage = 'リクエストが不正です。入力内容を確認してください';
+                } else if (error.response.status === 401) {
+                    errorMessage = '認証エラーです。再度ログインしてください';
+                } else if (error.response.status >= 500) {
+                    errorMessage = 'サーバーエラーが発生しました。しばらく時間をおいて再試行してください';
+                }
+            } else if (error.request) {
+                // ネットワークエラー
+                console.error('ネットワークエラー:', error.request);
+                errorMessage = 'ネットワークエラーが発生しました。接続を確認してください';
+            }
+            
+            alert(errorMessage);
         }
     };
 
@@ -323,9 +636,16 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
         setCurrentDate(new Date());
     };
 
-    // Chart data preparation
-    const prepareChartData = () => {
+    // Chart data preparation with memoization
+    const chartData = useMemo(() => {
+        console.log('prepareChartData called with:', {
+            weightRecords,
+            viewPeriod,
+            recordsLength: weightRecords?.length || 0
+        });
+        
         if (!weightRecords || weightRecords.length === 0) {
+            console.log('No weight records found, returning empty chart data');
             return {
                 labels: [],
                 datasets: []
@@ -334,18 +654,18 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
 
         if (viewPeriod === 'month') {
             const sortedRecords = [...weightRecords].sort((a, b) => 
-                new Date(a.date).getTime() - new Date(b.date).getTime()
+                new Date(a.Date || a.date).getTime() - new Date(b.Date || b.date).getTime()
             );
 
             const labels = sortedRecords.map(record => 
-                new Date(record.date).toLocaleDateString('ja-JP', { 
+                new Date(record.Date || record.date).toLocaleDateString('ja-JP', { 
                     month: 'short', 
                     day: 'numeric' 
                 })
             );
             
-            const weights = sortedRecords.map(record => record.weight);
-            const bodyFats = sortedRecords.map(record => record.body_fat || null);
+            const weights = sortedRecords.map(record => record.Weight || record.weight);
+            const bodyFats = sortedRecords.map(record => record.BodyFat || record.body_fat || null);
 
             return {
                 labels,
@@ -396,9 +716,9 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
                 ]
             };
         }
-    };
+    }, [weightRecords, viewPeriod, weightRecords.length]);
 
-    const chartOptions = {
+    const chartOptions = useMemo(() => ({
         responsive: true,
         interaction: {
             mode: 'index' as const,
@@ -411,6 +731,23 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
             },
             legend: {
                 display: true,
+            },
+            tooltip: {
+                callbacks: {
+                    afterBody: function(context: any) {
+                        if (viewPeriod === 'month' && weightRecords && context.length > 0) {
+                            const dataIndex = context[0].dataIndex;
+                            const sortedRecords = [...weightRecords].sort((a, b) => 
+                                new Date(a.date).getTime() - new Date(b.date).getTime()
+                            );
+                            const record = sortedRecords[dataIndex];
+                            if (record && record.note) {
+                                return [`メモ: ${record.note}`];
+                            }
+                        }
+                        return [];
+                    }
+                }
             },
         },
         scales: {
@@ -445,7 +782,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
                 }
             }),
         },
-    };
+    }), [viewPeriod, currentDate, weightRecords]);
 
     return (
         <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
@@ -469,7 +806,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
                 error={error}
                 loading={loading}
                 weightRecords={weightRecords}
-                chartData={prepareChartData()}
+                chartData={chartData}
                 chartOptions={chartOptions}
             />
 
@@ -488,9 +825,9 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
                 noteValue={formData.note}
                 isDateReadOnly={true}
                 onClose={() => setIsAddModalOpen(false)}
-                onDateChange={(value) => setFormData({...formData, date: value})}
-                onWeightChange={(value) => setFormData({...formData, weight: value})}
-                onNoteChange={(value) => setFormData({...formData, note: value})}
+                onDateChange={(value: string) => setFormData({...formData, date: value})}
+                onWeightChange={(value: string) => setFormData({...formData, weight: value})}
+                onNoteChange={(value: string) => setFormData({...formData, note: value})}
                 onSubmit={handleAddWeight}
                 submitButtonText="記録する"
                 submitButtonColor="success"
@@ -505,12 +842,26 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }) => {
                 noteValue={pastFormData.note}
                 isDateReadOnly={false}
                 onClose={() => setIsPastRecordModalOpen(false)}
-                onDateChange={(value) => setPastFormData({...pastFormData, date: value})}
-                onWeightChange={(value) => setPastFormData({...pastFormData, weight: value})}
-                onNoteChange={(value) => setPastFormData({...pastFormData, note: value})}
+                onDateChange={(value: string) => setPastFormData({...pastFormData, date: value})}
+                onWeightChange={(value: string) => setPastFormData({...pastFormData, weight: value})}
+                onNoteChange={(value: string) => setPastFormData({...pastFormData, note: value})}
                 onSubmit={handleAddPastWeight}
                 submitButtonText="記録する"
                 submitButtonColor="info"
+            />
+
+            {/* Overwrite Confirmation Dialog */}
+            <OverwriteConfirmDialog
+                open={isOverwriteDialogOpen}
+                onClose={() => {
+                    setIsOverwriteDialogOpen(false);
+                    setExistingRecord(null);
+                    setPendingRecord(null);
+                }}
+                onConfirm={handleOverwriteRecord}
+                date={pendingRecord?.date || ''}
+                currentWeight={existingRecord?.Weight || existingRecord?.weight}
+                newWeight={pendingRecord?.weight || 0}
             />
         </Box>
     );

@@ -24,12 +24,12 @@ const ExerciseNoteCard: React.FC<ExerciseNoteCardProps> = ({
         p: 2,
       }}>
         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
-          📝 どんな運動したの？
+          📝 どんな運動したの？（任意）
         </Typography>
       </Box>
       <CardContent sx={{ background: '#fffaf0' }}>
         <TextField
-          label="今日頑張った運動や感想を自由に書いてね！"
+          label="今日頑張った運動や感想を自由に書いてね！（任意）"
           value={exerciseNote}
           onChange={(e) => {
             if (e.target.value.length <= 150) onExerciseNoteChange(e.target.value);
@@ -38,7 +38,7 @@ const ExerciseNoteCard: React.FC<ExerciseNoteCardProps> = ({
           rows={4}
           fullWidth
           variant="outlined"
-          placeholder="例：朝のランニングで桜が綺麗だった🌸 / 新しいヨガポーズにチャレンジ！ / 友達と一緒にテニスを楽しんだ♪"
+          placeholder="例：朝のランニングで桜が綺麗だった🌸 / 新しいヨガポーズにチャレンジ！ / 友達と一緒にテニスを楽しんだ♪ / 記録だけでもOK！"
           inputProps={{ maxLength: 150 }}
           sx={{
             '& .MuiOutlinedInput-root': {

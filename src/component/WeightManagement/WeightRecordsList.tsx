@@ -22,30 +22,32 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
           <Box sx={{ maxHeight: 300, overflowY: 'auto' }}>
             <List>
               {viewPeriod === 'month' ? (
-                weightRecords.map(record => (
-                  <ListItem key={record.id} divider>
-                    <ListItemText
-                      primary={
-                        <Typography variant="body1">
-                          <strong>{new Date(record.date).toLocaleDateString('ja-JP')}</strong>
-                          <Typography component="span" sx={{ ml: 2 }}>
-                            体重: {record.weight}kg
-                          </Typography>
-                          {record.body_fat && (
+                [...weightRecords]
+                  .sort((a, b) => new Date(b.Date || b.date).getTime() - new Date(a.Date || a.date).getTime())
+                  .map((record, index) => (
+                    <ListItem key={record.ID || record.id || `record-${index}`} divider>
+                      <ListItemText
+                        primary={
+                          <Typography variant="body1">
+                            <strong>{new Date(record.Date || record.date).toLocaleDateString('ja-JP')}</strong>
                             <Typography component="span" sx={{ ml: 2 }}>
-                              体脂肪率: {record.body_fat}%
+                              体重: {record.Weight || record.weight}kg
                             </Typography>
-                          )}
-                        </Typography>
-                      }
-                      secondary={record.note && (
-                        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                          {record.note}
-                        </Typography>
-                      )}
-                    />
-                  </ListItem>
-                ))
+                            {(record.BodyFat || record.body_fat) && (
+                              <Typography component="span" sx={{ ml: 2 }}>
+                                体脂肪率: {record.BodyFat || record.body_fat}%
+                              </Typography>
+                            )}
+                          </Typography>
+                        }
+                        secondary={(record.Note || record.note) && (
+                          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                            メモ: {record.Note || record.note}
+                          </Typography>
+                        )}
+                      />
+                    </ListItem>
+                  ))
               ) : (
                 weightRecords
                   .filter(record => record && typeof record.year_month === 'string' && typeof record.average_weight === 'number')

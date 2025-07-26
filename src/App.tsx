@@ -5,6 +5,7 @@ import LoginPage from './page/LoginPage';
 import DashboardPage from './page/DashboardPage';
 import RegisterCompletePage from './page/RegisterCompletePage';
 import ProfileSettings from './page/MainContent/ProfileSettings';
+import FoodLog from './page/MainContent/FoodLog';
 import DashboardLayout from './component/DashboardLayout';
 
 // 認証判定用のラップコンポーネント
@@ -44,6 +45,13 @@ function App() {
           <PrivateRoute>
             <DashboardLayout>
               <DashboardPage initialView="weight" />
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
+        <Route path="/FoodLog" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <DashboardPage initialView="FoodLog" />
             </DashboardLayout>
           </PrivateRoute>
         } />

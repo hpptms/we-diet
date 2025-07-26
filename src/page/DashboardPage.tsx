@@ -6,12 +6,13 @@ import DashboardPageButtons from "../component/DashboardPageButtons";
 import ProfileSettings from "./MainContent/ProfileSettings";
 import ExerciseRecord from "./MainContent/ExerciseRecord";
 import WeightManagement from "./MainContent/WeightManagement";
+import FoodLog from "./MainContent/FoodLog";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { exerciseRecordState } from "../recoil/exerciseRecordAtom";
 import { weightRecordedDateAtom } from "../recoil/weightRecordedDateAtom";
 import { clearWeightCacheAtom, weightRecordCacheAtom } from "../recoil/weightRecordCacheAtom";
 
-type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'meal' | 'dieter';
+type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
 // 仮のユーザー名取得（本来はContextやAPIから取得する想定）
 const getAccountName = () => {
@@ -57,6 +58,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView }) => {
       navigate("/Exercise");
     } else if (view === "weight") {
       navigate("/WeightManagement");
+    } else if (view === "FoodLog") {
+      navigate("/FoodLog");
     }
     // 他のviewはURL変更なし
   };
@@ -69,6 +72,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView }) => {
       setCurrentView("dashboard");
     } else if (location.pathname === "/WeightManagement") {
       setCurrentView("weight");
+    } else if (location.pathname === "/FoodLog") {
+      setCurrentView("FoodLog");
     }
     // 他のviewは従来通り
   }, [location.pathname]);
@@ -91,8 +96,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView }) => {
           setCurrentView('dashboard'); 
           navigate('/Dashboard'); 
         }} />;
-      case 'meal':
-        return <div>食事記録画面（未実装）</div>;
+      case 'FoodLog':
+        return <FoodLog onBack={() => { setCurrentView('dashboard'); navigate('/Dashboard'); }} />;
       case 'dieter':
         return <div>dieter画面（未実装）</div>;
       default:

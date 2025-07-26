@@ -7,6 +7,7 @@ export interface UserProfile {
     selected_preset_id?: number | null;
     icon_type?: string;
     uploaded_icon?: string | null;
+    uploaded_icon_public_id?: string | null;
     gender?: string;
     age?: number | null;
     height?: number | null;
@@ -31,6 +32,7 @@ export interface CreateUserProfileRequest {
     selected_preset_id?: number | null;
     icon_type: string;
     uploaded_icon?: string | null;
+    uploaded_icon_public_id?: string | null;
     gender: string;
     age?: number | null;
     height?: number | null;
@@ -96,4 +98,5 @@ export interface UploadUserIconRequest {
 export interface UploadUserIconResponse {
     url?: string;
     message?: string;
+    public_id?: string;
 }

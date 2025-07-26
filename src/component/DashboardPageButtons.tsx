@@ -1,6 +1,6 @@
 import React from "react";
 
-type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'meal' | 'dieter';
+type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
 interface DashboardPageButtonsProps {
   onViewChange: (view: CurrentView) => void;
@@ -104,7 +104,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
         onClick={() => {
           // 食事を記録の処理
           console.log("食事を記録がクリックされました");
-          onViewChange('meal');
+          onViewChange('FoodLog');
         }}
       >
         食事を記録
