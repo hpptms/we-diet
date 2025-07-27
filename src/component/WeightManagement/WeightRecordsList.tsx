@@ -5,11 +5,13 @@ import { TrendingUp } from '@mui/icons-material';
 interface WeightRecordsListProps {
   weightRecords: any[];
   viewPeriod: 'month' | 'year';
+  currentDate?: Date;
 }
 
 const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
   weightRecords,
   viewPeriod,
+  currentDate,
 }) => {
   return (
     <Card>
@@ -23,26 +25,41 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
             <List>
               {viewPeriod === 'month' ? (
                 [...weightRecords]
-                  .sort((a, b) => new Date(b.Date || b.date).getTime() - new Date(a.Date || a.date).getTime())
+                  .filter(record => {
+                    // 月の範囲内のレコードのみを表示
+                    const date = record.date || record.Date;
+                    if (!date) return false;
+                    
+                    const recordDate = new Date(date);
+                    // 現在表示している月と同じ年月のレコードのみを含める
+                    if (currentDate) {
+                      return recordDate.getFullYear() === currentDate.getFullYear() && recordDate.getMonth() === currentDate.getMonth();
+                    } else {
+                      // currentDateが渡されていない場合は現在月を使用
+                      const now = new Date();
+                      return recordDate.getFullYear() === now.getFullYear() && recordDate.getMonth() === now.getMonth();
+                    }
+                  })
+                  .sort((a, b) => new Date(b.date || b.Date).getTime() - new Date(a.date || a.Date).getTime())
                   .map((record, index) => (
-                    <ListItem key={record.ID || record.id || `record-${index}`} divider>
+                    <ListItem key={record.id || record.ID || `record-${index}`} divider>
                       <ListItemText
                         primary={
                           <Typography variant="body1">
-                            <strong>{new Date(record.Date || record.date).toLocaleDateString('ja-JP')}</strong>
+                            <strong>{new Date(record.date || record.Date).toLocaleDateString('ja-JP')}</strong>
                             <Typography component="span" sx={{ ml: 2 }}>
-                              体重: {record.Weight || record.weight}kg
+                              体重: {record.weight || record.Weight}kg
                             </Typography>
-                            {(record.BodyFat || record.body_fat) && (
+                            {(record.body_fat || record.BodyFat) && (
                               <Typography component="span" sx={{ ml: 2 }}>
-                                体脂肪率: {record.BodyFat || record.body_fat}%
+                                体脂肪率: {record.body_fat || record.BodyFat}%
                               </Typography>
                             )}
                           </Typography>
                         }
-                        secondary={(record.Note || record.note) && (
+                        secondary={(record.note || record.Note) && (
                           <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                            メモ: {record.Note || record.note}
+                            メモ: {record.note || record.Note}
                           </Typography>
                         )}
                       />

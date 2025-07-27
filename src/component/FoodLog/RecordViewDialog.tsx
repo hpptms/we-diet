@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Dialog,
     DialogTitle,
@@ -10,9 +10,25 @@ import {
     Card,
     CardMedia,
     IconButton,
-    Chip
+    Chip,
+    Zoom,
+    Fade,
+    Avatar,
+    Paper,
+    Grid,
+    Divider
 } from '@mui/material';
-import { Close, Public, Lock } from '@mui/icons-material';
+import { 
+    Close, 
+    Public, 
+    Lock, 
+    Restaurant, 
+    PhotoCamera, 
+    Edit, 
+    Favorite,
+    AccessTime,
+    CalendarToday
+} from '@mui/icons-material';
 import { type FoodLog as FoodLogType } from '../../proto/food_log_pb';
 
 interface RecordViewDialogProps {
@@ -26,6 +42,8 @@ const RecordViewDialog: React.FC<RecordViewDialogProps> = ({
     onClose,
     record
 }) => {
+    const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+
     if (!record) return null;
 
     const formatDate = (dateString: string) => {
@@ -38,101 +56,304 @@ const RecordViewDialog: React.FC<RecordViewDialogProps> = ({
         });
     };
 
+    const formatTime = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString('ja-JP', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Box>
-                    <Typography variant="h6">
-                        食事記録詳細
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {formatDate(record.date)}
-                    </Typography>
-                </Box>
-                <IconButton onClick={onClose}>
-                    <Close />
-                </IconButton>
-            </DialogTitle>
-            
-            <DialogContent>
-                {/* Public/Private Status */}
-                <Box sx={{ mb: 2 }}>
-                    <Chip
-                        icon={record.is_public ? <Public /> : <Lock />}
-                        label={record.is_public ? '公開' : '非公開'}
-                        color={record.is_public ? 'primary' : 'default'}
-                        variant="outlined"
-                    />
-                </Box>
-
-                {/* Diary Content */}
-                {record.diary && (
-                    <Box sx={{ mb: 3 }}>
-                        <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
-                            📝 日記
-                        </Typography>
-                        <Typography 
-                            variant="body1" 
-                            sx={{ 
-                                whiteSpace: 'pre-wrap',
-                                backgroundColor: 'background.paper',
-                                p: 2,
-                                borderRadius: 1,
-                                border: 1,
-                                borderColor: 'divider'
-                            }}
-                        >
-                            {record.diary}
-                        </Typography>
-                    </Box>
-                )}
-
-                {/* Photos */}
-                {record.photos && record.photos.length > 0 && (
-                    <Box sx={{ mb: 3 }}>
-                        <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
-                            📸 写真 ({record.photos.length}枚)
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                            {record.photos.map((photo, index) => (
-                                <Card key={index} sx={{ width: 200, height: 150 }}>
-                                    <CardMedia
-                                        component="img"
-                                        image={photo}
-                                        alt={`食事写真 ${index + 1}`}
-                                        sx={{ 
-                                            width: '100%', 
-                                            height: '100%', 
-                                            objectFit: 'cover',
-                                            cursor: 'pointer'
-                                        }}
-                                        onClick={() => window.open(photo, '_blank')}
-                                    />
-                                </Card>
-                            ))}
+        <>
+            <Dialog 
+                open={open} 
+                onClose={onClose} 
+                maxWidth="md" 
+                fullWidth
+                TransitionComponent={Zoom}
+                sx={{
+                    '& .MuiDialog-paper': {
+                        borderRadius: 3,
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white',
+                        overflow: 'hidden'
+                    }
+                }}
+            >
+                {/* Header with gradient background */}
+                <DialogTitle 
+                    sx={{ 
+                        position: 'relative',
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(10px)',
+                        borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+                        p: 3
+                    }}
+                >
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Avatar
+                                sx={{
+                                    bgcolor: 'rgba(255, 255, 255, 0.2)',
+                                    width: 56,
+                                    height: 56,
+                                    fontSize: '1.5rem'
+                                }}
+                            >
+                                🍽️
+                            </Avatar>
+                            <Box>
+                                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>
+                                    美味しい記録
+                                </Typography>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <CalendarToday sx={{ fontSize: 16, opacity: 0.8 }} />
+                                    <Typography variant="body1" sx={{ opacity: 0.9 }}>
+                                        {formatDate(record.date)}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Chip
+                                icon={record.is_public ? <Public /> : <Lock />}
+                                label={record.is_public ? '公開中' : 'プライベート'}
+                                sx={{
+                                    bgcolor: record.is_public 
+                                        ? 'rgba(76, 175, 80, 0.8)' 
+                                        : 'rgba(158, 158, 158, 0.8)',
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                }}
+                            />
+                            <IconButton 
+                                onClick={onClose}
+                                sx={{ 
+                                    color: 'white',
+                                    bgcolor: 'rgba(255, 255, 255, 0.1)',
+                                    '&:hover': {
+                                        bgcolor: 'rgba(255, 255, 255, 0.2)'
+                                    }
+                                }}
+                            >
+                                <Close />
+                            </IconButton>
                         </Box>
                     </Box>
-                )}
-
-                {/* Record Metadata */}
-                <Box sx={{ mt: 3, pt: 2, borderTop: 1, borderColor: 'divider' }}>
-                    <Typography variant="body2" color="text.secondary">
-                        記録日時: {new Date(record.created_at).toLocaleString('ja-JP')}
-                    </Typography>
-                    {record.updated_at !== record.created_at && (
-                        <Typography variant="body2" color="text.secondary">
-                            更新日時: {new Date(record.updated_at).toLocaleString('ja-JP')}
-                        </Typography>
+                </DialogTitle>
+                
+                <DialogContent
+                    sx={{
+                        background: 'linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(240,240,255,0.95) 100%)',
+                        color: 'text.primary',
+                        px: 4,
+                        py: 1,
+                        minHeight: '400px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center'
+                    }}
+                >
+                    {/* Diary Section with beautiful card */}
+                    {record.diary && (
+                        <Fade in timeout={800}>
+                            <Paper
+                                elevation={6}
+                                sx={{
+                                    mt: 2,
+                                    mb: 2,
+                                    p: 3,
+                                    background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)',
+                                    borderRadius: 3,
+                                    position: 'relative',
+                                    overflow: 'hidden',
+                                    '&::before': {
+                                        content: '""',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        height: '4px',
+                                        background: 'linear-gradient(90deg, #ff6b6b, #ee5a52, #feca57, #48dbfb, #ff9ff3)'
+                                    }
+                                }}
+                            >
+                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                    <Avatar sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)', mr: 2 }}>
+                                        <Edit sx={{ color: '#333' }} />
+                                    </Avatar>
+                                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#333' }}>
+                                        今日の記録
+                                    </Typography>
+                                    <Restaurant sx={{ ml: 'auto', color: '#ff6b6b' }} />
+                                </Box>
+                                <Typography 
+                                    variant="body1" 
+                                    sx={{ 
+                                        whiteSpace: 'pre-wrap',
+                                        lineHeight: 1.8,
+                                        color: '#444',
+                                        fontSize: '1.1rem',
+                                        fontStyle: 'italic'
+                                    }}
+                                >
+                                    "{record.diary}"
+                                </Typography>
+                            </Paper>
+                        </Fade>
                     )}
-                </Box>
-            </DialogContent>
-            
-            <DialogActions>
-                <Button onClick={onClose}>
-                    閉じる
-                </Button>
-            </DialogActions>
-        </Dialog>
+
+                    {/* Photos Gallery */}
+                    {record.photos && record.photos.length > 0 && (
+                        <Fade in timeout={1000}>
+                            <Paper
+                                elevation={6}
+                                sx={{
+                                    mt: record.diary ? 0 : 6,
+                                    mb: 2,
+                                    p: 3,
+                                    background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                                    borderRadius: 3
+                                }}
+                            >
+                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                                    <Avatar sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)', mr: 2 }}>
+                                        <PhotoCamera sx={{ color: '#333' }} />
+                                    </Avatar>
+                                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#333' }}>
+                                        フォトギャラリー ({record.photos.length}枚)
+                                    </Typography>
+                                </Box>
+                                <Grid container spacing={2}>
+                                    {record.photos.map((photo, index) => (
+                                        <Grid item xs={12} sm={6} md={4} key={index}>
+                                            <Card 
+                                                elevation={8}
+                                                sx={{ 
+                                                    borderRadius: 3,
+                                                    overflow: 'hidden',
+                                                    position: 'relative',
+                                                    transition: 'all 0.3s ease',
+                                                    '&:hover': {
+                                                        transform: 'scale(1.05) rotate(1deg)',
+                                                        boxShadow: '0 12px 24px rgba(0,0,0,0.2)'
+                                                    },
+                                                    '&:hover .expand-button': {
+                                                        opacity: 1
+                                                    }
+                                                }}
+                                            >
+                                                <CardMedia
+                                                    component="img"
+                                                    image={photo}
+                                                    alt={`美味しい料理 ${index + 1}`}
+                                                    sx={{ 
+                                                        width: '100%', 
+                                                        height: 180, 
+                                                        objectFit: 'cover'
+                                                    }}
+                                                />
+                                                <IconButton
+                                                    className="expand-button"
+                                                    onClick={() => setSelectedPhoto(photo)}
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        bottom: 8,
+                                                        right: 8,
+                                                        bgcolor: 'rgba(0,0,0,0.7)',
+                                                        color: 'white',
+                                                        opacity: 0,
+                                                        transition: 'opacity 0.3s ease',
+                                                        '&:hover': {
+                                                            bgcolor: 'rgba(0,0,0,0.9)'
+                                                        }
+                                                    }}
+                                                >
+                                                    📸
+                                                </IconButton>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </Paper>
+                        </Fade>
+                    )}
+
+                </DialogContent>
+                
+                <DialogActions
+                    sx={{
+                        background: 'rgba(255, 255, 255, 0.9)',
+                        p: 3,
+                        borderTop: '1px solid rgba(0,0,0,0.1)'
+                    }}
+                >
+                    <Button 
+                        onClick={onClose}
+                        variant="contained"
+                        sx={{
+                            background: 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)',
+                            color: 'white',
+                            px: 4,
+                            py: 1.5,
+                            borderRadius: 3,
+                            fontWeight: 'bold',
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #5a6fd8 30%, #6a4190 90%)'
+                            }
+                        }}
+                    >
+                        閉じる
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Photo Modal */}
+            <Dialog
+                open={!!selectedPhoto}
+                onClose={() => setSelectedPhoto(null)}
+                maxWidth="lg"
+                fullWidth
+                sx={{
+                    '& .MuiDialog-paper': {
+                        backgroundColor: 'rgba(0,0,0,0.9)',
+                        borderRadius: 2
+                    }
+                }}
+            >
+                <DialogContent sx={{ p: 0, position: 'relative' }}>
+                    <IconButton
+                        onClick={() => setSelectedPhoto(null)}
+                        sx={{
+                            position: 'absolute',
+                            top: 16,
+                            right: 16,
+                            color: 'white',
+                            bgcolor: 'rgba(0,0,0,0.5)',
+                            zIndex: 1,
+                            '&:hover': {
+                                bgcolor: 'rgba(0,0,0,0.7)'
+                            }
+                        }}
+                    >
+                        <Close />
+                    </IconButton>
+                    {selectedPhoto && (
+                        <img
+                            src={selectedPhoto}
+                            alt="拡大表示"
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                maxHeight: '80vh',
+                                objectFit: 'contain'
+                            }}
+                        />
+                    )}
+                </DialogContent>
+            </Dialog>
+        </>
     );
 };
 

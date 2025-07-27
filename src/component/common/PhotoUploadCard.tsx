@@ -1,169 +1,117 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
-    Box,
-    Card,
-    CardContent,
-    Typography,
-    Button,
-    IconButton,
-    Grid,
-    Alert
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
 } from '@mui/material';
-import {
-    PhotoCamera,
-    Delete as DeleteIcon
-} from '@mui/icons-material';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface PhotoUploadCardProps {
-    title?: string;
-    photos: (File | string)[];
-    maxPhotos?: number;
-    onPhotosChange: (photos: (File | string)[]) => void;
-    acceptedFormats?: string;
-    helperText?: string;
+  title?: string;
+  todayImages: File[];
+  fileInputRef: React.RefObject<HTMLInputElement>;
+  onImageUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onImageDelete: (index: number) => void;
+  maxPhotos?: number;
+  emoji?: string;
+  gradient?: string;
+  backgroundColor?: string;
+  borderColor?: string;
 }
 
 const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
-    title = "写真をアップロード",
-    photos,
-    maxPhotos = 3,
-    onPhotosChange,
-    acceptedFormats = "image/*",
-    helperText
+  title = "今日の一枚",
+  todayImages,
+  fileInputRef,
+  onImageUpload,
+  onImageDelete,
+  maxPhotos = 3,
+  emoji = "📸",
+  gradient = "linear-gradient(45deg, #4CAF50 30%, #8BC34A 90%)",
+  backgroundColor = "#f0fff4",
+  borderColor = "#4CAF50",
 }) => {
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
-        if (files) {
-            const newImages = Array.from(files);
-            const totalImages = photos.length + newImages.length;
-            
-            if (totalImages <= maxPhotos) {
-                onPhotosChange([...photos, ...newImages]);
-            } else {
-                alert(`画像は最大${maxPhotos}枚まで選択できます`);
-            }
-        }
-        // Reset input value to allow selecting the same file again
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-        }
-    };
-
-    const handleImageDelete = (index: number) => {
-        const newImages = photos.filter((_, i) => i !== index);
-        onPhotosChange(newImages);
-    };
-
-    const openFileSelector = () => {
-        fileInputRef.current?.click();
-    };
-
-    const getImageUrl = (photo: File | string) => {
-        if (typeof photo === 'string') {
-            return photo;
-        }
-        return URL.createObjectURL(photo);
-    };
-
-    const renderImagePreview = (photo: File | string, index: number) => (
-        <Box
-            key={index}
+  return (
+    <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden' }}>
+      <Box sx={{ 
+        background: gradient,
+        p: 2,
+      }}>
+        <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
+          {emoji} {title}
+        </Typography>
+      </Box>
+      <CardContent sx={{ background: backgroundColor }}>
+        <Box sx={{ mb: 2 }}>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={onImageUpload}
+            style={{ display: 'none' }}
+          />
+          <Button
+            variant="outlined"
+            startIcon={<AddPhotoAlternateIcon />}
+            onClick={() => fileInputRef.current?.click()}
+            disabled={todayImages.length >= maxPhotos}
             sx={{
-                position: 'relative',
-                width: '100%',
-                paddingTop: '100%', // 1:1 aspect ratio
-                border: '1px solid #ddd',
-                borderRadius: 1,
-                overflow: 'hidden'
+              borderColor: borderColor,
+              color: borderColor,
+              '&:hover': {
+                borderColor: '#388E3C',
+                backgroundColor: 'rgba(76, 175, 80, 0.04)',
+              },
             }}
-        >
-            <img
-                src={getImageUrl(photo)}
-                alt={`Preview ${index + 1}`}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
+          >
+            写真を追加 ({todayImages.length}/{maxPhotos})
+          </Button>
+        </Box>
+
+        {todayImages.length > 0 && (
+          <ImageList sx={{ width: '100%', height: 200 }} cols={3} rowHeight={164}>
+            {todayImages.map((image, index) => (
+              <ImageListItem key={index}>
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt={`今日の写真 ${index + 1}`}
+                  loading="lazy"
+                  style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'cover'
-                }}
-            />
-            <IconButton
-                onClick={() => handleImageDelete(index)}
-                sx={{
-                    position: 'absolute',
-                    top: 4,
-                    right: 4,
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                    },
-                    width: 32,
-                    height: 32
-                }}
-                size="small"
-            >
-                <DeleteIcon fontSize="small" />
-            </IconButton>
-        </Box>
-    );
-
-    return (
-        <Card sx={{ mb: 3 }}>
-            <CardContent>
-                <Typography variant="h6" gutterBottom>
-                    {title}
-                </Typography>
-
-                {helperText && (
-                    <Alert severity="info" sx={{ mb: 2 }}>
-                        {helperText}
-                    </Alert>
-                )}
-
-                <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept={acceptedFormats}
-                    multiple
-                    style={{ display: 'none' }}
-                    onChange={handleImageUpload}
+                    objectFit: 'cover',
+                  }}
                 />
+                <ImageListItemBar
+                  sx={{
+                    background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                  }}
+                  position="top"
+                  actionIcon={
+                    <IconButton
+                      sx={{ color: 'white' }}
+                      onClick={() => onImageDelete(index)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        )}
 
-                {photos.length > 0 && (
-                    <Grid container spacing={2} sx={{ mb: 2 }}>
-                        {photos.map((photo, index) => (
-                            <Grid item xs={6} sm={4} key={index}>
-                                {renderImagePreview(photo, index)}
-                            </Grid>
-                        ))}
-                    </Grid>
-                )}
-
-                <Button
-                    variant="outlined"
-                    startIcon={<PhotoCamera />}
-                    onClick={openFileSelector}
-                    disabled={photos.length >= maxPhotos}
-                    fullWidth
-                    sx={{ mb: 1 }}
-                >
-                    {photos.length >= maxPhotos 
-                        ? `画像は最大${maxPhotos}枚まで` 
-                        : '画像を選択'
-                    }
-                </Button>
-
-                <Typography variant="caption" color="text.secondary" display="block">
-                    {photos.length}/{maxPhotos}枚選択済み
-                    {photos.length > 0 && " • 写真を削除するには×ボタンをクリック"}
-                </Typography>
-            </CardContent>
-        </Card>
-    );
+      </CardContent>
+    </Card>
+  );
 };
 
 export default PhotoUploadCard;

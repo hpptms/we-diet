@@ -17,6 +17,17 @@ const WeightChart: React.FC<WeightChartProps> = ({
   chartData,
   chartOptions,
 }) => {
+  // デバッグ情報をコンソールに出力
+  console.log('WeightChart render:', {
+    error,
+    loading,
+    weightRecordsLength: weightRecords?.length || 0,
+    chartDataLabels: chartData?.labels?.length || 0,
+    chartDatasets: chartData?.datasets?.length || 0,
+    firstRecord: weightRecords?.[0],
+    chartData: chartData
+  });
+
   return (
     <Card sx={{ mb: 4 }}>
       <CardContent>
@@ -29,7 +40,15 @@ const WeightChart: React.FC<WeightChartProps> = ({
             <CircularProgress />
           </Box>
         ) : weightRecords.length > 0 ? (
-          <Line data={chartData} options={chartOptions} />
+          <Box>
+            {chartData?.labels?.length > 0 ? (
+              <Line data={chartData} options={chartOptions} />
+            ) : (
+              <Typography variant="h6" sx={{ textAlign: 'center', p: 6, color: 'text.secondary' }}>
+                チャート用のデータが準備できていません。
+              </Typography>
+            )}
+          </Box>
         ) : (
           <Typography variant="h6" sx={{ textAlign: 'center', p: 6, color: 'text.secondary' }}>
             体重記録がありません。

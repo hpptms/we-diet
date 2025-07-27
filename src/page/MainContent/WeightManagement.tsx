@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import {
     Chart as ChartJS,
@@ -152,10 +152,6 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
     const userId = 1;
 
-    useEffect(() => {
-        fetchWeightRecords();
-    }, [viewPeriod, currentDate, cache]);
-
     // Handle back navigation
     const handleBack = () => {
         // キャッシュを完全にクリア
@@ -187,7 +183,9 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     };
 
     // Fetch weight records
-    const fetchWeightRecords = async () => {
+    const fetchWeightRecords = useCallback(async () => {
+        console.log('fetchWeightRecords called with:', { currentDate, viewPeriod });
+        
         const cacheKey = generateCacheKey(currentDate, viewPeriod);
         
         // 現在の月の場合は常にキャッシュを無視して最新データを取得
@@ -196,18 +194,23 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                               currentDate.getFullYear() === now.getFullYear() && 
                               currentDate.getMonth() === now.getMonth();
         
+        console.log('Cache check:', { cacheKey, isCurrentMonth, hasMonthlyCache: !!cache.monthlyRecords[cacheKey], hasYearlyCache: !!cache.yearlyRecords[cacheKey] });
+        
         // Try to get from cache (現在の月以外の場合のみ)
         if (!isCurrentMonth) {
             if (viewPeriod === 'month' && cache.monthlyRecords[cacheKey]) {
+                console.log('Using monthly cache for:', cacheKey);
                 setWeightRecords(cache.monthlyRecords[cacheKey]);
                 return;
             }
             if (viewPeriod === 'year' && cache.yearlyRecords[cacheKey]) {
+                console.log('Using yearly cache for:', cacheKey);
                 setWeightRecords(cache.yearlyRecords[cacheKey]);
                 return;
             }
         }
 
+        console.log('Making API request...');
         setLoading(true);
         setError(null);
         try {
@@ -227,11 +230,17 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 
                 if (isCurrentMonth) {
                     // 現在の月の場合は今日まで
-                    endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
                 } else {
                     // 過去または未来の月の場合は月末まで
-                    endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+                    endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59);
                 }
+                
+                console.log('Date range:', {
+                    startDate: startDate.toISOString().slice(0, 10),
+                    endDate: endDate.toISOString().slice(0, 10),
+                    isCurrentMonth
+                });
                 
                 const response = await axios.get('/api/weight_records', {
                     params: {
@@ -246,15 +255,18 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 console.log('Extracted records:', records);
                 setWeightRecords(records);
                 
-                setCache((prev: any) => ({
-                    ...prev,
-                    monthlyRecords: {
-                        ...prev.monthlyRecords,
-                        [cacheKey]: records
-                    },
-                    currentDate,
-                    viewPeriod
-                }));
+                // キャッシュ更新（状態変更の最小化）
+                setCache((prev: any) => {
+                    const newCache = {
+                        ...prev,
+                        monthlyRecords: {
+                            ...prev.monthlyRecords,
+                            [cacheKey]: records
+                        }
+                    };
+                    // currentDateとviewPeriodは変更しない（無限ループ防止）
+                    return newCache;
+                });
             } else {
                 startDate = new Date(currentDate.getFullYear(), 0, 1);
                 endDate = new Date(currentDate.getFullYear(), 11, 31);
@@ -273,15 +285,18 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 console.log('Extracted year records:', records);
                 setWeightRecords(records);
                 
-                setCache((prev: any) => ({
-                    ...prev,
-                    yearlyRecords: {
-                        ...prev.yearlyRecords,
-                        [cacheKey]: records
-                    },
-                    currentDate,
-                    viewPeriod
-                }));
+                // キャッシュ更新（状態変更の最小化）
+                setCache((prev: any) => {
+                    const newCache = {
+                        ...prev,
+                        yearlyRecords: {
+                            ...prev.yearlyRecords,
+                            [cacheKey]: records
+                        }
+                    };
+                    // currentDateとviewPeriodは変更しない（無限ループ防止）
+                    return newCache;
+                });
             }
         } catch (error: any) {
             console.error('体重記録の取得に失敗しました:', error);
@@ -295,7 +310,11 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         } finally {
             setLoading(false);
         }
-    };
+    }, [currentDate, viewPeriod, userId]);
+
+    useEffect(() => {
+        fetchWeightRecords();
+    }, [fetchWeightRecords]);
 
     // Check if record exists for given date
     const checkExistingRecord = async (date: string) => {
@@ -653,19 +672,76 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         }
 
         if (viewPeriod === 'month') {
-            const sortedRecords = [...weightRecords].sort((a, b) => 
-                new Date(a.Date || a.date).getTime() - new Date(b.Date || b.date).getTime()
+            // デバッグ：最初のレコードの構造を確認
+            if (weightRecords.length > 0) {
+                console.log('Sample record structure:', JSON.stringify(weightRecords[0], null, 2));
+            }
+
+            // フィルタリングして有効なレコードのみを取得（月の範囲チェックも追加）
+            const validRecords = weightRecords.filter(record => {
+                // プロトバフ定義に基づくフィールド名: date, weight, body_fat, note
+                const date = record.date || record.Date;
+                const weight = record.weight || record.Weight;
+                
+                // 日付が有効で、体重データが存在するかチェック
+                if (!date || weight === undefined || weight === null || isNaN(parseFloat(weight.toString()))) {
+                    console.log('Record filter check - invalid data:', { date, weight, record });
+                    return false;
+                }
+                
+                // 表示している月の範囲内かチェック
+                const recordDate = new Date(date);
+                const isInCurrentMonth = recordDate.getFullYear() === currentDate.getFullYear() && 
+                                        recordDate.getMonth() === currentDate.getMonth();
+                
+                console.log('Record filter check:', { 
+                    date, 
+                    weight, 
+                    recordDate: recordDate.toISOString().slice(0, 10),
+                    currentMonth: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`,
+                    isInCurrentMonth,
+                    record 
+                });
+                
+                return isInCurrentMonth;
+            });
+
+            console.log('Valid records for chart:', validRecords);
+
+            if (validRecords.length === 0) {
+                console.log('No valid records found for chart');
+                return {
+                    labels: [],
+                    datasets: []
+                };
+            }
+
+            const sortedRecords = [...validRecords].sort((a, b) => 
+                new Date(a.date || a.Date).getTime() - new Date(b.date || b.Date).getTime()
             );
 
-            const labels = sortedRecords.map(record => 
-                new Date(record.Date || record.date).toLocaleDateString('ja-JP', { 
+            const labels = sortedRecords.map(record => {
+                const dateStr = record.date || record.Date;
+                return new Date(dateStr).toLocaleDateString('ja-JP', { 
                     month: 'short', 
                     day: 'numeric' 
-                })
-            );
+                });
+            });
             
-            const weights = sortedRecords.map(record => record.Weight || record.weight);
-            const bodyFats = sortedRecords.map(record => record.BodyFat || record.body_fat || null);
+            const weights = sortedRecords.map(record => {
+                const weight = record.weight || record.Weight;
+                return parseFloat(weight.toString());
+            });
+            
+            const bodyFats = sortedRecords.map(record => {
+                const bodyFat = record.body_fat || record.BodyFat;
+                if (bodyFat !== undefined && bodyFat !== null && !isNaN(parseFloat(bodyFat.toString()))) {
+                    return parseFloat(bodyFat.toString());
+                }
+                return null;
+            });
+
+            console.log('Chart data prepared:', { labels, weights, bodyFats });
 
             return {
                 labels,
@@ -676,6 +752,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                         borderColor: 'rgb(75, 192, 192)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         yAxisID: 'y',
+                        tension: 0.1,
                     },
                     {
                         label: '体脂肪率 (%)',
@@ -683,6 +760,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                         borderColor: 'rgb(255, 99, 132)',
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         yAxisID: 'y1',
+                        tension: 0.1,
                     }
                 ]
             };
@@ -702,21 +780,65 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 return `${year}年${parseInt(month)}月`;
             });
             const weights = sortedRecords.map(record => record.average_weight);
+            
+            // 体脂肪率データを取得（年単位表示でも）
+            const bodyFats = sortedRecords.map(record => {
+                // 全てのフィールドパターンをチェック
+                const bodyFat = record.AverageBodyFat || record.average_body_fat || record.averageBodyFat;
+                
+                console.log('Year view body fat detailed check:', { 
+                    record: JSON.stringify(record),
+                    allKeys: Object.keys(record),
+                    AverageBodyFat: record.AverageBodyFat,
+                    average_body_fat: record.average_body_fat,
+                    averageBodyFat: record.averageBodyFat,
+                    bodyFat: bodyFat,
+                    type: typeof bodyFat,
+                });
+                
+                if (bodyFat !== undefined && bodyFat !== null && !isNaN(parseFloat(bodyFat.toString()))) {
+                    return parseFloat(bodyFat.toString());
+                }
+                return null;
+            });
+
+            console.log('Year view final chart data:', { labels, weights, bodyFats, hasBodyFat: bodyFats.some(bf => bf !== null) });
+
+            const datasets = [
+                {
+                    label: '月平均体重 (kg)',
+                    data: weights,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    yAxisID: 'y',
+                    tension: 0.1,
+                }
+            ];
+
+            // 体脂肪率データがある場合は追加
+            const hasBodyFatData = bodyFats.some(bf => bf !== null);
+            console.log('Year view hasBodyFatData:', hasBodyFatData, 'bodyFats:', bodyFats);
+            
+            if (hasBodyFatData) {
+                datasets.push({
+                    label: '月平均体脂肪率 (%)',
+                    data: bodyFats,
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    yAxisID: 'y1',
+                    tension: 0.1,
+                });
+                console.log('Added body fat dataset to year view');
+            } else {
+                console.log('No body fat data found for year view');
+            }
 
             return {
                 labels,
-                datasets: [
-                    {
-                        label: '月平均体重 (kg)',
-                        data: weights,
-                        borderColor: 'rgb(75, 192, 192)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        yAxisID: 'y',
-                    }
-                ]
+                datasets
             };
         }
-    }, [weightRecords, viewPeriod, weightRecords.length]);
+    }, [weightRecords, viewPeriod, currentDate]);
 
     const chartOptions = useMemo(() => ({
         responsive: true,
@@ -733,21 +855,21 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 display: true,
             },
             tooltip: {
-                callbacks: {
-                    afterBody: function(context: any) {
-                        if (viewPeriod === 'month' && weightRecords && context.length > 0) {
-                            const dataIndex = context[0].dataIndex;
-                            const sortedRecords = [...weightRecords].sort((a, b) => 
-                                new Date(a.date).getTime() - new Date(b.date).getTime()
-                            );
-                            const record = sortedRecords[dataIndex];
-                            if (record && record.note) {
-                                return [`メモ: ${record.note}`];
+                        callbacks: {
+                            afterBody: function(context: any) {
+                                if (viewPeriod === 'month' && weightRecords && context.length > 0) {
+                                    const dataIndex = context[0].dataIndex;
+                                    const sortedRecords = [...weightRecords].sort((a, b) => 
+                                        new Date(a.date || a.Date).getTime() - new Date(b.date || b.Date).getTime()
+                                    );
+                                    const record = sortedRecords[dataIndex];
+                                    if (record && (record.note || record.Note)) {
+                                        return [`メモ: ${record.note || record.Note}`];
+                                    }
+                                }
+                                return [];
                             }
                         }
-                        return [];
-                    }
-                }
             },
         },
         scales: {
@@ -767,14 +889,14 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     text: '体重 (kg)'
                 }
             },
-            ...(viewPeriod === 'month' && {
+            ...((viewPeriod === 'month' || (viewPeriod === 'year' && chartData?.datasets?.length > 1)) && {
                 y1: {
                     type: 'linear' as const,
                     display: true,
                     position: 'right' as const,
                     title: {
                         display: true,
-                        text: '体脂肪率 (%)'
+                        text: viewPeriod === 'month' ? '体脂肪率 (%)' : '月平均体脂肪率 (%)'
                     },
                     grid: {
                         drawOnChartArea: false,
@@ -814,6 +936,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             <WeightRecordsList
                 weightRecords={weightRecords}
                 viewPeriod={viewPeriod}
+                currentDate={currentDate}
             />
 
             {/* Today's Weight Record Modal */}
@@ -860,7 +983,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 }}
                 onConfirm={handleOverwriteRecord}
                 date={pendingRecord?.date || ''}
-                currentWeight={existingRecord?.Weight || existingRecord?.weight}
+                currentWeight={existingRecord?.weight || existingRecord?.Weight}
                 newWeight={pendingRecord?.weight || 0}
             />
         </Box>

@@ -33,7 +33,7 @@ const WeightRecordModal: React.FC<WeightRecordModalProps> = ({
   submitButtonColor = 'success',
 }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ mt: 1 }}>
@@ -57,6 +57,7 @@ const WeightRecordModal: React.FC<WeightRecordModalProps> = ({
             required
             fullWidth
             variant="outlined"
+            helperText="体脂肪率は自動計算されます"
           />
           
           <TextField

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Grid } from '@mui/material';
 import { useRecoilState } from 'recoil';
@@ -14,7 +14,7 @@ import StrengthTrainingCard from '../../component/ExerciseRecord/StrengthTrainin
 import OtherExerciseCard from '../../component/ExerciseRecord/OtherExerciseCard';
 import WeightInputCard from '../../component/ExerciseRecord/WeightInputCard';
 import ExerciseNoteCard from '../../component/ExerciseRecord/ExerciseNoteCard';
-import PhotoUploadCard from '../../component/ExerciseRecord/PhotoUploadCard';
+import PhotoUploadCard from '../../component/common/PhotoUploadCard';
 import ActionButtons from '../../component/ExerciseRecord/ActionButtons';
 
 interface ExerciseRecordProps {
@@ -23,6 +23,7 @@ interface ExerciseRecordProps {
 
 const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [exerciseData, setExerciseData] = useRecoilState(exerciseRecordState);
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
 
@@ -125,6 +126,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   };
 
   const handleSave = async () => {
+    setLoading(true);
     try {
       const userId = exerciseData.userId || 1;
       const today = new Date().toISOString().slice(0, 10);
@@ -233,6 +235,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         errorMessage = `保存に失敗しました: ${error.response.data.error}`;
       }
       alert(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -314,6 +318,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       <ActionButtons
         onSave={handleSave}
         onBack={onBack}
+        loading={loading}
       />
     </Box>
   );

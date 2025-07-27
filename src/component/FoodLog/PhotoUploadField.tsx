@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PhotoUploadCard from '../common/PhotoUploadCard';
 
 interface PhotoUploadFieldProps {
@@ -7,41 +7,86 @@ interface PhotoUploadFieldProps {
 }
 
 const PhotoUploadField: React.FC<PhotoUploadFieldProps> = ({ photos, onChange }) => {
-    // Convert string[] to (File | string)[] for compatibility with PhotoUploadCard
-    const handlePhotosChange = (newPhotos: (File | string)[]) => {
-        // Convert File objects to base64 strings
-        const processPhotos = async () => {
-            const processedPhotos: string[] = [];
-            
-            for (const photo of newPhotos) {
-                if (typeof photo === 'string') {
-                    processedPhotos.push(photo);
-                } else {
-                    // Convert File to base64 string
-                    const reader = new FileReader();
-                    const result = await new Promise<string>((resolve) => {
-                        reader.onload = (e) => {
-                            resolve(e.target?.result as string);
-                        };
-                        reader.readAsDataURL(photo);
-                    });
-                    processedPhotos.push(result);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [fileObjects, setFileObjects] = useState<File[]>([]);
+
+    // string[]のphotosをFile[]に変換（表示用）
+    useEffect(() => {
+        const convertToFiles = async () => {
+            const files: File[] = [];
+            for (const photo of photos) {
+                if (photo.startsWith('data:')) {
+                    // base64からFileオブジェクトを作成
+                    try {
+                        const response = await fetch(photo);
+                        const blob = await response.blob();
+                        const file = new File([blob], `photo_${Date.now()}.jpg`, { type: 'image/jpeg' });
+                        files.push(file);
+                    } catch (error) {
+                        console.error('Failed to convert base64 to File:', error);
+                    }
                 }
             }
-            
-            onChange(processedPhotos);
+            setFileObjects(files);
         };
         
-        processPhotos();
+        if (photos.length > 0) {
+            convertToFiles();
+        } else {
+            setFileObjects([]);
+        }
+    }, [photos]);
+
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files) {
+            const newImages = Array.from(files);
+            const totalImages = photos.length + newImages.length;
+            
+            if (totalImages <= 3) {
+                // FileオブジェクトをBase64に変換してstring[]として保存
+                const convertToBase64 = async () => {
+                    const newPhotos: string[] = [];
+                    for (const file of newImages) {
+                        const reader = new FileReader();
+                        const result = await new Promise<string>((resolve) => {
+                            reader.onload = (e) => {
+                                resolve(e.target?.result as string);
+                            };
+                            reader.readAsDataURL(file);
+                        });
+                        newPhotos.push(result);
+                    }
+                    onChange([...photos, ...newPhotos]);
+                };
+                convertToBase64();
+            } else {
+                alert('画像は最大3枚まで選択できます');
+            }
+        }
+        // Reset input value to allow selecting the same file again
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
+
+    const handleImageDelete = (index: number) => {
+        const newPhotos = photos.filter((_, i) => i !== index);
+        onChange(newPhotos);
     };
 
     return (
         <PhotoUploadCard
             title="今日の食事の写真"
-            photos={photos}
-            maxPhotos={5}
-            onPhotosChange={handlePhotosChange}
-            helperText="食事の写真を追加して記録を充実させましょう。最大5枚まで投稿できます。記録を上書きする場合、古い写真は自動的に削除されます。"
+            todayImages={fileObjects}
+            fileInputRef={fileInputRef}
+            onImageUpload={handleImageUpload}
+            onImageDelete={handleImageDelete}
+            maxPhotos={3}
+            emoji="🍽️"
+            gradient="linear-gradient(45deg, #FF6B6B 30%, #FFE66D 90%)"
+            backgroundColor="#fff8f0"
+            borderColor="#FF6B6B"
         />
     );
 };

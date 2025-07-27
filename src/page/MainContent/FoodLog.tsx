@@ -3,11 +3,12 @@ import axios from 'axios';
 import {
     Box,
     Typography,
-    Card,
-    CardContent,
     Alert,
-    CircularProgress
+    CircularProgress,
+    Paper,
+    Fab
 } from '@mui/material';
+import { Save, PhotoCamera } from '@mui/icons-material';
 import { useRecoilState } from 'recoil';
 import { foodLogState } from '../../recoil/foodLogAtom';
 import {
@@ -22,10 +23,10 @@ import {
 
 // Import components
 import FoodLogHeader from '../../component/FoodLog/FoodLogHeader';
-import DiaryField from '../../component/FoodLog/DiaryField';
+import UnifiedMealCard from '../../component/FoodLog/UnifiedMealCard';
+import DailyProgressCard from '../../component/FoodLog/DailyProgressCard';
 import PhotoUploadField from '../../component/FoodLog/PhotoUploadField';
 import PublicToggle from '../../component/common/PublicToggle';
-import SaveButtons from '../../component/common/SaveButtons';
 import FoodActionButtons from '../../component/FoodLog/FoodActionButtons';
 import FoodCalendar from '../../component/FoodLog/FoodCalendar';
 import RecordViewDialog from '../../component/FoodLog/RecordViewDialog';
@@ -42,6 +43,14 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const [calendarOpen, setCalendarOpen] = useState(false);
     const [recordViewOpen, setRecordViewOpen] = useState(false);
     const [viewingRecord, setViewingRecord] = useState<FoodLogType | undefined>();
+    
+    // 食事時間別のデータ
+    const [mealData, setMealData] = useState({
+        breakfast: '',
+        lunch: '',
+        dinner: '',
+        snack: ''
+    });
 
     const userId = 1; // TODO: 実際のユーザーIDを取得
 
@@ -70,9 +79,32 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
 
             if (response.data.success && response.data.record) {
                 const record = response.data.record;
+                const diary = record.diary || '';
+                
+                // 既存の記録を時間帯別に分解（簡単な方法）
+                const parts = diary.split('\n').filter(part => part.trim());
+                const newMealData = { breakfast: '', lunch: '', dinner: '', snack: '' };
+                
+                parts.forEach(part => {
+                    const lower = part.toLowerCase();
+                    if (lower.includes('朝') || lower.includes('breakfast')) {
+                        newMealData.breakfast += part + '\n';
+                    } else if (lower.includes('昼') || lower.includes('lunch')) {
+                        newMealData.lunch += part + '\n';
+                    } else if (lower.includes('夜') || lower.includes('夕') || lower.includes('dinner')) {
+                        newMealData.dinner += part + '\n';
+                    } else if (lower.includes('間食') || lower.includes('おやつ') || lower.includes('snack')) {
+                        newMealData.snack += part + '\n';
+                    } else {
+                        // 分類できない場合は朝食に入れる
+                        newMealData.breakfast += part + '\n';
+                    }
+                });
+                
+                setMealData(newMealData);
                 setFoodLog(prev => ({
                     ...prev,
-                    diary: record.diary || '',
+                    diary: diary,
                     photos: record.photos || [],
                     isPublic: record.is_public || false,
                     currentRecord: record
@@ -255,11 +287,25 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     };
 
     return (
-        <Box sx={{ maxWidth: 800, mx: 'auto', p: 3 }}>
+        <Box 
+            sx={{ 
+                maxWidth: 900, 
+                mx: 'auto', 
+                p: 3,
+                minHeight: '100vh',
+                background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+                position: 'relative'
+            }}
+        >
             {/* Header */}
             <FoodLogHeader 
                 onBack={onBack} 
                 selectedDate={foodLog.selectedDate}
+            />
+
+            {/* Progress Card */}
+            <DailyProgressCard
+                recordedDates={foodLog.recordedDates}
             />
 
             {/* Action Buttons */}
@@ -270,51 +316,127 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
 
             {/* Alert Messages */}
             {error && (
-                <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
+                <Alert severity="error" sx={{ mb: 3, borderRadius: 3 }} onClose={() => setError(null)}>
                     {error}
                 </Alert>
             )}
             {success && (
-                <Alert severity="success" sx={{ mb: 3 }} onClose={() => setSuccess(null)}>
+                <Alert severity="success" sx={{ mb: 3, borderRadius: 3 }} onClose={() => setSuccess(null)}>
                     {success}
                 </Alert>
             )}
 
-            {/* Main Form */}
-            <Card sx={{ mb: 3 }}>
-                <CardContent>
-                    {/* Diary Field */}
-                    <DiaryField
-                        diary={foodLog.diary}
-                        onChange={(diary) => setFoodLog(prev => ({ ...prev, diary }))}
-                    />
+            {/* Public Toggle */}
+            <PublicToggle
+                isPublic={foodLog.isPublic}
+                onChange={(isPublic) => setFoodLog(prev => ({ ...prev, isPublic }))}
+            />
 
-                    {/* Photo Upload Field */}
-                    <PhotoUploadField
-                        photos={foodLog.photos}
-                        onChange={(photos) => setFoodLog(prev => ({ ...prev, photos }))}
-                    />
+            {/* Unified Meal Card */}
+            <UnifiedMealCard
+                content={foodLog.diary}
+                onChange={(content) => setFoodLog(prev => ({ ...prev, diary: content }))}
+            />
 
-                    {/* Public Toggle */}
-                    <PublicToggle
-                        isPublic={foodLog.isPublic}
-                        onChange={(isPublic) => setFoodLog(prev => ({ ...prev, isPublic }))}
-                    />
+            {/* Photo Upload Section */}
+            <PhotoUploadField
+                photos={foodLog.photos}
+                onChange={(photos) => setFoodLog(prev => ({ ...prev, photos }))}
+            />
 
-                    {/* Save Buttons */}
-                    <SaveButtons
-                        loading={loading}
-                        onSave={handleSave}
-                        onBack={onBack}
-                    />
-                </CardContent>
-            </Card>
+            {/* Action Buttons */}
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mb: 4 }}>
+                <Box
+                    component="button"
+                    onClick={handleSave}
+                    disabled={loading}
+                    sx={{
+                        flex: 1,
+                        maxWidth: 200,
+                        py: 2,
+                        px: 3,
+                        borderRadius: 3,
+                        border: 'none',
+                        background: loading 
+                            ? 'linear-gradient(135deg, #ccc 0%, #999 100%)'
+                            : 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        cursor: loading ? 'not-allowed' : 'pointer',
+                        transition: 'all 0.3s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 1,
+                        boxShadow: loading 
+                            ? 'none'
+                            : '0 4px 15px rgba(238, 90, 36, 0.3)',
+                        '&:hover': {
+                            background: loading 
+                                ? 'linear-gradient(135deg, #ccc 0%, #999 100%)'
+                                : 'linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%)',
+                            transform: loading ? 'none' : 'translateY(-2px)',
+                            boxShadow: loading 
+                                ? 'none'
+                                : '0 6px 20px rgba(238, 90, 36, 0.4)',
+                        },
+                        '&:active': {
+                            transform: loading ? 'none' : 'translateY(0)',
+                        },
+                    }}
+                >
+                    {loading ? (
+                        <>
+                            <CircularProgress size={20} color="inherit" />
+                            保存中...
+                        </>
+                    ) : (
+                        <>
+                            💾 保存
+                        </>
+                    )}
+                </Box>
+                <Box
+                    component="button"
+                    onClick={onBack}
+                    sx={{
+                        flex: 1,
+                        maxWidth: 200,
+                        py: 2,
+                        px: 3,
+                        borderRadius: 3,
+                        border: '2px solid #6c757d',
+                        backgroundColor: 'white',
+                        color: '#6c757d',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 1,
+                        '&:hover': {
+                            backgroundColor: '#6c757d',
+                            color: 'white',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 6px 20px rgba(108, 117, 125, 0.3)',
+                        },
+                        '&:active': {
+                            transform: 'translateY(0)',
+                        },
+                    }}
+                >
+                    ← 戻る
+                </Box>
+            </Box>
 
             {/* Calendar Dialog */}
             <FoodCalendar
                 open={calendarOpen}
                 onClose={() => setCalendarOpen(false)}
-                recordedDates={foodLog.recordedDates}
+                recordedDates={[]} // 新しいAPIで取得するため空配列を渡す
                 onDateSelect={handleDateSelect}
             />
 
@@ -327,6 +449,44 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 }}
                 record={viewingRecord}
             />
+
+            {/* Background decorations */}
+            <Box
+                sx={{
+                    position: 'fixed',
+                    top: '10%',
+                    right: '5%',
+                    fontSize: '4rem',
+                    opacity: 0.1,
+                    animation: 'float 8s ease-in-out infinite',
+                    pointerEvents: 'none',
+                    zIndex: -1,
+                    '@keyframes float': {
+                        '0%, 100%': { transform: 'translateY(0px)' },
+                        '50%': { transform: 'translateY(-20px)' },
+                    },
+                }}
+            >
+                🍎
+            </Box>
+            <Box
+                sx={{
+                    position: 'fixed',
+                    bottom: '20%',
+                    left: '5%',
+                    fontSize: '3rem',
+                    opacity: 0.1,
+                    animation: 'float 6s ease-in-out infinite reverse',
+                    pointerEvents: 'none',
+                    zIndex: -1,
+                    '@keyframes float': {
+                        '0%, 100%': { transform: 'translateY(0px)' },
+                        '50%': { transform: 'translateY(-20px)' },
+                    },
+                }}
+            >
+                🥗
+            </Box>
         </Box>
     );
 };

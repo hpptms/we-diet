@@ -11,11 +11,8 @@ const DiaryField: React.FC<DiaryFieldProps> = ({ diary, onChange }) => {
     
     return (
         <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
-                📝 日記
-                <Typography variant="body2" sx={{ ml: 1, color: 'text.secondary' }}>
-                    ({diary.length}/{maxLength}文字)
-                </Typography>
+            <Typography variant="body2" gutterBottom sx={{ color: 'text.secondary' }}>
+                ({diary.length}/{maxLength}文字)
             </Typography>
             <TextField
                 multiline

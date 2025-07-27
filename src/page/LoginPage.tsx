@@ -11,6 +11,8 @@ import MailRegisterButton from "../component/MailRegisterButton";
 import GoogleLoginButton from "../component/GoogleLoginButton";
 import FacebookLoginButton from "../component/FacebookLoginButton";
 import TiktokLoginButton from "../component/TiktokLoginButton";
+import { useSetRecoilState } from "recoil";
+import { serverProfileState, profileSettingsState, convertServerProfileToLocalProfile } from "../recoil/profileSettingsAtom";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -22,6 +24,8 @@ const LoginPage: React.FC = () => {
   const [registerError, setRegisterError] = useState("");
   const [registerSuccess, setRegisterSuccess] = useState("");
   const navigate = useNavigate();
+  const setServerProfile = useSetRecoilState(serverProfileState);
+  const setProfileSettings = useSetRecoilState(profileSettingsState);
 
   // メール登録送信ハンドラ（後でAPI連携）
   const handleSendRegisterEmail = async () => {
@@ -95,6 +99,10 @@ const LoginPage: React.FC = () => {
       const data = response.data;
       localStorage.setItem("accountName", data.accountName || email);
       console.log("localStorageに保存:", data.accountName || email);
+      
+      // ログイン成功後、プロフィールを取得
+      await fetchUserProfileAfterLogin(data.userId || 2);
+      
       navigate("/dashboard");
     } catch (err: any) {
       console.error("ログインエラー:", err);
@@ -102,6 +110,48 @@ const LoginPage: React.FC = () => {
         setError(err.response.data.message);
       } else {
         setError("ログインに失敗しました");
+      }
+    }
+  };
+
+  // ログイン後にプロフィールを取得する関数
+  const fetchUserProfileAfterLogin = async (userId: number) => {
+    try {
+      console.log("ログイン後プロフィール取得中...", { userId });
+      const response = await axios.get(`/api/proto/user_profile/${userId}`);
+      
+      if (response.data && response.data.profile) {
+        const profile = response.data.profile;
+        console.log("ログイン後プロフィール取得成功:", profile);
+        
+        const now = Date.now();
+        // サーバープロフィール状態を更新
+        setServerProfile({
+          userId,
+          profile,
+          lastFetched: now,
+        });
+        
+        // 既存のローカル設定をチェック
+        const currentLocalData = localStorage.getItem('profileSettingsData');
+        console.log("現在のローカルデータ:", currentLocalData);
+        
+        if (!currentLocalData) {
+          // ローカルデータがない場合のみ設定
+          const localProfile = convertServerProfileToLocalProfile(profile);
+          console.log("新規ローカルプロフィール設定:", localProfile);
+          setProfileSettings(localProfile);
+        } else {
+          console.log("既存のローカルデータを保持");
+        }
+        
+        console.log("プロフィール状態更新完了");
+      }
+    } catch (error: any) {
+      console.log("ログイン後プロフィール取得エラー:", error);
+      // 404エラーの場合は初回ログイン（プロフィール未作成）なので、エラーログのみ
+      if (error.response?.status === 404) {
+        console.log("プロフィールが見つかりません（初回ログイン）");
       }
     }
   };

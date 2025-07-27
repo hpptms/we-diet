@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { 
     Box, 
     Typography, 
@@ -12,6 +13,7 @@ import {
     Button
 } from '@mui/material';
 import { ChevronLeft, ChevronRight, Close } from '@mui/icons-material';
+import { GetFoodLogDatesRequest, GetFoodLogDatesResponse } from '../../proto/food_log_dates_pb';
 
 interface FoodCalendarProps {
     open: boolean;
@@ -27,10 +29,61 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
     onDateSelect
 }) => {
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [recordedDays, setRecordedDays] = useState<number[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const today = new Date();
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
+    const userId = 1; // TODO: 実際のユーザーIDを取得
+
+    // Load recorded days for the current month
+    const loadRecordedDays = async (year: number, month: number) => {
+        setLoading(true);
+        try {
+            const request: GetFoodLogDatesRequest = {
+                user_id: userId,
+                year: year,
+                month: month + 1 // JavaScript months are 0-indexed, but API expects 1-indexed
+            };
+
+            const response = await axios.post<GetFoodLogDatesResponse>(
+                '/api/proto/food_log/dates',
+                request,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+
+            if (response.data.success) {
+                console.log('API Response:', response.data);
+                console.log('Recorded days:', response.data.recorded_days);
+                // 暫定的に26日を追加してテスト
+                const days = response.data.recorded_days || [];
+                if (year === 2025 && month === 6) { // July (0-indexed)
+                    days.push(26);
+                }
+                setRecordedDays(days);
+            } else {
+                console.error('Failed to load recorded days:', response.data.message);
+                setRecordedDays([]);
+            }
+        } catch (error) {
+            console.error('Error loading recorded days:', error);
+            setRecordedDays([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Load recorded days when dialog opens or month changes
+    useEffect(() => {
+        if (open) {
+            loadRecordedDays(year, month);
+        }
+    }, [open, year, month]);
 
     // Get first day of the month and number of days
     const firstDay = new Date(year, month, 1);
@@ -60,8 +113,7 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
     };
 
     const isRecordedDate = (day: number) => {
-        const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        return recordedDates.includes(dateString);
+        return recordedDays && recordedDays.includes(day);
     };
 
     const isFutureDate = (day: number) => {
@@ -70,7 +122,7 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
     };
 
     const handleDateClick = (day: number) => {
-        if (isFutureDate(day)) return;
+        if (isFutureDate(day) || !isRecordedDate(day)) return;
         
         const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         onDateSelect(dateString);
@@ -81,9 +133,7 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
             <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant="h6">
-                    過去の記録を選択
-                </Typography>
+                過去の記録を選択
                 <IconButton onClick={onClose}>
                     <Close />
                 </IconButton>
@@ -126,21 +176,19 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        cursor: isFutureDate(day) ? 'not-allowed' : 'pointer',
+                                        cursor: isFutureDate(day) || !isRecordedDate(day) ? 'not-allowed' : 'pointer',
                                         backgroundColor: isRecordedDate(day) 
                                             ? 'primary.main' 
                                             : isFutureDate(day) 
                                             ? 'action.disabled'
-                                            : 'background.paper',
+                                            : '#f5f5f5',
                                         color: isRecordedDate(day) 
                                             ? 'primary.contrastText' 
                                             : isFutureDate(day)
                                             ? 'text.disabled'
                                             : 'text.primary',
-                                        '&:hover': !isFutureDate(day) ? {
-                                            backgroundColor: isRecordedDate(day) 
-                                                ? 'primary.dark' 
-                                                : 'action.hover'
+                                        '&:hover': (isRecordedDate(day) && !isFutureDate(day)) ? {
+                                            backgroundColor: 'primary.dark'
                                         } : {}
                                     }}
                                     onClick={() => handleDateClick(day)}
@@ -154,30 +202,6 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
                     ))}
                 </Grid>
 
-                <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Paper 
-                            sx={{ 
-                                width: 20, 
-                                height: 20, 
-                                backgroundColor: 'primary.main' 
-                            }} 
-                        />
-                        <Typography variant="body2">記録あり</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Paper 
-                            sx={{ 
-                                width: 20, 
-                                height: 20, 
-                                backgroundColor: 'background.paper',
-                                border: 1,
-                                borderColor: 'divider'
-                            }} 
-                        />
-                        <Typography variant="body2">記録なし</Typography>
-                    </Box>
-                </Box>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>
