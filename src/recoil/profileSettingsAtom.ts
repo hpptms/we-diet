@@ -23,6 +23,7 @@ export interface ProfileSettingsState {
     isActivityPrivate: boolean;
     isCurrentWeightPrivate: boolean;
     isTargetWeightPrivate: boolean;
+    enableSensitiveFilter: boolean;
 }
 
 // サーバープロフィール用の状態
@@ -56,6 +57,7 @@ const defaultProfileSettings: ProfileSettingsState = {
     isActivityPrivate: false,
     isCurrentWeightPrivate: false,
     isTargetWeightPrivate: false,
+    enableSensitiveFilter: false,
 };
 
 // ローカルストレージから読み込み
@@ -168,6 +170,7 @@ export const convertServerProfileToLocalProfile = (serverProfile: UserProfile): 
         isActivityPrivate: serverProfile.is_activity_private ?? false,
         isCurrentWeightPrivate: serverProfile.is_current_weight_private ?? false,
         isTargetWeightPrivate: serverProfile.is_target_weight_private ?? false,
+        enableSensitiveFilter: serverProfile.enable_sensitive_filter ?? false,
     };
 };
 

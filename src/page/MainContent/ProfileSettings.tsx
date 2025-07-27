@@ -5,6 +5,11 @@ import {
   Typography,
   Card,
   CardContent,
+  useTheme,
+  useMediaQuery,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +33,12 @@ const ProfileSettings: React.FC = () => {
   const [profile, setProfile] = useRecoilState(profileSettingsState);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const theme = useTheme();
+  
+  // レスポンシブデザイン用のブレークポイント
+  const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下
+  const isPortraitMode = useMediaQuery('(orientation: portrait)');
+  const isSmallScreen = useMediaQuery('(max-width: 900px)');
 
   // サーバーからプロフィールデータを取得する関数
   const loadProfileFromServer = async () => {
@@ -60,6 +71,7 @@ const ProfileSettings: React.FC = () => {
           isActivityPrivate: serverProfile.is_activity_private || false,
           isCurrentWeightPrivate: serverProfile.is_current_weight_private || false,
           isTargetWeightPrivate: serverProfile.is_target_weight_private || false,
+          enableSensitiveFilter: serverProfile.enable_sensitive_filter || false,
         });
         
         console.log('サーバーからプロフィールデータを読み込みました');
@@ -169,6 +181,7 @@ const ProfileSettings: React.FC = () => {
         is_activity_private: profile.isActivityPrivate,
         is_current_weight_private: profile.isCurrentWeightPrivate,
         is_target_weight_private: profile.isTargetWeightPrivate,
+        enable_sensitive_filter: profile.enableSensitiveFilter,
       };
 
       console.log('送信するリクエストデータ:', requestData);
@@ -196,13 +209,40 @@ const ProfileSettings: React.FC = () => {
     }
   };
 
+  // レスポンシブスタイル設定
+  const containerStyles = {
+    maxWidth: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 800,
+    width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
+    mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
+    p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 1, sm: 2 } : 3,
+    minHeight: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100vh' : 'auto',
+    display: 'flex',
+    flexDirection: 'column' as const,
+    boxSizing: 'border-box' as const,
+    overflowX: 'hidden' as const,
+  };
+
+  const cardStyles = {
+    mb: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 1 : 3,
+    flex: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 1 : 'none',
+    borderRadius: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : undefined,
+    boxShadow: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'none' : undefined,
+  };
+
+  const titleStyles = {
+    textAlign: 'center' as const,
+    mb: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 2 : 4,
+    fontSize: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '1.75rem' : undefined,
+    px: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 2 : 0,
+  };
+
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', p: 3 }}>
-      <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'center', mb: 4 }}>
+    <Box sx={containerStyles}>
+      <Typography variant="h4" component="h1" gutterBottom sx={titleStyles}>
         プロフィール設定
       </Typography>
 
-      <Card sx={{ mb: 3 }}>
+      <Card sx={cardStyles}>
         <CardContent>
           {/* 表示名 */}
           <DisplayNameField
@@ -275,6 +315,29 @@ const ProfileSettings: React.FC = () => {
             prText={profile.prText}
             onPRTextChange={(prText) => setProfile(prev => ({ ...prev, prText }))}
           />
+
+          {/* センシティブフィルター（18歳以上のみ表示） */}
+          {profile.age && parseInt(profile.age) >= 18 && (
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                センシティブコンテンツ設定
+              </Typography>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={profile.enableSensitiveFilter}
+                      onChange={(e) => setProfile(prev => ({ ...prev, enableSensitiveFilter: e.target.checked }))}
+                    />
+                  }
+                  label="センシティブフィルター"
+                />
+              </FormGroup>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                センシティブな内容を含む投稿を表示します。18歳以上の方のみ利用できます。
+              </Typography>
+            </Box>
+          )}
 
           {/* セーブボタン・戻るボタン */}
           <SaveButtons

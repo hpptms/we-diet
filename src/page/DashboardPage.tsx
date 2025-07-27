@@ -7,6 +7,7 @@ import ProfileSettings from "./MainContent/ProfileSettings";
 import ExerciseRecord from "./MainContent/ExerciseRecord";
 import WeightManagement from "./MainContent/WeightManagement";
 import FoodLog from "./MainContent/FoodLog";
+import Dieter from "./MainContent/Dieter";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { exerciseRecordState } from "../recoil/exerciseRecordAtom";
 import { weightRecordedDateAtom } from "../recoil/weightRecordedDateAtom";
@@ -60,6 +61,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView }) => {
       navigate("/WeightManagement");
     } else if (view === "FoodLog") {
       navigate("/FoodLog");
+    } else if (view === "dieter") {
+      navigate("/Dieter");
     }
     // 他のviewはURL変更なし
   };
@@ -74,6 +77,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView }) => {
       setCurrentView("weight");
     } else if (location.pathname === "/FoodLog") {
       setCurrentView("FoodLog");
+    } else if (location.pathname === "/Dieter") {
+      setCurrentView("dieter");
     }
     // 他のviewは従来通り
   }, [location.pathname]);
@@ -99,11 +104,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView }) => {
       case 'FoodLog':
         return <FoodLog onBack={() => { setCurrentView('dashboard'); navigate('/Dashboard'); }} />;
       case 'dieter':
-        return <div>dieter画面（未実装）</div>;
+        return <Dieter 
+          onBack={() => { setCurrentView('dashboard'); navigate('/Dashboard'); }}
+          onViewChange={handleViewChange}
+        />;
       default:
         return (
           <>
-            <h1 style={{ marginBottom: "40px" }}>ようこそ {accountName} さん</h1>
             <DashboardPageButtons onViewChange={handleViewChange} hasWeightInput={hasWeightInput} />
           </>
         );

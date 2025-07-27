@@ -32,14 +32,14 @@ const ExerciseNoteCard: React.FC<ExerciseNoteCardProps> = ({
           label="今日頑張った運動や感想を自由に書いてね！（任意）"
           value={exerciseNote}
           onChange={(e) => {
-            if (e.target.value.length <= 150) onExerciseNoteChange(e.target.value);
+            if (e.target.value.length <= 300) onExerciseNoteChange(e.target.value);
           }}
           multiline
           rows={4}
           fullWidth
           variant="outlined"
           placeholder="例：朝のランニングで桜が綺麗だった🌸 / 新しいヨガポーズにチャレンジ！ / 友達と一緒にテニスを楽しんだ♪ / 記録だけでもOK！"
-          inputProps={{ maxLength: 150 }}
+          inputProps={{ maxLength: 300 }}
           sx={{
             '& .MuiOutlinedInput-root': {
               '&:hover fieldset': {
@@ -53,7 +53,7 @@ const ExerciseNoteCard: React.FC<ExerciseNoteCardProps> = ({
         />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1 }}>
           <Typography variant="body2" sx={{ color: '#666', fontSize: '0.75rem' }}>
-            {exerciseNote.length}/150文字
+            {exerciseNote.length}/300文字
           </Typography>
           {exerciseNote && (
             <Chip 

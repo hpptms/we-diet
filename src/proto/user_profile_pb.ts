@@ -22,6 +22,7 @@ export interface UserProfile {
     is_activity_private?: boolean;
     is_current_weight_private?: boolean;
     is_target_weight_private?: boolean;
+    enable_sensitive_filter?: boolean;
     created_at?: string;
     updated_at?: string;
 }
@@ -47,6 +48,7 @@ export interface CreateUserProfileRequest {
     is_activity_private: boolean;
     is_current_weight_private: boolean;
     is_target_weight_private: boolean;
+    enable_sensitive_filter: boolean;
 }
 
 export interface CreateUserProfileResponse {
@@ -83,6 +85,7 @@ export interface UpdateUserProfileRequest {
     is_activity_private: boolean;
     is_current_weight_private: boolean;
     is_target_weight_private: boolean;
+    enable_sensitive_filter: boolean;
 }
 
 export interface UpdateUserProfileResponse {

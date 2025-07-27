@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, useTheme, useMediaQuery } from '@mui/material';
 import { useRecoilState } from 'recoil';
 import { exerciseRecordState, ExerciseRecordData, checkAndResetIfDateChanged, isExerciseDataEmpty } from '../../recoil/exerciseRecordAtom';
 import { useSetRecoilState } from 'recoil';
@@ -26,6 +26,12 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
+  const theme = useTheme();
+  
+  // レスポンシブデザイン用のブレークポイント
+  const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下
+  const isPortraitMode = useMediaQuery('(orientation: portrait)');
+  const isSmallScreen = useMediaQuery('(max-width: 900px)');
 
   // サーバーから本日のデータを取得する関数
   const loadTodayData = async () => {
@@ -240,17 +246,23 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     }
   };
 
+  // レスポンシブスタイル設定
+  const containerStyles = {
+    p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 0, sm: 1 } : 2,
+    maxWidth: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 900,
+    width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
+    mx: 0,
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    minHeight: '100vh',
+    paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 1 : 4,
+    display: 'flex',
+    flexDirection: 'column' as const,
+    boxSizing: 'border-box' as const,
+    overflowX: 'hidden' as const,
+  };
+
   return (
-    <Box 
-      sx={{ 
-        p: 2, 
-        maxWidth: 900, 
-        mx: 'auto',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        minHeight: '100vh',
-        paddingBottom: 4,
-      }}
-    >
+    <Box sx={containerStyles}>
       {/* ヘッダー */}
       <ExerciseHeader />
 
@@ -283,7 +295,11 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       />
 
       {/* その他運動 & 体重 */}
-      <Grid container spacing={3} sx={{ mb: 3 }}>
+      <Grid 
+        container 
+        spacing={isTabletOrMobile || isPortraitMode || isSmallScreen ? 2 : 3} 
+        sx={{ mb: isTabletOrMobile || isPortraitMode || isSmallScreen ? 2 : 3 }}
+      >
         <Grid item xs={12} md={6}>
           <OtherExerciseCard
             otherExerciseTime={exerciseData.otherExerciseTime}

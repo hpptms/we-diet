@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
@@ -8,50 +8,106 @@ interface DashboardPageButtonsProps {
 }
 
 const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChange, hasWeightInput }) => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const isMobile = windowWidth <= 768;
+  const isTabletOrMobile = windowWidth <= 900;
+  const isPortraitMode = window.matchMedia('(orientation: portrait)').matches;
+  const shouldUseFullWidth = isTabletOrMobile || isPortraitMode;
+
   return (
     <div style={{ 
-      display: "grid", 
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
-      gap: "20px",
-      marginBottom: "30px"
+      display: "flex", 
+      flexDirection: "column", 
+      gap: shouldUseFullWidth ? "15px" : "20px",
+      marginBottom: shouldUseFullWidth ? "20px" : "30px",
+      marginTop: shouldUseFullWidth ? "20px" : "40px",
+      width: "100%",
+      maxWidth: shouldUseFullWidth ? "100%" : "400px",
+      margin: shouldUseFullWidth ? "20px 0" : "40px auto 30px auto",
+      backgroundColor: "white",
+      padding: shouldUseFullWidth ? "15px" : "30px",
+      borderRadius: shouldUseFullWidth ? "0" : "12px",
+      boxShadow: shouldUseFullWidth ? "none" : "0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1)",
+      border: shouldUseFullWidth ? "none" : "1px solid rgba(0, 0, 0, 0.05)",
+      boxSizing: "border-box",
+      minHeight: shouldUseFullWidth ? "100vh" : "auto",
     }}>
       <button
         style={{
-          padding: "15px 20px",
-          fontSize: "16px",
-          backgroundColor: "#4CAF50",
+          padding: "20px 25px",
+          fontSize: "18px",
+          fontWeight: "bold",
+          background: "linear-gradient(135deg, #4CAF50, #45a049, #2E7D32)",
           color: "white",
           border: "none",
-          borderRadius: "8px",
+          borderRadius: "15px",
           cursor: "pointer",
-          transition: "background-color 0.3s"
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          boxShadow: "0 6px 20px rgba(76, 175, 80, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)",
+          position: "relative",
+          overflow: "hidden",
+          textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+          transform: "translateY(0)",
         }}
-        onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#45a049"}
-        onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#4CAF50"}
+        onMouseOver={(e) => {
+          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+          e.currentTarget.style.boxShadow = "0 12px 30px rgba(76, 175, 80, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #66BB6A, #4CAF50, #43A047)";
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.transform = "translateY(0) scale(1)";
+          e.currentTarget.style.boxShadow = "0 6px 20px rgba(76, 175, 80, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #4CAF50, #45a049, #2E7D32)";
+        }}
         onClick={() => {
-          // プロフィール変更の処理
           console.log("プロフィール変更がクリックされました");
           onViewChange('profile');
         }}
       >
-        プロフィール変更
+        👤 プロフィール変更
       </button>
       
       <button
         style={{
-          padding: "15px 20px",
-          fontSize: "16px",
-          backgroundColor: "#2196F3",
+          padding: "20px 25px",
+          fontSize: "18px",
+          fontWeight: "bold",
+          background: "linear-gradient(135deg, #2196F3, #1976D2, #0D47A1)",
           color: "white",
           border: "none",
-          borderRadius: "8px",
+          borderRadius: "15px",
           cursor: "pointer",
-          transition: "background-color 0.3s"
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          boxShadow: "0 6px 20px rgba(33, 150, 243, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)",
+          position: "relative",
+          overflow: "hidden",
+          textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+          transform: "translateY(0)",
         }}
-        onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#1976D2"}
-        onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#2196F3"}
+        onMouseOver={(e) => {
+          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+          e.currentTarget.style.boxShadow = "0 12px 30px rgba(33, 150, 243, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #42A5F5, #2196F3, #1976D2)";
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.transform = "translateY(0) scale(1)";
+          e.currentTarget.style.boxShadow = "0 6px 20px rgba(33, 150, 243, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #2196F3, #1976D2, #0D47A1)";
+        }}
         onClick={() => {
-          // 運動を記録の処理
           console.log("運動を記録がクリックされました");
           onViewChange('exercise');
         }}
@@ -62,74 +118,113 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
             "🤸", "🧘", "🤾", "🏋️", "🤺", "🏇", "⛷️", "🏂", "🤸‍♀️", "🧗"
           ];
           const icon = icons[Math.floor(Math.random() * icons.length)];
-          return `運動記録済${icon}`;
-        })() : "運動を記録"}
+          return `✨ 運動記録済 ${icon}`;
+        })() : "💪 運動を記録"}
       </button>
       
       <button
         style={{
-          padding: "15px 20px",
-          fontSize: "16px",
-          backgroundColor: "#FF9800",
+          padding: "20px 25px",
+          fontSize: "18px",
+          fontWeight: "bold",
+          background: "linear-gradient(135deg, #FF9800, #F57C00, #E65100)",
           color: "white",
           border: "none",
-          borderRadius: "8px",
+          borderRadius: "15px",
           cursor: "pointer",
-          transition: "background-color 0.3s"
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          boxShadow: "0 6px 20px rgba(255, 152, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)",
+          position: "relative",
+          overflow: "hidden",
+          textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+          transform: "translateY(0)",
         }}
-        onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#F57C00"}
-        onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#FF9800"}
+        onMouseOver={(e) => {
+          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+          e.currentTarget.style.boxShadow = "0 12px 30px rgba(255, 152, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #FFB74D, #FF9800, #F57C00)";
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.transform = "translateY(0) scale(1)";
+          e.currentTarget.style.boxShadow = "0 6px 20px rgba(255, 152, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #FF9800, #F57C00, #E65100)";
+        }}
         onClick={() => {
-          // 体重を記録の処理
           console.log("体重を管理がクリックされました");
           onViewChange('weight');
         }}
       >
-        体重を管理
+        ⚖️ 体重を管理
       </button>
       
       <button
         style={{
-          padding: "15px 20px",
-          fontSize: "16px",
-          backgroundColor: "#9C27B0",
+          padding: "20px 25px",
+          fontSize: "18px",
+          fontWeight: "bold",
+          background: "linear-gradient(135deg, #9C27B0, #7B1FA2, #4A148C)",
           color: "white",
           border: "none",
-          borderRadius: "8px",
+          borderRadius: "15px",
           cursor: "pointer",
-          transition: "background-color 0.3s"
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          boxShadow: "0 6px 20px rgba(156, 39, 176, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)",
+          position: "relative",
+          overflow: "hidden",
+          textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+          transform: "translateY(0)",
         }}
-        onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#7B1FA2"}
-        onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#9C27B0"}
+        onMouseOver={(e) => {
+          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+          e.currentTarget.style.boxShadow = "0 12px 30px rgba(156, 39, 176, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #BA68C8, #9C27B0, #7B1FA2)";
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.transform = "translateY(0) scale(1)";
+          e.currentTarget.style.boxShadow = "0 6px 20px rgba(156, 39, 176, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #9C27B0, #7B1FA2, #4A148C)";
+        }}
         onClick={() => {
-          // 食事を記録の処理
           console.log("食事を記録がクリックされました");
           onViewChange('FoodLog');
         }}
       >
-        食事を記録
+        🍽️ 食事を記録
       </button>
       
       <button
         style={{
-          padding: "15px 20px",
-          fontSize: "16px",
-          backgroundColor: "#607D8B",
+          padding: "20px 25px",
+          fontSize: "18px",
+          fontWeight: "bold",
+          background: "linear-gradient(135deg, #607D8B, #455A64, #263238)",
           color: "white",
           border: "none",
-          borderRadius: "8px",
+          borderRadius: "15px",
           cursor: "pointer",
-          transition: "background-color 0.3s"
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          boxShadow: "0 6px 20px rgba(96, 125, 139, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)",
+          position: "relative",
+          overflow: "hidden",
+          textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+          transform: "translateY(0)",
         }}
-        onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#455A64"}
-        onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#607D8B"}
+        onMouseOver={(e) => {
+          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+          e.currentTarget.style.boxShadow = "0 12px 30px rgba(96, 125, 139, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #78909C, #607D8B, #455A64)";
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.transform = "translateY(0) scale(1)";
+          e.currentTarget.style.boxShadow = "0 6px 20px rgba(96, 125, 139, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+          e.currentTarget.style.background = "linear-gradient(135deg, #607D8B, #455A64, #263238)";
+        }}
         onClick={() => {
-          // dieterの処理
           console.log("dieterがクリックされました");
           onViewChange('dieter');
         }}
       >
-        dieter
+        💬 dieter
       </button>
     </div>
   );

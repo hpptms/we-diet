@@ -21,7 +21,7 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
           記録一覧
         </Typography>
         {weightRecords.length > 0 ? (
-          <Box sx={{ maxHeight: 300, overflowY: 'auto' }}>
+          <Box sx={{ width: '100%', overflowX: 'hidden' }}>
             <List>
               {viewPeriod === 'month' ? (
                 [...weightRecords]

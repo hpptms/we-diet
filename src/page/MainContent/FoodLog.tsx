@@ -6,7 +6,9 @@ import {
     Alert,
     CircularProgress,
     Paper,
-    Fab
+    Fab,
+    useTheme,
+    useMediaQuery
 } from '@mui/material';
 import { Save, PhotoCamera } from '@mui/icons-material';
 import { useRecoilState } from 'recoil';
@@ -43,6 +45,12 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const [calendarOpen, setCalendarOpen] = useState(false);
     const [recordViewOpen, setRecordViewOpen] = useState(false);
     const [viewingRecord, setViewingRecord] = useState<FoodLogType | undefined>();
+    const theme = useTheme();
+    
+    // レスポンシブデザイン用のブレークポイント
+    const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下
+    const isPortraitMode = useMediaQuery('(orientation: portrait)');
+    const isSmallScreen = useMediaQuery('(max-width: 900px)');
     
     // 食事時間別のデータ
     const [mealData, setMealData] = useState({
@@ -286,17 +294,23 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         }
     };
 
+    // レスポンシブスタイル設定
+    const containerStyles = {
+        maxWidth: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 900,
+        width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
+        mx: 0,
+        p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 0, sm: 1 } : 3,
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        position: 'relative' as const,
+        display: 'flex',
+        flexDirection: 'column' as const,
+        boxSizing: 'border-box' as const,
+        overflowX: 'hidden' as const,
+    };
+
     return (
-        <Box 
-            sx={{ 
-                maxWidth: 900, 
-                mx: 'auto', 
-                p: 3,
-                minHeight: '100vh',
-                background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-                position: 'relative'
-            }}
-        >
+        <Box sx={containerStyles}>
             {/* Header */}
             <FoodLogHeader 
                 onBack={onBack} 
@@ -345,7 +359,13 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             />
 
             {/* Action Buttons */}
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mb: 4 }}>
+            <Box sx={{ 
+                display: 'flex', 
+                gap: isTabletOrMobile || isPortraitMode || isSmallScreen ? 1 : 2, 
+                justifyContent: 'center', 
+                mb: isTabletOrMobile || isPortraitMode || isSmallScreen ? 2 : 4,
+                px: isTabletOrMobile || isPortraitMode || isSmallScreen ? 1 : 0
+            }}>
                 <Box
                     component="button"
                     onClick={handleSave}
