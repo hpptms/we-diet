@@ -3,7 +3,7 @@ import React from "react";
 const GoogleLoginButton: React.FC = () => (
   <button
     type="button"
-    onClick={() => { window.location.href = "http://192.168.1.19:8080/auth/google/login"; }}
+    onClick={() => { window.location.href = `${import.meta.env.VITE_API_ENDPOINT}auth/google/login`; }}
     style={{
       width: "100%",
       padding: 10,

@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Paper,
-  Typography,
-  Button,
   TextField,
+  Button,
   Avatar,
+  InputAdornment,
   IconButton,
+  Typography,
 } from '@mui/material';
 import {
+  PhotoCamera,
+  EmojiEmotions,
+  LocationOn,
   Image as ImageIcon,
 } from '@mui/icons-material';
+import { useRecoilValue } from 'recoil';
+import { darkModeState } from '../../recoil/darkModeAtom';
 
 interface PostFormProps {
   onPost?: (content: string) => void;
@@ -18,6 +23,7 @@ interface PostFormProps {
 
 const PostForm: React.FC<PostFormProps> = ({ onPost }) => {
   const [postContent, setPostContent] = useState('');
+  const isDarkMode = useRecoilValue(darkModeState);
   const maxCharacters = 300;
 
   const handlePost = () => {
@@ -36,8 +42,10 @@ const PostForm: React.FC<PostFormProps> = ({ onPost }) => {
     <Box sx={{ 
       p: 4, 
       mb: 0, 
-      borderBottom: '2px solid #e1f5fe',
-      background: 'linear-gradient(135deg, rgba(227, 242, 253, 0.3) 0%, rgba(187, 222, 251, 0.2) 100%)'
+      borderBottom: isDarkMode ? '2px solid #29b6f6' : '2px solid #e1f5fe',
+      background: isDarkMode 
+        ? '#000000' 
+        : 'linear-gradient(135deg, rgba(227, 242, 253, 0.3) 0%, rgba(187, 222, 251, 0.2) 100%)'
     }}>
       <Box display="flex" gap={3}>
         <Avatar sx={{ 
@@ -61,9 +69,10 @@ const PostForm: React.FC<PostFormProps> = ({ onPost }) => {
               mb: 3,
               '& .MuiOutlinedInput-root': {
                 borderRadius: 3,
-                backgroundColor: 'white',
-                border: '2px solid #e1f5fe',
+                backgroundColor: isDarkMode ? '#000000' : 'white',
+                border: isDarkMode ? '2px solid #29b6f6' : '2px solid #e1f5fe',
                 fontSize: '1.1rem',
+                color: isDarkMode ? '#ffffff' : '#000000',
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   borderColor: '#29b6f6',
@@ -75,7 +84,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPost }) => {
                 }
               },
               '& .MuiInputBase-input::placeholder': {
-                color: '#90a4ae',
+                color: isDarkMode ? '#bbbbbb' : '#90a4ae',
                 opacity: 1
               }
             }}

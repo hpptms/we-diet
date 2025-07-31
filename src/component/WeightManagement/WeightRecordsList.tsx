@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box, List, ListItem, ListItemText } from '@mui/material';
 import { TrendingUp } from '@mui/icons-material';
+import { useRecoilValue } from 'recoil';
+import { darkModeState } from '../../recoil/darkModeAtom';
 
 interface WeightRecordsListProps {
   weightRecords: any[];
@@ -13,10 +15,26 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
   viewPeriod,
   currentDate,
 }) => {
+  const isDarkMode = useRecoilValue(darkModeState);
+
   return (
-    <Card>
+    <Card sx={{
+      ...(isDarkMode && {
+        backgroundColor: '#000',
+        border: '1px solid #fff',
+        color: '#fff'
+      })
+    }}>
       <CardContent>
-        <Typography variant="h5" component="h3" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Typography variant="h5" component="h3" sx={{ 
+          mb: 2, 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 1,
+          ...(isDarkMode && {
+            color: '#fff'
+          })
+        }}>
           <TrendingUp color="primary" />
           記録一覧
         </Typography>
@@ -45,20 +63,37 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
                     <ListItem key={record.id || record.ID || `record-${index}`} divider>
                       <ListItemText
                         primary={
-                          <Typography variant="body1">
+                          <Typography variant="body1" sx={{
+                            ...(isDarkMode && {
+                              color: '#fff'
+                            })
+                          }}>
                             <strong>{new Date(record.date || record.Date).toLocaleDateString('ja-JP')}</strong>
-                            <Typography component="span" sx={{ ml: 2 }}>
+                            <Typography component="span" sx={{ 
+                              ml: 2,
+                              ...(isDarkMode && {
+                                color: '#fff'
+                              })
+                            }}>
                               体重: {record.weight || record.Weight}kg
                             </Typography>
                             {(record.body_fat || record.BodyFat) && (
-                              <Typography component="span" sx={{ ml: 2 }}>
+                              <Typography component="span" sx={{ 
+                                ml: 2,
+                                ...(isDarkMode && {
+                                  color: '#fff'
+                                })
+                              }}>
                                 体脂肪率: {record.body_fat || record.BodyFat}%
                               </Typography>
                             )}
                           </Typography>
                         }
                         secondary={(record.note || record.Note) && (
-                          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                          <Typography variant="body2" sx={{ 
+                            mt: 0.5,
+                            color: isDarkMode ? '#ccc' : 'text.secondary'
+                          }}>
                             メモ: {record.note || record.Note}
                           </Typography>
                         )}
@@ -72,9 +107,18 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
                     <ListItem key={record.year_month} divider>
                       <ListItemText
                         primary={
-                          <Typography variant="body1">
+                          <Typography variant="body1" sx={{
+                            ...(isDarkMode && {
+                              color: '#fff'
+                            })
+                          }}>
                             <strong>{record.year_month.replace('-', '年') + '月'}</strong>
-                            <Typography component="span" sx={{ ml: 2 }}>
+                            <Typography component="span" sx={{ 
+                              ml: 2,
+                              ...(isDarkMode && {
+                                color: '#fff'
+                              })
+                            }}>
                               平均体重: {record.average_weight.toFixed(1)}kg
                             </Typography>
                           </Typography>
@@ -86,7 +130,11 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
             </List>
           </Box>
         ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', py: 3, color: 'text.secondary' }}>
+          <Typography variant="body1" sx={{ 
+            textAlign: 'center', 
+            py: 3, 
+            color: isDarkMode ? '#ccc' : 'text.secondary'
+          }}>
             記録がありません
           </Typography>
         )}

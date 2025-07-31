@@ -11,13 +11,17 @@ import {
   Repeat,
   Share,
 } from '@mui/icons-material';
+import { useRecoilValue } from 'recoil';
 import { Post } from './types';
+import { darkModeState } from '../../recoil/darkModeAtom';
 
 interface PostCardProps {
   post: Post;
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
+  const isDarkMode = useRecoilValue(darkModeState);
+  
   return (
     <Box sx={{ 
       p: 4, 
@@ -62,7 +66,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               mb: 3, 
               lineHeight: 1.6,
               fontSize: '1.1rem',
-              color: '#37474f'
+              color: isDarkMode ? '#ffffff' : '#37474f'
             }}>
               {post.content}
             </Typography>
@@ -100,7 +104,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                   <ChatBubbleOutline />
                 </IconButton>
                 <Typography variant="body2" sx={{ 
-                  color: '#546e7a',
+                  color: isDarkMode ? '#ffffff' : '#546e7a',
                   fontWeight: 500
                 }}>
                   {post.comments}
@@ -123,7 +127,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                   <Repeat />
                 </IconButton>
                 <Typography variant="body2" sx={{ 
-                  color: '#546e7a',
+                  color: isDarkMode ? '#ffffff' : '#546e7a',
                   fontWeight: 500
                 }}>
                   {post.retweets}
@@ -146,7 +150,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                   <Favorite />
                 </IconButton>
                 <Typography variant="body2" sx={{ 
-                  color: '#546e7a',
+                  color: isDarkMode ? '#ffffff' : '#546e7a',
                   fontWeight: 500
                 }}>
                   {post.likes}

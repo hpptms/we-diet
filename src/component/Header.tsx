@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Box, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import { AccountCircle } from '@mui/icons-material';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { AppBar, Toolbar, Typography, Box, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, Button, Switch, FormControlLabel } from '@mui/material';
+import { AccountCircle, DarkMode, LightMode } from '@mui/icons-material';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { profileSettingsState, serverProfileState, convertServerProfileToLocalProfile, resetServerProfileData } from '../recoil/profileSettingsAtom';
+import { darkModeState } from '../recoil/darkModeAtom';
 import { DEFAULT_IMAGES } from '../image/DefaultImage';
 import axios from 'axios';
 
 const Header: React.FC = () => {
   const location = useLocation();
+  const isDarkMode = useRecoilValue(darkModeState);
   
   // 青系ストライプ色を定義
   const stripes = ['#cceeff', '#b3e5fc', '#e0f7fa', '#b2ebf2', '#80deea', '#4dd0e1', '#26c6da'];
@@ -25,11 +27,13 @@ const Header: React.FC = () => {
     <AppBar
       position="static"
       sx={{
-        backgroundImage: stripeBackground,
+        backgroundImage: isDarkMode ? 'none' : stripeBackground,
+        backgroundColor: isDarkMode ? '#000000' : 'transparent',
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
-        color: '#000', // テキストを見やすく
+        color: isDarkMode ? '#ffffff' : '#000', // テキストを見やすく
         boxShadow: '0 6px 12px rgba(0, 0, 0, 0.3)', // ← しっかりめの影
+        borderBottom: isDarkMode ? '2px solid #ffffff' : 'none',
         zIndex: 1100, // 重なり順を確保（任意）
         }}
     >
@@ -77,6 +81,7 @@ const ProfileIcon: React.FC = () => {
   const setServerProfile = useSetRecoilState(serverProfileState);
   const navigate = useNavigate();
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useRecoilState(darkModeState);
 
   // サーバーからプロフィール情報を取得
   useEffect(() => {
@@ -102,12 +107,16 @@ const ProfileIcon: React.FC = () => {
           return;
         }
 
-        // まず、accountNameからuserIDを取得する必要があります
-        // ここでは仮に固定のuserID=2を使用します（実際の実装では適切なAPIを呼ぶ必要があります）
-        const userId = 2; // TODO: accountNameからuserIDを取得するAPIを実装
+        // localStorageからuserIDを取得
+        const userIdFromStorage = localStorage.getItem('user_id');
+        if (!userIdFromStorage) {
+          console.log('user_idが見つかりません');
+          return;
+        }
+        const userId = parseInt(userIdFromStorage);
 
         console.log('サーバープロフィール取得中...', { userId, accountName });
-        const response = await axios.get(`/api/proto/user_profile/${userId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile/${userId}`);
         
         if (response.data && response.data.profile) {
           const profile = response.data.profile;
@@ -218,24 +227,78 @@ const ProfileIcon: React.FC = () => {
 
   return (
     <>
-      <Avatar
-        onClick={handleIconClick}
-        sx={{
-          width: 45,
-          height: 45,
-          border: '3px solid #1976d2',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4)',
-          cursor: 'pointer',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-          '&:hover': {
-            transform: 'scale(1.05)',
-            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.7), 0 3px 6px rgba(0, 0, 0, 0.5)',
-          },
-        }}
-        src={getIconSrc()}
-      >
-        {!getIconSrc() && <AccountCircle sx={{ fontSize: '2.2rem' }} />}
-      </Avatar>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        {/* ダークモードトグル */}
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isDarkMode}
+              onChange={(e) => setIsDarkMode(e.target.checked)}
+              color="primary"
+              sx={{
+                '& .MuiSwitch-switchBase': {
+                  color: '#ffffff',
+                  '&.Mui-checked': {
+                    color: '#29b6f6',
+                    '& + .MuiSwitch-track': {
+                      backgroundColor: '#29b6f6',
+                      opacity: 0.5,
+                    },
+                  },
+                },
+                '& .MuiSwitch-track': {
+                  backgroundColor: isDarkMode ? '#29b6f6' : '#ffffff',
+                  opacity: isDarkMode ? 0.5 : 0.8,
+                  borderRadius: 20,
+                  border: isDarkMode ? `2px solid #29b6f6` : `2px solid #ffffff`,
+                },
+                '& .MuiSwitch-thumb': {
+                  backgroundColor: '#ffffff',
+                  width: 20,
+                  height: 20,
+                  boxShadow: `0 2px 4px rgba(0,0,0,0.2)`,
+                  border: `2px solid #29b6f6`,
+                },
+              }}
+            />
+          }
+          label={
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {isDarkMode ? <DarkMode sx={{ color: '#29b6f6' }} /> : <LightMode sx={{ color: '#ffffff' }} />}
+              <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: isDarkMode ? '#29b6f6' : '#ffffff' }}>
+                ダークモード
+              </Typography>
+            </Box>
+          }
+          sx={{
+            m: 0,
+            justifyContent: 'space-between',
+            marginLeft: 0,
+            '& .MuiFormControlLabel-label': {
+              flex: 1,
+            },
+          }}
+        />
+        
+        <Avatar
+          onClick={handleIconClick}
+          sx={{
+            width: 45,
+            height: 45,
+            border: '3px solid #1976d2',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4)',
+            cursor: 'pointer',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            '&:hover': {
+              transform: 'scale(1.05)',
+              boxShadow: '0 6px 16px rgba(0, 0, 0, 0.7), 0 3px 6px rgba(0, 0, 0, 0.5)',
+            },
+          }}
+          src={getIconSrc()}
+        >
+          {!getIconSrc() && <AccountCircle sx={{ fontSize: '2.2rem' }} />}
+        </Avatar>
+      </Box>
 
       <Dialog
         open={logoutDialogOpen}

@@ -13,7 +13,8 @@ import {
 } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { darkModeState } from '../../recoil/darkModeAtom';
 import { profileSettingsState, isProfileDataEmpty } from '../../recoil/profileSettingsAtom';
 import { CreateUserProfileRequest, CreateUserProfileResponse } from '../../proto/user_profile_pb';
 
@@ -33,6 +34,7 @@ const ProfileSettings: React.FC = () => {
   const [profile, setProfile] = useRecoilState(profileSettingsState);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const isDarkMode = useRecoilValue(darkModeState);
   const theme = useTheme();
   
   // レスポンシブデザイン用のブレークポイント
@@ -43,12 +45,17 @@ const ProfileSettings: React.FC = () => {
   // サーバーからプロフィールデータを取得する関数
   const loadProfileFromServer = async () => {
     try {
-      const userId = 1; // TODO: 実際のユーザーIDを取得
+      const userIdFromStorage = localStorage.getItem('user_id');
+      if (!userIdFromStorage) {
+        console.log('user_idが見つかりません');
+        return;
+      }
+      const userId = parseInt(userIdFromStorage);
       
-      const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/proto/user_profile?user_id=${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile/${userId}`);
       
       if (response.status === 200 && response.data) {
-        const serverProfile = response.data;
+        const serverProfile = response.data.profile || response.data;
         
         // サーバーから取得したデータでRecoil状態を更新
         setProfile({
@@ -136,7 +143,7 @@ const ProfileSettings: React.FC = () => {
         const formData = new FormData();
         formData.append('file', blob, 'profile_icon.jpg');
 
-        const uploadResponse = await axios.post(`${import.meta.env.VITE_API_ENDPOINT}api/proto/upload/user_icon`, formData, {
+        const uploadResponse = await axios.post(`${import.meta.env.VITE_API_ENDPOINT}proto/upload/user_icon`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -160,8 +167,14 @@ const ProfileSettings: React.FC = () => {
       }
 
       // プロトバフリクエストデータを準備
+      const userIdFromStorage = localStorage.getItem('user_id');
+      if (!userIdFromStorage) {
+        alert('ユーザーIDが見つかりません。再ログインしてください。');
+        return;
+      }
+      
       const requestData: CreateUserProfileRequest = {
-        user_id: 1, // TODO: 実際のユーザーIDを取得
+        user_id: parseInt(userIdFromStorage),
         display_name: profile.displayName || 'テストユーザー',
         selected_preset_id: profile.iconType === 'preset' ? profile.selectedPresetId : null,
         icon_type: profile.iconType,
@@ -170,7 +183,7 @@ const ProfileSettings: React.FC = () => {
         gender: profile.gender || 'male',
         age: profile.age ? parseInt(profile.age) : null,
         height: profile.height ? parseFloat(profile.height) : null,
-        activity_level: profile.activityLevel || '低い',
+        activity_level: profile.activityLevel || '',
         current_weight: profile.currentWeight ? parseFloat(profile.currentWeight) : null,
         target_weight: profile.targetWeight ? parseFloat(profile.targetWeight) : null,
         show_preset: profile.showPreset,
@@ -187,7 +200,7 @@ const ProfileSettings: React.FC = () => {
       console.log('送信するリクエストデータ:', requestData);
 
       // プロトバフエンドポイント呼び出し
-      const response = await axios.post<CreateUserProfileResponse>(`${import.meta.env.VITE_API_ENDPOINT}api/proto/user_profile`, requestData, {
+      const response = await axios.post<CreateUserProfileResponse>(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile`, requestData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -216,6 +229,8 @@ const ProfileSettings: React.FC = () => {
     mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
     p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 1, sm: 2 } : 3,
     minHeight: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100vh' : 'auto',
+    backgroundColor: isDarkMode ? '#000000' : 'transparent',
+    color: isDarkMode ? '#ffffff' : 'inherit',
     display: 'flex',
     flexDirection: 'column' as const,
     boxSizing: 'border-box' as const,
@@ -227,6 +242,8 @@ const ProfileSettings: React.FC = () => {
     flex: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 1 : 'none',
     borderRadius: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : undefined,
     boxShadow: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'none' : undefined,
+    backgroundColor: isDarkMode ? '#000000' : 'white',
+    border: isDarkMode ? '2px solid #ffffff' : 'none',
   };
 
   const titleStyles = {
@@ -234,6 +251,7 @@ const ProfileSettings: React.FC = () => {
     mb: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 2 : 4,
     fontSize: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '1.75rem' : undefined,
     px: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 2 : 0,
+    color: isDarkMode ? '#ffffff' : 'inherit',
   };
 
   return (
@@ -248,6 +266,7 @@ const ProfileSettings: React.FC = () => {
           <DisplayNameField
             displayName={profile.displayName}
             onChange={(displayName) => setProfile(prev => ({ ...prev, displayName }))}
+            isDarkMode={isDarkMode}
           />
 
           {/* アイコン設定 */}
@@ -260,6 +279,7 @@ const ProfileSettings: React.FC = () => {
             onPresetSelect={(selectedPresetId) => setProfile(prev => ({ ...prev, selectedPresetId }))}
             onIconUpload={handleIconUpload}
             onShowPresetToggle={() => setProfile(prev => ({ ...prev, showPreset: !prev.showPreset }))}
+            isDarkMode={isDarkMode}
           />
 
           {/* 性別 */}
@@ -268,6 +288,7 @@ const ProfileSettings: React.FC = () => {
             isGenderPrivate={profile.isGenderPrivate}
             onGenderChange={(gender) => setProfile(prev => ({ ...prev, gender }))}
             onPrivacyChange={(isGenderPrivate) => setProfile(prev => ({ ...prev, isGenderPrivate }))}
+            isDarkMode={isDarkMode}
           />
 
           {/* 年齢 */}
@@ -276,6 +297,7 @@ const ProfileSettings: React.FC = () => {
             isAgePrivate={profile.isAgePrivate}
             onAgeChange={(age) => setProfile(prev => ({ ...prev, age }))}
             onPrivacyChange={(isAgePrivate) => setProfile(prev => ({ ...prev, isAgePrivate }))}
+            isDarkMode={isDarkMode}
           />
 
           {/* 身長 */}
@@ -284,6 +306,7 @@ const ProfileSettings: React.FC = () => {
             isHeightPrivate={profile.isHeightPrivate}
             onHeightChange={(height) => setProfile(prev => ({ ...prev, height }))}
             onPrivacyChange={(isHeightPrivate) => setProfile(prev => ({ ...prev, isHeightPrivate }))}
+            isDarkMode={isDarkMode}
           />
 
           {/* 活動範囲 */}
@@ -292,6 +315,7 @@ const ProfileSettings: React.FC = () => {
             isActivityPrivate={profile.isActivityPrivate}
             onActivityLevelChange={(activityLevel) => setProfile(prev => ({ ...prev, activityLevel }))}
             onPrivacyChange={(isActivityPrivate) => setProfile(prev => ({ ...prev, isActivityPrivate }))}
+            isDarkMode={isDarkMode}
           />
 
           {/* 現在の体重 */}
@@ -300,6 +324,7 @@ const ProfileSettings: React.FC = () => {
             isCurrentWeightPrivate={profile.isCurrentWeightPrivate}
             onCurrentWeightChange={(currentWeight) => setProfile(prev => ({ ...prev, currentWeight }))}
             onPrivacyChange={(isCurrentWeightPrivate) => setProfile(prev => ({ ...prev, isCurrentWeightPrivate }))}
+            isDarkMode={isDarkMode}
           />
 
           {/* 目標体重 */}
@@ -308,18 +333,20 @@ const ProfileSettings: React.FC = () => {
             isTargetWeightPrivate={profile.isTargetWeightPrivate}
             onTargetWeightChange={(targetWeight) => setProfile(prev => ({ ...prev, targetWeight }))}
             onPrivacyChange={(isTargetWeightPrivate) => setProfile(prev => ({ ...prev, isTargetWeightPrivate }))}
+            isDarkMode={isDarkMode}
           />
 
           {/* 自己PR */}
           <PRTextField
             prText={profile.prText}
             onPRTextChange={(prText) => setProfile(prev => ({ ...prev, prText }))}
+            isDarkMode={isDarkMode}
           />
 
           {/* センシティブフィルター（18歳以上のみ表示） */}
           {profile.age && parseInt(profile.age) >= 18 && (
             <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" gutterBottom sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
                 センシティブコンテンツ設定
               </Typography>
               <FormGroup>
@@ -328,12 +355,26 @@ const ProfileSettings: React.FC = () => {
                     <Checkbox
                       checked={profile.enableSensitiveFilter}
                       onChange={(e) => setProfile(prev => ({ ...prev, enableSensitiveFilter: e.target.checked }))}
+                      sx={{
+                        color: isDarkMode ? '#ffffff' : 'inherit',
+                        '&.Mui-checked': {
+                          color: isDarkMode ? '#ffffff' : 'inherit',
+                        },
+                      }}
                     />
                   }
                   label="センシティブフィルター"
+                  sx={{
+                    '& .MuiFormControlLabel-label': {
+                      color: isDarkMode ? '#ffffff' : 'inherit',
+                    },
+                  }}
                 />
               </FormGroup>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              <Typography variant="body2" sx={{ 
+                mt: 1,
+                color: isDarkMode ? '#ffffff' : 'text.secondary'
+              }}>
                 センシティブな内容を含む投稿を表示します。18歳以上の方のみ利用できます。
               </Typography>
             </Box>

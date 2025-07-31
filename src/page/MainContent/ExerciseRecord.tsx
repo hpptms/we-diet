@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Grid, useTheme, useMediaQuery } from '@mui/material';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { darkModeState } from '../../recoil/darkModeAtom';
 import { exerciseRecordState, ExerciseRecordData, checkAndResetIfDateChanged, isExerciseDataEmpty } from '../../recoil/exerciseRecordAtom';
 import { useSetRecoilState } from 'recoil';
 import { weightRecordedDateAtom } from '../../recoil/weightRecordedDateAtom';
@@ -26,6 +27,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
+  const isDarkMode = useRecoilValue(darkModeState);
   const theme = useTheme();
   
   // レスポンシブデザイン用のブレークポイント
@@ -40,7 +42,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       const today = new Date().toISOString().slice(0, 10);
       
       const response = await axios.get(
-        `/api/exercise_record?user_id=${userId}&date=${today}`
+        `${import.meta.env.VITE_API_ENDPOINT}exercise_record?user_id=${userId}&date=${today}`
       );
       
       if (response.status === 200 && response.data && response.data.record) {
@@ -146,7 +148,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       try {
         console.log('既存データをチェック中...');
         const checkRes = await axios.get(
-          `/api/exercise_record?user_id=${userId}&date=${today}`
+          `${import.meta.env.VITE_API_ENDPOINT}exercise_record?user_id=${userId}&date=${today}`
         );
         console.log('既存データチェック結果:', checkRes.data);
         if (checkRes.status === 200 && checkRes.data && checkRes.data.record) {
@@ -193,7 +195,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
 
       console.log('運動記録をサーバーに送信中...');
       const res = await axios.post(
-        '/api/exercise_record',
+        `${import.meta.env.VITE_API_ENDPOINT}exercise_record`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -251,9 +253,10 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 0, sm: 1 } : 2,
     maxWidth: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 900,
     width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
-    mx: 0,
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
+    background: isDarkMode ? '#000000' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     minHeight: '100vh',
+    color: isDarkMode ? '#ffffff' : 'inherit',
     paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 1 : 4,
     display: 'flex',
     flexDirection: 'column' as const,
@@ -264,12 +267,13 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   return (
     <Box sx={containerStyles}>
       {/* ヘッダー */}
-      <ExerciseHeader />
+      <ExerciseHeader isDarkMode={isDarkMode} />
 
       {/* dieterに投稿設定 */}
       <PublicToggle
         isPublic={exerciseData.isPublic}
         onChange={(isPublic) => setExerciseData({ ...exerciseData, isPublic })}
+        isDarkMode={isDarkMode}
       />
 
       {/* 有酸素運動 */}
@@ -282,6 +286,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         onWalkingTimeChange={handleInputChange('walkingTime')}
         onRunningDistanceChange={handleInputChange('runningDistance')}
         onRunningTimeChange={handleInputChange('runningTime')}
+        isDarkMode={isDarkMode}
       />
 
       {/* 筋力トレーニング */}
@@ -290,8 +295,9 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         sitUps={exerciseData.sitUps}
         squats={exerciseData.squats}
         onPushUpsChange={handleInputChange('pushUps')}
-        onSitUpsChange={handleInputChange('sitUps')}
+        onSitUpsChange={handleInputChange('sitUps')}  
         onSquatsChange={handleInputChange('squats')}
+        isDarkMode={isDarkMode}
       />
 
       {/* その他運動 & 体重 */}
@@ -304,6 +310,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
           <OtherExerciseCard
             otherExerciseTime={exerciseData.otherExerciseTime}
             onOtherExerciseTimeChange={handleInputChange('otherExerciseTime')}
+            isDarkMode={isDarkMode}
           />
         </Grid>
 
@@ -312,6 +319,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
             todayWeight={exerciseData.todayWeight}
             hasWeightInput={exerciseData.hasWeightInput}
             onTodayWeightChange={handleInputChange('todayWeight')}
+            isDarkMode={isDarkMode}
           />
         </Grid>
       </Grid>
@@ -320,6 +328,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       <ExerciseNoteCard
         exerciseNote={exerciseData.exerciseNote}
         onExerciseNoteChange={handleInputChange('exerciseNote')}
+        isDarkMode={isDarkMode}
       />
 
       {/* 今日の一枚 */}
@@ -328,6 +337,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         fileInputRef={fileInputRef}
         onImageUpload={handleImageUpload}
         onImageDelete={handleImageDelete}
+        isDarkMode={isDarkMode}
       />
 
       {/* ボタン */}
@@ -335,6 +345,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         onSave={handleSave}
         onBack={onBack}
         loading={loading}
+        isDarkMode={isDarkMode}
       />
     </Box>
   );

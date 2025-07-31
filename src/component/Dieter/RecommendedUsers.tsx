@@ -19,13 +19,13 @@ interface RecommendedUsersProps {
 const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) => {
   return (
     <Box sx={{ 
-      p: 3
+      p: 2
     }}>
       <Typography variant="h6" sx={{ 
         fontWeight: 700, 
-        mb: 3,
+        mb: 2,
         color: '#0277bd',
-        fontSize: '1.3rem',
+        fontSize: '1.1rem',
         background: 'linear-gradient(45deg, #29b6f6 30%, #42a5f5 90%)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent'
@@ -34,8 +34,8 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
       </Typography>
       {users.map((user, index) => (
         <Box key={index} sx={{
-          mb: 3,
-          p: 2,
+          mb: 2,
+          p: 1.5,
           borderRadius: 3,
           backgroundColor: 'white',
           border: '1px solid #e1f5fe',
@@ -47,13 +47,13 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
             borderColor: '#29b6f6'
           }
         }}>
-          <Box display="flex" flexDirection="column" gap={2}>
-            <Box display="flex" alignItems="center" gap={2}>
+          <Box display="flex" flexDirection="column" gap={1.5}>
+            <Box display="flex" alignItems="center" gap={1.5}>
               <Avatar sx={{ 
                 bgcolor: 'linear-gradient(45deg, #42a5f5 30%, #29b6f6 90%)',
-                width: 48,
-                height: 48,
-                fontSize: '1.2rem',
+                width: 36,
+                height: 36,
+                fontSize: '1rem',
                 fontWeight: 'bold',
                 boxShadow: '0 3px 10px rgba(66, 165, 245, 0.3)'
               }}>{user.avatar}</Avatar>
@@ -61,7 +61,7 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
                 <Typography variant="subtitle1" sx={{ 
                   fontWeight: 600,
                   color: '#0277bd',
-                  fontSize: '1.1rem'
+                  fontSize: '0.95rem'
                 }}>
                   {user.name}
                 </Typography>
@@ -69,13 +69,13 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
             </Box>
             <Button
               variant={user.isFollowing ? 'outlined' : 'contained'}
-              size="medium"
-              startIcon={<PersonAdd />}
+              size="small"
+              startIcon={<PersonAdd sx={{ fontSize: '1rem' }} />}
               fullWidth
               sx={{ 
                 borderRadius: 4,
-                py: 1.5,
-                fontSize: '0.9rem',
+                py: 1,
+                fontSize: '0.8rem',
                 fontWeight: 600,
                 ...(user.isFollowing ? {
                   borderColor: '#29b6f6',

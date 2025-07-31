@@ -11,8 +11,12 @@ import DashboardLayout from './component/DashboardLayout';
 
 // 認証判定用のラップコンポーネント
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-  // 仮の認証判定: localStorageにaccountNameがあればログイン済みとみなす
-  const isAuthenticated = !!localStorage.getItem("accountName");
+  // URLパラメータを確認（Googleログインのコールバック処理中の場合は認証をスキップ）
+  const urlParams = new URLSearchParams(window.location.search);
+  const hasGoogleLoginParams = urlParams.get('token') && urlParams.get('user_id') && urlParams.get('account_name');
+  
+  // 仮の認証判定: localStorageにaccountNameがあるか、Googleログインのパラメータがあればログイン済みとみなす
+  const isAuthenticated = !!localStorage.getItem("accountName") || hasGoogleLoginParams;
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
@@ -22,6 +26,14 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/Dashboard" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <DashboardPage />
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
+        {/* 小文字のダッシュボードルートも追加（Googleログイン対応） */}
+        <Route path="/dashboard" element={
           <PrivateRoute>
             <DashboardLayout>
               <DashboardPage />

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useRecoilValue } from 'recoil';
+import { darkModeState } from '../recoil/darkModeAtom';
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
@@ -9,6 +11,7 @@ interface DashboardPageButtonsProps {
 
 const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChange, hasWeightInput }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const isDarkMode = useRecoilValue(darkModeState);
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,11 +40,11 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
       width: "100%",
       maxWidth: shouldUseFullWidth ? "100%" : "400px",
       margin: shouldUseFullWidth ? "20px 0" : "40px auto 30px auto",
-      backgroundColor: "white",
+      backgroundColor: isDarkMode ? "#000000" : "white",
       padding: shouldUseFullWidth ? "15px" : "30px",
       borderRadius: shouldUseFullWidth ? "0" : "12px",
       boxShadow: shouldUseFullWidth ? "none" : "0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1)",
-      border: shouldUseFullWidth ? "none" : "1px solid rgba(0, 0, 0, 0.05)",
+      border: shouldUseFullWidth ? "none" : isDarkMode ? "2px solid #ffffff" : "1px solid rgba(0, 0, 0, 0.05)",
       boxSizing: "border-box",
       minHeight: shouldUseFullWidth ? "100vh" : "auto",
     }}>
@@ -50,9 +53,9 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           padding: "20px 25px",
           fontSize: "18px",
           fontWeight: "bold",
-          background: "linear-gradient(135deg, #4CAF50, #45a049, #2E7D32)",
+          background: isDarkMode ? "#000000" : "linear-gradient(135deg, #4CAF50, #45a049, #2E7D32)",
           color: "white",
-          border: "none",
+          border: isDarkMode ? "2px solid #ffffff" : "none",
           borderRadius: "15px",
           cursor: "pointer",
           transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -63,14 +66,32 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           transform: "translateY(0)",
         }}
         onMouseOver={(e) => {
-          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
-          e.currentTarget.style.boxShadow = "0 12px 30px rgba(76, 175, 80, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #66BB6A, #4CAF50, #43A047)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+            e.currentTarget.style.boxShadow = "0 12px 30px rgba(76, 175, 80, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #66BB6A, #4CAF50, #43A047)";
+          }
         }}
         onMouseOut={(e) => {
-          e.currentTarget.style.transform = "translateY(0) scale(1)";
-          e.currentTarget.style.boxShadow = "0 6px 20px rgba(76, 175, 80, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #4CAF50, #45a049, #2E7D32)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(0) scale(1)";
+            e.currentTarget.style.boxShadow = "0 6px 20px rgba(76, 175, 80, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #4CAF50, #45a049, #2E7D32)";
+          }
+        }}
+        onFocus={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
+        }}
+        onBlur={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
         }}
         onClick={() => {
           console.log("プロフィール変更がクリックされました");
@@ -85,9 +106,9 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           padding: "20px 25px",
           fontSize: "18px",
           fontWeight: "bold",
-          background: "linear-gradient(135deg, #2196F3, #1976D2, #0D47A1)",
+          background: isDarkMode ? "#000000" : "linear-gradient(135deg, #2196F3, #1976D2, #0D47A1)",
           color: "white",
-          border: "none",
+          border: isDarkMode ? "2px solid #ffffff" : "none",
           borderRadius: "15px",
           cursor: "pointer",
           transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -98,14 +119,32 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           transform: "translateY(0)",
         }}
         onMouseOver={(e) => {
-          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
-          e.currentTarget.style.boxShadow = "0 12px 30px rgba(33, 150, 243, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #42A5F5, #2196F3, #1976D2)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+            e.currentTarget.style.boxShadow = "0 12px 30px rgba(33, 150, 243, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #42A5F5, #2196F3, #1976D2)";
+          }
         }}
         onMouseOut={(e) => {
-          e.currentTarget.style.transform = "translateY(0) scale(1)";
-          e.currentTarget.style.boxShadow = "0 6px 20px rgba(33, 150, 243, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #2196F3, #1976D2, #0D47A1)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(0) scale(1)";
+            e.currentTarget.style.boxShadow = "0 6px 20px rgba(33, 150, 243, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #2196F3, #1976D2, #0D47A1)";
+          }
+        }}
+        onFocus={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
+        }}
+        onBlur={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
         }}
         onClick={() => {
           console.log("運動を記録がクリックされました");
@@ -127,9 +166,9 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           padding: "20px 25px",
           fontSize: "18px",
           fontWeight: "bold",
-          background: "linear-gradient(135deg, #FF9800, #F57C00, #E65100)",
+          background: isDarkMode ? "#000000" : "linear-gradient(135deg, #FF9800, #F57C00, #E65100)",
           color: "white",
-          border: "none",
+          border: isDarkMode ? "2px solid #ffffff" : "none",
           borderRadius: "15px",
           cursor: "pointer",
           transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -140,14 +179,32 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           transform: "translateY(0)",
         }}
         onMouseOver={(e) => {
-          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
-          e.currentTarget.style.boxShadow = "0 12px 30px rgba(255, 152, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #FFB74D, #FF9800, #F57C00)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+            e.currentTarget.style.boxShadow = "0 12px 30px rgba(255, 152, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #FFB74D, #FF9800, #F57C00)";
+          }
         }}
         onMouseOut={(e) => {
-          e.currentTarget.style.transform = "translateY(0) scale(1)";
-          e.currentTarget.style.boxShadow = "0 6px 20px rgba(255, 152, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #FF9800, #F57C00, #E65100)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(0) scale(1)";
+            e.currentTarget.style.boxShadow = "0 6px 20px rgba(255, 152, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #FF9800, #F57C00, #E65100)";
+          }
+        }}
+        onFocus={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
+        }}
+        onBlur={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
         }}
         onClick={() => {
           console.log("体重を管理がクリックされました");
@@ -162,9 +219,9 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           padding: "20px 25px",
           fontSize: "18px",
           fontWeight: "bold",
-          background: "linear-gradient(135deg, #9C27B0, #7B1FA2, #4A148C)",
+          background: isDarkMode ? "#000000" : "linear-gradient(135deg, #9C27B0, #7B1FA2, #4A148C)",
           color: "white",
-          border: "none",
+          border: isDarkMode ? "2px solid #ffffff" : "none",
           borderRadius: "15px",
           cursor: "pointer",
           transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -175,14 +232,32 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           transform: "translateY(0)",
         }}
         onMouseOver={(e) => {
-          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
-          e.currentTarget.style.boxShadow = "0 12px 30px rgba(156, 39, 176, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #BA68C8, #9C27B0, #7B1FA2)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+            e.currentTarget.style.boxShadow = "0 12px 30px rgba(156, 39, 176, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #BA68C8, #9C27B0, #7B1FA2)";
+          }
         }}
         onMouseOut={(e) => {
-          e.currentTarget.style.transform = "translateY(0) scale(1)";
-          e.currentTarget.style.boxShadow = "0 6px 20px rgba(156, 39, 176, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #9C27B0, #7B1FA2, #4A148C)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(0) scale(1)";
+            e.currentTarget.style.boxShadow = "0 6px 20px rgba(156, 39, 176, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #9C27B0, #7B1FA2, #4A148C)";
+          }
+        }}
+        onFocus={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
+        }}
+        onBlur={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
         }}
         onClick={() => {
           console.log("食事を記録がクリックされました");
@@ -197,9 +272,9 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           padding: "20px 25px",
           fontSize: "18px",
           fontWeight: "bold",
-          background: "linear-gradient(135deg, #607D8B, #455A64, #263238)",
+          background: isDarkMode ? "#000000" : "linear-gradient(135deg, #607D8B, #455A64, #263238)",
           color: "white",
-          border: "none",
+          border: isDarkMode ? "2px solid #ffffff" : "none",
           borderRadius: "15px",
           cursor: "pointer",
           transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -210,14 +285,32 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           transform: "translateY(0)",
         }}
         onMouseOver={(e) => {
-          e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
-          e.currentTarget.style.boxShadow = "0 12px 30px rgba(96, 125, 139, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #78909C, #607D8B, #455A64)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+            e.currentTarget.style.boxShadow = "0 12px 30px rgba(96, 125, 139, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #78909C, #607D8B, #455A64)";
+          }
         }}
         onMouseOut={(e) => {
-          e.currentTarget.style.transform = "translateY(0) scale(1)";
-          e.currentTarget.style.boxShadow = "0 6px 20px rgba(96, 125, 139, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
-          e.currentTarget.style.background = "linear-gradient(135deg, #607D8B, #455A64, #263238)";
+          if (!isDarkMode) {
+            e.currentTarget.style.transform = "translateY(0) scale(1)";
+            e.currentTarget.style.boxShadow = "0 6px 20px rgba(96, 125, 139, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+            e.currentTarget.style.background = "linear-gradient(135deg, #607D8B, #455A64, #263238)";
+          }
+        }}
+        onFocus={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
+        }}
+        onBlur={(e) => {
+          if (isDarkMode) {
+            e.currentTarget.style.background = "#000000";
+            e.currentTarget.style.border = "2px solid #ffffff";
+            e.currentTarget.style.color = "white";
+          }
         }}
         onClick={() => {
           console.log("dieterがクリックされました");

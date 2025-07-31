@@ -20,7 +20,7 @@ const MailRegisterButton: React.FC<Props> = ({ onClick }) => (
       fontSize: 16,
       cursor: "pointer",
       marginTop: 0,
-      marginBottom: 12,
+      marginBottom: 0,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",

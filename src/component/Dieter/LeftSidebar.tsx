@@ -10,6 +10,8 @@ import {
   CardContent,
   Typography,
   Avatar,
+  Switch,
+  FormControlLabel,
 } from '@mui/material';
 import {
   Home,
@@ -20,9 +22,12 @@ import {
   ArrowBack,
   People,
   AccountCircle,
+  DarkMode,
+  LightMode,
 } from '@mui/icons-material';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { profileSettingsState, serverProfileState } from '../../recoil/profileSettingsAtom';
+import { darkModeState } from '../../recoil/darkModeAtom';
 import { DEFAULT_IMAGES } from '../../image/DefaultImage';
 
 interface LeftSidebarProps {
@@ -41,6 +46,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   // Recoilからプロフィール情報を取得
   const profileSettings = useRecoilValue(profileSettingsState);
   const serverProfile = useRecoilValue(serverProfileState);
+  const [isDarkMode, setIsDarkMode] = useRecoilState(darkModeState);
 
   // アイコンのソースを取得する関数（Headerコンポーネントと同じロジック）
   const getIconSrc = () => {
@@ -161,7 +167,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             <ListItemText
               primary={item.label}
               sx={{ 
-                color: item.active ? '#0288d1' : '#424242',
+                color: item.active ? '#0288d1' : (isDarkMode ? '#ffffff' : '#424242'),
                 '& .MuiTypography-root': {
                   fontWeight: item.active ? 600 : 400,
                   fontSize: '1rem'
@@ -202,7 +208,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             <ListItemText
               primary={item.label}
               sx={{ 
-                color: item.active ? '#4CAF50' : '#424242',
+                color: item.active ? '#4CAF50' : (isDarkMode ? '#ffffff' : '#424242'),
                 '& .MuiTypography-root': {
                   fontWeight: item.active ? 600 : 400,
                   fontSize: '1rem'

@@ -23,6 +23,7 @@ interface AerobicExerciseCardProps {
   onWalkingTimeChange: (value: string) => void;
   onRunningDistanceChange: (value: string) => void;
   onRunningTimeChange: (value: string) => void;
+  isDarkMode?: boolean;
 }
 
 const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
@@ -34,23 +35,25 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
   onWalkingTimeChange,
   onRunningDistanceChange,
   onRunningTimeChange,
+  isDarkMode = false,
 }) => {
   return (
-    <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden' }}>
+    <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden', border: isDarkMode ? '1px solid white' : 'none' }}>
       <Box sx={{ 
-        background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+        background: isDarkMode ? '#000000' : 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
         p: 2,
+        border: isDarkMode ? '1px solid white' : 'none',
       }}>
         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
           🏃‍♂️ 有酸素運動
         </Typography>
       </Box>
-      <CardContent sx={{ background: '#f8f9ff' }}>
+      <CardContent sx={{ background: isDarkMode ? '#000000' : '#f8f9ff' }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
               <DirectionsWalkIcon sx={{ color: '#4CAF50' }} />
-              <Typography variant="h6" sx={{ color: '#4CAF50', fontWeight: 'bold' }}>
+              <Typography variant="h6" sx={{ color: isDarkMode ? 'white' : '#4CAF50', fontWeight: 'bold' }}>
                 徒歩
               </Typography>
               {walkingDistance && (
@@ -69,12 +72,33 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                   }}
                   fullWidth
                   variant="outlined"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                      '& fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: isDarkMode ? 'white' : '#2196F3',
+                      },
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: isDarkMode ? 'white' : '#2196F3',
+                    },
+                  }}
                 />
                 <DistanceButtons
                   onAdd={(amount) => {
                     const walk = parseFloat(walkingDistance || '0');
                     onWalkingDistanceChange((isNaN(walk) ? amount : walk + amount).toFixed(1));
                   }}
+                  isDarkMode={isDarkMode}
                 />
               </Box>
               <Box sx={{ flex: 1 }}>
@@ -88,13 +112,34 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                   }}
                   fullWidth
                   variant="outlined"
-                  sx={{ flex: 1 }}
+                  sx={{
+                    flex: 1,
+                    '& .MuiOutlinedInput-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                      '& fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: isDarkMode ? 'white' : '#2196F3',
+                      },
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: isDarkMode ? 'white' : '#2196F3',
+                    },
+                  }}
                 />
                 <TimeButtons
                   onAdd={(amount) => {
                     const walk = parseInt(walkingTime || '0', 10);
                     onWalkingTimeChange((isNaN(walk) ? amount : walk + amount).toString());
                   }}
+                  isDarkMode={isDarkMode}
                 />
               </Box>
             </Box>
@@ -105,7 +150,7 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
           <Grid item xs={12}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
               <DirectionsRunIcon sx={{ color: '#FF5722' }} />
-              <Typography variant="h6" sx={{ color: '#FF5722', fontWeight: 'bold' }}>
+              <Typography variant="h6" sx={{ color: isDarkMode ? 'white' : '#FF5722', fontWeight: 'bold' }}>
                 ランニング
               </Typography>
               {runningDistance && (
@@ -124,12 +169,33 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                   }}
                   fullWidth
                   variant="outlined"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                      '& fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: isDarkMode ? 'white' : '#2196F3',
+                      },
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: isDarkMode ? 'white' : '#2196F3',
+                    },
+                  }}
                 />
                 <DistanceButtons
                   onAdd={(amount) => {
                     const run = parseFloat(runningDistance || '0');
                     onRunningDistanceChange((isNaN(run) ? amount : run + amount).toFixed(1));
                   }}
+                  isDarkMode={isDarkMode}
                 />
               </Box>
               <Box sx={{ flex: 1 }}>
@@ -143,13 +209,34 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                   }}
                   fullWidth
                   variant="outlined"
-                  sx={{ flex: 1 }}
+                  sx={{
+                    flex: 1,
+                    '& .MuiOutlinedInput-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                      '& fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: isDarkMode ? 'white' : '#2196F3',
+                      },
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: isDarkMode ? 'white' : '#2196F3',
+                    },
+                  }}
                 />
                 <TimeButtons
                   onAdd={(amount) => {
                     const run = parseInt(runningTime || '0', 10);
                     onRunningTimeChange((isNaN(run) ? amount : run + amount).toString());
                   }}
+                  isDarkMode={isDarkMode}
                 />
               </Box>
             </Box>

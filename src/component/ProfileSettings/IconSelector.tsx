@@ -19,6 +19,7 @@ interface IconSelectorProps {
   onPresetSelect: (id: number) => void;
   onIconUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onShowPresetToggle: () => void;
+  isDarkMode?: boolean;
 }
 
 const IconSelector: React.FC<IconSelectorProps> = ({
@@ -30,10 +31,11 @@ const IconSelector: React.FC<IconSelectorProps> = ({
   onPresetSelect,
   onIconUpload,
   onShowPresetToggle,
+  isDarkMode = false,
 }) => {
   return (
     <Box sx={{ mb: 3 }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" gutterBottom sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
         アイコン設定
       </Typography>
       
@@ -83,7 +85,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
       {/* プリセットアイコン選択 */}
       {iconType === 'preset' && showPreset && (
         <Box sx={{ mt: 2 }}>
-          <Typography variant="subtitle2" gutterBottom>
+          <Typography variant="subtitle2" gutterBottom sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
             プリセットアイコンを選択:
           </Typography>
           <Grid container spacing={1}>

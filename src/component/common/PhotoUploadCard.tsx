@@ -24,6 +24,7 @@ interface PhotoUploadCardProps {
   gradient?: string;
   backgroundColor?: string;
   borderColor?: string;
+  isDarkMode?: boolean;
 }
 
 const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
@@ -37,18 +38,20 @@ const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
   gradient = "linear-gradient(45deg, #4CAF50 30%, #8BC34A 90%)",
   backgroundColor = "#f0fff4",
   borderColor = "#4CAF50",
+  isDarkMode = false,
 }) => {
   return (
-    <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden' }}>
+    <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden', border: isDarkMode ? '1px solid white' : 'none' }}>
       <Box sx={{ 
-        background: gradient,
+        background: isDarkMode ? '#000000' : gradient,
         p: 2,
+        border: isDarkMode ? '1px solid white' : 'none',
       }}>
         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
           {emoji} {title}
         </Typography>
       </Box>
-      <CardContent sx={{ background: backgroundColor }}>
+      <CardContent sx={{ background: isDarkMode ? '#000000' : backgroundColor }}>
         <Box sx={{ mb: 2 }}>
           <input
             ref={fileInputRef}
@@ -64,11 +67,11 @@ const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
             onClick={() => fileInputRef.current?.click()}
             disabled={todayImages.length >= maxPhotos}
             sx={{
-              borderColor: borderColor,
-              color: borderColor,
+              borderColor: isDarkMode ? 'white' : borderColor,
+              color: isDarkMode ? 'white' : borderColor,
               '&:hover': {
-                borderColor: '#388E3C',
-                backgroundColor: 'rgba(76, 175, 80, 0.04)',
+                borderColor: isDarkMode ? 'white' : '#388E3C',
+                backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.04)' : 'rgba(76, 175, 80, 0.04)',
               },
             }}
           >

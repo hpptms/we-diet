@@ -14,10 +14,10 @@ export default defineConfig({
         },
         hmr: {
             port: 3000,
-            host: '192.168.1.22'
+            host: 'localhost'
         },
         proxy: {
-            '/api': 'http://192.168.1.22:8080'
+            '/api': 'http://localhost:8080'
         }
     },
     build: {

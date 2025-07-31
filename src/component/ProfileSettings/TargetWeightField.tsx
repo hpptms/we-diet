@@ -6,6 +6,7 @@ interface TargetWeightFieldProps {
   isTargetWeightPrivate: boolean;
   onTargetWeightChange: (targetWeight: string) => void;
   onPrivacyChange: (isPrivate: boolean) => void;
+  isDarkMode?: boolean;
 }
 
 const TargetWeightField: React.FC<TargetWeightFieldProps> = ({
@@ -13,6 +14,7 @@ const TargetWeightField: React.FC<TargetWeightFieldProps> = ({
   isTargetWeightPrivate,
   onTargetWeightChange,
   onPrivacyChange,
+  isDarkMode = false,
 }) => {
   return (
     <Box sx={{ mb: 3 }}>
@@ -22,9 +24,29 @@ const TargetWeightField: React.FC<TargetWeightFieldProps> = ({
           type="number"
           value={targetWeight}
           onChange={(e) => onTargetWeightChange(e.target.value)}
-          sx={{ flex: 1 }}
+          sx={{ 
+            flex: 1,
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: isDarkMode ? '#ffffff' : undefined,
+              },
+              '&:hover fieldset': {
+                borderColor: isDarkMode ? '#ffffff' : undefined,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: isDarkMode ? '#ffffff' : undefined,
+              },
+              color: isDarkMode ? '#ffffff' : undefined,
+            },
+            '& .MuiInputLabel-root': {
+              color: isDarkMode ? '#ffffff' : undefined,
+              '&.Mui-focused': {
+                color: isDarkMode ? '#ffffff' : undefined,
+              },
+            },
+          }}
           InputProps={{
-            endAdornment: <Typography variant="body2">kg</Typography>
+            endAdornment: <Typography variant="body2" sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>kg</Typography>
           }}
         />
         <FormControlLabel
@@ -32,9 +54,20 @@ const TargetWeightField: React.FC<TargetWeightFieldProps> = ({
             <Checkbox
               checked={isTargetWeightPrivate}
               onChange={(e) => onPrivacyChange(e.target.checked)}
+              sx={{
+                color: isDarkMode ? '#ffffff' : 'inherit',
+                '&.Mui-checked': {
+                  color: isDarkMode ? '#ffffff' : 'inherit',
+                },
+              }}
             />
           }
           label="非公開"
+          sx={{
+            '& .MuiFormControlLabel-label': {
+              color: isDarkMode ? '#ffffff' : 'inherit',
+            },
+          }}
         />
       </Box>
     </Box>

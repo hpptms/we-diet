@@ -6,12 +6,14 @@ interface ActionButtonsProps {
   onSave: () => void;
   onBack: () => void;
   loading?: boolean;
+  isDarkMode?: boolean;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   onSave,
   onBack,
   loading = false,
+  isDarkMode = false,
 }) => {
   return (
     <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mb: 4 }}>
@@ -25,10 +27,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           py: 2,
           px: 3,
           borderRadius: 3,
-          border: 'none',
+          border: isDarkMode ? '2px solid white' : 'none',
           background: loading 
-            ? 'linear-gradient(135deg, #ccc 0%, #999 100%)'
-            : 'linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%)',
+            ? (isDarkMode ? '#000000' : 'linear-gradient(135deg, #ccc 0%, #999 100%)')
+            : (isDarkMode ? '#000000' : 'linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%)'),
           color: 'white',
           fontWeight: 'bold',
           fontSize: '1rem',
@@ -40,15 +42,15 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           gap: 1,
           boxShadow: loading 
             ? 'none'
-            : '0 4px 15px rgba(76, 175, 80, 0.3)',
+            : (isDarkMode ? 'none' : '0 4px 15px rgba(76, 175, 80, 0.3)'),
           '&:hover': {
             background: loading 
-              ? 'linear-gradient(135deg, #ccc 0%, #999 100%)'
-              : 'linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%)',
+              ? (isDarkMode ? '#000000' : 'linear-gradient(135deg, #ccc 0%, #999 100%)')
+              : (isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%)'),
             transform: loading ? 'none' : 'translateY(-2px)',
             boxShadow: loading 
               ? 'none'
-              : '0 6px 20px rgba(76, 175, 80, 0.4)',
+              : (isDarkMode ? 'none' : '0 6px 20px rgba(76, 175, 80, 0.4)'),
           },
           '&:active': {
             transform: loading ? 'none' : 'translateY(0)',
@@ -76,9 +78,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           py: 2,
           px: 3,
           borderRadius: 3,
-          border: '2px solid #6c757d',
-          backgroundColor: 'white',
-          color: '#6c757d',
+          border: isDarkMode ? '2px solid white' : '2px solid #6c757d',
+          backgroundColor: isDarkMode ? '#000000' : 'white',
+          color: isDarkMode ? 'white' : '#6c757d',
           fontWeight: 'bold',
           fontSize: '1rem',
           cursor: 'pointer',
@@ -88,10 +90,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           justifyContent: 'center',
           gap: 1,
           '&:hover': {
-            backgroundColor: '#6c757d',
-            color: 'white',
+            backgroundColor: isDarkMode ? 'white' : '#6c757d',
+            color: isDarkMode ? '#000000' : 'white',
             transform: 'translateY(-2px)',
-            boxShadow: '0 6px 20px rgba(108, 117, 125, 0.3)',
+            boxShadow: isDarkMode ? '0 6px 20px rgba(255, 255, 255, 0.3)' : '0 6px 20px rgba(108, 117, 125, 0.3)',
           },
           '&:active': {
             transform: 'translateY(0)',

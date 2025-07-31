@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material";
 import { MdLogin } from "react-icons/md";
 import axios from "axios";
 import { encodeMailRegisterRequest, decodeMailRegisterResponse } from "../proto/mail_register_pb";
 import MailRegisterModal from "../component/MailRegisterModal";
 import MailRegisterButton from "../component/MailRegisterButton";
-import GoogleLoginButton from "../component/GoogleLoginButton";
+import GoogleLoginButton from "../component/authLogin/GoogleLoginButton";
 import FacebookLoginButton from "../component/FacebookLoginButton";
 import TiktokLoginButton from "../component/TiktokLoginButton";
 import { useSetRecoilState } from "recoil";
@@ -26,6 +26,13 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const setServerProfile = useSetRecoilState(serverProfileState);
   const setProfileSettings = useSetRecoilState(profileSettingsState);
+  
+  // レスポンシブデザイン用のブレークポイント
+  const theme = useTheme();
+  const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下
+  const isPortraitMode = useMediaQuery('(orientation: portrait)');
+  const isSmallScreen = useMediaQuery('(max-width: 900px)');
+  const shouldUseFullWidth = isTabletOrMobile || isPortraitMode || isSmallScreen;
 
   // メール登録送信ハンドラ（後でAPI連携）
   const handleSendRegisterEmail = async () => {
@@ -72,10 +79,50 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  // すでにログイン済みならダッシュボードへリダイレクト
+  // URLパラメータからエラーを検出し、適切なエラーメッセージを表示
   useEffect(() => {
     if (localStorage.getItem("accountName")) {
       navigate("/dashboard", { replace: true });
+      return;
+    }
+
+    // URLパラメータからエラーを取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorParam = urlParams.get('error');
+    
+    if (errorParam) {
+      let errorMessage = '';
+      switch (errorParam) {
+        case 'user_creation':
+          errorMessage = 'ユーザー作成に失敗しました。しばらく時間をおいて再度お試しください。';
+          break;
+        case 'invalid_state':
+          errorMessage = 'セキュリティエラーが発生しました。再度ログインをお試しください。';
+          break;
+        case 'token_exchange':
+          errorMessage = '認証トークンの取得に失敗しました。再度ログインをお試しください。';
+          break;
+        case 'service_creation':
+          errorMessage = 'サービス接続エラーが発生しました。再度ログインをお試しください。';
+          break;
+        case 'userinfo':
+          errorMessage = 'ユーザー情報の取得に失敗しました。再度ログインをお試しください。';
+          break;
+        case 'db_error':
+          errorMessage = 'データベースエラーが発生しました。管理者にお問い合わせください。';
+          break;
+        case 'jwt_generation':
+          errorMessage = '認証処理に失敗しました。再度ログインをお試しください。';
+          break;
+        default:
+          errorMessage = 'ログイン処理中にエラーが発生しました。再度お試しください。';
+      }
+      setError(errorMessage);
+      
+      // エラーパラメータをURLから削除（ページリロード時の再表示を防ぐ）
+      const url = new URL(window.location.href);
+      url.searchParams.delete('error');
+      window.history.replaceState({}, '', url.toString());
     }
   }, [navigate]);
 
@@ -83,11 +130,11 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setError("");
     console.log("ログイン開始:", { email, password: "***" });
-    console.log("API Endpoint:", "/api/login");
+    console.log("API Endpoint:", `${import.meta.env.VITE_API_ENDPOINT}login`);
     
     try {
       const response = await axios.post(
-        "/api/login",
+        `${import.meta.env.VITE_API_ENDPOINT}login`,
         {
           email: email,
           password,
@@ -118,7 +165,7 @@ const LoginPage: React.FC = () => {
   const fetchUserProfileAfterLogin = async (userId: number) => {
     try {
       console.log("ログイン後プロフィール取得中...", { userId });
-      const response = await axios.get(`/api/proto/user_profile/${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile/${userId}`);
       
       if (response.data && response.data.profile) {
         const profile = response.data.profile;
@@ -156,18 +203,69 @@ const LoginPage: React.FC = () => {
     }
   };
 
+  // レスポンシブスタイル設定
+  const containerStyles = {
+    minHeight: "100vh", 
+    display: "flex", 
+    flexDirection: "column", 
+    background: '#f5f5f7',
+    boxSizing: "border-box",
+    overflowX: "hidden",
+  };
+
+  const mainBoxStyles = {
+    flex: 1, 
+    display: "flex", 
+    flexDirection: "column", 
+    justifyContent: shouldUseFullWidth ? "flex-start" : "center",
+    p: shouldUseFullWidth ? 0 : 2,
+  };
+
+  const loginCardStyles = {
+    maxWidth: shouldUseFullWidth ? "100%" : 600,
+    width: shouldUseFullWidth ? "100%" : "auto",
+    background: '#FFF',
+    m: shouldUseFullWidth ? 0 : "40px auto",
+    p: shouldUseFullWidth ? { xs: 2, sm: 3 } : 3,
+    border: shouldUseFullWidth ? "none" : "1px solid #ccc",
+    borderRadius: shouldUseFullWidth ? 0 : 2,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    minHeight: shouldUseFullWidth ? "100vh" : "auto",
+    justifyContent: shouldUseFullWidth ? "center" : "flex-start",
+    boxSizing: "border-box",
+  };
+
   return (
-    <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: '#f5f5f7' }}>
-      <Header />
-      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <Box sx={{ maxWidth: 600, background: '#FFF', m: "40px auto", p: 3, border: "1px solid #ccc", borderRadius: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
+    <Box sx={containerStyles}>
+      {!shouldUseFullWidth && <Header />}
+      <Box sx={mainBoxStyles}>
+        <Box sx={loginCardStyles}>
+          <Typography 
+            variant="h4" 
+            component="h2" 
+            sx={{ 
+              mb: shouldUseFullWidth ? 3 : 2,
+              fontSize: shouldUseFullWidth ? { xs: '1.75rem', sm: '2rem' } : '2rem',
+              textAlign: 'center',
+            }}
+          >
             ログイン
           </Typography>
-          <form onSubmit={handleSubmit} style={{ width: "100%", maxWidth: 400, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <form 
+            onSubmit={handleSubmit} 
+            style={{ 
+              width: "100%", 
+              maxWidth: shouldUseFullWidth ? "100%" : 400, 
+              display: "flex", 
+              flexDirection: "column", 
+              alignItems: "center" 
+            }}
+          >
             <Box sx={{ width: "100%", mb: 2 }}>
               <label style={{ width: "100%", display: "block" }}>
-                メールアドレス or ユーザーネーム
+                メールアドレス
                 <input
                   type="email"
                   value={email}
@@ -206,10 +304,24 @@ const LoginPage: React.FC = () => {
             </Button>
           </form>
           {/* メールで登録ボタン */}
-          <Box sx={{ mt: 1.5, textAlign: "center", width: "100%", maxWidth: 400 }}>
+          <Box sx={{ 
+            mt: 1, 
+            textAlign: "center", 
+            width: "100%", 
+            maxWidth: shouldUseFullWidth ? "100%" : 400 
+          }}>
             <MailRegisterButton onClick={() => setShowEmailModal(true)} />
           </Box>
-          <Box sx={{ mt: 3, textAlign: "center", width: "100%", maxWidth: 400 }}>
+          {/* ソーシャルログインボタン */}
+          <Box sx={{ 
+            mt: 1, 
+            textAlign: "center", 
+            width: "100%", 
+            maxWidth: shouldUseFullWidth ? "100%" : 400,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+          }}>
             <GoogleLoginButton />
             <FacebookLoginButton />
             <TiktokLoginButton />
@@ -226,7 +338,7 @@ const LoginPage: React.FC = () => {
           />
         </Box>
       </Box>
-      <Footer />
+      {!shouldUseFullWidth && <Footer />}
     </Box>
   );
 };

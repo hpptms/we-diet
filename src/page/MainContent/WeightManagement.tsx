@@ -11,8 +11,9 @@ import {
     Legend,
 } from 'chart.js';
 import { Box } from '@mui/material';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { weightRecordCacheAtom, clearWeightCacheAtom } from '../../recoil/weightRecordCacheAtom';
+import { darkModeState } from '../../recoil/darkModeAtom';
 
 // Import protobuf types
 import {
@@ -119,6 +120,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     // Recoil state
     const [cache, setCache] = useRecoilState(weightRecordCacheAtom);
     const setClearCache = useSetRecoilState(clearWeightCacheAtom);
+    const isDarkMode = useRecoilValue(darkModeState);
     
     // State
     const [weightRecords, setWeightRecords] = useState<any[]>([]);
@@ -242,7 +244,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     isCurrentMonth
                 });
                 
-                const response = await axios.get('/api/weight_records', {
+                const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}weight_records`, {
                     params: {
                         user_id: userId,
                         start_date: startDate.toISOString().slice(0, 10),
@@ -271,7 +273,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 startDate = new Date(currentDate.getFullYear(), 0, 1);
                 endDate = new Date(currentDate.getFullYear(), 11, 31);
                 
-                const response = await axios.get('/api/weight_records', {
+                const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}weight_records`, {
                     params: {
                         user_id: userId,
                         start_date: startDate.toISOString().slice(0, 10),
@@ -322,7 +324,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             const token = localStorage.getItem("token");
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-            const response = await axios.get('/api/weight_record', {
+            const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}weight_record`, {
                 params: {
                     user_id: userId,
                     date: date
@@ -346,7 +348,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
             console.log('Sending overwrite request:', pendingRecord);
-            const response = await axios.put('/api/weight_record/overwrite', pendingRecord, { headers });
+            const response = await axios.put(`${import.meta.env.VITE_API_ENDPOINT}weight_record/overwrite`, pendingRecord, { headers });
             console.log('Overwrite response:', response.data);
             
             // Reset states
@@ -455,7 +457,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
             console.log('体重記録送信データ:', request);
 
-            const response = await axios.post('/api/weight_record', request, { headers });
+            const response = await axios.post(`${import.meta.env.VITE_API_ENDPOINT}weight_record`, request, { headers });
             
             console.log('体重記録レスポンス:', response.data);
             
@@ -563,7 +565,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
             console.log('過去の体重記録送信データ:', request);
 
-            const response = await axios.post('/api/weight_record', request, { headers });
+            const response = await axios.post(`${import.meta.env.VITE_API_ENDPOINT}weight_record`, request, { headers });
             
             console.log('過去の体重記録レスポンス:', response.data);
             
@@ -849,10 +851,18 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         plugins: {
             title: {
                 display: true,
-                text: `体重推移 (${formatCurrentPeriod()})`
+                text: `体重推移 (${formatCurrentPeriod()})`,
+                ...(isDarkMode && {
+                    color: '#ccc'
+                })
             },
             legend: {
                 display: true,
+                ...(isDarkMode && {
+                    labels: {
+                        color: '#ccc'
+                    }
+                })
             },
             tooltip: {
                         callbacks: {
@@ -877,7 +887,20 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 display: true,
                 title: {
                     display: true,
-                    text: '日付'
+                    text: '日付',
+                    ...(isDarkMode && {
+                        color: '#ccc'
+                    })
+                },
+                ticks: {
+                    ...(isDarkMode && {
+                        color: '#ccc'
+                    })
+                },
+                grid: {
+                    ...(isDarkMode && {
+                        color: '#444'
+                    })
                 }
             },
             y: {
@@ -886,7 +909,20 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 position: 'left' as const,
                 title: {
                     display: true,
-                    text: '体重 (kg)'
+                    text: '体重 (kg)',
+                    ...(isDarkMode && {
+                        color: '#ccc'
+                    })
+                },
+                ticks: {
+                    ...(isDarkMode && {
+                        color: '#ccc'
+                    })
+                },
+                grid: {
+                    ...(isDarkMode && {
+                        color: '#444'
+                    })
                 }
             },
             ...((viewPeriod === 'month' || (viewPeriod === 'year' && chartData?.datasets?.length > 1)) && {
@@ -896,15 +932,26 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     position: 'right' as const,
                     title: {
                         display: true,
-                        text: viewPeriod === 'month' ? '体脂肪率 (%)' : '月平均体脂肪率 (%)'
+                        text: viewPeriod === 'month' ? '体脂肪率 (%)' : '月平均体脂肪率 (%)',
+                        ...(isDarkMode && {
+                            color: '#ccc'
+                        })
+                    },
+                    ticks: {
+                        ...(isDarkMode && {
+                            color: '#ccc'
+                        })
                     },
                     grid: {
                         drawOnChartArea: false,
+                        ...(isDarkMode && {
+                            color: '#444'
+                        })
                     },
                 }
             }),
         },
-    }), [viewPeriod, currentDate, weightRecords]);
+    }), [viewPeriod, currentDate, weightRecords, isDarkMode]);
 
     return (
         <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>

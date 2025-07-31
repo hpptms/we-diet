@@ -11,7 +11,8 @@ import {
     useMediaQuery
 } from '@mui/material';
 import { Save, PhotoCamera } from '@mui/icons-material';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { darkModeState } from '../../recoil/darkModeAtom';
 import { foodLogState } from '../../recoil/foodLogAtom';
 import {
     CreateFoodLogRequest,
@@ -45,6 +46,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const [calendarOpen, setCalendarOpen] = useState(false);
     const [recordViewOpen, setRecordViewOpen] = useState(false);
     const [viewingRecord, setViewingRecord] = useState<FoodLogType | undefined>();
+    const isDarkMode = useRecoilValue(darkModeState);
     const theme = useTheme();
     
     // レスポンシブデザイン用のブレークポイント
@@ -76,7 +78,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             };
 
             const response = await axios.post<GetFoodLogResponse>(
-                '/api/proto/food_log/get',
+                `${import.meta.env.VITE_API_ENDPOINT}proto/food_log/get`,
                 request,
                 {
                     headers: {
@@ -130,7 +132,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             };
 
             const response = await axios.post<GetFoodLogsResponse>(
-                '/api/proto/food_log/list',
+                `${import.meta.env.VITE_API_ENDPOINT}proto/food_log/list`,
                 request,
                 {
                     headers: {
@@ -179,7 +181,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             console.log('送信するリクエストデータ:', request);
 
             const response = await axios.post<CreateFoodLogResponse>(
-                '/api/proto/food_log/create',
+                `${import.meta.env.VITE_API_ENDPOINT}proto/food_log/create`,
                 request,
                 {
                     headers: {
@@ -242,7 +244,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             };
 
             const response = await axios.post<GetFoodLogResponse>(
-                '/api/proto/food_log/get',
+                `${import.meta.env.VITE_API_ENDPOINT}proto/food_log/get`,
                 request,
                 {
                     headers: {
@@ -273,7 +275,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             };
 
             const response = await axios.post<GetFoodLogResponse>(
-                '/api/proto/food_log/get',
+                `${import.meta.env.VITE_API_ENDPOINT}proto/food_log/get`,
                 request,
                 {
                     headers: {
@@ -298,10 +300,11 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const containerStyles = {
         maxWidth: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 900,
         width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
-        mx: 0,
+        mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
         p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 0, sm: 1 } : 3,
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        background: isDarkMode ? '#000000' : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        color: isDarkMode ? '#ffffff' : 'inherit',
         position: 'relative' as const,
         display: 'flex',
         flexDirection: 'column' as const,
@@ -315,17 +318,20 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             <FoodLogHeader 
                 onBack={onBack} 
                 selectedDate={foodLog.selectedDate}
+                isDarkMode={isDarkMode}
             />
 
             {/* Progress Card */}
             <DailyProgressCard
                 recordedDates={foodLog.recordedDates}
+                isDarkMode={isDarkMode}
             />
 
             {/* Action Buttons */}
             <FoodActionButtons
                 onYesterdayRecord={handleYesterdayRecord}
                 onViewPastRecords={() => setCalendarOpen(true)}
+                isDarkMode={isDarkMode}
             />
 
             {/* Alert Messages */}
@@ -344,18 +350,21 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             <PublicToggle
                 isPublic={foodLog.isPublic}
                 onChange={(isPublic) => setFoodLog(prev => ({ ...prev, isPublic }))}
+                isDarkMode={isDarkMode}
             />
 
             {/* Unified Meal Card */}
             <UnifiedMealCard
                 content={foodLog.diary}
                 onChange={(content) => setFoodLog(prev => ({ ...prev, diary: content }))}
+                isDarkMode={isDarkMode}
             />
 
             {/* Photo Upload Section */}
             <PhotoUploadField
                 photos={foodLog.photos}
                 onChange={(photos) => setFoodLog(prev => ({ ...prev, photos }))}
+                isDarkMode={isDarkMode}
             />
 
             {/* Action Buttons */}
@@ -376,10 +385,10 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         py: 2,
                         px: 3,
                         borderRadius: 3,
-                        border: 'none',
+                        border: isDarkMode && !loading ? '2px solid #ffffff' : 'none',
                         background: loading 
                             ? 'linear-gradient(135deg, #ccc 0%, #999 100%)'
-                            : 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
+                            : isDarkMode ? '#000000' : 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
                         color: 'white',
                         fontWeight: 'bold',
                         fontSize: '1rem',
@@ -426,9 +435,9 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         py: 2,
                         px: 3,
                         borderRadius: 3,
-                        border: '2px solid #6c757d',
-                        backgroundColor: 'white',
-                        color: '#6c757d',
+                        border: isDarkMode ? '2px solid #ffffff' : '2px solid #6c757d',
+                        backgroundColor: isDarkMode ? '#000000' : 'white',
+                        color: isDarkMode ? '#ffffff' : '#6c757d',
                         fontWeight: 'bold',
                         fontSize: '1rem',
                         cursor: 'pointer',

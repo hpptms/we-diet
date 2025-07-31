@@ -5,11 +5,13 @@ import { SkipPrevious, CalendarMonth, Timeline, Insights } from '@mui/icons-mate
 interface FoodActionButtonsProps {
     onYesterdayRecord: () => void;
     onViewPastRecords: () => void;
+    isDarkMode?: boolean;
 }
 
 const FoodActionButtons: React.FC<FoodActionButtonsProps> = ({
     onYesterdayRecord,
-    onViewPastRecords
+    onViewPastRecords,
+    isDarkMode = false
 }) => {
     return (
         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap', mb: 3 }}>
@@ -20,16 +22,17 @@ const FoodActionButtons: React.FC<FoodActionButtonsProps> = ({
                 sx={{
                     minWidth: 160,
                     borderRadius: 3,
-                    bgcolor: 'rgba(102, 126, 234, 0.9)',
+                    bgcolor: isDarkMode ? '#000000' : 'rgba(102, 126, 234, 0.9)',
+                    border: isDarkMode ? '1px solid white' : 'none',
                     color: 'white',
                     fontWeight: 'bold',
                     py: 1.5,
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                    boxShadow: isDarkMode ? 'none' : '0 4px 15px rgba(0,0,0,0.1)',
                     '&:hover': {
-                        bgcolor: 'rgba(102, 126, 234, 1)',
+                        bgcolor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(102, 126, 234, 1)',
                         transform: 'translateY(-2px)',
-                        boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
+                        boxShadow: isDarkMode ? 'none' : '0 6px 20px rgba(0,0,0,0.15)',
                     },
                     '&:active': {
                         transform: 'translateY(0)',
@@ -45,16 +48,17 @@ const FoodActionButtons: React.FC<FoodActionButtonsProps> = ({
                 sx={{
                     minWidth: 160,
                     borderRadius: 3,
-                    bgcolor: 'rgba(118, 75, 162, 0.9)',
+                    bgcolor: isDarkMode ? '#000000' : 'rgba(118, 75, 162, 0.9)',
+                    border: isDarkMode ? '1px solid white' : 'none',
                     color: 'white',
                     fontWeight: 'bold',
                     py: 1.5,
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                    boxShadow: isDarkMode ? 'none' : '0 4px 15px rgba(0,0,0,0.1)',
                     '&:hover': {
-                        bgcolor: 'rgba(118, 75, 162, 1)',
+                        bgcolor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(118, 75, 162, 1)',
                         transform: 'translateY(-2px)',
-                        boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
+                        boxShadow: isDarkMode ? 'none' : '0 6px 20px rgba(0,0,0,0.15)',
                     },
                     '&:active': {
                         transform: 'translateY(0)',

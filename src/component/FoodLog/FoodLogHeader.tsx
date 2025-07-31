@@ -5,9 +5,10 @@ import { ArrowBack, Restaurant, LocalDining, Cake } from '@mui/icons-material';
 interface FoodLogHeaderProps {
     onBack?: () => void;
     selectedDate: string;
+    isDarkMode?: boolean;
 }
 
-const FoodLogHeader: React.FC<FoodLogHeaderProps> = ({ onBack, selectedDate }) => {
+const FoodLogHeader: React.FC<FoodLogHeaderProps> = ({ onBack, selectedDate, isDarkMode = false }) => {
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('ja-JP', {
@@ -34,7 +35,8 @@ const FoodLogHeader: React.FC<FoodLogHeaderProps> = ({ onBack, selectedDate }) =
         <Paper 
             elevation={4}
             sx={{
-                background: 'linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #74b9ff 100%)',
+                background: isDarkMode ? '#000000' : 'linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #74b9ff 100%)',
+                border: isDarkMode ? '1px solid white' : 'none',
                 borderRadius: 4,
                 p: 3,
                 mb: 3,

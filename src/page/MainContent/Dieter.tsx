@@ -4,6 +4,7 @@ import {
   Container,
   Grid,
 } from '@mui/material';
+import { useRecoilValue } from 'recoil';
 import LeftSidebar from '../../component/Dieter/LeftSidebar';
 import PostForm from '../../component/Dieter/PostForm';
 import PostCard from '../../component/Dieter/PostCard';
@@ -11,6 +12,7 @@ import SearchBar from '../../component/Dieter/SearchBar';
 import TrendingTopics from '../../component/Dieter/TrendingTopics';
 import RecommendedUsers from '../../component/Dieter/RecommendedUsers';
 import { Post, TrendingTopic, RecommendedUser } from '../../component/Dieter/types';
+import { darkModeState } from '../../recoil/darkModeAtom';
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
@@ -20,6 +22,8 @@ interface DieterProps {
 }
 
 const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange }) => {
+  const isDarkMode = useRecoilValue(darkModeState);
+  
   const handleNavigateToProfile = () => {
     // ProfileSettings.tsxに移動
     console.log('プロフィールに移動');
@@ -118,7 +122,9 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange }) => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%)',
+      background: isDarkMode 
+        ? '#000000'
+        : 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%)',
       py: 0,
       px: 0
     }}>
@@ -137,14 +143,15 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange }) => {
           {/* 中央カラム - メインコンテンツ */}
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6.75} sx={{ order: { xs: 2, md: 2 } }}>
             <Box sx={{ 
-              backgroundColor: 'white', 
+              backgroundColor: isDarkMode ? '#000000' : 'white', 
               minHeight: { xs: 'auto', md: '100vh' },
-              borderLeft: { xs: 'none', md: '1px solid' },
-              borderRight: { xs: 'none', md: '1px solid' },
-              borderTop: { xs: '1px solid #42a5f5', md: 'none' },
-              borderBottom: { xs: '1px solid #42a5f5', md: 'none' },
-              borderColor: '#42a5f5',
-              boxShadow: { xs: 'none', md: '0 4px 12px rgba(66, 165, 245, 0.15)' },
+              borderLeft: { xs: 'none', md: '1px solid white' },
+              borderRight: { xs: 'none', md: '1px solid white' },
+              borderTop: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, md: 'none' },
+              borderBottom: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, md: 'none' },
+              boxShadow: { xs: 'none', md: isDarkMode 
+                ? '0 4px 12px rgba(187, 134, 252, 0.15)' 
+                : '0 4px 12px rgba(66, 165, 245, 0.15)' },
               maxWidth: '100%'
             }}>
               {/* 投稿フォーム */}
@@ -159,7 +166,28 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange }) => {
 
           {/* 右カラム - サイドバー */}
           <Grid item xs={12} sm={12} md={3} lg={3} xl={2.625} sx={{ order: { xs: 3, md: 3 } }}>
-            <Box position={{ xs: 'static', md: 'sticky' }} top={0}>
+            <Box 
+              position={{ xs: 'static', md: 'sticky' }} 
+              top={0}
+              sx={{
+                maxHeight: { xs: 'auto', md: '100vh' },
+                overflowY: { xs: 'visible', md: 'auto' },
+                '&::-webkit-scrollbar': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: 'rgba(0,0,0,0.1)',
+                  borderRadius: '3px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: 'rgba(41, 182, 246, 0.5)',
+                  borderRadius: '3px',
+                  '&:hover': {
+                    background: 'rgba(41, 182, 246, 0.7)',
+                  },
+                },
+              }}
+            >
               {/* 検索 */}
               <SearchBar onSearch={handleSearch} />
 

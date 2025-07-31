@@ -4,9 +4,10 @@ import PhotoUploadCard from '../common/PhotoUploadCard';
 interface PhotoUploadFieldProps {
     photos: string[];
     onChange: (photos: string[]) => void;
+    isDarkMode?: boolean;
 }
 
-const PhotoUploadField: React.FC<PhotoUploadFieldProps> = ({ photos, onChange }) => {
+const PhotoUploadField: React.FC<PhotoUploadFieldProps> = ({ photos, onChange, isDarkMode = false }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [fileObjects, setFileObjects] = useState<File[]>([]);
 
@@ -87,6 +88,7 @@ const PhotoUploadField: React.FC<PhotoUploadFieldProps> = ({ photos, onChange })
             gradient="linear-gradient(45deg, #FF6B6B 30%, #FFE66D 90%)"
             backgroundColor="#fff8f0"
             borderColor="#FF6B6B"
+            isDarkMode={isDarkMode}
         />
     );
 };

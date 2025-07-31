@@ -6,6 +6,7 @@ interface ActivityLevelFieldProps {
   isActivityPrivate: boolean;
   onActivityLevelChange: (activityLevel: string) => void;
   onPrivacyChange: (isPrivate: boolean) => void;
+  isDarkMode?: boolean;
 }
 
 const ActivityLevelField: React.FC<ActivityLevelFieldProps> = ({
@@ -13,6 +14,7 @@ const ActivityLevelField: React.FC<ActivityLevelFieldProps> = ({
   isActivityPrivate,
   onActivityLevelChange,
   onPrivacyChange,
+  isDarkMode = false,
 }) => {
   return (
     <Box sx={{ mb: 3 }}>
@@ -24,7 +26,30 @@ const ActivityLevelField: React.FC<ActivityLevelFieldProps> = ({
           onChange={(e) => {
             if (e.target.value.length <= 150) onActivityLevelChange(e.target.value);
           }}
-          sx={{ flex: 1 }}
+          sx={{ 
+            flex: 1,
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: isDarkMode ? '#ffffff' : undefined,
+              },
+              '&:hover fieldset': {
+                borderColor: isDarkMode ? '#ffffff' : undefined,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: isDarkMode ? '#ffffff' : undefined,
+              },
+              color: isDarkMode ? '#ffffff' : undefined,
+            },
+            '& .MuiInputLabel-root': {
+              color: isDarkMode ? '#ffffff' : undefined,
+              '&.Mui-focused': {
+                color: isDarkMode ? '#ffffff' : undefined,
+              },
+            },
+            '& .MuiFormHelperText-root': {
+              color: isDarkMode ? '#ffffff' : undefined,
+            },
+          }}
           inputProps={{ maxLength: 150 }}
           helperText={`${activityLevel.length}/150`}
         />
@@ -33,9 +58,20 @@ const ActivityLevelField: React.FC<ActivityLevelFieldProps> = ({
             <Checkbox
               checked={isActivityPrivate}
               onChange={(e) => onPrivacyChange(e.target.checked)}
+              sx={{
+                color: isDarkMode ? '#ffffff' : 'inherit',
+                '&.Mui-checked': {
+                  color: isDarkMode ? '#ffffff' : 'inherit',
+                },
+              }}
             />
           }
           label="非公開"
+          sx={{
+            '& .MuiFormControlLabel-label': {
+              color: isDarkMode ? '#ffffff' : 'inherit',
+            },
+          }}
         />
       </Box>
     </Box>

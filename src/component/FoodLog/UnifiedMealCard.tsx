@@ -5,26 +5,29 @@ import { Restaurant } from '@mui/icons-material';
 interface UnifiedMealCardProps {
     content: string;
     onChange: (content: string) => void;
+    isDarkMode?: boolean;
 }
 
 const UnifiedMealCard: React.FC<UnifiedMealCardProps> = ({
     content,
-    onChange
+    onChange,
+    isDarkMode = false
 }) => {
     const maxLength = 300;
     const remainingChars = maxLength - content.length;
 
     return (
-        <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden' }}>
+        <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden', border: isDarkMode ? '1px solid white' : 'none' }}>
             <Box sx={{ 
-                background: 'linear-gradient(45deg, #FF9800 30%, #FFC107 90%)',
+                background: isDarkMode ? '#000000' : 'linear-gradient(45deg, #FF9800 30%, #FFC107 90%)',
+                border: isDarkMode ? '1px solid white' : 'none',
                 p: 2,
             }}>
                 <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
                     🍽️ 今日の食事記録
                 </Typography>
             </Box>
-            <CardContent sx={{ background: '#fffbf0' }}>
+            <CardContent sx={{ background: isDarkMode ? '#000000' : '#fffbf0' }}>
                 <TextField
                     multiline
                     rows={8}
@@ -45,21 +48,28 @@ const UnifiedMealCard: React.FC<UnifiedMealCardProps> = ({
                     }}
                     sx={{
                         '& .MuiOutlinedInput-root': {
-                            backgroundColor: 'white',
+                            backgroundColor: isDarkMode ? '#000000' : 'white',
+                            color: isDarkMode ? 'white' : 'inherit',
                             '& fieldset': {
-                                borderColor: '#FF9800',
+                                borderColor: isDarkMode ? 'white' : '#FF9800',
                             },
                             '&:hover fieldset': {
-                                borderColor: '#F57C00',
+                                borderColor: isDarkMode ? 'white' : '#F57C00',
                             },
                             '&.Mui-focused fieldset': {
-                                borderColor: '#FF9800',
+                                borderColor: isDarkMode ? 'white' : '#FF9800',
                             },
+                        },
+                        '& .MuiInputLabel-root': {
+                            color: isDarkMode ? 'white' : 'inherit',
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
+                            color: isDarkMode ? 'white' : '#FF9800',
                         },
                     }}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    <Typography variant="body2" sx={{ color: isDarkMode ? 'white' : 'text.secondary' }}>
                         朝食・昼食・夕食・間食を自由に記録
                     </Typography>
                     <Chip

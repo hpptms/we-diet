@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, CardContent, Alert, Box, Typography, CircularProgress } from '@mui/material';
 import { Line } from 'react-chartjs-2';
+import { useRecoilValue } from 'recoil';
+import { darkModeState } from '../../recoil/darkModeAtom';
 
 interface WeightChartProps {
   error: string | null;
@@ -17,6 +19,8 @@ const WeightChart: React.FC<WeightChartProps> = ({
   chartData,
   chartOptions,
 }) => {
+  const isDarkMode = useRecoilValue(darkModeState);
+
   // デバッグ情報をコンソールに出力
   console.log('WeightChart render:', {
     error,
@@ -29,7 +33,14 @@ const WeightChart: React.FC<WeightChartProps> = ({
   });
 
   return (
-    <Card sx={{ mb: 4 }}>
+    <Card sx={{ 
+      mb: 4,
+      ...(isDarkMode && {
+        backgroundColor: '#000',
+        border: '1px solid #fff',
+        color: '#fff'
+      })
+    }}>
       <CardContent>
         {error ? (
           <Alert severity="error" sx={{ textAlign: 'center' }}>

@@ -18,7 +18,7 @@ const TiktokLoginButton: React.FC = () => (
       fontSize: 16,
       cursor: "pointer",
       gap: 8,
-      marginTop: 12,
+      marginTop: 0,
       height: 44,
     }}
   >

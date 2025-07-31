@@ -4,11 +4,13 @@ import { Box, TextField } from '@mui/material';
 interface PRTextFieldProps {
   prText: string;
   onPRTextChange: (prText: string) => void;
+  isDarkMode?: boolean;
 }
 
 const PRTextField: React.FC<PRTextFieldProps> = ({
   prText,
   onPRTextChange,
+  isDarkMode = false,
 }) => {
   return (
     <Box sx={{ mb: 3 }}>
@@ -25,6 +27,29 @@ const PRTextField: React.FC<PRTextFieldProps> = ({
         maxRows={6}
         inputProps={{ maxLength: 300 }}
         helperText={`${prText.length}/300`}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: isDarkMode ? '#ffffff' : undefined,
+            },
+            '&:hover fieldset': {
+              borderColor: isDarkMode ? '#ffffff' : undefined,
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: isDarkMode ? '#ffffff' : undefined,
+            },
+            color: isDarkMode ? '#ffffff' : undefined,
+          },
+          '& .MuiInputLabel-root': {
+            color: isDarkMode ? '#ffffff' : undefined,
+            '&.Mui-focused': {
+              color: isDarkMode ? '#ffffff' : undefined,
+            },
+          },
+          '& .MuiFormHelperText-root': {
+            color: isDarkMode ? '#ffffff' : undefined,
+          },
+        }}
       />
     </Box>
   );

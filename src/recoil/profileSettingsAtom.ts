@@ -149,28 +149,30 @@ export const serverProfileState = atom<ServerProfileState>({
 });
 
 // UserProfileからProfileSettingsStateに変換する関数
-export const convertServerProfileToLocalProfile = (serverProfile: UserProfile): ProfileSettingsState => {
+export const convertServerProfileToLocalProfile = (serverProfile: any): ProfileSettingsState => {
+    console.log('convertServerProfileToLocalProfile 受信データ:', serverProfile);
+
     return {
-        displayName: serverProfile.display_name || '',
-        selectedPresetId: serverProfile.selected_preset_id || null,
-        iconType: (serverProfile.icon_type as 'preset' | 'upload') || 'preset',
-        uploadedIcon: serverProfile.uploaded_icon || null,
-        uploadedIconPublicId: serverProfile.uploaded_icon_public_id || null,
+        displayName: serverProfile.displayName || serverProfile.display_name || '',
+        selectedPresetId: serverProfile.selectedPresetId || serverProfile.selected_preset_id || null,
+        iconType: (serverProfile.iconType || serverProfile.icon_type as 'preset' | 'upload') || 'preset',
+        uploadedIcon: serverProfile.uploadedIcon || serverProfile.uploaded_icon || null,
+        uploadedIconPublicId: serverProfile.uploadedIconPublicId || serverProfile.uploaded_icon_public_id || null,
         gender: (serverProfile.gender as GenderType) || 'male',
         age: serverProfile.age?.toString() || '',
         height: serverProfile.height?.toString() || '',
-        activityLevel: serverProfile.activity_level || '',
-        currentWeight: serverProfile.current_weight?.toString() || '',
-        targetWeight: serverProfile.target_weight?.toString() || '',
-        showPreset: serverProfile.show_preset ?? true,
-        prText: serverProfile.pr_text || '',
-        isGenderPrivate: serverProfile.is_gender_private ?? false,
-        isAgePrivate: serverProfile.is_age_private ?? false,
-        isHeightPrivate: serverProfile.is_height_private ?? false,
-        isActivityPrivate: serverProfile.is_activity_private ?? false,
-        isCurrentWeightPrivate: serverProfile.is_current_weight_private ?? false,
-        isTargetWeightPrivate: serverProfile.is_target_weight_private ?? false,
-        enableSensitiveFilter: serverProfile.enable_sensitive_filter ?? false,
+        activityLevel: serverProfile.activityLevel || serverProfile.activity_level || '',
+        currentWeight: serverProfile.currentWeight?.toString() || serverProfile.current_weight?.toString() || '',
+        targetWeight: serverProfile.targetWeight?.toString() || serverProfile.target_weight?.toString() || '',
+        showPreset: serverProfile.showPreset ?? serverProfile.show_preset ?? true,
+        prText: serverProfile.prText || serverProfile.pr_text || '',
+        isGenderPrivate: serverProfile.isGenderPrivate ?? serverProfile.is_gender_private ?? false,
+        isAgePrivate: serverProfile.isAgePrivate ?? serverProfile.is_age_private ?? false,
+        isHeightPrivate: serverProfile.isHeightPrivate ?? serverProfile.is_height_private ?? false,
+        isActivityPrivate: serverProfile.isActivityPrivate ?? serverProfile.is_activity_private ?? false,
+        isCurrentWeightPrivate: serverProfile.isCurrentWeightPrivate ?? serverProfile.is_current_weight_private ?? false,
+        isTargetWeightPrivate: serverProfile.isTargetWeightPrivate ?? serverProfile.is_target_weight_private ?? false,
+        enableSensitiveFilter: serverProfile.enableSensitiveFilter ?? serverProfile.enable_sensitive_filter ?? false,
     };
 };
 

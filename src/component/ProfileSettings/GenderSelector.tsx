@@ -7,6 +7,7 @@ interface GenderSelectorProps {
   isGenderPrivate: boolean;
   onGenderChange: (gender: GenderType) => void;
   onPrivacyChange: (isPrivate: boolean) => void;
+  isDarkMode?: boolean;
 }
 
 const GenderSelector: React.FC<GenderSelectorProps> = ({
@@ -14,12 +15,13 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
   isGenderPrivate,
   onGenderChange,
   onPrivacyChange,
+  isDarkMode = false,
 }) => {
   return (
     <Box sx={{ mb: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h6" sx={{ mr: 2 }}>
+          <Typography variant="h6" sx={{ mr: 2, color: isDarkMode ? '#ffffff' : 'inherit' }}>
             性別
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -83,10 +85,21 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
             <Checkbox
               checked={isGenderPrivate}
               onChange={(e) => onPrivacyChange(e.target.checked)}
+              sx={{
+                color: isDarkMode ? '#ffffff' : 'inherit',
+                '&.Mui-checked': {
+                  color: isDarkMode ? '#ffffff' : 'inherit',
+                },
+              }}
             />
           }
           label="非公開"
-          sx={{ ml: 2 }}
+          sx={{ 
+            ml: 2,
+            '& .MuiFormControlLabel-label': {
+              color: isDarkMode ? '#ffffff' : 'inherit',
+            },
+          }}
         />
       </Box>
     </Box>

@@ -4,10 +4,12 @@ import { Whatshot, CalendarToday } from '@mui/icons-material';
 
 interface DailyProgressCardProps {
     recordedDates: string[];
+    isDarkMode?: boolean;
 }
 
 const DailyProgressCard: React.FC<DailyProgressCardProps> = ({
-    recordedDates
+    recordedDates,
+    isDarkMode = false
 }) => {
     const [consecutiveDays, setConsecutiveDays] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -107,7 +109,8 @@ const DailyProgressCard: React.FC<DailyProgressCardProps> = ({
             sx={{ 
                 mb: 3, 
                 borderRadius: 3, 
-                background: 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)',
+                background: isDarkMode ? '#000000' : 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)',
+                border: isDarkMode ? '1px solid white' : 'none',
                 color: 'white',
                 overflow: 'hidden',
                 position: 'relative'
