@@ -8,7 +8,7 @@ import {
   Search,
 } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
-import { darkModeState } from '../../recoil/darkModeAtom';
+import { darkModeState } from '../../../recoil/darkModeAtom';
 
 interface SearchBarProps {
   onSearch?: (query: string) => void;

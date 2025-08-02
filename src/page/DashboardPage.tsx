@@ -27,9 +27,10 @@ const getAccountName = () => {
 
 interface DashboardPageProps {
   initialView?: CurrentView;
+  subView?: string;
 }
 
-const DashboardPage: React.FC<DashboardPageProps> = ({ initialView }) => {
+const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) => {
   const accountName = getAccountName();
   const [currentView, setCurrentView] = useState<CurrentView>(initialView || 'dashboard');
   const navigate = useNavigate();
@@ -182,6 +183,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView }) => {
         return <Dieter 
           onBack={() => { setCurrentView('dashboard'); navigate('/Dashboard'); }}
           onViewChange={handleViewChange}
+          subView={subView}
         />;
       default:
         return (

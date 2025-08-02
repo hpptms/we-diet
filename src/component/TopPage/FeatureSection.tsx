@@ -210,7 +210,8 @@ export const FeatureSection: React.FC = () => {
                       color: 'rgba(255, 255, 255, 0.9)',
                       textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
                       maxWidth: '450px',
-                      margin: isMobile ? '0 auto' : '0'
+                      margin: isMobile ? '0 auto' : '0',
+                      whiteSpace: 'nowrap'
                     }}
                   >
                     {feature.description}

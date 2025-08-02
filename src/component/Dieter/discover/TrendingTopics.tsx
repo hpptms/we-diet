@@ -8,8 +8,8 @@ import {
   TrendingUp,
 } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
-import { TrendingTopic } from './types';
-import { darkModeState } from '../../recoil/darkModeAtom';
+import { TrendingTopic } from '../types';
+import { darkModeState } from '../../../recoil/darkModeAtom';
 
 interface TrendingTopicsProps {
   topics: TrendingTopic[];

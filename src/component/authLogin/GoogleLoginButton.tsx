@@ -3,7 +3,11 @@ import React from "react";
 const GoogleLoginButton: React.FC = () => (
   <button
     type="button"
-    onClick={() => { window.location.href = `${import.meta.env.VITE_API_ENDPOINT}auth/google/login`; }}
+    onClick={() => { 
+      // VITE_API_ENDPOINTからbaseURLを取得し、authパスを追加
+      const baseUrl = import.meta.env.VITE_API_ENDPOINT.replace('/api/', '/');
+      window.location.href = `${baseUrl}auth/google/login`; 
+    }}
     style={{
       width: "100%",
       padding: 10,

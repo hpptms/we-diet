@@ -9,7 +9,7 @@ import {
 import {
   PersonAdd,
 } from '@mui/icons-material';
-import { RecommendedUser } from './types';
+import { RecommendedUser } from '../types';
 
 interface RecommendedUsersProps {
   users: RecommendedUser[];
@@ -49,14 +49,19 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
         }}>
           <Box display="flex" flexDirection="column" gap={1.5}>
             <Box display="flex" alignItems="center" gap={1.5}>
-              <Avatar sx={{ 
-                bgcolor: 'linear-gradient(45deg, #42a5f5 30%, #29b6f6 90%)',
-                width: 36,
-                height: 36,
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                boxShadow: '0 3px 10px rgba(66, 165, 245, 0.3)'
-              }}>{user.avatar}</Avatar>
+              <Avatar 
+                src={user.avatar.startsWith('http') ? user.avatar : undefined}
+                sx={{ 
+                  bgcolor: 'linear-gradient(45deg, #42a5f5 30%, #29b6f6 90%)',
+                  width: 36,
+                  height: 36,
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  boxShadow: '0 3px 10px rgba(66, 165, 245, 0.3)'
+                }}
+              >
+                {!user.avatar.startsWith('http') ? user.avatar : user.name?.charAt(0) || 'U'}
+              </Avatar>
               <Box flex={1}>
                 <Typography variant="subtitle1" sx={{ 
                   fontWeight: 600,

@@ -75,6 +75,13 @@ function App() {
             </DashboardLayout>
           </PrivateRoute>
         } />
+        <Route path="/Dieter/Follow" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <DashboardPage initialView="dieter" subView="follow" />
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
         <Route path="/register/complete" element={<RegisterCompletePage />} />
         <Route path="/" element={<TopPage />} />
       </Routes>
