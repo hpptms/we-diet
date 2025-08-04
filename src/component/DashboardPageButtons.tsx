@@ -94,7 +94,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           }
         }}
         onClick={() => {
-          console.log("プロフィール変更がクリックされました");
+          // console.log("プロフィール変更がクリックされました");
           onViewChange('profile');
         }}
       >
@@ -147,7 +147,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           }
         }}
         onClick={() => {
-          console.log("運動を記録がクリックされました");
+          // console.log("運動を記録がクリックされました");
           onViewChange('exercise');
         }}
       >
@@ -207,7 +207,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           }
         }}
         onClick={() => {
-          console.log("体重を管理がクリックされました");
+          // console.log("体重を管理がクリックされました");
           onViewChange('weight');
         }}
       >
@@ -260,7 +260,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           }
         }}
         onClick={() => {
-          console.log("食事を記録がクリックされました");
+          // console.log("食事を記録がクリックされました");
           onViewChange('FoodLog');
         }}
       >
@@ -313,7 +313,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           }
         }}
         onClick={() => {
-          console.log("dieterがクリックされました");
+          // console.log("dieterがクリックされました");
           onViewChange('dieter');
         }}
       >

@@ -186,7 +186,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
     // Fetch weight records
     const fetchWeightRecords = useCallback(async () => {
-        console.log('fetchWeightRecords called with:', { currentDate, viewPeriod });
+        // console.log('fetchWeightRecords called with:', { currentDate, viewPeriod });
         
         const cacheKey = generateCacheKey(currentDate, viewPeriod);
         
@@ -196,23 +196,23 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                               currentDate.getFullYear() === now.getFullYear() && 
                               currentDate.getMonth() === now.getMonth();
         
-        console.log('Cache check:', { cacheKey, isCurrentMonth, hasMonthlyCache: !!cache.monthlyRecords[cacheKey], hasYearlyCache: !!cache.yearlyRecords[cacheKey] });
+        // console.log('Cache check:', { cacheKey, isCurrentMonth, hasMonthlyCache: !!cache.monthlyRecords[cacheKey], hasYearlyCache: !!cache.yearlyRecords[cacheKey] });
         
         // Try to get from cache (現在の月以外の場合のみ)
         if (!isCurrentMonth) {
             if (viewPeriod === 'month' && cache.monthlyRecords[cacheKey]) {
-                console.log('Using monthly cache for:', cacheKey);
+                // console.log('Using monthly cache for:', cacheKey);
                 setWeightRecords(cache.monthlyRecords[cacheKey]);
                 return;
             }
             if (viewPeriod === 'year' && cache.yearlyRecords[cacheKey]) {
-                console.log('Using yearly cache for:', cacheKey);
+                // console.log('Using yearly cache for:', cacheKey);
                 setWeightRecords(cache.yearlyRecords[cacheKey]);
                 return;
             }
         }
 
-        console.log('Making API request...');
+        // console.log('Making API request...');
         setLoading(true);
         setError(null);
         try {
@@ -238,11 +238,11 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59);
                 }
                 
-                console.log('Date range:', {
-                    startDate: startDate.toISOString().slice(0, 10),
-                    endDate: endDate.toISOString().slice(0, 10),
-                    isCurrentMonth
-                });
+                // console.log('Date range:', {
+                //     startDate: startDate.toISOString().slice(0, 10),
+                //     endDate: endDate.toISOString().slice(0, 10),
+                //     isCurrentMonth
+                // });
                 
                 const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/weight_records`, {
                     params: {
@@ -252,9 +252,9 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     },
                     headers
                 });
-                console.log('API Response:', response.data);
+                // console.log('API Response:', response.data);
                 const records = response.data.records || [];
-                console.log('Extracted records:', records);
+                // console.log('Extracted records:', records);
                 setWeightRecords(records);
                 
                 // キャッシュ更新（状態変更の最小化）
@@ -282,9 +282,9 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     },
                     headers
                 });
-                console.log('Year API Response:', response.data);
+                // console.log('Year API Response:', response.data);
                 const records = response.data.monthly_averages || [];
-                console.log('Extracted year records:', records);
+                // console.log('Extracted year records:', records);
                 setWeightRecords(records);
                 
                 // キャッシュ更新（状態変更の最小化）
@@ -347,9 +347,9 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             const token = localStorage.getItem("token");
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-            console.log('Sending overwrite request:', pendingRecord);
+            // console.log('Sending overwrite request:', pendingRecord);
             const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record/overwrite`, pendingRecord, { headers });
-            console.log('Overwrite response:', response.data);
+            // console.log('Overwrite response:', response.data);
             
             // Reset states
             setFormData({
@@ -455,11 +455,11 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 is_public: "false"
             };
 
-            console.log('体重記録送信データ:', request);
+            // console.log('体重記録送信データ:', request);
 
             const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record`, request, { headers });
             
-            console.log('体重記録レスポンス:', response.data);
+            // console.log('体重記録レスポンス:', response.data);
             
             setFormData({
                 date: new Date().toISOString().slice(0, 10),
@@ -563,11 +563,11 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 is_public: "false"
             };
 
-            console.log('過去の体重記録送信データ:', request);
+            // console.log('過去の体重記録送信データ:', request);
 
             const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}api/weight_record`, request, { headers });
             
-            console.log('過去の体重記録レスポンス:', response.data);
+            // console.log('過去の体重記録レスポンス:', response.data);
             
             setPastFormData({
                 date: new Date().toISOString().slice(0, 10),
@@ -659,14 +659,14 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
     // Chart data preparation with memoization
     const chartData = useMemo(() => {
-        console.log('prepareChartData called with:', {
-            weightRecords,
-            viewPeriod,
-            recordsLength: weightRecords?.length || 0
-        });
+        // console.log('prepareChartData called with:', {
+        //     weightRecords,
+        //     viewPeriod,
+        //     recordsLength: weightRecords?.length || 0
+        // });
         
         if (!weightRecords || weightRecords.length === 0) {
-            console.log('No weight records found, returning empty chart data');
+            // console.log('No weight records found, returning empty chart data');
             return {
                 labels: [],
                 datasets: []
@@ -674,10 +674,10 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         }
 
         if (viewPeriod === 'month') {
-            // デバッグ：最初のレコードの構造を確認
-            if (weightRecords.length > 0) {
-                console.log('Sample record structure:', JSON.stringify(weightRecords[0], null, 2));
-            }
+            // // デバッグ：最初のレコードの構造を確認
+            // if (weightRecords.length > 0) {
+            //     console.log('Sample record structure:', JSON.stringify(weightRecords[0], null, 2));
+            // }
 
             // フィルタリングして有効なレコードのみを取得（月の範囲チェックも追加）
             const validRecords = weightRecords.filter(record => {
@@ -687,7 +687,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 
                 // 日付が有効で、体重データが存在するかチェック
                 if (!date || weight === undefined || weight === null || isNaN(parseFloat(weight.toString()))) {
-                    console.log('Record filter check - invalid data:', { date, weight, record });
+                    // console.log('Record filter check - invalid data:', { date, weight, record });
                     return false;
                 }
                 
@@ -696,22 +696,22 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 const isInCurrentMonth = recordDate.getFullYear() === currentDate.getFullYear() && 
                                         recordDate.getMonth() === currentDate.getMonth();
                 
-                console.log('Record filter check:', { 
-                    date, 
-                    weight, 
-                    recordDate: recordDate.toISOString().slice(0, 10),
-                    currentMonth: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`,
-                    isInCurrentMonth,
-                    record 
-                });
+                // console.log('Record filter check:', { 
+                //     date, 
+                //     weight, 
+                //     recordDate: recordDate.toISOString().slice(0, 10),
+                //     currentMonth: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`,
+                //     isInCurrentMonth,
+                //     record 
+                // });
                 
                 return isInCurrentMonth;
             });
 
-            console.log('Valid records for chart:', validRecords);
+            // console.log('Valid records for chart:', validRecords);
 
             if (validRecords.length === 0) {
-                console.log('No valid records found for chart');
+                // console.log('No valid records found for chart');
                 return {
                     labels: [],
                     datasets: []
@@ -743,7 +743,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 return null;
             });
 
-            console.log('Chart data prepared:', { labels, weights, bodyFats });
+            // console.log('Chart data prepared:', { labels, weights, bodyFats });
 
             return {
                 labels,
@@ -788,15 +788,15 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 // 全てのフィールドパターンをチェック
                 const bodyFat = record.AverageBodyFat || record.average_body_fat || record.averageBodyFat;
                 
-                console.log('Year view body fat detailed check:', { 
-                    record: JSON.stringify(record),
-                    allKeys: Object.keys(record),
-                    AverageBodyFat: record.AverageBodyFat,
-                    average_body_fat: record.average_body_fat,
-                    averageBodyFat: record.averageBodyFat,
-                    bodyFat: bodyFat,
-                    type: typeof bodyFat,
-                });
+                // console.log('Year view body fat detailed check:', { 
+                //     record: JSON.stringify(record),
+                //     allKeys: Object.keys(record),
+                //     AverageBodyFat: record.AverageBodyFat,
+                //     average_body_fat: record.average_body_fat,
+                //     averageBodyFat: record.averageBodyFat,
+                //     bodyFat: bodyFat,
+                //     type: typeof bodyFat,
+                // });
                 
                 if (bodyFat !== undefined && bodyFat !== null && !isNaN(parseFloat(bodyFat.toString()))) {
                     return parseFloat(bodyFat.toString());
@@ -804,7 +804,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 return null;
             });
 
-            console.log('Year view final chart data:', { labels, weights, bodyFats, hasBodyFat: bodyFats.some(bf => bf !== null) });
+            // console.log('Year view final chart data:', { labels, weights, bodyFats, hasBodyFat: bodyFats.some(bf => bf !== null) });
 
             const datasets = [
                 {
@@ -819,7 +819,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
             // 体脂肪率データがある場合は追加
             const hasBodyFatData = bodyFats.some(bf => bf !== null);
-            console.log('Year view hasBodyFatData:', hasBodyFatData, 'bodyFats:', bodyFats);
+            // console.log('Year view hasBodyFatData:', hasBodyFatData, 'bodyFats:', bodyFats);
             
             if (hasBodyFatData) {
                 datasets.push({
@@ -830,9 +830,9 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     yAxisID: 'y1',
                     tension: 0.1,
                 });
-                console.log('Added body fat dataset to year view');
+                // console.log('Added body fat dataset to year view');
             } else {
-                console.log('No body fat data found for year view');
+                // console.log('No body fat data found for year view');
             }
 
             return {

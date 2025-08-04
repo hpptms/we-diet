@@ -81,12 +81,12 @@ const ProfileSettings: React.FC = () => {
           enableSensitiveFilter: serverProfile.enable_sensitive_filter || false,
         });
         
-        console.log('サーバーからプロフィールデータを読み込みました');
+        // console.log('サーバーからプロフィールデータを読み込みました');
       }
     } catch (error: any) {
       // 404エラー（データが存在しない）は正常なので無視
       if (error.response && error.response.status === 404) {
-        console.log('サーバーにプロフィールデータがありません');
+        // console.log('サーバーにプロフィールデータがありません');
       } else {
         console.error('プロフィールデータの取得に失敗しました:', error);
       }
@@ -97,10 +97,10 @@ const ProfileSettings: React.FC = () => {
   useEffect(() => {
     // ローカルストレージのデータが空の場合のみサーバーに問い合わせ
     if (isProfileDataEmpty(profile)) {
-      console.log('ローカルデータが空のため、サーバーからデータを取得します');
+      // console.log('ローカルデータが空のため、サーバーからデータを取得します');
       loadProfileFromServer();
     } else {
-      console.log('ローカルストレージからプロフィールデータを復元しました');
+      // console.log('ローカルストレージからプロフィールデータを復元しました');
     }
   }, []); // 初回マウント時のみ実行
 
@@ -197,7 +197,7 @@ const ProfileSettings: React.FC = () => {
         enable_sensitive_filter: profile.enableSensitiveFilter,
       };
 
-      console.log('送信するリクエストデータ:', requestData);
+      // console.log('送信するリクエストデータ:', requestData);
 
       // プロトバフエンドポイント呼び出し
       const response = await axios.post<CreateUserProfileResponse>(`${import.meta.env.VITE_API_BASE_URL}/api/proto/user_profile`, requestData, {
@@ -206,7 +206,7 @@ const ProfileSettings: React.FC = () => {
         },
       });
       
-      console.log('プロフィール保存成功:', response.data);
+      // console.log('プロフィール保存成功:', response.data);
       alert('プロフィールが保存されました！');
       
     } catch (error: any) {

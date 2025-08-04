@@ -69,12 +69,12 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
           todayImages: [], // File型は空配列
         });
         
-        console.log('本日の運動記録データを読み込みました');
+        // console.log('本日の運動記録データを読み込みました');
       }
     } catch (error: any) {
       // 404エラー（データが存在しない）は正常なので無視
       if (error.response && error.response.status === 404) {
-        console.log('本日の運動記録データはありません');
+        // console.log('本日の運動記録データはありません');
       } else {
         console.error('運動記録データの取得に失敗しました:', error);
       }
@@ -86,17 +86,17 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     const resetData = checkAndResetIfDateChanged();
     if (resetData) {
       setExerciseData(resetData);
-      console.log('日付が変わったため、運動記録データをリセットしました');
+      // console.log('日付が変わったため、運動記録データをリセットしました');
       return; // リセットした場合は、サーバーへの問い合わせは不要
     }
     
     // 現在のRecoil状態（ローカルストレージから復元済み）をチェック
     if (isExerciseDataEmpty(exerciseData)) {
       // データが空の場合のみサーバーに問い合わせ
-      console.log('ローカルデータが空のため、サーバーからデータを取得します');
+      // console.log('ローカルデータが空のため、サーバーからデータを取得します');
       loadTodayData();
     } else {
-      console.log('ローカルストレージからデータを復元しました');
+      // console.log('ローカルストレージからデータを復元しました');
     }
   }, [setExerciseData]);
 
@@ -198,23 +198,23 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       const userId = exerciseData.userId || 1;
       const today = new Date().toISOString().slice(0, 10);
 
-      console.log('=== 運動記録保存開始 ===');
-      console.log('userId:', userId);
-      console.log('date:', today);
+      // console.log('=== 運動記録保存開始 ===');
+      // console.log('userId:', userId);
+      // console.log('date:', today);
 
       // 既存データがあるか確認（REST GET）
       let recordExists = false;
       try {
-        console.log('既存データをチェック中...');
+        // console.log('既存データをチェック中...');
         const checkRes = await axios.get(
           `${import.meta.env.VITE_API_BASE_URL}/api/exercise_record?user_id=${userId}&date=${today}`
         );
-        console.log('既存データチェック結果:', checkRes.data);
+        // console.log('既存データチェック結果:', checkRes.data);
         if (checkRes.status === 200 && checkRes.data && checkRes.data.record) {
           recordExists = true;
         }
       } catch (err: any) {
-        console.log('既存データチェックエラー:', err.response?.status, err.message);
+        // console.log('既存データチェックエラー:', err.response?.status, err.message);
         // 404なら未登録、他はエラー
         if (err.response && err.response.status !== 404) {
           throw err;
@@ -248,12 +248,12 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         formData.append('images', img, img.name || `image${idx}.jpg`);
       });
 
-      console.log('=== FormData内容 ===');
-      formData.forEach((value, key) => {
-        console.log(key, ':', value);
-      });
+      // console.log('=== FormData内容 ===');
+      // formData.forEach((value, key) => {
+      //   console.log(key, ':', value);
+      // });
 
-      console.log('運動記録をサーバーに送信中...');
+      // console.log('運動記録をサーバーに送信中...');
       const res = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/exercise_record`,
         formData,
@@ -262,7 +262,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         }
       );
 
-      console.log('サーバーレスポンス:', res.data);
+      // console.log('サーバーレスポンス:', res.data);
 
       if (res.status !== 200) throw new Error('保存に失敗しました');
       const caloriesBurned = res.data?.calories_burned ?? 0;
@@ -270,9 +270,9 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       // dieterに投稿がチェックされている場合、投稿も作成
       if (exerciseData.isPublic) {
         try {
-          console.log('=== Dieter投稿作成開始 ===');
+          // console.log('=== Dieter投稿作成開始 ===');
           const postContent = createExercisePostContent(caloriesBurned);
-          console.log('投稿コンテンツ:', postContent);
+          // console.log('投稿コンテンツ:', postContent);
           
           const postResult = await postsApi.createPost({
             content: postContent,
@@ -280,7 +280,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
             is_sensitive: exerciseData.isSensitive
           });
           
-          console.log('Dieter投稿作成成功:', postResult);
+          // console.log('Dieter投稿作成成功:', postResult);
         } catch (postError) {
           console.error('Dieter投稿作成エラー:', postError);
           // 投稿作成に失敗してもアラートは表示するが、運動記録の成功メッセージは表示する
@@ -308,16 +308,16 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         : `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
       alert(message);
     } catch (error: any) {
-      console.error('=== 保存エラー詳細 ===');
-      console.error('Error object:', error);
-      console.error('Error message:', error.message);
-      console.error('Error response:', error.response);
-      if (error.response) {
-        console.error('Response status:', error.response.status);
-        console.error('Response data:', error.response.data);
-        console.error('Response headers:', error.response.headers);
-      }
-      console.error('=== エラー詳細終了 ===');
+      // console.error('=== 保存エラー詳細 ===');
+      // console.error('Error object:', error);
+      // console.error('Error message:', error.message);
+      // console.error('Error response:', error.response);
+      // if (error.response) {
+      //   console.error('Response status:', error.response.status);
+      //   console.error('Response data:', error.response.data);
+      //   console.error('Response headers:', error.response.headers);
+      // }
+      // console.error('=== エラー詳細終了 ===');
       
       let errorMessage = '保存に失敗しました。もう一度お試しください。';
       if (error.response && error.response.data && error.response.data.error) {
