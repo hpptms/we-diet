@@ -309,7 +309,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             };
 
             const response = await axios.post<GetFoodLogResponse>(
-                `${import.meta.env.VITE_API_BASE_URL}api/proto/food_log/get`,
+                `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/get`,
                 request,
                 {
                     headers: {

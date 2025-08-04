@@ -244,7 +244,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     isCurrentMonth
                 });
                 
-                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}api/weight_records`, {
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/weight_records`, {
                     params: {
                         user_id: userId,
                         start_date: startDate.toISOString().slice(0, 10),
@@ -324,7 +324,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             const token = localStorage.getItem("token");
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}api/weight_record`, {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record`, {
                 params: {
                     user_id: userId,
                     date: date
@@ -348,7 +348,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
             console.log('Sending overwrite request:', pendingRecord);
-            const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}api/weight_record/overwrite`, pendingRecord, { headers });
+            const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record/overwrite`, pendingRecord, { headers });
             console.log('Overwrite response:', response.data);
             
             // Reset states
@@ -457,7 +457,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
             console.log('体重記録送信データ:', request);
 
-            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}api/weight_record`, request, { headers });
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record`, request, { headers });
             
             console.log('体重記録レスポンス:', response.data);
             
