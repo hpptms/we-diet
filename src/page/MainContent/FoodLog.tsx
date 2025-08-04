@@ -79,7 +79,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             };
 
             const response = await axios.post<GetFoodLogResponse>(
-                `${import.meta.env.VITE_API_BASE_URL}api/proto/food_log/get`,
+                `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/get`,
                 request,
                 {
                     headers: {
@@ -133,7 +133,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             };
 
             const response = await axios.post<GetFoodLogsResponse>(
-                `${import.meta.env.VITE_API_BASE_URL}api/proto/food_log/list`,
+                `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/list`,
                 request,
                 {
                     headers: {
@@ -195,7 +195,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             console.log('送信するリクエストデータ:', request);
 
             const response = await axios.post<CreateFoodLogResponse>(
-                `${import.meta.env.VITE_API_BASE_URL}api/proto/food_log/create`,
+                `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/create`,
                 request,
                 {
                     headers: {
