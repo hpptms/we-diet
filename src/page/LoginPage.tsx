@@ -5,7 +5,6 @@ import Footer from "../component/Footer";
 import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material";
 import { MdLogin } from "react-icons/md";
 import axios from "axios";
-import { encodeMailRegisterRequest, decodeMailRegisterResponse } from "../proto/mail_register_pb";
 import MailRegisterModal from "../component/MailRegisterModal";
 import MailRegisterButton from "../component/MailRegisterButton";
 import GoogleLoginButton from "../component/authLogin/GoogleLoginButton";
@@ -35,7 +34,7 @@ const LoginPage: React.FC = () => {
   const isSmallScreen = useMediaQuery('(max-width: 900px)');
   const shouldUseFullWidth = isTabletOrMobile || isPortraitMode || isSmallScreen;
 
-  // メール登録送信ハンドラ（後でAPI連携）
+  // メール登録送信ハンドラ
   const handleSendRegisterEmail = async () => {
     setRegisterError("");
     setRegisterSuccess("");
@@ -44,36 +43,25 @@ const LoginPage: React.FC = () => {
       return;
     }
     try {
-      // Protobufでリクエストをエンコード
-      const reqBin = encodeMailRegisterRequest({ email: registerEmail });
+      // JSONでリクエストを送信
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/register/mail`,
-        reqBin,
+        { email: registerEmail },
         {
           headers: {
-            "Content-Type": "application/x-protobuf",
-            "Accept": "application/x-protobuf",
+            "Content-Type": "application/json",
           },
-          responseType: "arraybuffer",
         }
       );
-      // Protobufでレスポンスをデコード
-      const resObj = decodeMailRegisterResponse(new Uint8Array(response.data));
-      setRegisterSuccess(resObj.message || "確認メールを送信しました。メールをご確認ください。");
+      setRegisterSuccess(response.data.message || "確認メールを送信しました。メールをご確認ください。");
       setRegisterEmail("");
       setTimeout(() => {
         setShowEmailModal(false);
         setRegisterSuccess("");
       }, 2000);
     } catch (err: any) {
-      // バイナリレスポンスもdecodeしてエラーメッセージを取得
       if (err.response && err.response.data) {
-        try {
-          const resObj = decodeMailRegisterResponse(new Uint8Array(err.response.data));
-          setRegisterError(resObj.message || "送信に失敗しました");
-        } catch {
-          setRegisterError("送信に失敗しました");
-        }
+        setRegisterError(err.response.data.error || err.response.data.message || "送信に失敗しました");
       } else {
         setRegisterError("送信に失敗しました");
       }
