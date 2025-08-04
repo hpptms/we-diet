@@ -10,6 +10,7 @@ import Dieter from './page/MainContent/Dieter';
 import DashboardLayout from './component/DashboardLayout';
 import PrivacyPolicy from './page/PrivacyPolicy';
 import DataDeletion from './page/DataDeletion';
+import TermsOfService from './page/TermsOfService';
 import { initializeFacebookSDK } from './utils/facebookSDK';
 
 // 認証判定用のラップコンポーネント
@@ -26,7 +27,7 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
 function App() {
   useEffect(() => {
     // Initialize Facebook SDK when app starts
-    initializeFacebookSDK();
+    // initializeFacebookSDK();
   }, []);
 
   return (
@@ -98,6 +99,7 @@ function App() {
         <Route path="/register/complete" element={<RegisterCompletePage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/data-deletion" element={<DataDeletion />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/" element={<TopPage />} />
       </Routes>
     </BrowserRouter>

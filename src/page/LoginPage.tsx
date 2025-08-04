@@ -323,8 +323,8 @@ const LoginPage: React.FC = () => {
             gap: 1,
           }}>
             <GoogleLoginButton />
-            <FacebookLoginButton />
-            <TiktokLoginButton />
+            {/* <FacebookLoginButton /> */}
+            {/* <TiktokLoginButton /> */}
           </Box>
           {/* メールアドレス入力用モーダル */}
           <MailRegisterModal
