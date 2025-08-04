@@ -154,6 +154,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     // 他のviewは従来通り
   }, [location.pathname]);
 
+  // ダッシュボードに戻った時に一番上にスクロール
+  useEffect(() => {
+    if (currentView === 'dashboard') {
+      window.scrollTo(0, 0);
+    }
+  }, [currentView]);
+
   const renderContent = () => {
     switch (currentView) {
       case 'profile':
