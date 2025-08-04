@@ -7,8 +7,6 @@ import {
   Avatar,
   Button,
   CircularProgress,
-  Tab,
-  Tabs,
   Card,
   CardContent,
   Chip,
@@ -37,7 +35,6 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [tabValue, setTabValue] = useState(0);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 20,
@@ -47,23 +44,52 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
 
   useEffect(() => {
     loadNotifications();
-  }, [tabValue]);
+    // 通知画面を開いた時点で全ての通知を既読にする
+    markAllAsReadOnMount();
+  }, []);
+
+  const markAllAsReadOnMount = async () => {
+    try {
+      await postsApi.markAllNotificationsAsRead();
+    } catch (error) {
+      console.error('Failed to mark all notifications as read on mount:', error);
+    }
+  };
 
   const loadNotifications = async (page: number = 1) => {
     setLoading(page === 1);
     setRefreshing(page !== 1);
     
     try {
-      const unreadOnly = tabValue === 1;
-      const response: NotificationResponse = await postsApi.getNotifications(page, 20, unreadOnly);
+      // まず新着通知（未読）を全て取得
+      const unreadResponse: NotificationResponse = await postsApi.getNotifications(1, 1000, true);
+      
+      // 既読通知を最大30件取得
+      const readResponse: NotificationResponse = await postsApi.getNotifications(1, 30, false);
+      
+      // 既読通知から未読通知を除外（重複を避けるため）
+      const readNotifications = readResponse.notifications.filter(n => n.is_read);
+      
+      // 新着通知を先頭に、既読通知を後に並べる
+      const allNotifications = [
+        ...unreadResponse.notifications,
+        ...readNotifications
+      ];
       
       if (page === 1) {
-        setNotifications(response.notifications);
+        setNotifications(allNotifications);
       } else {
-        setNotifications(prev => [...prev, ...response.notifications]);
+        // ページネーションは基本的に使用しないが、念のため
+        setNotifications(prev => [...prev, ...allNotifications]);
       }
       
-      setPagination(response.pagination);
+      // ページネーション情報は新着通知の情報を使用
+      setPagination({
+        page: 1,
+        limit: allNotifications.length,
+        total: allNotifications.length,
+        total_pages: 1
+      });
     } catch (error) {
       console.error('Failed to load notifications:', error);
     } finally {
@@ -72,10 +98,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
     }
   };
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-    setPagination(prev => ({ ...prev, page: 1 }));
-  };
+  // handleTabChange関数を削除（不要）
 
   const handleRefresh = () => {
     loadNotifications(1);
@@ -159,9 +182,8 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
     return date.toLocaleDateString();
   };
 
-  const filteredNotifications = notifications.filter(n => 
-    tabValue === 0 || !n.is_read
-  );
+  // タブ機能を削除したので、全ての通知を表示
+  const filteredNotifications = notifications;
 
   return (
     <Box
@@ -207,42 +229,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
           </IconButton>
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            sx={{
-              '& .MuiTab-root': {
-                color: isDarkMode ? '#999999' : '#666666',
-                fontSize: '0.9rem',
-                minWidth: 'auto',
-                px: 2,
-              },
-              '& .Mui-selected': {
-                color: isDarkMode ? '#bb86fc' : '#1976d2',
-              },
-              '& .MuiTabs-indicator': {
-                backgroundColor: isDarkMode ? '#bb86fc' : '#1976d2',
-              },
-            }}
-          >
-            <Tab label="すべて" />
-            <Tab label="未読" />
-          </Tabs>
-          
-          {tabValue === 0 && notifications.some(n => !n.is_read) && (
-            <Button
-              size="small"
-              onClick={handleMarkAllAsRead}
-              sx={{
-                color: isDarkMode ? '#bb86fc' : '#1976d2',
-                fontSize: '0.8rem',
-              }}
-            >
-              すべて既読
-            </Button>
-          )}
-        </Box>
+        {/* タブと既読ボタンを削除 */}
       </Box>
 
       {/* Content */}
@@ -257,16 +244,13 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
               variant="h6"
               sx={{ color: isDarkMode ? '#999999' : '#666666', mb: 1 }}
             >
-              {tabValue === 0 ? '通知がありません' : '未読の通知がありません'}
+              通知がありません
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: isDarkMode ? '#777777' : '#999999' }}
             >
-              {tabValue === 0 
-                ? '新しい通知が届くとここに表示されます'
-                : 'すべての通知を既読にしました'
-              }
+              新しい通知が届くとここに表示されます
             </Typography>
           </Box>
         ) : (

@@ -5,6 +5,8 @@ import {
   Typography,
   Button,
   Tooltip,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
 import {
   Image as ImageIcon,
@@ -37,8 +39,25 @@ const PostFormActions: React.FC<PostFormActionsProps> = ({
   const isDarkMode = useRecoilValue(darkModeState);
 
   return (
-    <Box display="flex" justifyContent="space-between" alignItems="center">
-      <Box display="flex" gap={2} alignItems="center">
+    <Box 
+      display="flex" 
+      justifyContent="space-between" 
+      alignItems="center"
+      sx={{
+        flexDirection: { xs: 'column', sm: 'row' },
+        gap: { xs: 2, sm: 0 }
+      }}
+    >
+      {/* モバイル表示用のコンパクトなレイアウト */}
+      <Box 
+        display="flex" 
+        gap={{ xs: 1.5, sm: 2 }} 
+        alignItems="center"
+        sx={{
+          width: { xs: '100%', sm: 'auto' },
+          justifyContent: { xs: 'center', sm: 'flex-start' }
+        }}
+      >
         {/* 画像アップロードボタン */}
         <IconButton 
           onClick={onImageUpload}
@@ -46,7 +65,7 @@ const PostFormActions: React.FC<PostFormActionsProps> = ({
           sx={{
             color: selectedImagesCount >= maxImages ? '#9e9e9e' : '#29b6f6',
             borderRadius: 3,
-            padding: 1.5,
+            padding: { xs: 1, sm: 1.5 },
             transition: 'all 0.3s ease',
             '&:hover': {
               backgroundColor: selectedImagesCount >= maxImages ? 'transparent' : 'rgba(41, 182, 246, 0.1)',
@@ -55,20 +74,12 @@ const PostFormActions: React.FC<PostFormActionsProps> = ({
             }
           }}
         >
-          <ImageIcon fontSize="large" />
+          <ImageIcon 
+            sx={{
+              fontSize: { xs: '1.5rem', sm: '2rem' }
+            }}
+          />
         </IconButton>
-
-        {/* 画像アップロード進捗表示 */}
-        <Typography
-          variant="body2"
-          sx={{
-            color: selectedImagesCount >= maxImages ? '#f44336' : '#29b6f6',
-            fontWeight: 500,
-            fontSize: '0.9rem'
-          }}
-        >
-          {selectedImagesCount}/{maxImages}
-        </Typography>
 
         {/* 絵文字ボタン */}
         <IconButton 
@@ -76,7 +87,7 @@ const PostFormActions: React.FC<PostFormActionsProps> = ({
           sx={{
             color: '#29b6f6',
             borderRadius: 3,
-            padding: 1.5,
+            padding: { xs: 1, sm: 1.5 },
             transition: 'all 0.3s ease',
             '&:hover': {
               backgroundColor: 'rgba(41, 182, 246, 0.1)',
@@ -85,68 +96,76 @@ const PostFormActions: React.FC<PostFormActionsProps> = ({
             }
           }}
         >
-          <EmojiEmotions fontSize="large" />
+          <EmojiEmotions 
+            sx={{
+              fontSize: { xs: '1.5rem', sm: '2rem' }
+            }}
+          />
         </IconButton>
+
+        {/* ポストボタン - モバイルではコンパクトに */}
+        <Button
+          variant="contained"
+          onClick={onPost}
+          disabled={!canPost}
+          sx={{ 
+            borderRadius: { xs: 3, sm: 4 },
+            px: { xs: 2.5, sm: 4 },
+            py: { xs: 1, sm: 1.5 },
+            fontSize: { xs: '0.9rem', sm: '1.1rem' },
+            fontWeight: 600,
+            background: 'linear-gradient(45deg, #29b6f6 30%, #42a5f5 90%)',
+            boxShadow: '0 6px 20px rgba(41, 182, 246, 0.4)',
+            transition: 'all 0.3s ease',
+            minWidth: { xs: 'auto', sm: 'auto' },
+            '&:hover': {
+              background: 'linear-gradient(45deg, #0288d1 30%, #1976d2 90%)',
+              boxShadow: '0 8px 25px rgba(41, 182, 246, 0.6)',
+              transform: 'translateY(-2px)'
+            },
+            '&:disabled': {
+              background: '#e0e0e0',
+              color: '#9e9e9e'
+            }
+          }}
+        >
+          ポスト
+        </Button>
+
       </Box>
 
-      <Box display="flex" alignItems="center" gap={3}>
+      {/* カウンター表示 - モバイルでは小さく表示 */}
+      <Box 
+        display="flex" 
+        alignItems="center" 
+        gap={{ xs: 2, sm: 3 }}
+        sx={{
+          width: { xs: '100%', sm: 'auto' },
+          justifyContent: { xs: 'space-between', sm: 'flex-end' }
+        }}
+      >
+        {/* 画像アップロード進捗表示 */}
+        <Typography
+          variant="body2"
+          sx={{
+            color: selectedImagesCount >= maxImages ? '#f44336' : '#29b6f6',
+            fontWeight: 500,
+            fontSize: { xs: '0.8rem', sm: '0.9rem' }
+          }}
+        >
+          画像 {selectedImagesCount}/{maxImages}
+        </Typography>
+
         <Typography
           variant="body1"
           sx={{
             color: postContentLength > maxCharacters * 0.9 ? '#f44336' : '#29b6f6',
             fontWeight: 500,
-            fontSize: '1rem'
+            fontSize: { xs: '0.8rem', sm: '1rem' }
           }}
         >
           {postContentLength}/{maxCharacters}
         </Typography>
-        <Tooltip 
-          title="shift+enter" 
-          placement="top"
-          arrow
-          sx={{
-            '& .MuiTooltip-tooltip': {
-              backgroundColor: isDarkMode ? '#29b6f6' : '#1976d2',
-              color: 'white',
-              fontSize: '0.8rem',
-              fontWeight: 500,
-              borderRadius: 2,
-              padding: '6px 12px'
-            },
-            '& .MuiTooltip-arrow': {
-              color: isDarkMode ? '#29b6f6' : '#1976d2'
-            }
-          }}
-        >
-          <span>
-            <Button
-              variant="contained"
-              onClick={onPost}
-              disabled={!canPost}
-              sx={{ 
-                borderRadius: 4,
-                px: 4,
-                py: 1.5,
-                fontSize: '1.1rem',
-                fontWeight: 600,
-                background: 'linear-gradient(45deg, #29b6f6 30%, #42a5f5 90%)',
-                boxShadow: '0 6px 20px rgba(41, 182, 246, 0.4)',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  background: 'linear-gradient(45deg, #0288d1 30%, #1976d2 90%)',
-                  boxShadow: '0 8px 25px rgba(41, 182, 246, 0.6)',
-                  transform: 'translateY(-2px)'
-                },
-                '&:disabled': {
-                  background: '#e0e0e0',
-                  color: '#9e9e9e'
-                }
-              }}
-            >
-              ポスト
-            </Button>
-          </span>
-        </Tooltip>
       </Box>
     </Box>
   );

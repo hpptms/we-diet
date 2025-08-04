@@ -64,16 +64,13 @@ const defaultProfileSettings: ProfileSettingsState = {
 const loadFromLocalStorage = (): ProfileSettingsState => {
     try {
         const storedData = localStorage.getItem(PROFILE_SETTINGS_STORAGE_KEY);
-        console.log('ローカルストレージからプロフィール設定を読み込み:', storedData);
         if (storedData) {
             const parsedData = JSON.parse(storedData);
-            console.log('パースされたプロフィール設定:', parsedData);
             return {
                 ...defaultProfileSettings,
                 ...parsedData,
             };
         }
-        console.log('ローカルストレージにプロフィール設定が見つかりません - デフォルト値を使用');
         return defaultProfileSettings;
     } catch (error) {
         console.error('プロフィール設定のローカルストレージ読み込みに失敗しました:', error);
@@ -84,7 +81,6 @@ const loadFromLocalStorage = (): ProfileSettingsState => {
 // ローカルストレージに保存
 const saveToLocalStorage = (data: ProfileSettingsState) => {
     try {
-        console.log('プロフィール設定をローカルストレージに保存:', data);
         localStorage.setItem(PROFILE_SETTINGS_STORAGE_KEY, JSON.stringify(data));
     } catch (error) {
         console.error('プロフィール設定のローカルストレージ保存に失敗しました:', error);
@@ -150,8 +146,6 @@ export const serverProfileState = atom<ServerProfileState>({
 
 // UserProfileからProfileSettingsStateに変換する関数
 export const convertServerProfileToLocalProfile = (serverProfile: any): ProfileSettingsState => {
-    console.log('convertServerProfileToLocalProfile 受信データ:', serverProfile);
-
     return {
         displayName: serverProfile.displayName || serverProfile.display_name || '',
         selectedPresetId: serverProfile.selectedPresetId || serverProfile.selected_preset_id || null,

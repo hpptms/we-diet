@@ -48,22 +48,19 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   // サーバーからプロフィール情報を取得する関数
   const fetchUserProfile = async (userId: string) => {
     try {
-      console.log('プロフィール取得開始:', { userId });
-      
       const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile/${userId}`);
 
       if (response.ok) {
         const responseData = await response.json();
-        console.log('サーバーからプロフィール情報を取得:', responseData);
         
         if (responseData.profile) {
           // UserProfileからProfileSettingsStateに変換してRecoilに設定
           const convertedProfile = convertServerProfileToLocalProfile(responseData.profile);
           setProfileSettings(convertedProfile);
-          console.log('プロフィール情報をRecoilに設定:', convertedProfile);
         }
       } else if (response.status === 404) {
-        console.log('プロフィールが見つかりません（初回ログイン）');
+        // プロフィールが見つからない（初回ログイン）
+        // ログ出力なし
       } else {
         console.error('プロフィール取得に失敗:', response.status);
       }
@@ -117,7 +114,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     }
 
     if (token && userId && accountName) {
-      console.log('Google login success:', { token, userId, accountName });
       // localStorageに保存
       localStorage.setItem('accountName', accountName);
       localStorage.setItem('jwt_token', token);
@@ -138,7 +134,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     
     if (userId && token && !location.search.includes('token=')) {
       // Googleログインのコールバックでない場合のみ実行
-      console.log('既存ユーザーのプロフィール情報を取得中...');
       fetchUserProfile(userId);
     }
   }, []); // 初回のみ実行
@@ -197,11 +192,24 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   return (
     <Box sx={{ 
       backgroundColor: isDarkMode ? '#000000' : 'transparent',
-      minHeight: '100vh',
+      minHeight: {
+        xs: 'calc(100vh - 200px)', // スマホ・縦画面: フッター完全表示のため更に余裕を持たせる
+        sm: 'calc(100vh - 150px)',  // タブレット: フッター表示のため余裕を持たせる
+        md: '100vh'                // デスクトップ: 従来通り
+      },
+      maxHeight: {
+        xs: 'calc(100vh - 200px)', // スマホでは最大高さも制限
+        sm: 'calc(100vh - 150px)',
+        md: 'none'
+      },
       width: '100%',
       margin: 0,
       padding: 0,
       color: isDarkMode ? '#ffffff' : 'inherit',
+      overflow: {
+        xs: 'auto', // スマホでスクロール可能
+        md: 'visible'  // デスクトップでは通常通り
+      },
       '& > *': {
         backgroundColor: isDarkMode ? '#000000' : 'inherit'
       }

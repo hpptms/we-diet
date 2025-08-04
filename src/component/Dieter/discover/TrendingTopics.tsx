@@ -35,7 +35,7 @@ const TrendingTopics: React.FC<TrendingTopicsProps> = ({ topics }) => {
         🔥 いまどうしてる
       </Typography>
       {topics.map((topic, index) => (
-        <Box key={index} sx={{
+        <Box key={`trending-topic-${index}-${topic.hashtag}`} sx={{
           mb: 2,
           p: 1.5,
           borderRadius: 3,

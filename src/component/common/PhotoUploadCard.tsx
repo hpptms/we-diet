@@ -82,7 +82,7 @@ const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
         {todayImages.length > 0 && (
           <ImageList sx={{ width: '100%', height: 200 }} cols={3} rowHeight={164}>
             {todayImages.map((image, index) => (
-              <ImageListItem key={index}>
+              <ImageListItem key={`photo-upload-${index}-${image.name || image.size}`}>
                 <img
                   src={URL.createObjectURL(image)}
                   alt={`今日の写真 ${index + 1}`}

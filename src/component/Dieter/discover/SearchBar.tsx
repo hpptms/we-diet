@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import {
   Box,
   TextField,
@@ -17,11 +17,27 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const isDarkMode = useRecoilValue(darkModeState);
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
-    onSearch?.(value);
+    
+    // 既存のタイマーをクリア
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
+    
+    // 空の文字列の場合は即座に検索をクリア
+    if (value.trim() === '') {
+      onSearch?.('');
+    } else {
+      // そうでなければ500msのデバウンス
+      debounceTimerRef.current = setTimeout(() => {
+        onSearch?.(value);
+      }, 500);
+    }
   };
 
   return (
@@ -64,6 +80,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
               backgroundColor: isDarkMode 
                 ? 'rgba(41, 182, 246, 0.1)' 
                 : 'rgba(227, 242, 253, 0.1)'
+            },
+            // MUIデフォルトのアウトラインを無効化
+            '& .MuiOutlinedInput-notchedOutline': {
+              border: 'none'
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              border: 'none'
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              border: 'none'
             }
           },
           '& .MuiInputBase-input::placeholder': {

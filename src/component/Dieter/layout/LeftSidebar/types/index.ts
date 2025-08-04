@@ -8,6 +8,7 @@ export interface LeftSidebarProps {
     onNavigateToNotifications?: () => void;
     onNavigateToHome?: () => void;
     onToggleFollowingPosts?: () => void;
+    onOpenPostModal?: () => void;
     showFollowingPosts?: boolean;
     showNotifications?: boolean;
 }

@@ -6,6 +6,7 @@ import { darkModeState } from '../../recoil/darkModeAtom';
 import { exerciseRecordState, ExerciseRecordData, checkAndResetIfDateChanged, isExerciseDataEmpty } from '../../recoil/exerciseRecordAtom';
 import { useSetRecoilState } from 'recoil';
 import { weightRecordedDateAtom } from '../../recoil/weightRecordedDateAtom';
+import { postsApi } from '../../api/postsApi';
 
 // Import components
 import ExerciseHeader from '../../component/ExerciseRecord/ExerciseHeader';
@@ -129,8 +130,66 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     const newImages = exerciseData.todayImages.filter((_, i) => i !== index);
     setExerciseData({
       ...exerciseData,
-      todayImages: newImages,
+      todayImages: newImages,  
     });
+  };
+
+  // 運動記録投稿のコンテンツを作成する関数
+  const createExercisePostContent = (caloriesBurned: number) => {
+    let content = `今日は大体${caloriesBurned}カロリー消費しました！🔥\n\n`;
+    
+    // 有酸素運動
+    if (exerciseData.walkingDistance || exerciseData.walkingTime) {
+      content += "🚶 ウォーキング: ";
+      if (exerciseData.walkingDistance) {
+        content += exerciseData.walkingDistance + "km ";
+      }
+      if (exerciseData.walkingTime) {
+        content += exerciseData.walkingTime + "分";
+      }
+      content += "\n";
+    }
+    
+    if (exerciseData.runningDistance || exerciseData.runningTime) {
+      content += "🏃 ランニング: ";
+      if (exerciseData.runningDistance) {
+        content += exerciseData.runningDistance + "km ";
+      }
+      if (exerciseData.runningTime) {
+        content += exerciseData.runningTime + "分";
+      }
+      content += "\n";
+    }
+    
+    // 筋力トレーニング
+    if (exerciseData.pushUps) {
+      content += "💪 腕立て伏せ: " + exerciseData.pushUps + "回\n";
+    }
+    if (exerciseData.sitUps) {
+      content += "🏋️ 腹筋: " + exerciseData.sitUps + "回\n";
+    }
+    if (exerciseData.squats) {
+      content += "🏋️ スクワット: " + exerciseData.squats + "回\n";
+    }
+    
+    // その他運動
+    if (exerciseData.otherExerciseTime) {
+      content += "🔥 その他運動: " + exerciseData.otherExerciseTime + "分\n";
+    }
+    
+    // 体重記録
+    if (exerciseData.todayWeight) {
+      content += "⚖️ 今日の体重: " + exerciseData.todayWeight + "kg\n";
+    }
+    
+    // 運動メモ
+    if (exerciseData.exerciseNote) {
+      content += "\n📝 " + exerciseData.exerciseNote;
+    }
+    
+    content += "\n\n#今日の運動";
+    
+    return content;
   };
 
   const handleSave = async () => {
@@ -184,6 +243,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       formData.append('exercise_note', exerciseData.exerciseNote || '');
       formData.append('is_public', exerciseData.isPublic ? 'true' : 'false');
       formData.append('has_weight_input', exerciseData.hasWeightInput ? 'true' : 'false');
+      formData.append('is_sensitive', exerciseData.isSensitive ? 'true' : 'false');
       exerciseData.todayImages.forEach((img, idx) => {
         formData.append('images', img, img.name || `image${idx}.jpg`);
       });
@@ -206,6 +266,27 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
 
       if (res.status !== 200) throw new Error('保存に失敗しました');
       const caloriesBurned = res.data?.calories_burned ?? 0;
+
+      // dieterに投稿がチェックされている場合、投稿も作成
+      if (exerciseData.isPublic) {
+        try {
+          console.log('=== Dieter投稿作成開始 ===');
+          const postContent = createExercisePostContent(caloriesBurned);
+          console.log('投稿コンテンツ:', postContent);
+          
+          const postResult = await postsApi.createPost({
+            content: postContent,
+            images: exerciseData.todayImages,
+            is_sensitive: exerciseData.isSensitive
+          });
+          
+          console.log('Dieter投稿作成成功:', postResult);
+        } catch (postError) {
+          console.error('Dieter投稿作成エラー:', postError);
+          // 投稿作成に失敗してもアラートは表示するが、運動記録の成功メッセージは表示する
+          alert('運動記録は保存されましたが、Dieter投稿の作成に失敗しました。');
+        }
+      }
 
       // 体重記録済みフラグをlocalStorageに保存
       if (exerciseData.hasWeightInput) {
@@ -273,6 +354,9 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       <PublicToggle
         isPublic={exerciseData.isPublic}
         onChange={(isPublic) => setExerciseData({ ...exerciseData, isPublic })}
+        isSensitive={exerciseData.isSensitive}
+        onSensitiveChange={(isSensitive) => setExerciseData({ ...exerciseData, isSensitive })}
+        showSensitiveOption={true}
         isDarkMode={isDarkMode}
       />
 

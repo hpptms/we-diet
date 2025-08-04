@@ -26,7 +26,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
     <Box sx={{ mb: 1.5 }}>
       <Box display="flex" flexWrap="wrap" gap={1}>
         {imageUrls.map((imageUrl, index) => (
-          <Box key={index} position="relative">
+          <Box key={`image-preview-${index}-${imageUrl.slice(-10)}`} position="relative">
             <Box
               sx={{
                 position: 'relative',

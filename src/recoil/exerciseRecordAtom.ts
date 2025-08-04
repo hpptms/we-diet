@@ -16,6 +16,7 @@ export interface ExerciseRecordData {
     imageUrls?: string[]; // サーバーから取得した画像URL（表示用）
     isPublic: boolean;
     hasWeightInput: boolean; // 体重入力があったかどうかのフラグ
+    isSensitive: boolean; // センシティブコンテンツかどうか
 }
 
 // ローカルストレージ用のキー
@@ -38,6 +39,7 @@ const defaultExerciseData: ExerciseRecordData = {
     todayImages: [],
     isPublic: false,
     hasWeightInput: false,
+    isSensitive: false,
 };
 
 // 今日の日付を取得（YYYY-MM-DD形式）

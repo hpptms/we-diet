@@ -23,6 +23,7 @@ import {
     createMenuItems,
     LeftSidebarProps
 } from './LeftSidebar/index';
+import { useFollowContextOptional } from '../../../context/FollowContext';
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ 
     onBack, 
@@ -34,6 +35,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     onNavigateToNotifications,
     onNavigateToHome,
     onToggleFollowingPosts,
+    onOpenPostModal,
     showFollowingPosts = false,
     showNotifications = false
 }) => {
@@ -41,12 +43,26 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     const profileSettings = useRecoilValue(profileSettingsState);
     const serverProfile = useRecoilValue(serverProfileState);
     
-    // カスタムフックを使用
-    const followCounts = useFollowCounts();
+    // フォローコンテキストを取得（親のDieter.tsxから）
+    const followContext = useFollowContextOptional();
+    
+    // カスタムフックを使用（フォロー数はコンテキストがない場合のフォールバック）
+    const { followCounts: localFollowCounts, refreshFollowCounts: localRefreshFollowCounts } = useFollowCounts();
     const {
-        unreadNotificationCount
+        unreadNotificationCount,
+        resetNotificationCount
     } = useNotifications();
     const { unreadMessageCount } = useMessages();
+    
+    // フォロー数を表示するための関数を定義
+    const getFollowCounts = () => {
+        // FollowContextが利用可能で、かつフォロー数が取得されている場合はそれを使用
+        if (followContext && followContext.followCounts) {
+            return followContext.followCounts;
+        }
+        // フォールバックとしてローカルのフォロー数を使用
+        return localFollowCounts;
+    };
 
     // ユーザー情報取得関数
     const { getIconSrc, getDisplayName, getUserId } = getUserUtils(profileSettings, serverProfile);
@@ -61,7 +77,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
         onNavigateToMessages,
         onNavigateToHome,
         onToggleFollowingPosts,
-        showFollowingPosts
+        showFollowingPosts,
+        resetNotificationCount
     );
 
 
@@ -102,6 +119,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             <Button
                 variant="contained"
                 startIcon={<Edit />}
+                onClick={onOpenPostModal}
                 fullWidth
                 sx={{ 
                     mt: 2, 
@@ -128,7 +146,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
                 getIconSrc={getIconSrc}
                 getDisplayName={getDisplayName}
                 getUserId={getUserId}
-                followCounts={followCounts}
+                followCounts={getFollowCounts()}
                 onNavigateToFollowManagement={onNavigateToFollowManagement}
             />
         </Box>

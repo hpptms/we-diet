@@ -9,7 +9,6 @@ import {
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../../../recoil/darkModeAtom';
 import { MenuItem } from '../types';
-import { AnimatedFlashOn } from './AnimatedFlashIcon';
 
 interface MenuListProps {
     leftMenuItems: MenuItem[];
@@ -30,7 +29,7 @@ const MenuList: React.FC<MenuListProps> = ({
         <List sx={{ p: 0 }}>
             {leftMenuItems.map((item, index) => (
                 <ListItem
-                    key={index}
+                    key={`left-menu-${index}`}
                     button
                     onClick={item.onClick}
                     sx={{
@@ -57,30 +56,6 @@ const MenuList: React.FC<MenuListProps> = ({
                         position: 'relative'
                     }}>
                         {item.icon}
-                        {/* 通知アイテムの場合は電気マークを表示 */}
-                        {item.label === '通知' && unreadNotificationCount > 0 && (
-                            <AnimatedFlashOn 
-                                sx={{ 
-                                    position: 'absolute',
-                                    right: -8,
-                                    top: -2,
-                                    fontSize: '14px',
-                                    color: '#ff9800'
-                                }} 
-                            />
-                        )}
-                        {/* メッセージアイテムの場合は電気マークを表示 */}
-                        {item.label === 'メッセージ' && unreadMessageCount > 0 && (
-                            <AnimatedFlashOn 
-                                sx={{ 
-                                    position: 'absolute',
-                                    right: -8,
-                                    top: -2,
-                                    fontSize: '14px',
-                                    color: '#ff9800'
-                                }} 
-                            />
-                        )}
                     </ListItemIcon>
                     <ListItemText
                         primary={

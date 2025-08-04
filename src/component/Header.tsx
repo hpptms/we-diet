@@ -89,7 +89,6 @@ const ProfileIcon: React.FC = () => {
       try {
         const accountName = localStorage.getItem('accountName');
         if (!accountName) {
-          console.log('accountNameが見つかりません');
           return;
         }
 
@@ -97,11 +96,9 @@ const ProfileIcon: React.FC = () => {
         const now = Date.now();
         if (serverProfile.profile && serverProfile.lastFetched && 
             (now - serverProfile.lastFetched) < 3600000) {
-          console.log('キャッシュされたプロフィールを使用:', serverProfile.profile);
           // キャッシュされたデータでローカル設定を更新（既にローカルにアイコン情報がない場合のみ）
           if (!profileSettings.selectedPresetId && !profileSettings.uploadedIcon) {
             const localProfile = convertServerProfileToLocalProfile(serverProfile.profile);
-            console.log('キャッシュからローカル設定を更新:', localProfile);
             setProfileSettings(localProfile);
           }
           return;
@@ -110,17 +107,14 @@ const ProfileIcon: React.FC = () => {
         // localStorageからuserIDを取得
         const userIdFromStorage = localStorage.getItem('user_id');
         if (!userIdFromStorage) {
-          console.log('user_idが見つかりません');
           return;
         }
         const userId = parseInt(userIdFromStorage);
 
-        console.log('サーバープロフィール取得中...', { userId, accountName });
         const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile/${userId}`);
         
         if (response.data && response.data.profile) {
           const profile = response.data.profile;
-          console.log('サーバープロフィール取得成功:', profile);
           
           // サーバープロフィール状態を更新
           setServerProfile({
@@ -132,7 +126,6 @@ const ProfileIcon: React.FC = () => {
           // ローカル設定も更新（ただし、既にアイコン情報がある場合は上書きしない）
           if (!profileSettings.selectedPresetId && !profileSettings.uploadedIcon) {
             const localProfile = convertServerProfileToLocalProfile(profile);
-            console.log('ローカルプロフィール変換結果:', localProfile);
             setProfileSettings(localProfile);
           }
         }
@@ -140,7 +133,7 @@ const ProfileIcon: React.FC = () => {
         console.error('プロフィール取得エラー:', error);
         // 404エラーの場合は初回ログイン（プロフィール未作成）
         if (error.response?.status === 404) {
-          console.log('プロフィールが見つかりません（初回ログイン）');
+          // ログ出力なし
         }
       }
     };
@@ -152,51 +145,29 @@ const ProfileIcon: React.FC = () => {
     }
   }, []); // 依存関係を空にして、コンポーネントマウント時のみ実行
 
-  const getIconSrc = () => {
-    console.log('アイコン取得中:', {
-      serverProfile: serverProfile.profile,
-      profileSettings: profileSettings
-    });
-    
+  const getIconSrc = React.useMemo(() => {
     // サーバーからのデータを優先
     if (serverProfile.profile) {
-      console.log('サーバープロフィール使用:', {
-        icon_type: serverProfile.profile.icon_type,
-        uploaded_icon: serverProfile.profile.uploaded_icon,
-        selected_preset_id: serverProfile.profile.selected_preset_id
-      });
-      
       if (serverProfile.profile.icon_type === 'upload' && serverProfile.profile.uploaded_icon) {
-        console.log('アップロードアイコン使用:', serverProfile.profile.uploaded_icon);
         return serverProfile.profile.uploaded_icon;
       }
       if (serverProfile.profile.icon_type === 'preset' && serverProfile.profile.selected_preset_id) {
         const presetImage = DEFAULT_IMAGES.find(img => img.id === serverProfile.profile!.selected_preset_id);
-        console.log('プリセットアイコン使用:', { presetId: serverProfile.profile.selected_preset_id, url: presetImage?.url });
         return presetImage?.url;
       }
     }
     
     // ローカルデータにフォールバック
-    console.log('ローカルデータ使用:', {
-      iconType: profileSettings.iconType,
-      uploadedIcon: profileSettings.uploadedIcon,
-      selectedPresetId: profileSettings.selectedPresetId
-    });
-    
     if (profileSettings.iconType === 'upload' && profileSettings.uploadedIcon) {
-      console.log('ローカルアップロードアイコン使用:', profileSettings.uploadedIcon);
       return profileSettings.uploadedIcon;
     }
     if (profileSettings.iconType === 'preset' && profileSettings.selectedPresetId) {
       const presetImage = DEFAULT_IMAGES.find(img => img.id === profileSettings.selectedPresetId);
-      console.log('ローカルプリセットアイコン使用:', { presetId: profileSettings.selectedPresetId, url: presetImage?.url });
       return presetImage?.url;
     }
     
-    console.log('アイコンが見つかりません - デフォルトアイコンを使用');
     return undefined;
-  };
+  }, [serverProfile.profile, profileSettings.iconType, profileSettings.uploadedIcon, profileSettings.selectedPresetId]);
 
   const handleIconClick = () => {
     setLogoutDialogOpen(true);
@@ -263,9 +234,14 @@ const ProfileIcon: React.FC = () => {
             />
           }
           label={
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 } }}>
               {isDarkMode ? <DarkMode sx={{ color: '#29b6f6' }} /> : <LightMode sx={{ color: '#ffffff' }} />}
-              <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: isDarkMode ? '#29b6f6' : '#ffffff' }}>
+              <Typography sx={{ 
+                fontSize: { xs: '0.7rem', sm: '0.9rem' }, 
+                fontWeight: 600, 
+                color: isDarkMode ? '#29b6f6' : '#ffffff',
+                display: { xs: 'none', sm: 'block' }
+              }}>
                 ダークモード
               </Typography>
             </Box>
@@ -294,9 +270,9 @@ const ProfileIcon: React.FC = () => {
               boxShadow: '0 6px 16px rgba(0, 0, 0, 0.7), 0 3px 6px rgba(0, 0, 0, 0.5)',
             },
           }}
-          src={getIconSrc()}
+          src={getIconSrc}
         >
-          {!getIconSrc() && <AccountCircle sx={{ fontSize: '2.2rem' }} />}
+          {!getIconSrc && <AccountCircle sx={{ fontSize: '2.2rem' }} />}
         </Avatar>
       </Box>
 

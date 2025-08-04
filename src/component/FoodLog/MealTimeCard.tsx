@@ -186,7 +186,7 @@ const MealTimeCard: React.FC<MealTimeCardProps> = ({ mealTime, content, onChange
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                             {suggestions.map((suggestion, index) => (
                                 <Chip
-                                    key={index}
+                                    key={`suggestion-${index}-${suggestion}`}
                                     label={suggestion}
                                     size="small"
                                     onClick={() => addSuggestion(suggestion)}
@@ -214,7 +214,7 @@ const MealTimeCard: React.FC<MealTimeCardProps> = ({ mealTime, content, onChange
                             💡 ヒント：
                         </Typography>
                         {config.tips.map((tip, index) => (
-                            <Typography key={index} variant="body2" sx={{ color: 'text.secondary' }}>
+                            <Typography key={`tip-${index}-${tip.slice(0, 10)}`} variant="body2" sx={{ color: 'text.secondary' }}>
                                 • {tip}
                             </Typography>
                         ))}

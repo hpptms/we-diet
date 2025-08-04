@@ -227,7 +227,7 @@ const RecordViewDialog: React.FC<RecordViewDialogProps> = ({
                                 </Box>
                                 <Grid container spacing={2}>
                                     {record.photos.map((photo, index) => (
-                                        <Grid item xs={12} sm={6} md={4} key={index}>
+                                        <Grid item xs={12} sm={6} md={4} key={`photo-${index}-${photo.slice(-10)}`}>
                                             <Card 
                                                 elevation={8}
                                                 sx={{ 

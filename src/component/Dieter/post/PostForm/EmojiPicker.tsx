@@ -100,7 +100,7 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({
         >
           {getDynamicEmojiCategories().map((category, index) => (
             <Tab
-              key={index}
+              key={`emoji-category-${index}-${category.name}`}
               icon={<span style={{ fontSize: '1rem' }}>{category.icon}</span>}
               title={category.name}
             />

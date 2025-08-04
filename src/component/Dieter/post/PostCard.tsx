@@ -8,6 +8,14 @@ import {
   Button,
   Collapse,
   Divider,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import {
   Favorite,
@@ -17,20 +25,34 @@ import {
   Share,
   Send,
   AccountCircle,
+  MoreVert,
+  Bookmark,
+  Flag,
+  Link as LinkIcon,
+  Edit,
+  Delete,
+  PersonAdd,
+  PersonRemove,
+  Block,
 } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
 import { Post, Comment } from '../types';
-import { postsApi } from '../../../api/postsApi';
+import { postsApi, UserProfile } from '../../../api/postsApi';
+import { blockUser, checkBlockStatus } from '../../../api/blockApi';
 import { darkModeState } from '../../../recoil/darkModeAtom';
 import { profileSettingsState, serverProfileState } from '../../../recoil/profileSettingsAtom';
 import { DEFAULT_IMAGES } from '../../../image/DefaultImage';
+import UserProfileModal from '../profile/UserProfileModal';
+import { useFollowContextOptional } from '../../../context/FollowContext';
+import ImageLightbox from './ImageLightbox';
 
 interface PostCardProps {
   post: Post;
   onPostUpdate?: (updatedPost: Post) => void;
+  onPostDelete?: (postId: number) => void;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
+const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete }) => {
   const isDarkMode = useRecoilValue(darkModeState);
   const profileSettings = useRecoilValue(profileSettingsState);
   const serverProfile = useRecoilValue(serverProfileState);
@@ -42,6 +64,39 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [retweetCount, setRetweetCount] = useState(post.Retweets?.length || 0);
   const [likeCount, setLikeCount] = useState(post.Likes?.length || 0);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowLoading, setIsFollowLoading] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [isBlockLoading, setIsBlockLoading] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
+  
+  // フォローコンテキストを取得（オプション）
+  const followContext = useFollowContextOptional();
+
+  // リツイート表示用の時間フォーマット関数
+  const formatRetweetTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffHours / 24);
+    
+    if (diffDays > 0) {
+      return `${diffDays}日前`;
+    } else if (diffHours > 0) {
+      return `${diffHours}時間前`;
+    } else {
+      const diffMinutes = Math.floor(diffMs / (1000 * 60));
+      return `${diffMinutes}分前`;
+    }
+  };
 
   // 現在のユーザーのリツイート/ライク状態を確認
   React.useEffect(() => {
@@ -58,18 +113,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
     setLikeCount(post.Likes?.length || 0);
   }, [post.Retweets, post.Likes, serverProfile.userId]);
   
-  // デバッグ用：ユーザー情報をコンソールに出力
-  React.useEffect(() => {
-    console.log('PostCard - AuthorName:', post.AuthorName);
-    console.log('PostCard - AuthorPicture:', post.AuthorPicture);
-    console.log('PostCard - AuthorPicture type:', typeof post.AuthorPicture);
-    console.log('PostCard - AuthorPicture length:', post.AuthorPicture?.length);
-    console.log('PostCard - User情報:', post.User);
-    
-    // AuthorPictureが有効なURLかチェック
-    const isValidUrl = post.AuthorPicture && post.AuthorPicture.trim() !== '' && post.AuthorPicture.startsWith('http');
-    console.log('PostCard - AuthorPicture is valid URL:', isValidUrl);
-  }, [post.AuthorName, post.AuthorPicture, post.User]);
   
   // タイムスタンプを日本時間で表示
   const formatTimestamp = (timestamp: string) => {
@@ -207,9 +250,240 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
     return 'ユーザー';
   };
 
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleShare = () => {
-    // TODO: シェア機能の実装
-    console.log('シェア機能は今後実装予定');
+    console.log('シェア機能');
+    handleMenuClose();
+  };
+
+  const handleBookmark = () => {
+    console.log('ブックマーク機能');
+    handleMenuClose();
+  };
+
+  const handleCopyLink = () => {
+    console.log('リンクをコピー');
+    handleMenuClose();
+  };
+
+  const handleReport = async () => {
+    try {
+      const result = await postsApi.reportPost(post.ID);
+      console.log('投稿を報告しました:', result);
+      
+      // 投稿が非表示になった場合、親コンポーネントに通知
+      if (result.is_hide && onPostDelete) {
+        onPostDelete(post.ID);
+      }
+      
+      // ユーザーに結果を通知
+      alert(result.message);
+      
+    } catch (error) {
+      console.error('投稿の報告に失敗しました:', error);
+      alert('投稿の報告に失敗しました。もう一度お試しください。');
+    }
+    handleMenuClose();
+  };
+
+  const handleEdit = () => {
+    console.log('投稿を編集');
+    handleMenuClose();
+  };
+
+  const handleDelete = () => {
+    setDeleteDialogOpen(true);
+    handleMenuClose();
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await postsApi.hidePost(post.ID);
+      if (onPostDelete) {
+        onPostDelete(post.ID);
+      }
+      setDeleteDialogOpen(false);
+      console.log('投稿を非表示にしました:', post.ID);
+    } catch (error) {
+      console.error('投稿の非表示に失敗しました:', error);
+      alert('投稿の非表示に失敗しました。もう一度お試しください。');
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  // アバタークリック処理
+  const handleAvatarClick = async () => {
+    if (isLoadingProfile) return;
+    
+    try {
+      setIsLoadingProfile(true);
+      const profile = await postsApi.getUserProfile(post.UserID);
+      setUserProfile(profile);
+      setProfileModalOpen(true);
+    } catch (error) {
+      console.error('プロフィール取得に失敗しました:', error);
+      alert('プロフィールの取得に失敗しました。');
+    } finally {
+      setIsLoadingProfile(false);
+    }
+  };
+
+  // プロフィールモーダルを閉じる処理
+  const handleProfileModalClose = () => {
+    setProfileModalOpen(false);
+    setUserProfile(null);
+  };
+
+  // 現在のユーザーの投稿かどうかを判定
+  const isOwnPost = serverProfile.userId === post.UserID;
+
+  // フォロー状態とブロック状態を確認
+  React.useEffect(() => {
+    const checkFollowStatus = async () => {
+      if (!isOwnPost && post.UserID) {
+        try {
+          const status = await postsApi.getFollowStatus(post.UserID);
+          setIsFollowing(status.is_following);
+        } catch (error) {
+          console.error('フォロー状態の取得に失敗しました:', error);
+        }
+      }
+    };
+
+    const checkBlockStatusAsync = async () => {
+      if (!isOwnPost && post.UserID) {
+        try {
+          const blocked = await checkBlockStatus(post.UserID);
+          setIsBlocked(blocked);
+        } catch (error) {
+          console.error('ブロック状態の取得に失敗しました:', error);
+        }
+      }
+    };
+
+    checkFollowStatus();
+    checkBlockStatusAsync();
+  }, [post.UserID, isOwnPost]);
+
+  // フォロー/アンフォロー処理
+  const handleFollow = async () => {
+    if (isFollowLoading || isOwnPost) return;
+
+    try {
+      setIsFollowLoading(true);
+      console.log('フォロー操作開始 - UserID:', post.UserID, 'Current User:', serverProfile.userId);
+      const result = await postsApi.toggleFollow(post.UserID);
+      setIsFollowing(result.following);
+      
+      // 成功メッセージをコンソールに表示（アラートは削除）
+      console.log('✅ フォロー操作成功:', result.message);
+      
+      // フォロー操作後、即座にフォロー数を更新（リトライ処理を簡素化）
+      if (followContext) {
+        try {
+          // 0.5秒待機してからフォロー数を更新
+          await new Promise(resolve => setTimeout(resolve, 500));
+          await followContext.refreshFollowCounts();
+          console.log('PostCard: フォロー数を更新しました');
+          
+          // 追加で1秒後にもう一度更新（確実性のため）
+          setTimeout(async () => {
+            try {
+              await followContext.refreshFollowCounts();
+              console.log('PostCard: フォロー数を再更新しました');
+            } catch (error) {
+              console.error('PostCard: フォロー数の再更新に失敗:', error);
+            }
+          }, 1000);
+        } catch (error) {
+          console.error('PostCard: フォロー数の更新に失敗しました:', error);
+        }
+      }
+    } catch (error: any) {
+      console.error('フォロー操作に失敗しました:', error);
+      console.error('エラーの詳細:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message
+      });
+      
+      // より詳細なエラーメッセージを表示
+      const errorMessage = error.response?.data?.error || error.message || 'フォロー操作に失敗しました。もう一度お試しください。';
+      alert(`エラー: ${errorMessage}`);
+    } finally {
+      setIsFollowLoading(false);
+      handleMenuClose();
+    }
+  };
+
+  // ブロック処理
+  const handleBlock = async () => {
+    if (isBlockLoading || isOwnPost) return;
+
+    try {
+      setIsBlockLoading(true);
+      await blockUser(post.UserID);
+      setIsBlocked(true);
+      alert('ユーザーをブロックしました');
+      
+      // 投稿を非表示にする（親コンポーネントに通知）
+      if (onPostDelete) {
+        onPostDelete(post.ID);
+      }
+    } catch (error: any) {
+      console.error('ブロックに失敗しました:', error);
+      const errorMessage = error.message || 'ブロックに失敗しました。もう一度お試しください。';
+      alert(`エラー: ${errorMessage}`);
+    } finally {
+      setIsBlockLoading(false);
+      handleMenuClose();
+    }
+  };
+
+  // 画像ライトボックス関連の関数
+  const handleImageClick = (index: number) => {
+    setLightboxImageIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const handleLightboxClose = () => {
+    setLightboxOpen(false);
+  };
+
+  const handleLightboxNext = () => {
+    const allImages = post.Images && post.Images.length > 0 ? post.Images : (post.ImageURL ? [post.ImageURL] : []);
+    if (allImages.length > 0) {
+      setLightboxImageIndex((prev) => (prev + 1) % allImages.length);
+    }
+  };
+
+  const handleLightboxPrevious = () => {
+    const allImages = post.Images && post.Images.length > 0 ? post.Images : (post.ImageURL ? [post.ImageURL] : []);
+    if (allImages.length > 0) {
+      setLightboxImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+    }
+  };
+
+  // 表示用の画像配列を取得
+  const getDisplayImages = () => {
+    if (post.Images && post.Images.length > 0) {
+      return post.Images;
+    }
+    if (post.ImageURL) {
+      return [post.ImageURL];
+    }
+    return [];
   };
 
   return (
@@ -224,10 +498,35 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
         boxShadow: '0 4px 20px rgba(41, 182, 246, 0.1)'
       } 
     }}>
+      {/* リツイート情報の表示 */}
+      {post.IsRetweet && (
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 1, 
+          mb: 2,
+          color: isDarkMode ? '#81c784' : '#4caf50'
+        }}>
+          <Repeat sx={{ fontSize: '1rem' }} />
+          <Typography variant="body2" sx={{ 
+            fontSize: '0.9rem',
+            fontWeight: 500
+          }}>
+            {post.RetweetUserName || 'ユーザー'}がリツイート
+          </Typography>
+          <Typography variant="body2" sx={{ 
+            color: '#90a4ae',
+            fontSize: '0.8rem'
+          }}>
+            · {post.RetweetedAt ? formatRetweetTimestamp(post.RetweetedAt) : ''}
+          </Typography>
+        </Box>
+      )}
       <Box display="flex" gap={3}>
         <Avatar 
           src={post.AuthorPicture && post.AuthorPicture.trim() !== '' ? post.AuthorPicture : undefined}
           alt={post.AuthorName || 'ユーザー'}
+          onClick={handleAvatarClick}
           imgProps={{
             onError: (e) => {
               console.log('Avatar画像の読み込みに失敗:', post.AuthorPicture);
@@ -240,7 +539,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
             height: 48,
             fontSize: '1.2rem',
             fontWeight: 'bold',
-            boxShadow: '0 3px 10px rgba(66, 165, 245, 0.3)'
+            boxShadow: '0 3px 10px rgba(66, 165, 245, 0.3)',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              transform: 'scale(1.05)',
+              boxShadow: '0 6px 20px rgba(66, 165, 245, 0.4)',
+            }
           }}
         >
           {post.AuthorName ? post.AuthorName.charAt(0).toUpperCase() : 'U'}
@@ -280,13 +585,24 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
                 <img
                   src={post.Images[0]}
                   alt="投稿画像"
+                  onClick={() => handleImageClick(0)}
                   style={{
                     width: '100%',
                     maxHeight: '400px',
                     objectFit: 'cover',
                     borderRadius: '16px',
                     boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
-                    border: '2px solid #e1f5fe'
+                    border: '2px solid #e1f5fe',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.02)';
+                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)';
                   }}
                 />
               ) : post.Images.length === 2 ? (
@@ -294,16 +610,27 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
                 <Box display="flex" gap={1}>
                   {post.Images.map((image, index) => (
                     <img
-                      key={index}
+                      key={`post-${post.ID}-${post.CreatedAt}-image-2-${index}`}
                       src={image}
                       alt={`投稿画像${index + 1}`}
+                      onClick={() => handleImageClick(index)}
                       style={{
                         width: '50%',
                         height: '200px',
                         objectFit: 'cover',
                         borderRadius: '16px',
                         boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
-                        border: '2px solid #e1f5fe'
+                        border: '2px solid #e1f5fe',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.02)';
+                        e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.15)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)';
                       }}
                     />
                   ))}
@@ -313,31 +640,54 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
                 <Box>
                   <Box mb={1}>
                     <img
+                      key={`post-${post.ID}-${post.CreatedAt}-image-3-0`}
                       src={post.Images[0]}
                       alt="投稿画像1"
+                      onClick={() => handleImageClick(0)}
                       style={{
                         width: '100%',
                         height: '200px',
                         objectFit: 'cover',
                         borderRadius: '16px',
                         boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
-                        border: '2px solid #e1f5fe'
+                        border: '2px solid #e1f5fe',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.02)';
+                        e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.15)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)';
                       }}
                     />
                   </Box>
                   <Box display="flex" gap={1}>
                     {post.Images.slice(1).map((image, index) => (
                       <img
-                        key={index + 1}
+                        key={`post-${post.ID}-${post.CreatedAt}-image-3-${index + 1}`}
                         src={image}
                         alt={`投稿画像${index + 2}`}
+                        onClick={() => handleImageClick(index + 1)}
                         style={{
                           width: '50%',
                           height: '150px',
                           objectFit: 'cover',
                           borderRadius: '16px',
                           boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
-                          border: '2px solid #e1f5fe'
+                          border: '2px solid #e1f5fe',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.02)';
+                          e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.15)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)';
                         }}
                       />
                     ))}
@@ -351,13 +701,24 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
               <img
                 src={post.ImageURL}
                 alt="投稿画像"
+                onClick={() => handleImageClick(0)}
                 style={{
                   width: '100%',
                   maxHeight: '400px',
                   objectFit: 'cover',
                   borderRadius: '16px',
                   boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
-                  border: '2px solid #e1f5fe'
+                  border: '2px solid #e1f5fe',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)';
                 }}
               />
             </Box>
@@ -437,21 +798,134 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
             </Box>
             <IconButton 
               size="medium"
-              onClick={handleShare}
+              onClick={handleMenuClick}
               sx={{
-                color: '#ff9800',
+                color: '#757575',
                 borderRadius: 3,
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                  backgroundColor: 'rgba(117, 117, 117, 0.1)',
                   transform: 'scale(1.1)',
-                  boxShadow: '0 4px 12px rgba(255, 152, 0, 0.3)'
+                  boxShadow: '0 4px 12px rgba(117, 117, 117, 0.3)'
                 }
               }}
             >
-              <Share />
+              <MoreVert />
             </IconButton>
+
+            {/* 多機能メニュー */}
+            <Menu
+              anchorEl={anchorEl}
+              open={isMenuOpen}
+              onClose={handleMenuClose}
+              PaperProps={{
+                sx: {
+                  backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+                  color: isDarkMode ? 'white' : 'black',
+                  borderRadius: 2,
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+                  border: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}`,
+                  minWidth: 200,
+                }
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+              {isOwnPost ? (
+                <MenuItem onClick={handleDelete}>
+                  <ListItemIcon>
+                    <Delete fontSize="small" sx={{ color: '#f44336' }} />
+                  </ListItemIcon>
+                  <ListItemText sx={{ color: '#f44336' }}>削除</ListItemText>
+                </MenuItem>
+              ) : (
+                <>
+                  <MenuItem onClick={handleFollow} disabled={isFollowLoading}>
+                    <ListItemIcon>
+                      {isFollowing ? (
+                        <PersonRemove fontSize="small" sx={{ color: '#ff9800' }} />
+                      ) : (
+                        <PersonAdd fontSize="small" sx={{ color: '#4caf50' }} />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText sx={{ 
+                      color: isFollowing ? '#ff9800' : '#4caf50',
+                      opacity: isFollowLoading ? 0.5 : 1
+                    }}>
+                      {isFollowLoading ? '処理中...' : (isFollowing ? 'フォロー解除' : 'フォローする')}
+                    </ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={handleBlock} disabled={isBlockLoading || isBlocked}>
+                    <ListItemIcon>
+                      <Block fontSize="small" sx={{ color: '#f44336' }} />
+                    </ListItemIcon>
+                    <ListItemText sx={{ 
+                      color: '#f44336',
+                      opacity: isBlockLoading ? 0.5 : 1
+                    }}>
+                      {isBlockLoading ? '処理中...' : (isBlocked ? 'ブロック済み' : 'NGに追加する')}
+                    </ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={handleReport}>
+                    <ListItemIcon>
+                      <Flag fontSize="small" sx={{ color: '#f44336' }} />
+                    </ListItemIcon>
+                    <ListItemText sx={{ color: '#f44336' }}>報告</ListItemText>
+                  </MenuItem>
+                </>
+              )}
+            </Menu>
           </Box>
+
+          {/* 削除確認ダイアログ */}
+          <Dialog
+            open={deleteDialogOpen}
+            onClose={handleDeleteCancel}
+            PaperProps={{
+              sx: {
+                backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+                color: isDarkMode ? 'white' : 'black',
+                borderRadius: 2,
+              }
+            }}
+          >
+            <DialogTitle sx={{ fontWeight: 600 }}>
+              投稿を削除しますか？
+            </DialogTitle>
+            <DialogContent>
+              <Typography>
+                この操作は取り消すことができません。本当に削除しますか？
+              </Typography>
+            </DialogContent>
+            <DialogActions sx={{ p: 2, gap: 1 }}>
+              <Button
+                onClick={handleDeleteCancel}
+                variant="outlined"
+                sx={{
+                  borderColor: isDarkMode ? '#666' : '#ccc',
+                  color: isDarkMode ? 'white' : 'black',
+                  '&:hover': {
+                    borderColor: isDarkMode ? '#888' : '#999',
+                  }
+                }}
+              >
+                キャンセル
+              </Button>
+              <Button
+                onClick={handleDeleteConfirm}
+                variant="contained"
+                color="error"
+                sx={{
+                  bgcolor: '#f44336',
+                  '&:hover': {
+                    bgcolor: '#d32f2f',
+                  }
+                }}
+              >
+                削除
+              </Button>
+            </DialogActions>
+          </Dialog>
 
           {/* コメント入力フィールドとコメント一覧 */}
           <Collapse in={showComments}>
@@ -586,6 +1060,23 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate }) => {
           </Collapse>
         </Box>
       </Box>
+
+      {/* プロフィールモーダル */}
+      <UserProfileModal
+        open={profileModalOpen}
+        onClose={handleProfileModalClose}
+        profile={userProfile}
+      />
+
+      {/* 画像ライトボックス */}
+      <ImageLightbox
+        open={lightboxOpen}
+        onClose={handleLightboxClose}
+        images={getDisplayImages()}
+        currentIndex={lightboxImageIndex}
+        onNext={handleLightboxNext}
+        onPrevious={handleLightboxPrevious}
+      />
     </Box>
   );
 };

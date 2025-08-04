@@ -17,7 +17,8 @@ export const createMenuItems = (
     onNavigateToMessages?: () => void,
     onNavigateToHome?: () => void,
     onToggleFollowingPosts?: () => void,
-    showFollowingPosts?: boolean
+    showFollowingPosts?: boolean,
+    resetNotificationCount?: () => void
 ): { leftMenuItems: MenuItem[], additionalMenuItems: MenuItem[] } => {
     const leftMenuItems: MenuItem[] = [
         {
@@ -47,7 +48,16 @@ export const createMenuItems = (
             icon: React.createElement(Notifications),
             label: '通知',
             active: showNotifications,
-            onClick: onNavigateToNotifications,
+            onClick: () => {
+                // 通知タブを開く前にカウントをリセット
+                if (resetNotificationCount) {
+                    resetNotificationCount();
+                }
+                // 通知ページに移動
+                if (onNavigateToNotifications) {
+                    onNavigateToNotifications();
+                }
+            },
             hasNotification: true // We'll use this to show the notification bell component
         },
         { icon: React.createElement(Message), label: 'メッセージ', active: false, onClick: onNavigateToMessages },

@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Typography, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { ImageSlider } from './ImageSlider';
 import { DotOverlay } from './DotOverlay';
 import { PunchLineSlider } from './PunchLineSlider';
 import { useScreenOrientation } from './useScreenOrientation';
@@ -10,36 +9,97 @@ export const HeroSection: React.FC = () => {
   const navigate = useNavigate();
   const { isPortraitDesktop, isLandscapeDesktop, aspectRatio } = useScreenOrientation();
 
-  // 縦画面大型ディスプレイ用の動的スタイル
+  // 4枚の画像データ
+  const bgImages = [
+    "https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp",
+    "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750225603/Sleeping_emcryh.webp",
+    "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750225603/Mountaineering_s7wwxh.webp",
+    "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750225603/Eating_h5psox.webp"
+  ];
+
+  // 現在の画像インデックスの状態
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // 自動的に画像を切り替える
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % bgImages.length);
+    }, 6000); // 6秒ごとに切り替え
+
+    return () => clearInterval(interval);
+  }, [bgImages.length]);
+
+  // スマホ対応を強化した高さ設定
   const getHeroHeight = () => {
-    if (isPortraitDesktop) {
-      return '25vh'; // 縦画面で画像の真ん中にテキストが来るよう調整
-    } else if (isLandscapeDesktop) {
-      return '50vh'; // 横画面では標準
-    } else if (aspectRatio < 0.8) {
-      return '35vh'; // タブレット縦画面も調整
-    } else {
-      return '40vh'; // デフォルト（iPhone15対応）
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    // スマホの縦画面（iPhone 14 Pro Max等）
+    if (width <= 430 && height >= 800) {
+      return '320px'; // スマホ縦画面専用（より小さく）
+    }
+    // 一般的なスマホ
+    else if (width <= 480) {
+      return '300px'; // 小さめのスマホ
+    }
+    // タブレット縦画面
+    else if (aspectRatio < 0.8) {
+      return '350px'; // タブレット縦画面
+    }
+    // デスクトップ縦画面
+    else if (isPortraitDesktop) {
+      return '300px'; // デスクトップ縦画面
+    }
+    // デスクトップ横画面
+    else if (isLandscapeDesktop) {
+      return '500px'; // デスクトップ横画面
+    }
+    // その他
+    else {
+      return '380px'; // デフォルト
     }
   };
 
   return (
     <Box
       sx={{
+        // 完全固定サイズのコンテナ
         position: 'relative',
-        py: 0,
-        textAlign: 'center',
-        // 動的な高さ設定
-        minHeight: getHeroHeight(),
-        height: getHeroHeight(),
+        width: '100vw', // ビューポート幅に完全固定
+        height: getHeroHeight(), // 固定高さ
+        maxWidth: '100vw', // 最大幅制限
+        maxHeight: getHeroHeight(), // 最大高さ制限
+        minHeight: getHeroHeight(), // 最小高さ制限
+        margin: 0, // マージン完全削除
+        padding: 0, // パディング完全削除
+        overflow: 'hidden', // はみ出し完全防止
+        // フレックスボックスで中央揃え
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'hidden',
+        textAlign: 'center',
+        // ボックスサイジング
+        boxSizing: 'border-box',
+        // 確実に境界を作る
+        border: '0 solid transparent',
       }}
     >
-      {/* スライドショー画像 */}
-      <ImageSlider />
+      {/* 4枚の画像を順次切り替える背景 */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: `url(${bgImages[currentImageIndex]})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          zIndex: 1,
+          transition: 'background-image 1s ease-in-out', // スムーズな切り替え
+        }}
+      />
       
       {/* ドットレイヤー（コンテナ内に制限） */}
       <DotOverlay />

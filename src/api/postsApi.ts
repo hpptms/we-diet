@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:8080';
+import axios from 'axios';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 interface Post {
     ID: number;
@@ -10,6 +12,12 @@ interface Post {
     IsSensitive: boolean;
     AuthorName: string;      // 投稿者名（キャッシュ）
     AuthorPicture: string;   // 投稿者アイコンURL（キャッシュ）
+    // リツイート関連のフィールド
+    IsRetweet?: boolean;     // リツイートされた投稿かどうか
+    RetweetUserID?: number;  // リツイートしたユーザーのID
+    RetweetUserName?: string; // リツイートしたユーザーの名前
+    RetweetUserPicture?: string; // リツイートしたユーザーのアイコン
+    RetweetedAt?: string;    // リツイートされた時間
     User: {
         ID: number;
         UserName: string;
@@ -140,6 +148,34 @@ interface ConversationsResponse {
     conversations: ConversationItem[];
 }
 
+// ユーザープロフィール関連のインターフェース
+interface UserProfile {
+    ID: number;
+    UserID: number;
+    DisplayName: string;
+    SelectedPresetID?: number;
+    IconType: string;
+    UploadedIcon?: string;
+    UploadedIconPublicID?: string;
+    Gender: string;
+    Age?: number;
+    ActivityLevel: string;
+    Height?: number;
+    CurrentWeight?: number;
+    TargetWeight?: number;
+    ShowPreset: boolean;
+    PrText: string;
+    IsGenderPrivate: boolean;
+    IsAgePrivate: boolean;
+    IsHeightPrivate: boolean;
+    IsActivityPrivate: boolean;
+    IsCurrentWeightPrivate: boolean;
+    IsTargetWeightPrivate: boolean;
+    EnableSensitiveFilter: boolean;
+    CreatedAt: string;
+    UpdatedAt: string;
+}
+
 // JWTトークンを取得するヘルパー関数
 const getAuthToken = (): string | null => {
     return localStorage.getItem('jwt_token') || localStorage.getItem('authToken') || localStorage.getItem('token');
@@ -151,7 +187,6 @@ const getCurrentUserId = (): number | null => {
         // user_idフィールドを最初に確認（DashboardPageで設定される）
         const userId = localStorage.getItem('user_id');
         if (userId) {
-            console.log('user_idからユーザーID取得:', userId);
             return parseInt(userId, 10);
         }
 
@@ -160,7 +195,6 @@ const getCurrentUserId = (): number | null => {
         if (serverProfileData) {
             const parsed = JSON.parse(serverProfileData);
             if (parsed.userId) {
-                console.log('serverProfileDataからユーザーID取得:', parsed.userId);
                 return parsed.userId;
             }
         }
@@ -168,18 +202,15 @@ const getCurrentUserId = (): number | null => {
         // accountIdフィールドを確認
         const accountId = localStorage.getItem('accountId');
         if (accountId) {
-            console.log('accountIdからユーザーID取得:', accountId);
             return parseInt(accountId, 10);
         }
 
         // userIdフィールドを確認（他の実装での互換性）
         const userIdAlt = localStorage.getItem('userId');
         if (userIdAlt) {
-            console.log('userIdからユーザーID取得:', userIdAlt);
             return parseInt(userIdAlt, 10);
         }
 
-        console.warn('ユーザーIDが見つかりません');
         return null;
     } catch (error) {
         console.error('ユーザーID取得でエラー:', error);
@@ -190,9 +221,6 @@ const getCurrentUserId = (): number | null => {
 // 認証ヘッダーを取得するヘルパー関数
 const getAuthHeaders = (): Record<string, string> => {
     const token = getAuthToken();
-    const userId = getCurrentUserId();
-
-    console.log('認証情報確認 - token:', token ? 'あり' : 'なし', 'userId:', userId);
 
     const headers: Record<string, string> = {
         'Content-Type': 'application/json',
@@ -208,23 +236,51 @@ const getAuthHeaders = (): Record<string, string> => {
 export const postsApi = {
     // 投稿一覧取得（公開エンドポイント）
     async getPosts(page: number = 1, limit: number = 20): Promise<PostsResponse> {
-        const response = await fetch(`${API_BASE_URL}/public/posts?page=${page}&limit=${limit}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch posts');
+        // protobufリクエスト型・レスポンス型をimport
+        // import { GetPostsRequest, PostsResponse } from '../proto/dieter';
+        const token = getAuthToken();
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/x-protobuf',
+            'Accept': 'application/x-protobuf',
+        };
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
         }
-        return response.json();
+        // protobufリクエストはクエリパラメータではなくbodyで送る場合はPOST/PUTだが、GETの場合はクエリでOK
+        const response = await axios.get(
+            `${API_BASE_URL}/public/posts?page=${page}&limit=${limit}`,
+            {
+                headers,
+                responseType: 'arraybuffer',
+            }
+        );
+        // protobufデコード
+        // import { PostsResponse } from '../proto/dieter';
+        const reader = new Uint8Array(response.data);
+        // @ts-ignore
+        return require('../proto/dieter').PostsResponse.fromBinary(reader);
     },
 
     // フォロー中ユーザーの投稿一覧取得（認証付きエンドポイント）
     async getFollowingPosts(page: number = 1, limit: number = 20): Promise<PostsResponse> {
-        const response = await fetch(`${API_BASE_URL}/api/posts/following?page=${page}&limit=${limit}`, {
-            method: 'GET',
-            headers: getAuthHeaders(),
-        });
-        if (!response.ok) {
-            throw new Error('Failed to fetch following posts');
+        const token = getAuthToken();
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/x-protobuf',
+            'Accept': 'application/x-protobuf',
+        };
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
         }
-        return response.json();
+        const response = await axios.get(
+            `${API_BASE_URL}/api/posts/following?page=${page}&limit=${limit}`,
+            {
+                headers,
+                responseType: 'arraybuffer',
+            }
+        );
+        const reader = new Uint8Array(response.data);
+        // @ts-ignore
+        return require('../proto/dieter').PostsResponse.fromBinary(reader);
     },
 
     // 特定の投稿取得（公開エンドポイント）
@@ -323,6 +379,33 @@ export const postsApi = {
         if (!response.ok) {
             throw new Error('Failed to fetch post likes');
         }
+        return response.json();
+    },
+
+    // 投稿非表示（削除の代替）
+    async hidePost(postId: number): Promise<{ message: string }> {
+        const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/hide`, {
+            method: 'PUT',
+            headers: getAuthHeaders(),
+        });
+        if (!response.ok) {
+            throw new Error('Failed to hide post');
+        }
+        return response.json();
+    },
+
+    // 投稿を報告する
+    async reportPost(postId: number): Promise<{ success: boolean; message: string; karma: number; is_hide: boolean }> {
+        const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/report`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || '投稿の報告に失敗しました');
+        }
+
         return response.json();
     },
 
@@ -511,6 +594,15 @@ export const postsApi = {
         }
         return response.json();
     },
+
+    // ユーザープロフィール取得（公開エンドポイント）
+    async getUserProfile(userId: number): Promise<UserProfile> {
+        const response = await fetch(`${API_BASE_URL}/public/user_profile/${userId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch user profile');
+        }
+        return response.json();
+    },
 };
 
-export type { Post, Comment, Retweet, Like, CreatePostRequest, CreateCommentRequest, PostsResponse, RecommendedUser, RecommendedUsersResponse, Message, SendMessageRequest, MessagesResponse, ConversationItem, ConversationsResponse };
+export type { Post, Comment, Retweet, Like, CreatePostRequest, CreateCommentRequest, PostsResponse, RecommendedUser, RecommendedUsersResponse, Message, SendMessageRequest, MessagesResponse, ConversationItem, ConversationsResponse, UserProfile };

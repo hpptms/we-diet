@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import {
   Box,
   TextField,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../recoil/darkModeAtom';
@@ -25,7 +27,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [hashtags, setHashtags] = useState<string[]>([]);
-  const isSensitive = false;
+  const [isSensitive, setIsSensitive] = useState(false);
   const [emojiAnchorEl, setEmojiAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedEmojiCategory, setSelectedEmojiCategory] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,6 +50,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
         setSelectedImages([]);
         setImageUrls([]);
         setHashtags([]);
+        setIsSensitive(false);
         
         console.log('投稿フォームがリセットされました');
       } catch (error) {
@@ -131,7 +134,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
 
   return (
     <Box sx={{ 
-      p: 4, 
+      p: { xs: 2, sm: 4 }, 
       mb: 0, 
       borderBottom: isDarkMode ? '2px solid #29b6f6' : '2px solid #e1f5fe',
       background: isDarkMode 
@@ -148,12 +151,12 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
         onChange={handleFileSelect}
       />
 
-      <Box display="flex" gap={3}>
+      <Box display="flex" gap={{ xs: 2, sm: 3 }}>
         <UserAvatar currentUser={currentUser} />
         <Box flex={1}>
           <TextField
             multiline
-            rows={4}
+            rows={3}
             fullWidth
             placeholder="今どうしてる？"
             value={postContent}
@@ -166,7 +169,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
                 borderRadius: 3,
                 backgroundColor: isDarkMode ? '#000000' : 'white',
                 border: isDarkMode ? '2px solid #29b6f6' : '2px solid #e1f5fe',
-                fontSize: '1.1rem',
+                fontSize: { xs: '1rem', sm: '1.1rem' },
                 color: isDarkMode ? '#ffffff' : '#000000',
                 transition: 'all 0.3s ease',
                 outline: 'none',
@@ -203,7 +206,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
             >
               {hashtags.map((hashtag, index) => (
                 <Box
-                  key={index}
+                  key={`hashtag-${index}-${hashtag}`}
                   sx={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -238,6 +241,48 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
             onPost={handlePost}
             canPost={canPost}
           />
+
+          {/* センシティブチェックボックス - 文字か写真の入力がある時のみ表示 */}
+          {(Boolean(postContent.trim()) || selectedImages.length > 0) && (
+            <Box
+              sx={{
+                mt: 2,
+                display: 'flex',
+                justifyContent: 'center',
+                backgroundColor: isDarkMode ? 'rgba(41, 182, 246, 0.1)' : 'rgba(41, 182, 246, 0.05)',
+                border: isDarkMode ? '1px solid rgba(41, 182, 246, 0.3)' : '1px solid rgba(41, 182, 246, 0.2)',
+                borderRadius: 3,
+                padding: 2,
+                transition: 'all 0.3s ease',
+              }}
+            >
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isSensitive}
+                    onChange={(e) => setIsSensitive(e.target.checked)}
+                    sx={{
+                      color: '#29b6f6',
+                      '&.Mui-checked': {
+                        color: '#29b6f6',
+                      },
+                      '& .MuiSvgIcon-root': {
+                        fontSize: 20,
+                      }
+                    }}
+                  />
+                }
+                label="センシティブ"
+                sx={{
+                  '& .MuiFormControlLabel-label': {
+                    color: isDarkMode ? '#ffffff' : '#333333',
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                  }
+                }}
+              />
+            </Box>
+          )}
 
         </Box>
       </Box>

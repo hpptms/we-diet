@@ -6,6 +6,7 @@ export interface FoodLogState {
     diary: string;
     photos: string[];
     isPublic: boolean;
+    isSensitive: boolean;
     currentRecord?: FoodLogType;
     recordedDates: string[];
 }
@@ -17,6 +18,7 @@ export const foodLogState = atom<FoodLogState>({
         diary: '',
         photos: [],
         isPublic: false,
+        isSensitive: false,
         currentRecord: undefined,
         recordedDates: [],
     },

@@ -8,6 +8,12 @@ export interface Post {
     IsSensitive: boolean;
     AuthorName: string;      // 投稿者名（キャッシュ）
     AuthorPicture: string;   // 投稿者アイコンURL（キャッシュ）
+    // リツイート関連のフィールド
+    IsRetweet?: boolean;     // リツイートされた投稿かどうか
+    RetweetUserID?: number;  // リツイートしたユーザーのID
+    RetweetUserName?: string; // リツイートしたユーザーの名前
+    RetweetUserPicture?: string; // リツイートしたユーザーのアイコン
+    RetweetedAt?: string;    // リツイートされた時間
     User?: {
         ID: number;
         UserName: string;
@@ -72,6 +78,7 @@ export interface TrendingTopic {
 }
 
 export interface RecommendedUser {
+    id: number;
     name: string;
     username: string;
     avatar: string;

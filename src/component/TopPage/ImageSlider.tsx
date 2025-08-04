@@ -59,9 +59,9 @@ export const ImageSlider: React.FC = () => {
 
   // 全ての画像が統一されたので、シンプルな表示処理
   const getImageStyles = () => {
-    // すべての画像が1536×1024で統一されたため、常にcontainで表示
+    // coverに変更して白いスペースを排除し、コンテナを完全に覆う
     return {
-      objectFit: 'contain' as const,
+      objectFit: 'cover' as const,
       objectPosition: 'center'
     };
   };

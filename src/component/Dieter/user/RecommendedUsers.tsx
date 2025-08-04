@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -10,13 +10,41 @@ import {
   PersonAdd,
 } from '@mui/icons-material';
 import { RecommendedUser } from '../types';
+import { postsApi, UserProfile } from '../../../api/postsApi';
+import UserProfileModal from '../profile/UserProfileModal';
 
 interface RecommendedUsersProps {
   users: RecommendedUser[];
-  onFollow?: (username: string) => void;
+  onFollow?: (userId: number) => void;
 }
 
 const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) => {
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
+
+  // アバタークリック処理（PostCardと同じ仕組み）
+  const handleAvatarClick = async (userId: number) => {
+    if (isLoadingProfile) return;
+    
+    try {
+      setIsLoadingProfile(true);
+      const profile = await postsApi.getUserProfile(userId);
+      setUserProfile(profile);
+      setProfileModalOpen(true);
+    } catch (error) {
+      console.error('プロフィール取得に失敗しました:', error);
+      alert('プロフィールの取得に失敗しました。');
+    } finally {
+      setIsLoadingProfile(false);
+    }
+  };
+
+  // プロフィールモーダルを閉じる処理
+  const handleProfileModalClose = () => {
+    setProfileModalOpen(false);
+    setUserProfile(null);
+  };
   return (
     <Box sx={{ 
       p: 2
@@ -33,7 +61,7 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
         ⭐ おすすめユーザー
       </Typography>
       {users.map((user, index) => (
-        <Box key={index} sx={{
+        <Box key={`recommended-user-${user.username}-${index}`} sx={{
           mb: 2,
           p: 1.5,
           borderRadius: 3,
@@ -57,16 +85,27 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
                   height: 36,
                   fontSize: '1rem',
                   fontWeight: 'bold',
-                  boxShadow: '0 3px 10px rgba(66, 165, 245, 0.3)'
+                  boxShadow: '0 3px 10px rgba(66, 165, 245, 0.3)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    transform: 'scale(1.1)',
+                    boxShadow: '0 4px 16px rgba(66, 165, 245, 0.5)'
+                  }
                 }}
+                onClick={() => handleAvatarClick(user.id)}
               >
                 {!user.avatar.startsWith('http') ? user.avatar : user.name?.charAt(0) || 'U'}
               </Avatar>
-              <Box flex={1}>
+              <Box flex={1} sx={{ cursor: 'pointer' }} onClick={() => handleAvatarClick(user.id)}>
                 <Typography variant="subtitle1" sx={{ 
                   fontWeight: 600,
                   color: '#0277bd',
-                  fontSize: '0.95rem'
+                  fontSize: '0.95rem',
+                  '&:hover': {
+                    color: '#0288d1',
+                    textDecoration: 'underline'
+                  }
                 }}>
                   {user.name}
                 </Typography>
@@ -101,13 +140,20 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
                 }),
                 transition: 'all 0.3s ease'
               }}
-              onClick={() => onFollow?.(user.username)}
+              onClick={() => onFollow?.(user.id)}
             >
               {user.isFollowing ? 'フォロー中' : 'フォロー'}
             </Button>
           </Box>
         </Box>
       ))}
+
+      {/* プロフィールモーダル */}
+      <UserProfileModal
+        open={profileModalOpen}
+        onClose={handleProfileModalClose}
+        profile={userProfile}
+      />
     </Box>
   );
 };

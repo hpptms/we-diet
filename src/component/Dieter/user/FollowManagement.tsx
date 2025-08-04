@@ -19,6 +19,7 @@ import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../recoil/darkModeAtom';
 import { serverProfileState } from '../../../recoil/profileSettingsAtom';
 import { postsApi } from '../../../api/postsApi';
+import { getBlockedUsers, unblockUser } from '../../../api/blockApi';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -52,6 +53,12 @@ interface FollowUser {
   picture: string;
 }
 
+interface BlockedUser {
+  id: number;
+  username: string;
+  picture?: string;
+}
+
 interface FollowManagementProps {
   onBack?: () => void;
 }
@@ -62,6 +69,7 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
   const [tabValue, setTabValue] = useState(0);
   const [followers, setFollowers] = useState<FollowUser[]>([]);
   const [following, setFollowing] = useState<FollowUser[]>([]);
+  const [blockedUsers, setBlockedUsers] = useState<BlockedUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -80,13 +88,21 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
       setLoading(true);
       setError(null);
 
-      const [followersResponse, followingResponse] = await Promise.all([
+      const [followersResponse, followingResponse, blockedResponse] = await Promise.all([
         postsApi.getFollowers(currentUserId),
         postsApi.getFollowing(currentUserId),
+        getBlockedUsers(),
       ]);
 
       setFollowers(followersResponse.followers || []);
       setFollowing(followingResponse.following || []);
+      setBlockedUsers(
+        (blockedResponse || []).map((user: any) => ({
+          id: user.id,
+          username: user.userName,
+          picture: user.picture,
+        }))
+      );
     } catch (error) {
       console.error('フォロー情報の取得に失敗しました:', error);
       setError('フォロー情報の取得に失敗しました');
@@ -109,7 +125,17 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
     }
   };
 
-  const renderUserList = (users: FollowUser[], isFollowingTab: boolean) => {
+  const handleUnblock = async (userId: number) => {
+    try {
+      await unblockUser(userId);
+      // ブロック情報を再取得
+      await fetchFollowData();
+    } catch (error) {
+      console.error('ブロック解除に失敗しました:', error);
+    }
+  };
+
+  const renderUserList = (users: FollowUser[] | BlockedUser[], isFollowingTab: boolean, isBlockedTab: boolean = false) => {
     if (users.length === 0) {
       return (
         <Box sx={{ textAlign: 'center', py: 4 }}>
@@ -119,7 +145,7 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
               color: isDarkMode ? '#ffffff' : '#666666',
             }}
           >
-            {isFollowingTab ? 'フォロー中のユーザーはいません' : 'フォロワーはいません'}
+            {isFollowingTab ? 'フォロー中のユーザーはいません' : isBlockedTab ? 'NG中のユーザーはいません' : 'フォロワーはいません'}
           </Typography>
         </Box>
       );
@@ -173,6 +199,23 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
                 }}
               >
                 フォロー解除
+              </Button>
+            )}
+            {isBlockedTab && (
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => handleUnblock(user.id)}
+                sx={{
+                  borderColor: '#f44336',
+                  color: '#f44336',
+                  '&:hover': {
+                    borderColor: '#d32f2f',
+                    backgroundColor: 'rgba(244, 67, 54, 0.04)',
+                  },
+                }}
+              >
+                ブロック解除
               </Button>
             )}
           </ListItem>
@@ -257,6 +300,16 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
                 id="follow-tab-1"
                 aria-controls="follow-tabpanel-1"
               />
+              <Tab 
+                label={`NG中 (${blockedUsers ? blockedUsers.length : 0})`} 
+                id="follow-tab-2"
+                aria-controls="follow-tabpanel-2"
+                sx={{
+                  '&.Mui-selected': {
+                    color: '#f44336',
+                  },
+                }}
+              />
             </Tabs>
           </Box>
 
@@ -281,6 +334,9 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
               </TabPanel>
               <TabPanel value={tabValue} index={1}>
                 {renderUserList(following, true)}
+              </TabPanel>
+              <TabPanel value={tabValue} index={2}>
+                {renderUserList(blockedUsers, false, true)}
               </TabPanel>
             </>
           )}

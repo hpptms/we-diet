@@ -24,9 +24,16 @@ export const useNotifications = () => {
         return () => clearInterval(interval);
     }, []);
 
+    // 通知カウントをリセット
+    const resetNotificationCount = () => {
+        setUnreadNotificationCount(0);
+    };
+
     // 通知クリックハンドラー
     const handleNotificationClick = () => {
         setShowNotifications(true);
+        // 通知タブを開いた時点でカウントをリセット
+        resetNotificationCount();
     };
 
     // 通知ページから戻る
@@ -46,6 +53,7 @@ export const useNotifications = () => {
         unreadNotificationCount,
         handleNotificationClick,
         handleBackFromNotifications,
-        handleNotificationItemClick
+        handleNotificationItemClick,
+        resetNotificationCount
     };
 };

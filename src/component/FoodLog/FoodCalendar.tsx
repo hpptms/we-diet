@@ -154,8 +154,8 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
 
                 {/* Week Days Header */}
                 <Grid container spacing={1} sx={{ mb: 1 }}>
-                    {weekDays.map((day) => (
-                        <Grid item xs key={day} sx={{ textAlign: 'center' }}>
+                    {weekDays.map((day, index) => (
+                        <Grid item xs key={`weekday-${index}-${day}`} sx={{ textAlign: 'center' }}>
                             <Typography variant="body2" color="text.secondary" fontWeight="bold">
                                 {day}
                             </Typography>
@@ -166,7 +166,7 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
                 {/* Calendar Grid */}
                 <Grid container spacing={1}>
                     {calendarDays.map((day, index) => (
-                        <Grid item xs key={index} sx={{ textAlign: 'center' }}>
+                        <Grid item xs key={`calendar-day-${index}-${day || 'empty'}`} sx={{ textAlign: 'center' }}>
                             {day && (
                                 <Paper
                                     elevation={isRecordedDate(day) ? 3 : 1}

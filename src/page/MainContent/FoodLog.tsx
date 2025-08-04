@@ -14,6 +14,7 @@ import { Save, PhotoCamera } from '@mui/icons-material';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
 import { foodLogState } from '../../recoil/foodLogAtom';
+import { postsApi } from '../../api/postsApi';
 import {
     CreateFoodLogRequest,
     CreateFoodLogResponse,
@@ -153,6 +154,19 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         }
     };
 
+    // 食事記録投稿のコンテンツを作成する関数
+    const createFoodLogPostContent = () => {
+        let content = "今日の食事記録 🍽️\n\n";
+        
+        if (foodLog.diary.trim()) {
+            content += foodLog.diary + "\n\n";
+        }
+        
+        content += "#今日の食事";
+        
+        return content;
+    };
+
     const handleSave = async () => {
         setLoading(true);
         setError(null);
@@ -193,6 +207,57 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             console.log('食事記録保存レスポンス:', response.data);
 
             if (response.data.success) {
+                // dieterに投稿がチェックされている場合、投稿も作成
+                if (foodLog.isPublic) {
+                    try {
+                        console.log('=== Dieter投稿作成開始 ===');
+                        const postContent = createFoodLogPostContent();
+                        console.log('投稿コンテンツ:', postContent);
+                        
+                        // 食事記録の写真をFile型に変換（postsApi用）
+                        const imageFiles: File[] = [];
+                        
+                        // URLからFileオブジェクトを作成する関数
+                        const convertUrlToFile = async (url: string, filename: string): Promise<File> => {
+                            try {
+                                const response = await fetch(url);
+                                const blob = await response.blob();
+                                return new File([blob], filename, { type: blob.type });
+                            } catch (error) {
+                                console.error(`画像の変換に失敗しました: ${url}`, error);
+                                throw error;
+                            }
+                        };
+                        
+                        // 保存された写真URLをFile型に変換
+                        if (foodLog.photos && foodLog.photos.length > 0) {
+                            try {
+                                const filePromises = foodLog.photos.map((photoUrl, index) => 
+                                    convertUrlToFile(photoUrl, `food-photo-${index + 1}.jpg`)
+                                );
+                                const convertedFiles = await Promise.all(filePromises);
+                                imageFiles.push(...convertedFiles);
+                                console.log(`${convertedFiles.length}枚の写真を変換しました`);
+                            } catch (photoError) {
+                                console.error('写真の変換でエラーが発生しました:', photoError);
+                                // 写真の変換に失敗しても投稿は続行（テキストのみ）
+                            }
+                        }
+                        
+                        const postResult = await postsApi.createPost({
+                            content: postContent,
+                            images: imageFiles,
+                            is_sensitive: foodLog.isSensitive
+                        });
+                        
+                        console.log('Dieter投稿作成成功:', postResult);
+                    } catch (postError) {
+                        console.error('Dieter投稿作成エラー:', postError);
+                        // 投稿作成に失敗してもアラートは表示するが、食事記録の成功メッセージは表示する
+                        alert('食事記録は保存されましたが、Dieter投稿の作成に失敗しました。');
+                    }
+                }
+
                 const successMessage = isUpdate 
                     ? '食事記録を更新しました！古い写真は自動的に削除されました。'
                     : '食事記録を保存しました！';
@@ -350,6 +415,9 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             <PublicToggle
                 isPublic={foodLog.isPublic}
                 onChange={(isPublic) => setFoodLog(prev => ({ ...prev, isPublic }))}
+                isSensitive={foodLog.isSensitive}
+                onSensitiveChange={(isSensitive) => setFoodLog(prev => ({ ...prev, isSensitive }))}
+                showSensitiveOption={true}
                 isDarkMode={isDarkMode}
             />
 

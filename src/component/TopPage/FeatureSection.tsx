@@ -48,9 +48,13 @@ export const FeatureSection: React.FC = () => {
   ];
 
   return (
-    <Box component="section" sx={{ position: 'relative' }}>
+    <Box component="section" sx={{ 
+      position: 'relative',
+      margin: 0, // マージンを完全に0に設定
+      padding: 0, // パディングも0に設定
+    }}>
       {features.map((feature, index) => (
-        <Box key={index}>
+        <Box key={`feature-${index}-${feature.title}`}>
           <Box
             sx={{
               background: sectionColors[index],
@@ -210,8 +214,7 @@ export const FeatureSection: React.FC = () => {
                       color: 'rgba(255, 255, 255, 0.9)',
                       textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
                       maxWidth: '450px',
-                      margin: isMobile ? '0 auto' : '0',
-                      whiteSpace: 'nowrap'
+                      margin: isMobile ? '0 auto' : '0'
                     }}
                   >
                     {feature.description}

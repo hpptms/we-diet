@@ -46,7 +46,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
       boxShadow: shouldUseFullWidth ? "none" : "0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1)",
       border: shouldUseFullWidth ? "none" : isDarkMode ? "2px solid #ffffff" : "1px solid rgba(0, 0, 0, 0.05)",
       boxSizing: "border-box",
-      minHeight: shouldUseFullWidth ? "100vh" : "auto",
+      minHeight: shouldUseFullWidth ? "auto" : "auto",
     }}>
       <button
         style={{
