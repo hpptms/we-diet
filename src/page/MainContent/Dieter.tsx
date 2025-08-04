@@ -166,7 +166,7 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
         
         setRecommendedUsers(convertedUsers);
       } catch (error) {
-        console.error('おすすめユーザーの取得に失敗しました:', error);
+        // console.error('おすすめユーザーの取得に失敗しました:', error);
         // エラー時はデフォルトのユーザーを表示
         setRecommendedUsers([
           { id: 1, name: '健康太郎', username: '@kenkou_taro', avatar: 'K', isFollowing: false },

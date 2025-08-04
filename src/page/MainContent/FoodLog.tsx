@@ -193,7 +193,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 is_public: foodLog.isPublic
             };
 
-            console.log('送信するリクエストデータ:', request);
+            // console.log('送信するリクエストデータ:', request);
 
             const response = await axios.post<CreateFoodLogResponse>(
                 `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/create`,
@@ -205,7 +205,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 }
             );
 
-            console.log('食事記録保存レスポンス:', response.data);
+            // console.log('食事記録保存レスポンス:', response.data);
 
             if (response.data.success) {
                 // Google Analyticsで食事記録イベントを追跡
@@ -219,9 +219,9 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 // dieterに投稿がチェックされている場合、投稿も作成
                 if (foodLog.isPublic) {
                     try {
-                        console.log('=== Dieter投稿作成開始 ===');
+                        // console.log('=== Dieter投稿作成開始 ===');
                         const postContent = createFoodLogPostContent();
-                        console.log('投稿コンテンツ:', postContent);
+                        // console.log('投稿コンテンツ:', postContent);
                         
                         // 食事記録の写真をFile型に変換（postsApi用）
                         const imageFiles: File[] = [];
@@ -246,7 +246,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                                 );
                                 const convertedFiles = await Promise.all(filePromises);
                                 imageFiles.push(...convertedFiles);
-                                console.log(`${convertedFiles.length}枚の写真を変換しました`);
+                                // console.log(`${convertedFiles.length}枚の写真を変換しました`);
                             } catch (photoError) {
                                 console.error('写真の変換でエラーが発生しました:', photoError);
                                 // 写真の変換に失敗しても投稿は続行（テキストのみ）
@@ -259,7 +259,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                             is_sensitive: foodLog.isSensitive
                         });
                         
-                        console.log('Dieter投稿作成成功:', postResult);
+                        // console.log('Dieter投稿作成成功:', postResult);
                     } catch (postError) {
                         console.error('Dieter投稿作成エラー:', postError);
                         // 投稿作成に失敗してもアラートは表示するが、食事記録の成功メッセージは表示する

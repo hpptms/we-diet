@@ -21,16 +21,16 @@ const WeightChart: React.FC<WeightChartProps> = ({
 }) => {
   const isDarkMode = useRecoilValue(darkModeState);
 
-  // デバッグ情報をコンソールに出力
-  console.log('WeightChart render:', {
-    error,
-    loading,
-    weightRecordsLength: weightRecords?.length || 0,
-    chartDataLabels: chartData?.labels?.length || 0,
-    chartDatasets: chartData?.datasets?.length || 0,
-    firstRecord: weightRecords?.[0],
-    chartData: chartData
-  });
+  // // デバッグ情報をコンソールに出力
+  // console.log('WeightChart render:', {
+  //   error,
+  //   loading,
+  //   weightRecordsLength: weightRecords?.length || 0,
+  //   chartDataLabels: chartData?.labels?.length || 0,
+  //   chartDatasets: chartData?.datasets?.length || 0,
+  //   firstRecord: weightRecords?.[0],
+  //   chartData: chartData
+  // });
 
   return (
     <Card sx={{ 
