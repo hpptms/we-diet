@@ -11,6 +11,7 @@ import MailRegisterButton from "../component/MailRegisterButton";
 import GoogleLoginButton from "../component/authLogin/GoogleLoginButton";
 import FacebookLoginButton from "../component/FacebookLoginButton";
 import TiktokLoginButton from "../component/TiktokLoginButton";
+import LineLoginButton from "../component/LineLoginButton";
 import { useSetRecoilState } from "recoil";
 import { serverProfileState, profileSettingsState, convertServerProfileToLocalProfile } from "../recoil/profileSettingsAtom";
 
@@ -323,6 +324,7 @@ const LoginPage: React.FC = () => {
             gap: 1,
           }}>
             <GoogleLoginButton />
+            <LineLoginButton />
             {/* <FacebookLoginButton /> */}
             {/* <TiktokLoginButton /> */}
           </Box>
