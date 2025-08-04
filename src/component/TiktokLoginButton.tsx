@@ -1,4 +1,5 @@
 import React from "react";
+import { trackLogin } from "../utils/googleAnalytics";
 
 const TiktokLoginButton: React.FC = () => {
   const apiEndpoint = import.meta.env.VITE_API_BASE_URL || 'https://we-diet-backend.com/';
@@ -14,6 +15,9 @@ const TiktokLoginButton: React.FC = () => {
     <button
       type="button"
       onClick={() => { 
+        // Google Analyticsでログイン試行を追跡
+        trackLogin('tiktok');
+        
         const baseUrl = apiEndpoint.endsWith('/') ? apiEndpoint : apiEndpoint + '/';
         console.log('TikTok redirecting to:', `${baseUrl}auth/tiktok/login`);
         window.location.href = `${baseUrl}auth/tiktok/login`;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
 import { useScreenOrientation } from './useScreenOrientation';
+import { optimizeCloudinaryImage } from '../../utils/imageOptimization';
+import { createDebouncedResizeHandler } from '../../utils/performanceOptimization';
 
 interface FeatureItem {
   image: string;
@@ -35,9 +37,12 @@ export const FeatureSection: React.FC = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    // 最適化されたリサイズハンドラーを使用
+    const debouncedResize = createDebouncedResizeHandler(handleResize, 150);
+
+    handleResize(); // 初期実行
+    window.addEventListener('resize', debouncedResize);
+    return () => window.removeEventListener('resize', debouncedResize);
   }, []);
 
   // セクションごとのグラデーション色
@@ -115,7 +120,7 @@ export const FeatureSection: React.FC = () => {
                 >
                   <Box
                     component="img"
-                    src={feature.image}
+                    src={optimizeCloudinaryImage(feature.image, isMobile ? 180 : 200, isMobile ? 180 : 200)}
                     alt={feature.title}
                     sx={{
                       width: '100%',

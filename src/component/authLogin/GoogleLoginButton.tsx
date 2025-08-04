@@ -1,4 +1,5 @@
 import React from "react";
+import { trackLogin } from "../../utils/googleAnalytics";
 
 const GoogleLoginButton: React.FC = () => {
   const apiEndpoint = import.meta.env.VITE_API_BASE_URL || 'https://we-diet-backend.com/';
@@ -14,6 +15,9 @@ const GoogleLoginButton: React.FC = () => {
     <button
       type="button"
       onClick={() => { 
+        // Google Analyticsでログイン試行を追跡
+        trackLogin('google');
+        
         // VITE_API_BASE_URLからbaseURLを取得し、authパスを追加
         const baseUrl = apiEndpoint.endsWith('/') ? apiEndpoint : apiEndpoint + '/';
         console.log('Redirecting to:', `${baseUrl}auth/google/login`);

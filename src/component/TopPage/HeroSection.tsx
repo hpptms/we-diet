@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { DotOverlay } from './DotOverlay';
 import { PunchLineSlider } from './PunchLineSlider';
 import { useScreenOrientation } from './useScreenOrientation';
+import { optimizeCloudinaryImage } from '../../utils/imageOptimization';
 
 export const HeroSection: React.FC = () => {
   const navigate = useNavigate();
@@ -84,22 +85,46 @@ export const HeroSection: React.FC = () => {
         border: '0 solid transparent',
       }}
     >
-      {/* 4枚の画像を順次切り替える背景 */}
-      <Box
-        sx={{
+      {/* LCP最適化: 最初の画像を優先読み込み */}
+      <img
+        src={optimizeCloudinaryImage(bgImages[0], window.innerWidth, parseInt(getHeroHeight()))}
+        alt="Hero background"
+        {...({ fetchpriority: "high" } as any)}
+        style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundImage: `url(${bgImages[currentImageIndex]})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          objectFit: 'cover',
+          objectPosition: 'center',
           zIndex: 1,
-          transition: 'background-image 1s ease-in-out', // スムーズな切り替え
+          opacity: currentImageIndex === 0 ? 1 : 0,
+          transition: 'opacity 1s ease-in-out',
         }}
       />
+      
+      {/* 他の画像（遅延読み込み） */}
+      {bgImages.slice(1).map((image, index) => (
+        <img
+          key={index + 1}
+          src={optimizeCloudinaryImage(image, window.innerWidth, parseInt(getHeroHeight()))}
+          alt={`Hero background ${index + 2}`}
+          loading="lazy"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            zIndex: 1,
+            opacity: currentImageIndex === index + 1 ? 1 : 0,
+            transition: 'opacity 1s ease-in-out',
+          }}
+        />
+      ))}
       
       {/* ドットレイヤー（コンテナ内に制限） */}
       <DotOverlay />

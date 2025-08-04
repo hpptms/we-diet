@@ -1,5 +1,5 @@
 /* M PLUS 1p: Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap');
+/* @import removed - now loaded via preload in HTML for better performance */
 
 /* しっぽり明朝 B1: FontPlus CDN（サンプル/商用利用は要契約） */
 /* Font import removed to prevent 404 error - using fallback fonts */

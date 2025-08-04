@@ -34,6 +34,7 @@ import PublicToggle from '../../component/common/PublicToggle';
 import FoodActionButtons from '../../component/FoodLog/FoodActionButtons';
 import FoodCalendar from '../../component/FoodLog/FoodCalendar';
 import RecordViewDialog from '../../component/FoodLog/RecordViewDialog';
+import { trackDietEvent } from '../../utils/googleAnalytics';
 
 interface FoodLogProps {
     onBack?: () => void;
@@ -207,6 +208,14 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             console.log('食事記録保存レスポンス:', response.data);
 
             if (response.data.success) {
+                // Google Analyticsで食事記録イベントを追跡
+                trackDietEvent('food_log', {
+                    date: foodLog.selectedDate,
+                    has_photos: foodLog.photos.length > 0,
+                    is_public: foodLog.isPublic,
+                    is_update: isUpdate
+                });
+
                 // dieterに投稿がチェックされている場合、投稿も作成
                 if (foodLog.isPublic) {
                     try {

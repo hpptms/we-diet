@@ -13,7 +13,7 @@ import PrivacyPolicy from './page/PrivacyPolicy';
 import DataDeletion from './page/DataDeletion';
 import TermsOfService from './page/TermsOfService';
 import { initializeFacebookSDK } from './utils/facebookSDK';
-// import { trackPageView } from './utils/googleAnalytics';
+import { initGA, trackPageView } from './utils/googleAnalytics';
 
 // 認証判定用のラップコンポーネント
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -26,14 +26,12 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
-// Component to track page views - temporarily disabled
+// Component to track page views
 const PageViewTracker = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Temporarily disabled GA tracking
-    console.log('Page view:', location.pathname + location.search);
-    // trackPageView(location.pathname + location.search, document.title);
+    trackPageView(location.pathname + location.search, document.title);
   }, [location]);
 
   return null;
@@ -41,6 +39,9 @@ const PageViewTracker = () => {
 
 function App() {
   useEffect(() => {
+    // Initialize Google Analytics
+    initGA();
+    
     // Initialize Facebook SDK when app starts
     // initializeFacebookSDK();
   }, []);

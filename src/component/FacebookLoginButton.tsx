@@ -1,4 +1,5 @@
 import React from "react";
+import { trackLogin } from "../utils/googleAnalytics";
 
 declare global {
   interface Window {
@@ -22,6 +23,9 @@ const FacebookLoginButton: React.FC = () => {
     <button
       type="button"
       onClick={() => { 
+        // Google Analyticsでログイン試行を追跡
+        trackLogin('facebook');
+        
         const baseUrl = apiEndpoint.endsWith('/') ? apiEndpoint : apiEndpoint + '/';
         console.log('Facebook redirecting to:', `${baseUrl}auth/facebook/login`);
         window.location.href = `${baseUrl}auth/facebook/login`;

@@ -1,164 +1,213 @@
-// Google Analytics utility functions with error handling
+import ReactGA from 'react-ga4';
 
-declare global {
-    interface Window {
-        gtag: (...args: any[]) => void;
-    }
-}
+// Google Analytics設定
+const MEASUREMENT_ID = 'G-FGQKYE650R';
 
 /**
- * Google Analytics utility class with comprehensive error handling
+ * Google Analytics初期化
  */
-export class GoogleAnalytics {
-    private static isProduction = window.location.hostname === 'we-diat.com';
-    private static isGAAvailable = typeof window.gtag === 'function';
-
-    /**
-     * Check if Google Analytics is available and should be used
-     */
-    private static canUseGA(): boolean {
-        return this.isProduction && this.isGAAvailable && typeof window.gtag === 'function';
-    }
-
-    /**
-     * Safely execute gtag function with error handling
-     */
-    private static safeGtag(...args: any[]): void {
-        if (!this.canUseGA()) {
-            console.log('GA call skipped (development or GA unavailable):', args);
-            return;
+export const initGA = () => {
+    try {
+        // 本番環境でのみGoogle Analyticsを初期化
+        if (window.location.hostname === 'we-diat.com') {
+            ReactGA.initialize(MEASUREMENT_ID, {
+                testMode: false,
+                gaOptions: {
+                    debug_mode: false,
+                },
+            });
+            console.log('✅ Google Analytics initialized for production');
+        } else {
+            // 開発環境ではテストモードで初期化
+            ReactGA.initialize(MEASUREMENT_ID, {
+                testMode: true,
+                gaOptions: {
+                    debug_mode: false, // デバッグモードを無効にしてログを減らす
+                },
+            });
+            console.log('🧪 Google Analytics initialized in test mode (localhost)');
         }
-
-        try {
-            window.gtag(...args);
-        } catch (error) {
-            console.warn('Google Analytics call failed:', error, 'Args:', args);
-        }
+    } catch (error) {
+        console.error('❌ Failed to initialize Google Analytics:', error);
     }
+};
 
-    /**
-     * Track page views
-     */
-    static trackPageView(pagePath?: string, pageTitle?: string): void {
-        GoogleAnalytics.safeGtag('config', 'G-FGQKYE650R', {
-            page_path: pagePath || window.location.pathname,
-            page_title: pageTitle || document.title,
+/**
+ * ページビューを追跡
+ */
+export const trackPageView = (pagePath?: string, pageTitle?: string) => {
+    try {
+        ReactGA.send({
+            hitType: 'pageview',
+            page: pagePath || window.location.pathname,
+            title: pageTitle || document.title,
         });
+    } catch (error) {
+        console.error('Failed to track page view:', error);
     }
+};
 
-    /**
-     * Track custom events
-     */
-    static trackEvent(eventName: string, parameters?: Record<string, any>): void {
-        const eventData = {
-            send_to: 'G-FGQKYE650R',
-            ...parameters,
-        };
-
-        GoogleAnalytics.safeGtag('event', eventName, eventData);
+/**
+ * カスタムイベントを追跡
+ */
+export const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
+    try {
+        ReactGA.event(eventName, parameters);
+    } catch (error) {
+        console.error('Failed to track event:', error);
     }
+};
 
-    /**
-     * Track user interactions
-     */
-    static trackUserInteraction(action: string, category: string, label?: string, value?: number): void {
-        GoogleAnalytics.trackEvent(action, {
+/**
+ * ユーザーインタラクションを追跡
+ */
+export const trackUserInteraction = (
+    action: string,
+    category: string,
+    label?: string,
+    value?: number
+) => {
+    try {
+        ReactGA.event(action, {
             event_category: category,
             event_label: label,
             value: value,
         });
+    } catch (error) {
+        console.error('Failed to track user interaction:', error);
     }
+};
 
-    /**
-     * Track diet-specific events
-     */
-    static trackDietEvent(action: 'food_log' | 'exercise_log' | 'weight_update' | 'profile_update', details?: Record<string, any>): void {
-        GoogleAnalytics.trackEvent('diet_action', {
+/**
+ * ダイエット関連のイベントを追跡
+ */
+export const trackDietEvent = (
+    action: 'food_log' | 'exercise_log' | 'weight_update' | 'profile_update',
+    details?: Record<string, any>
+) => {
+    try {
+        ReactGA.event('diet_action', {
             event_category: 'diet_management',
             action_type: action,
             ...details,
         });
+    } catch (error) {
+        console.error('Failed to track diet event:', error);
     }
+};
 
-    /**
-     * Track login events
-     */
-    static trackLogin(method: 'google' | 'facebook' | 'tiktok' | 'email'): void {
-        GoogleAnalytics.trackEvent('login', {
+/**
+ * ログインイベントを追跡
+ */
+export const trackLogin = (method: 'google' | 'facebook' | 'tiktok' | 'email') => {
+    try {
+        ReactGA.event('login', {
             event_category: 'user_authentication',
             method: method,
         });
+    } catch (error) {
+        console.error('Failed to track login:', error);
     }
+};
 
-    /**
-     * Track sign up events
-     */
-    static trackSignUp(method: 'google' | 'facebook' | 'tiktok' | 'email'): void {
-        GoogleAnalytics.trackEvent('sign_up', {
+/**
+ * サインアップイベントを追跡
+ */
+export const trackSignUp = (method: 'google' | 'facebook' | 'tiktok' | 'email') => {
+    try {
+        ReactGA.event('sign_up', {
             event_category: 'user_authentication',
             method: method,
         });
+    } catch (error) {
+        console.error('Failed to track sign up:', error);
     }
+};
 
-    /**
-     * Track navigation events
-     */
-    static trackNavigation(from: string, to: string): void {
-        GoogleAnalytics.trackEvent('navigate', {
+/**
+ * ナビゲーションイベントを追跡
+ */
+export const trackNavigation = (from: string, to: string) => {
+    try {
+        ReactGA.event('navigate', {
             event_category: 'navigation',
             from_page: from,
             to_page: to,
         });
+    } catch (error) {
+        console.error('Failed to track navigation:', error);
     }
+};
 
-    /**
-     * Set user properties (when user logs in)
-     */
-    static setUserProperties(userId: string, properties?: Record<string, any>): void {
-        GoogleAnalytics.safeGtag('config', 'G-FGQKYE650R', {
+/**
+ * ユーザープロパティを設定
+ */
+export const setUserProperties = (userId: string, properties?: Record<string, any>) => {
+    try {
+        ReactGA.set({
             user_id: userId,
-            custom_map: properties,
+            ...properties,
         });
+    } catch (error) {
+        console.error('Failed to set user properties:', error);
     }
+};
 
-    /**
-     * Track errors
-     */
-    static trackError(errorMessage: string, errorLocation?: string, isFatal: boolean = false): void {
-        GoogleAnalytics.trackEvent('exception', {
-            event_category: 'error',
+/**
+ * エラーを追跡
+ */
+export const trackError = (
+    errorMessage: string,
+    errorLocation?: string,
+    isFatal: boolean = false
+) => {
+    try {
+        ReactGA.event('exception', {
             description: errorMessage,
-            location: errorLocation || window.location.pathname,
             fatal: isFatal,
+            location: errorLocation || window.location.pathname,
         });
+    } catch (error) {
+        console.error('Failed to track error:', error);
     }
+};
 
-    /**
-     * Track performance metrics
-     */
-    static trackTiming(category: string, variable: string, value: number, label?: string): void {
-        GoogleAnalytics.trackEvent('timing_complete', {
+/**
+ * パフォーマンスメトリクスを追跡
+ */
+export const trackTiming = (
+    category: string,
+    variable: string,
+    value: number,
+    label?: string
+) => {
+    try {
+        ReactGA.event('timing_complete', {
             event_category: category,
             name: variable,
             value: value,
             event_label: label,
         });
+    } catch (error) {
+        console.error('Failed to track timing:', error);
     }
-}
+};
 
-// Export convenience functions
-export const {
-    trackPageView,
-    trackEvent,
-    trackUserInteraction,
-    trackDietEvent,
-    trackLogin,
-    trackSignUp,
-    trackNavigation,
-    setUserProperties,
-    trackError,
-    trackTiming,
-} = GoogleAnalytics;
+/**
+ * Google Analytics utility class (後方互換性のため)
+ */
+export class GoogleAnalytics {
+    static trackPageView = trackPageView;
+    static trackEvent = trackEvent;
+    static trackUserInteraction = trackUserInteraction;
+    static trackDietEvent = trackDietEvent;
+    static trackLogin = trackLogin;
+    static trackSignUp = trackSignUp;
+    static trackNavigation = trackNavigation;
+    static setUserProperties = setUserProperties;
+    static trackError = trackError;
+    static trackTiming = trackTiming;
+}
 
 // Default export
 export default GoogleAnalytics;

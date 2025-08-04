@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Typography, Grid, Box } from '@mui/material';
 import { useScreenOrientation } from './useScreenOrientation';
+import { optimizeCloudinaryImage } from '../../utils/imageOptimization';
 
 export const ProductSection: React.FC = () => {
   const { isPortraitDesktop } = useScreenOrientation();
@@ -35,7 +36,11 @@ export const ProductSection: React.FC = () => {
                 borderRadius: 2,
               }}
               alt="SNS"
-              src="https://res.cloudinary.com/drmyhhtjo/image/upload/v1750312461/SNS_brbmkp.webp"
+              src={optimizeCloudinaryImage(
+                "https://res.cloudinary.com/drmyhhtjo/image/upload/v1750312461/SNS_brbmkp.webp",
+                isPortraitDesktop ? 225 : 300,
+                isPortraitDesktop ? 150 : 200
+              )}
             />
           </Box>
         </Grid>

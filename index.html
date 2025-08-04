@@ -2,45 +2,7 @@
 <html lang="ja">
 
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FGQKYE650R"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    // 一時的にGoogle Analyticsを無効化（エラー修正のため）
-    console.log('Google Analytics temporarily disabled for debugging');
-    window.gtag = function () {
-      console.log('GA call suppressed:', arguments);
-    };
-
-    // グローバルエラーハンドラーでGA関連エラーをキャッチ
-    window.addEventListener('error', function (event) {
-      if (event.error && event.error.message &&
-        (event.error.message.includes('google-analytics') ||
-          event.error.message.includes('gtag') ||
-          event.filename && event.filename.includes('gtag'))) {
-        console.warn('Google Analytics error caught and handled:', event.error);
-        event.preventDefault(); // エラーの伝播を止める
-        return true;
-      }
-    });
-
-    // Fetch API のエラーもキャッチ
-    const originalFetch = window.fetch;
-    window.fetch = function (...args) {
-      const url = args[0];
-      if (typeof url === 'string' && url.includes('google-analytics.com')) {
-        return originalFetch.apply(this, args).catch(error => {
-          console.warn('Google Analytics fetch error caught and handled:', error);
-          // GA エラーは無視してPromiseを解決
-          return new Response('{}', { status: 200, statusText: 'OK' });
-        });
-      }
-      return originalFetch.apply(this, args);
-    };
-  </script>
+  <!-- Google tag (gtag.js) - react-ga4で管理されるため削除 -->
 
   <!-- 基本メタタグ -->
   <meta charset="UTF-8" />
@@ -86,6 +48,19 @@
 
   <!-- Canonical URL -->
   <link rel="canonical" href="https://we-diat.com" />
+
+  <!-- DNS事前解決（クリティカルパス最適化） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://res.cloudinary.com">
+
+  <!-- 最優先リソースのプリロード -->
+  <link rel="preload"
+    href="https://res.cloudinary.com/drmyhhtjo/image/upload/w_1920,h_500,c_fill,q_auto,f_auto,dpr_auto/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp"
+    as="image" fetchpriority="high">
+
+  <!-- Google Fonts CSS の直接読み込み -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap">
 
   <!-- ファビコン -->
   <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
