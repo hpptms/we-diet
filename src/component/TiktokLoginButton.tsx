@@ -1,9 +1,12 @@
 import React from "react";
 
-const TiktokLoginButton: React.FC = () => (
-  <button
-    type="button"
-    onClick={() => { window.location.href = "/auth/tiktok/login"; }}
+const TiktokLoginButton: React.FC = () => {
+  const apiEndpoint = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8080/api/';
+  
+  return (
+    <button
+      type="button"
+      onClick={() => { window.location.href = `${apiEndpoint}auth/tiktok/login`; }}
     style={{
       width: "100%",
       padding: 10,
@@ -33,7 +36,8 @@ const TiktokLoginButton: React.FC = () => (
       </svg>
     </span>
     TikTokでログイン
-  </button>
-);
+    </button>
+  );
+};
 
 export default TiktokLoginButton;

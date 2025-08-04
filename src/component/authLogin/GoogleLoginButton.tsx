@@ -1,13 +1,16 @@
 import React from "react";
 
-const GoogleLoginButton: React.FC = () => (
-  <button
-    type="button"
-    onClick={() => { 
-      // VITE_API_ENDPOINTからbaseURLを取得し、authパスを追加
-      const baseUrl = import.meta.env.VITE_API_ENDPOINT.replace('/api/', '/');
-      window.location.href = `${baseUrl}auth/google/login`; 
-    }}
+const GoogleLoginButton: React.FC = () => {
+  const apiEndpoint = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8080/api/';
+  
+  return (
+    <button
+      type="button"
+      onClick={() => { 
+        // VITE_API_ENDPOINTからbaseURLを取得し、authパスを追加
+        const baseUrl = apiEndpoint.replace('/api/', '/');
+        window.location.href = `${baseUrl}auth/google/login`; 
+      }}
     style={{
       width: "100%",
       padding: 10,
@@ -30,7 +33,8 @@ const GoogleLoginButton: React.FC = () => (
       style={{ width: 20, height: 20, marginRight: 8 }}
     />
     Googleでログイン
-  </button>
-);
+    </button>
+  );
+};
 
 export default GoogleLoginButton;

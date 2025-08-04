@@ -8,11 +8,14 @@ declare global {
 }
 
 const FacebookLoginButton: React.FC = () => {
+  const apiEndpoint = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8080/api/';
+  const facebookAppId = import.meta.env.VITE_FACEBOOK_APP_ID || 'your-facebook-app-id-here';
+
   useEffect(() => {
     // Facebook SDK初期化
     window.fbAsyncInit = function() {
       window.FB.init({
-        appId: import.meta.env.VITE_FACEBOOK_APP_ID,
+        appId: facebookAppId,
         cookie: true,
         xfbml: true,
         version: 'v19.0'
@@ -28,12 +31,12 @@ const FacebookLoginButton: React.FC = () => {
       js.src = 'https://connect.facebook.net/ja_JP/sdk.js';
       document.getElementsByTagName('head')[0].appendChild(js);
     }
-  }, []);
+  }, [facebookAppId]);
 
   return (
     <button
       type="button"
-      onClick={() => { window.location.href = `${import.meta.env.VITE_API_ENDPOINT}auth/facebook/login`; }}
+      onClick={() => { window.location.href = `${apiEndpoint}auth/facebook/login`; }}
       style={{
         width: "100%",
         padding: 10,

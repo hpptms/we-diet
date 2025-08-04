@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "We diet",
+  "name": "We diet - ダイエット・健康管理SNSアプリ",
+  "description": "仲間と一緒に楽しくダイエット！食事・運動・体重を記録して、健康的な生活習慣を身につけましょう。",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,18 +9,79 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "128favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "128x128"
     },
     {
-      "src": "logo512.png",
+      "src": "original.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "orientation": "portrait-primary",
+  "theme_color": "#2196f3",
+  "background_color": "#ffffff",
+  "categories": [
+    "health",
+    "fitness",
+    "lifestyle",
+    "social"
+  ],
+  "lang": "ja",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "食事記録",
+      "short_name": "食事記録",
+      "description": "今日の食事を記録する",
+      "url": "/dashboard/food-log",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "運動記録",
+      "short_name": "運動記録",
+      "description": "今日の運動を記録する",
+      "url": "/dashboard/exercise-record",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "体重管理",
+      "short_name": "体重管理",
+      "description": "体重を記録・管理する",
+      "url": "/dashboard/weight-management",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "ダイエットSNS",
+      "short_name": "SNS",
+      "description": "仲間と交流する",
+      "url": "/dashboard/dieter",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
 }
