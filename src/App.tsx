@@ -4,6 +4,7 @@ import { TopPage } from './page/TopPage';
 import LoginPage from './page/LoginPage';
 import DashboardPage from './page/DashboardPage';
 import RegisterCompletePage from './page/RegisterCompletePage';
+import VerifyEmailPage from './page/VerifyEmailPage';
 import ProfileSettings from './page/MainContent/ProfileSettings';
 import FoodLog from './page/MainContent/FoodLog';
 import Dieter from './page/MainContent/Dieter';
@@ -112,6 +113,7 @@ function App() {
           </PrivateRoute>
         } />
         <Route path="/register/complete" element={<RegisterCompletePage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/data-deletion" element={<DataDeletion />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />

@@ -1,0 +1,176 @@
+.verify-email-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.verify-email-card {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.verify-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Loading状態 */
+.verify-status.loading h2 {
+    color: #666;
+    margin: 0;
+}
+
+.verify-status.loading p {
+    color: #999;
+    margin: 0;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Success状態 */
+.verify-status.success h2 {
+    color: #4CAF50;
+    margin: 0;
+}
+
+.verify-status.success p {
+    color: #666;
+    margin: 0;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: #4CAF50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.redirect-message {
+    font-size: 14px;
+    color: #999 !important;
+    font-style: italic;
+}
+
+/* Error状態 */
+.verify-status.error h2 {
+    color: #f44336;
+    margin: 0;
+}
+
+.verify-status.error p {
+    color: #666;
+    margin: 0;
+}
+
+.error-icon {
+    width: 80px;
+    height: 80px;
+    background: #f44336;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.error-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+/* ボタンスタイル */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #f8f9fa;
+    color: #495057;
+    border: 1px solid #dee2e6;
+}
+
+.btn-secondary:hover {
+    background: #e9ecef;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+    .verify-email-container {
+        padding: 10px;
+    }
+
+    .verify-email-card {
+        padding: 30px 20px;
+    }
+
+    .success-icon,
+    .error-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+
+    .verify-status h2 {
+        font-size: 20px;
+    }
+
+    .verify-status p {
+        font-size: 14px;
+    }
+}
