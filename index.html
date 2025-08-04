@@ -9,42 +9,11 @@
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
-    // 本番環境のみでGoogle Analyticsを有効化
-    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1' && window.location.hostname === 'we-diat.com') {
-      try {
-        gtag('config', 'G-FGQKYE650R', {
-          // エラーハンドリングの改善
-          transport_type: 'beacon',
-          // プライバシー設定
-          anonymize_ip: true,
-          // カスタムエラーハンドリング
-          custom_parameter: {
-            send_page_view: false  // 手動でページビューを送信
-          }
-        });
-
-        // ページビューを手動で送信（エラーハンドリング付き）
-        gtag('event', 'page_view', {
-          page_title: document.title,
-          page_location: window.location.href,
-          send_to: 'G-FGQKYE650R'
-        });
-
-        console.log('Google Analytics initialized successfully');
-      } catch (error) {
-        console.warn('Google Analytics initialization failed:', error);
-        // GA が失敗してもアプリの動作に影響しないように
-        window.gtag = function () {
-          console.log('GA call failed, ignoring:', arguments);
-        };
-      }
-    } else {
-      // 開発環境ではGA呼び出しを無効化
-      console.log('開発環境: Google Analytics is disabled');
-      window.gtag = function () {
-        console.log('GA call suppressed in development:', arguments);
-      };
-    }
+    // 一時的にGoogle Analyticsを無効化（エラー修正のため）
+    console.log('Google Analytics temporarily disabled for debugging');
+    window.gtag = function () {
+      console.log('GA call suppressed:', arguments);
+    };
 
     // グローバルエラーハンドラーでGA関連エラーをキャッチ
     window.addEventListener('error', function (event) {
