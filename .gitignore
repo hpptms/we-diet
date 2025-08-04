@@ -21,6 +21,7 @@
 
 /dist
 /vite
+build
 /build
 
 npm-debug.log*
