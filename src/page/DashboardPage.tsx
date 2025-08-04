@@ -48,7 +48,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   // サーバーからプロフィール情報を取得する関数
   const fetchUserProfile = async (userId: string) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile/${userId}`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}api/proto/user_profile/${userId}`);
 
       if (response.ok) {
         const responseData = await response.json();

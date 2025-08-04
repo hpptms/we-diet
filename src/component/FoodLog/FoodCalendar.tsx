@@ -48,7 +48,7 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
             };
 
             const response = await axios.post<GetFoodLogDatesResponse>(
-                `${import.meta.env.VITE_API_ENDPOINT}proto/food_log/dates`,
+                `${import.meta.env.VITE_API_BASE_URL}api/proto/food_log/dates`,
                 request,
                 {
                     headers: {

@@ -1,11 +1,12 @@
 import React from "react";
 
 const TiktokLoginButton: React.FC = () => {
-  const apiEndpoint = import.meta.env.VITE_API_ENDPOINT || 'https://we-diet-backend.com/api/';
+  const apiEndpoint = import.meta.env.VITE_API_BASE_URL || 'https://we-diet-backend.com/';
   
   // デバッグ用：環境変数の値をコンソールに出力
   console.log('TikTok Environment variables:', {
     VITE_API_ENDPOINT: import.meta.env.VITE_API_ENDPOINT,
+    VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
     apiEndpoint: apiEndpoint
   });
   
@@ -13,8 +14,9 @@ const TiktokLoginButton: React.FC = () => {
     <button
       type="button"
       onClick={() => { 
-        console.log('TikTok redirecting to:', `${apiEndpoint}auth/tiktok/login`);
-        window.location.href = `${apiEndpoint}auth/tiktok/login`; 
+        const baseUrl = apiEndpoint.endsWith('/') ? apiEndpoint : apiEndpoint + '/';
+        console.log('TikTok redirecting to:', `${baseUrl}auth/tiktok/login`);
+        window.location.href = `${baseUrl}auth/tiktok/login`;
       }}
     style={{
       width: "100%",

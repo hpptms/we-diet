@@ -8,12 +8,13 @@ declare global {
 }
 
 const FacebookLoginButton: React.FC = () => {
-  const apiEndpoint = import.meta.env.VITE_API_ENDPOINT || 'https://we-diet-backend.com/api/';
+  const apiEndpoint = import.meta.env.VITE_API_BASE_URL || 'https://we-diet-backend.com/';
   const facebookAppId = import.meta.env.VITE_FACEBOOK_APP_ID || 'your-facebook-app-id-here';
 
   // デバッグ用：環境変数の値をコンソールに出力
   console.log('Facebook Environment variables:', {
     VITE_API_ENDPOINT: import.meta.env.VITE_API_ENDPOINT,
+    VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
     VITE_FACEBOOK_APP_ID: import.meta.env.VITE_FACEBOOK_APP_ID,
     apiEndpoint: apiEndpoint
   });
@@ -44,8 +45,9 @@ const FacebookLoginButton: React.FC = () => {
     <button
       type="button"
       onClick={() => { 
-        console.log('Facebook redirecting to:', `${apiEndpoint}auth/facebook/login`);
-        window.location.href = `${apiEndpoint}auth/facebook/login`; 
+        const baseUrl = apiEndpoint.endsWith('/') ? apiEndpoint : apiEndpoint + '/';
+        console.log('Facebook redirecting to:', `${baseUrl}auth/facebook/login`);
+        window.location.href = `${baseUrl}auth/facebook/login`;
       }}
       style={{
         width: "100%",

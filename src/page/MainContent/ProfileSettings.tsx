@@ -52,7 +52,7 @@ const ProfileSettings: React.FC = () => {
       }
       const userId = parseInt(userIdFromStorage);
       
-      const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile/${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}api/proto/user_profile/${userId}`);
       
       if (response.status === 200 && response.data) {
         const serverProfile = response.data.profile || response.data;
@@ -143,7 +143,7 @@ const ProfileSettings: React.FC = () => {
         const formData = new FormData();
         formData.append('file', blob, 'profile_icon.jpg');
 
-        const uploadResponse = await axios.post(`${import.meta.env.VITE_API_ENDPOINT}proto/upload/user_icon`, formData, {
+        const uploadResponse = await axios.post(`${import.meta.env.VITE_API_BASE_URL}api/proto/upload/user_icon`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -200,7 +200,7 @@ const ProfileSettings: React.FC = () => {
       console.log('送信するリクエストデータ:', requestData);
 
       // プロトバフエンドポイント呼び出し
-      const response = await axios.post<CreateUserProfileResponse>(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile`, requestData, {
+      const response = await axios.post<CreateUserProfileResponse>(`${import.meta.env.VITE_API_BASE_URL}api/proto/user_profile`, requestData, {
         headers: {
           'Content-Type': 'application/json',
         },

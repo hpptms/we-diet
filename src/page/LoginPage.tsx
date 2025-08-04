@@ -46,7 +46,7 @@ const LoginPage: React.FC = () => {
       // Protobufでリクエストをエンコード
       const reqBin = encodeMailRegisterRequest({ email: registerEmail });
       const response = await axios.post(
-        `${import.meta.env.VITE_API_ENDPOINT}register/mail`,
+        `${import.meta.env.VITE_API_BASE_URL}api/register/mail`,
         reqBin,
         {
           headers: {
@@ -130,11 +130,11 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setError("");
     console.log("ログイン開始:", { email, password: "***" });
-    console.log("API Endpoint:", `${import.meta.env.VITE_API_ENDPOINT}login`);
+    console.log("API Endpoint:", `${import.meta.env.VITE_API_BASE_URL}api/login`);
     
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_ENDPOINT}login`,
+        `${import.meta.env.VITE_API_BASE_URL}api/login`,
         {
           email: email,
           password,
@@ -165,7 +165,7 @@ const LoginPage: React.FC = () => {
   const fetchUserProfileAfterLogin = async (userId: number) => {
     try {
       console.log("ログイン後プロフィール取得中...", { userId });
-      const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile/${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}api/proto/user_profile/${userId}`);
       
       if (response.data && response.data.profile) {
         const profile = response.data.profile;

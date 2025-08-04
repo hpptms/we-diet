@@ -111,7 +111,7 @@ const ProfileIcon: React.FC = () => {
         }
         const userId = parseInt(userIdFromStorage);
 
-        const response = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}proto/user_profile/${userId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}api/proto/user_profile/${userId}`);
         
         if (response.data && response.data.profile) {
           const profile = response.data.profile;
