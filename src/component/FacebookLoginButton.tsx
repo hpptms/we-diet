@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 declare global {
   interface Window {
@@ -9,7 +9,6 @@ declare global {
 
 const FacebookLoginButton: React.FC = () => {
   const apiEndpoint = import.meta.env.VITE_API_BASE_URL || 'https://we-diet-backend.com/';
-  const facebookAppId = import.meta.env.VITE_FACEBOOK_APP_ID || 'your-facebook-app-id-here';
 
   // デバッグ用：環境変数の値をコンソールに出力
   console.log('Facebook Environment variables:', {
@@ -18,28 +17,6 @@ const FacebookLoginButton: React.FC = () => {
     VITE_FACEBOOK_APP_ID: import.meta.env.VITE_FACEBOOK_APP_ID,
     apiEndpoint: apiEndpoint
   });
-
-  useEffect(() => {
-    // Facebook SDK初期化
-    window.fbAsyncInit = function() {
-      window.FB.init({
-        appId: facebookAppId,
-        cookie: true,
-        xfbml: true,
-        version: 'v19.0'
-      });
-      
-      window.FB.AppEvents.logPageView();
-    };
-
-    // Facebook SDK スクリプトの動的読み込み
-    if (!document.getElementById('facebook-jssdk')) {
-      const js = document.createElement('script');
-      js.id = 'facebook-jssdk';
-      js.src = 'https://connect.facebook.net/ja_JP/sdk.js';
-      document.getElementsByTagName('head')[0].appendChild(js);
-    }
-  }, [facebookAppId]);
 
   return (
     <button

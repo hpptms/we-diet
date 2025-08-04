@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { TopPage } from './page/TopPage';
 import LoginPage from './page/LoginPage';
@@ -8,6 +8,9 @@ import ProfileSettings from './page/MainContent/ProfileSettings';
 import FoodLog from './page/MainContent/FoodLog';
 import Dieter from './page/MainContent/Dieter';
 import DashboardLayout from './component/DashboardLayout';
+import PrivacyPolicy from './page/PrivacyPolicy';
+import DataDeletion from './page/DataDeletion';
+import { initializeFacebookSDK } from './utils/facebookSDK';
 
 // 認証判定用のラップコンポーネント
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -21,6 +24,11 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
 };
 
 function App() {
+  useEffect(() => {
+    // Initialize Facebook SDK when app starts
+    initializeFacebookSDK();
+  }, []);
+
   return (
     <BrowserRouter
       future={{
@@ -88,6 +96,8 @@ function App() {
           </PrivateRoute>
         } />
         <Route path="/register/complete" element={<RegisterCompletePage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/data-deletion" element={<DataDeletion />} />
         <Route path="/" element={<TopPage />} />
       </Routes>
     </BrowserRouter>
