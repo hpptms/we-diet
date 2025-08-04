@@ -1,7 +1,14 @@
 import React from "react";
 
 const GoogleLoginButton: React.FC = () => {
-  const apiEndpoint = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8080/api/';
+  const apiEndpoint = import.meta.env.VITE_API_ENDPOINT || 'https://we-diet-backend.com/api/';
+  
+  // デバッグ用：環境変数の値をコンソールに出力
+  console.log('Environment variables:', {
+    VITE_API_ENDPOINT: import.meta.env.VITE_API_ENDPOINT,
+    VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
+    apiEndpoint: apiEndpoint
+  });
   
   return (
     <button
@@ -9,6 +16,7 @@ const GoogleLoginButton: React.FC = () => {
       onClick={() => { 
         // VITE_API_ENDPOINTからbaseURLを取得し、authパスを追加
         const baseUrl = apiEndpoint.replace('/api/', '/');
+        console.log('Redirecting to:', `${baseUrl}auth/google/login`);
         window.location.href = `${baseUrl}auth/google/login`; 
       }}
     style={{

@@ -1,12 +1,21 @@
 import React from "react";
 
 const TiktokLoginButton: React.FC = () => {
-  const apiEndpoint = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8080/api/';
+  const apiEndpoint = import.meta.env.VITE_API_ENDPOINT || 'https://we-diet-backend.com/api/';
+  
+  // デバッグ用：環境変数の値をコンソールに出力
+  console.log('TikTok Environment variables:', {
+    VITE_API_ENDPOINT: import.meta.env.VITE_API_ENDPOINT,
+    apiEndpoint: apiEndpoint
+  });
   
   return (
     <button
       type="button"
-      onClick={() => { window.location.href = `${apiEndpoint}auth/tiktok/login`; }}
+      onClick={() => { 
+        console.log('TikTok redirecting to:', `${apiEndpoint}auth/tiktok/login`);
+        window.location.href = `${apiEndpoint}auth/tiktok/login`; 
+      }}
     style={{
       width: "100%",
       padding: 10,
