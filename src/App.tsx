@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { TopPage } from './page/TopPage';
 import LoginPage from './page/LoginPage';
 import DashboardPage from './page/DashboardPage';
@@ -12,6 +12,7 @@ import PrivacyPolicy from './page/PrivacyPolicy';
 import DataDeletion from './page/DataDeletion';
 import TermsOfService from './page/TermsOfService';
 import { initializeFacebookSDK } from './utils/facebookSDK';
+import { trackPageView } from './utils/googleAnalytics';
 
 // 認証判定用のラップコンポーネント
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -22,6 +23,18 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   // 仮の認証判定: localStorageにaccountNameがあるか、Googleログインのパラメータがあればログイン済みとみなす
   const isAuthenticated = !!localStorage.getItem("accountName") || hasGoogleLoginParams;
   return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
+
+// Component to track page views
+const PageViewTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Track page view when location changes
+    trackPageView(location.pathname + location.search, document.title);
+  }, [location]);
+
+  return null;
 };
 
 function App() {
@@ -37,6 +50,7 @@ function App() {
         v7_relativeSplatPath: true,
       }}
     >
+      <PageViewTracker />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/Dashboard" element={

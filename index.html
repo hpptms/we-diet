@@ -10,8 +10,34 @@
     gtag('js', new Date());
 
     // 本番環境のみでGoogle Analyticsを有効化
-    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-      gtag('config', 'G-FGQKYE650R');
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1' && window.location.hostname === 'we-diat.com') {
+      try {
+        gtag('config', 'G-FGQKYE650R', {
+          // エラーハンドリングの改善
+          transport_type: 'beacon',
+          // プライバシー設定
+          anonymize_ip: true,
+          // カスタムエラーハンドリング
+          custom_parameter: {
+            send_page_view: false  // 手動でページビューを送信
+          }
+        });
+
+        // ページビューを手動で送信（エラーハンドリング付き）
+        gtag('event', 'page_view', {
+          page_title: document.title,
+          page_location: window.location.href,
+          send_to: 'G-FGQKYE650R'
+        });
+
+        console.log('Google Analytics initialized successfully');
+      } catch (error) {
+        console.warn('Google Analytics initialization failed:', error);
+        // GA が失敗してもアプリの動作に影響しないように
+        window.gtag = function () {
+          console.log('GA call failed, ignoring:', arguments);
+        };
+      }
     } else {
       // 開発環境ではGA呼び出しを無効化
       console.log('開発環境: Google Analytics is disabled');
@@ -19,6 +45,32 @@
         console.log('GA call suppressed in development:', arguments);
       };
     }
+
+    // グローバルエラーハンドラーでGA関連エラーをキャッチ
+    window.addEventListener('error', function (event) {
+      if (event.error && event.error.message &&
+        (event.error.message.includes('google-analytics') ||
+          event.error.message.includes('gtag') ||
+          event.filename && event.filename.includes('gtag'))) {
+        console.warn('Google Analytics error caught and handled:', event.error);
+        event.preventDefault(); // エラーの伝播を止める
+        return true;
+      }
+    });
+
+    // Fetch API のエラーもキャッチ
+    const originalFetch = window.fetch;
+    window.fetch = function (...args) {
+      const url = args[0];
+      if (typeof url === 'string' && url.includes('google-analytics.com')) {
+        return originalFetch.apply(this, args).catch(error => {
+          console.warn('Google Analytics fetch error caught and handled:', error);
+          // GA エラーは無視してPromiseを解決
+          return new Response('{}', { status: 200, statusText: 'OK' });
+        });
+      }
+      return originalFetch.apply(this, args);
+    };
   </script>
 
   <!-- 基本メタタグ -->
@@ -39,7 +91,7 @@
   <meta property="og:title" content="We diet - ダイエット・健康管理SNSアプリ" />
   <meta property="og:description" content="仲間と一緒に楽しくダイエット！食事・運動・体重を記録して、健康的な生活習慣を身につけましょう。" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://yoursite.com" />
+  <meta property="og:url" content="https://we-diat.com" />
   <meta property="og:image"
     content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" />
   <meta property="og:image:width" content="1200" />
@@ -63,7 +115,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://yoursite.com" />
+  <link rel="canonical" href="https://we-diat.com" />
 
   <!-- ファビコン -->
   <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
@@ -76,7 +128,7 @@
     "@type": "WebApplication",
     "name": "We diet",
     "description": "ダイエットと健康管理を楽しくサポートするSNSアプリ。食事記録、運動記録、体重管理機能で健康習慣をサポート。",
-    "url": "https://yoursite.com",
+    "url": "https://we-diat.com",
     "applicationCategory": "HealthApplication",
     "operatingSystem": "Web",
     "offers": {
@@ -101,8 +153,8 @@
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "We diet",
-    "url": "https://yoursite.com",
-    "logo": "https://yoursite.com/favicon.ico",
+    "url": "https://we-diat.com",
+    "logo": "https://we-diat.com/favicon.ico",
     "description": "健康的なライフスタイルをサポートするダイエット・健康管理アプリを提供"
   }
   </script>
