@@ -93,7 +93,7 @@ const VerifyEmailPage: React.FC = () => {
                   </div>
                 </div>
                 <div className="password-warning">
-                  🔒 セキュリティのため、初回ログイン後にプロフィール設定からパスワードを変更することをお勧めします。
+                  🔒 <strong>重要</strong>：プロフィール変更でパスワードを必ず変更してください。
                 </div>
               </div>
             )}
