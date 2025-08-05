@@ -1,6 +1,7 @@
+/* Performance optimization: containment */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'M PLUS 1p', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -9,10 +10,18 @@ body {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+  /* パフォーマンス最適化 */
+  contain: layout style paint;
+  will-change: scroll-position;
 }
 
-/* 全体的なモバイル対応 */
+/* 全体的なモバイル対応とパフォーマンス最適化 */
 * {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -20,6 +29,41 @@ html {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+  /* スクロール最適化 */
+  scroll-behavior: smooth;
+  /* フォント読み込み最適化 */
+  font-display: swap;
+}
+
+/* リンクのパフォーマンス最適化 */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 画像の最適化 */
+img {
+  max-width: 100%;
+  height: auto;
+  /* 画像読み込み最適化 */
+  content-visibility: auto;
+  contain-intrinsic-size: 200px;
+}
+
+/* ボタンの最適化 */
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* フォーカス可能要素の最適化 */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid #2196f3;
+  outline-offset: 2px;
 }
 
 /* レスポンシブ対応 */

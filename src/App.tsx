@@ -14,6 +14,7 @@ import DataDeletion from './page/DataDeletion';
 import TermsOfService from './page/TermsOfService';
 import { initializeFacebookSDK } from './utils/facebookSDK';
 import { initGA, trackPageView } from './utils/googleAnalytics';
+import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 
 // 認証判定用のラップコンポーネント
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -44,6 +45,27 @@ function App() {
     
     // Initialize Facebook SDK when app starts
     // initializeFacebookSDK();
+    
+    // Initialize performance monitoring
+    const performanceMonitor = initPerformanceMonitoring();
+    
+    // Register Service Worker for performance optimization
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+    
+    // Cleanup function
+    return () => {
+      performanceMonitor.disconnect();
+    };
   }, []);
 
   return (
