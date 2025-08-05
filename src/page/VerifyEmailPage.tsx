@@ -7,6 +7,7 @@ const VerifyEmailPage: React.FC = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('');
+  const [loginInfo, setLoginInfo] = useState<{email: string, password: string, username: string} | null>(null);
 
   useEffect(() => {
     const token = searchParams.get('token');
@@ -35,10 +36,14 @@ const VerifyEmailPage: React.FC = () => {
         setStatus('success');
         setMessage(data.message || 'メール認証が完了しました！');
         
-        // 3秒後にログインページにリダイレクト
-        setTimeout(() => {
-          navigate('/login');
-        }, 3000);
+        // ログイン情報を設定
+        if (data.email && data.temp_password && data.username) {
+          setLoginInfo({
+            email: data.email,
+            password: data.temp_password,
+            username: data.username
+          });
+        }
       } else {
         setStatus('error');
         setMessage(data.error || 'メール認証に失敗しました。');
@@ -67,16 +72,40 @@ const VerifyEmailPage: React.FC = () => {
 
         {status === 'success' && (
           <div className="verify-status success">
-            <div className="success-icon">✓</div>
-            <h2>認証完了！</h2>
+            <div className="success-icon">🎉</div>
+            <h2>登録完了おめでとうございます！</h2>
             <p>{message}</p>
-            <p className="redirect-message">3秒後にログインページに移動します...</p>
-            <button 
-              onClick={handleReturnToLogin}
-              className="btn btn-primary"
-            >
-              今すぐログインページへ
-            </button>
+            
+            {loginInfo && (
+              <div className="login-info-display">
+                <h3>🔐 ログイン情報</h3>
+                <p className="welcome-message">
+                  {loginInfo.username}さん、We-Dietへようこそ！🌟
+                </p>
+                <div className="login-credentials">
+                  <div className="credential-item">
+                    <label>メールアドレス</label>
+                    <div className="credential-value">{loginInfo.email}</div>
+                  </div>
+                  <div className="credential-item">
+                    <label>仮パスワード</label>
+                    <div className="credential-value password-value">{loginInfo.password}</div>
+                  </div>
+                </div>
+                <div className="password-warning">
+                  🔒 セキュリティのため、初回ログイン後にプロフィール設定からパスワードを変更することをお勧めします。
+                </div>
+              </div>
+            )}
+            
+            <div className="action-buttons">
+              <button 
+                onClick={handleReturnToLogin}
+                className="btn btn-primary login-btn"
+              >
+                ログインページへ移動
+              </button>
+            </div>
           </div>
         )}
 
