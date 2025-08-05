@@ -28,6 +28,7 @@ import ActivityLevelField from '../../component/ProfileSettings/ActivityLevelFie
 import CurrentWeightField from '../../component/ProfileSettings/CurrentWeightField';
 import TargetWeightField from '../../component/ProfileSettings/TargetWeightField';
 import PRTextField from '../../component/ProfileSettings/PRTextField';
+import PasswordField from '../../component/ProfileSettings/PasswordField';
 import SaveButtons from '../../component/ProfileSettings/SaveButtons';
 import { NotificationSettings } from '../../component/NotificationSettings';
 
@@ -343,6 +344,9 @@ const ProfileSettings: React.FC = () => {
             onPRTextChange={(prText) => setProfile(prev => ({ ...prev, prText }))}
             isDarkMode={isDarkMode}
           />
+
+          {/* パスワード変更（パスワードが設定されているユーザーのみ） */}
+          <PasswordField isDarkMode={isDarkMode} />
 
           {/* センシティブフィルター（18歳以上のみ表示） */}
           {profile.age && parseInt(profile.age) >= 18 && (
