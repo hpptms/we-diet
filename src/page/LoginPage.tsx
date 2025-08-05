@@ -157,9 +157,10 @@ const LoginPage: React.FC = () => {
       // パスワード設定成功後、ログイン処理
       const data = response.data;
       localStorage.setItem("accountName", data.accountName || email);
+      localStorage.setItem("user_id", String(data.userId || data.user_id));
       
       // プロフィールを取得
-      await fetchUserProfileAfterLogin(data.userId);
+      await fetchUserProfileAfterLogin(data.userId || data.user_id);
       
       navigate("/dashboard");
     } catch (err: any) {
@@ -192,13 +193,14 @@ const LoginPage: React.FC = () => {
       );
       console.log("ログイン成功:", response.data);
       
-      // レスポンスからアカウント名を取得しlocalStorageに保存
+      // レスポンスからアカウント名とユーザーIDを取得しlocalStorageに保存
       const data = response.data;
       localStorage.setItem("accountName", data.accountName || email);
-      console.log("localStorageに保存:", data.accountName || email);
+      localStorage.setItem("user_id", String(data.userId || data.user_id || 2));
+      console.log("localStorageに保存:", data.accountName || email, "user_id:", data.userId || data.user_id);
       
       // ログイン成功後、プロフィールを取得
-      await fetchUserProfileAfterLogin(data.userId || 2);
+      await fetchUserProfileAfterLogin(data.userId || data.user_id || 2);
       
       navigate("/dashboard");
     } catch (err: any) {
