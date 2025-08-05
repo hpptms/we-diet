@@ -62,9 +62,10 @@ class PerformanceMonitor {
                 console.warn('FID observer not supported:', error);
             }
 
-            // CLS の監視
+            // CLS の監視（デバウンスを追加してノイズを減らす）
             try {
                 let clsValue = 0;
+                let clsTimeout: NodeJS.Timeout | null = null;
                 const clsObserver = new PerformanceObserver((list) => {
                     for (const entry of list.getEntries()) {
                         if (!(entry as any).hadRecentInput) {
@@ -72,7 +73,14 @@ class PerformanceMonitor {
                         }
                     }
                     this.metrics.CLS = clsValue;
-                    console.log('CLS:', clsValue);
+
+                    // デバウンス: 100ms間隔でのみログ出力
+                    if (clsTimeout) {
+                        clearTimeout(clsTimeout);
+                    }
+                    clsTimeout = setTimeout(() => {
+                        console.log('CLS:', clsValue);
+                    }, 100);
                 });
                 clsObserver.observe({ entryTypes: ['layout-shift'] });
                 this.observers.cls = clsObserver;

@@ -65,6 +65,19 @@ self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
 
+    // Chrome拡張機能やサポートされていないスキームは無視
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        return;
+    }
+
+    // Google Analytics等の外部サービスは無視
+    if (url.hostname.includes('google-analytics.com') ||
+        url.hostname.includes('googletagmanager.com') ||
+        url.hostname.includes('fonts.googleapis.com') ||
+        url.hostname.includes('fonts.gstatic.com')) {
+        return;
+    }
+
     // APIリクエストは常にネットワークから取得
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/')) {
         event.respondWith(
@@ -79,6 +92,11 @@ self.addEventListener('fetch', (event) => {
                 );
             })
         );
+        return;
+    }
+
+    // 同一オリジンのリクエストのみ処理
+    if (url.origin !== self.location.origin) {
         return;
     }
 
