@@ -69,15 +69,28 @@ const LoginPage: React.FC = () => {
   };
 
   // URLパラメータからエラーを検出し、適切なエラーメッセージを表示
+  const [isPasswordSetMode, setIsPasswordSetMode] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   useEffect(() => {
     if (localStorage.getItem("accountName")) {
       navigate("/dashboard", { replace: true });
       return;
     }
 
-    // URLパラメータからエラーを取得
+    // URLパラメータを取得
     const urlParams = new URLSearchParams(window.location.search);
     const errorParam = urlParams.get('error');
+    const verifiedParam = urlParams.get('verified');
+    
+    // メール認証完了後の場合
+    if (verifiedParam === 'true') {
+      setIsPasswordSetMode(true);
+      // verifiedパラメータをURLから削除
+      const url = new URL(window.location.href);
+      url.searchParams.delete('verified');
+      window.history.replaceState({}, '', url.toString());
+    }
     
     if (errorParam) {
       let errorMessage = '';
@@ -115,7 +128,55 @@ const LoginPage: React.FC = () => {
     }
   }, [navigate]);
 
+  // パスワード設定ハンドラ
+  const handlePasswordSet = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    
+    if (password !== confirmPassword) {
+      setError("パスワードが一致しません");
+      return;
+    }
+    
+    if (password.length < 6) {
+      setError("パスワードは6文字以上である必要があります");
+      return;
+    }
+    
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/set-password`,
+        {
+          email: email,
+          password: password,
+        }
+      );
+      
+      console.log("パスワード設定成功:", response.data);
+      
+      // パスワード設定成功後、ログイン処理
+      const data = response.data;
+      localStorage.setItem("accountName", data.accountName || email);
+      
+      // プロフィールを取得
+      await fetchUserProfileAfterLogin(data.userId);
+      
+      navigate("/dashboard");
+    } catch (err: any) {
+      console.error("パスワード設定エラー:", err);
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("パスワード設定に失敗しました");
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
+    if (isPasswordSetMode) {
+      return handlePasswordSet(e);
+    }
+    
     e.preventDefault();
     setError("");
     console.log("ログイン開始:", { email, password: "***" });
@@ -240,8 +301,21 @@ const LoginPage: React.FC = () => {
               textAlign: 'center',
             }}
           >
-            ログイン
+            {isPasswordSetMode ? 'パスワード設定' : 'ログイン'}
           </Typography>
+          {isPasswordSetMode && (
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                mb: 2,
+                textAlign: 'center',
+                color: 'text.secondary',
+              }}
+            >
+              メール認証が完了しました。<br />
+              アカウントのパスワードを設定してください。
+            </Typography>
+          )}
           <form 
             onSubmit={handleSubmit} 
             style={{ 
@@ -266,16 +340,32 @@ const LoginPage: React.FC = () => {
             </Box>
             <Box sx={{ width: "100%", mb: 2 }}>
               <label style={{ width: "100%", display: "block" }}>
-                パスワード
+                {isPasswordSetMode ? '新しいパスワード' : 'パスワード'}
                 <input
                   type="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
+                  placeholder={isPasswordSetMode ? '6文字以上のパスワードを入力' : ''}
                   style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
                 />
               </label>
             </Box>
+            {isPasswordSetMode && (
+              <Box sx={{ width: "100%", mb: 2 }}>
+                <label style={{ width: "100%", display: "block" }}>
+                  パスワード確認
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    required
+                    placeholder="パスワードを再入力してください"
+                    style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
+                  />
+                </label>
+              </Box>
+            )}
             {error && (
               <Typography color="error" sx={{ mb: 1, width: "100%", textAlign: "center" }}>
                 {error}
@@ -289,33 +379,38 @@ const LoginPage: React.FC = () => {
               startIcon={<MdLogin size={22} />}
               sx={{ py: 1.5, fontWeight: 500, fontSize: 16, borderRadius: 1, mt: 1 }}
             >
-              ログイン
+              {isPasswordSetMode ? 'パスワードを設定' : 'ログイン'}
             </Button>
           </form>
-          {/* メールで登録ボタン */}
-          <Box sx={{ 
-            mt: 1, 
-            textAlign: "center", 
-            width: "100%", 
-            maxWidth: shouldUseFullWidth ? "100%" : 400 
-          }}>
-            <MailRegisterButton onClick={() => setShowEmailModal(true)} />
-          </Box>
-          {/* ソーシャルログインボタン */}
-          <Box sx={{ 
-            mt: 1, 
-            textAlign: "center", 
-            width: "100%", 
-            maxWidth: shouldUseFullWidth ? "100%" : 400,
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-          }}>
-            <GoogleLoginButton />
-            <LineLoginButton />
-            {/* <FacebookLoginButton /> */}
-            {/* <TiktokLoginButton /> */}
-          </Box>
+          {/* パスワード設定モード時はメール登録・ソーシャルログインボタンを非表示 */}
+          {!isPasswordSetMode && (
+            <>
+              {/* メールで登録ボタン */}
+              <Box sx={{ 
+                mt: 1, 
+                textAlign: "center", 
+                width: "100%", 
+                maxWidth: shouldUseFullWidth ? "100%" : 400 
+              }}>
+                <MailRegisterButton onClick={() => setShowEmailModal(true)} />
+              </Box>
+              {/* ソーシャルログインボタン */}
+              <Box sx={{ 
+                mt: 1, 
+                textAlign: "center", 
+                width: "100%", 
+                maxWidth: shouldUseFullWidth ? "100%" : 400,
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+              }}>
+                <GoogleLoginButton />
+                <LineLoginButton />
+                {/* <FacebookLoginButton /> */}
+                {/* <TiktokLoginButton /> */}
+              </Box>
+            </>
+          )}
           {/* メールアドレス入力用モーダル */}
           <MailRegisterModal
             open={showEmailModal}
