@@ -22,7 +22,7 @@ const VerifyEmailPage: React.FC = () => {
 
   const verifyEmail = async (token: string) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8080'}/verify-email?token=${token}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://we-diet-backend.com'}/verify-email?token=${token}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
