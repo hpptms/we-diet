@@ -29,6 +29,7 @@ import CurrentWeightField from '../../component/ProfileSettings/CurrentWeightFie
 import TargetWeightField from '../../component/ProfileSettings/TargetWeightField';
 import PRTextField from '../../component/ProfileSettings/PRTextField';
 import SaveButtons from '../../component/ProfileSettings/SaveButtons';
+import { NotificationSettings } from '../../component/NotificationSettings';
 
 const ProfileSettings: React.FC = () => {
   const [profile, setProfile] = useRecoilState(profileSettingsState);
@@ -379,6 +380,11 @@ const ProfileSettings: React.FC = () => {
               </Typography>
             </Box>
           )}
+
+          {/* 通知設定 */}
+          <Box sx={{ mb: 3 }}>
+            <NotificationSettings />
+          </Box>
 
           {/* セーブボタン・戻るボタン */}
           <SaveButtons

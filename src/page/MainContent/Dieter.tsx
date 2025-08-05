@@ -25,6 +25,8 @@ import { dieterApi, LegacyRecommendedUser as ApiRecommendedUser } from '../../ap
 import { darkModeState } from '../../recoil/darkModeAtom';
 import { serverProfileState, profileSettingsState } from '../../recoil/profileSettingsAtom';
 import { FollowProvider } from '../../context/FollowContext';
+import { notificationManager } from '../../utils/notificationManager';
+import { NotificationSettings } from '../../component/NotificationSettings';
 import { useFollowCounts } from '../../component/Dieter/layout/LeftSidebar/hooks/useFollowCounts';
 import { useFollowContextOptional } from '../../context/FollowContext';
 import { postsApi } from '../../api/postsApi';

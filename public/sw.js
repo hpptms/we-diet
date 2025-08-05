@@ -272,6 +272,44 @@ self.addEventListener('message', (event) => {
             })
         );
     }
+
+    // 通知表示リクエストの処理
+    if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
+        const { title, options } = event.data.data;
+        event.waitUntil(
+            self.registration.showNotification(title, options)
+        );
+    }
+});
+
+// 通知クリック時の処理
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+
+    // 通知データに基づいて適切なアクションを実行
+    const data = event.notification.data;
+
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+            // 既存のタブがあるかチェック
+            for (const client of clientList) {
+                if (client.url.includes(data.url || '/') && 'focus' in client) {
+                    return client.focus();
+                }
+            }
+
+            // 新しいタブで開く
+            if (clients.openWindow) {
+                return clients.openWindow(data.url || '/');
+            }
+        })
+    );
+});
+
+// 通知が閉じられた時の処理
+self.addEventListener('notificationclose', (event) => {
+    // 必要に応じて分析データを送信
+    console.log('Notification closed:', event.notification.tag);
 });
 
 // バックグラウンド同期（利用可能な場合）
