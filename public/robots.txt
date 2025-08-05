@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # サイトマップの場所
-Sitemap: https://yoursite.com/sitemap.xml
+Sitemap: https://we-diat.com/sitemap.xml
 
 # クローリング頻度の推奨（任意）
 Crawl-delay: 1
