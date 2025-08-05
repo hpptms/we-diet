@@ -43,6 +43,10 @@ const VerifyEmailPage: React.FC = () => {
             password: data.temp_password,
             username: data.username
           });
+          
+          // ログイン情報をlocalStorageに保存（プロフィール設定で使用）
+          localStorage.setItem("accountName", data.email);
+          localStorage.setItem("user_id", String(data.user_id || data.userId || ""));
         }
       } else {
         setStatus('error');
@@ -100,10 +104,13 @@ const VerifyEmailPage: React.FC = () => {
             
             <div className="action-buttons">
               <button 
-                onClick={handleReturnToLogin}
+                onClick={() => {
+                  // プロフィール設定ページに直接遷移（user_idは既に保存済み）
+                  navigate('/dashboard/profile-settings');
+                }}
                 className="btn btn-primary login-btn"
               >
-                ログインページへ移動
+                プロフィール設定へ移動
               </button>
             </div>
           </div>
