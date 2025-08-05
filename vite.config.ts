@@ -31,36 +31,12 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 // クリティカルパス最適化のためのチャンク分割
-                manualChunks: (id) => {
-                    // node_modules を適切に分割
-                    if (id.includes('node_modules')) {
-                        // React関連（最優先）
-                        if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-                            return 'react-vendor';
-                        }
-                        // MUI関連（遅延読み込み可能）
-                        if (id.includes('@mui') || id.includes('@emotion')) {
-                            return 'mui-vendor';
-                        }
-                        // その他のベンダー
-                        return 'vendor';
-                    }
-                    // ページ別のコード分割
-                    if (id.includes('/page/')) {
-                        if (id.includes('TopPage')) return 'top-page';
-                        if (id.includes('LoginPage')) return 'login-page';
-                        if (id.includes('DashboardPage')) return 'dashboard-page';
-                        return 'pages';
-                    }
-                    // コンポーネント別の分割
-                    if (id.includes('/component/')) {
-                        if (id.includes('TopPage')) return 'top-components';
-                        return 'components';
-                    }
-                    // ユーティリティ
-                    if (id.includes('/utils/')) {
-                        return 'utils';
-                    }
+                manualChunks: {
+                    // 重要なライブラリを安全にグループ化
+                    'react-vendor': ['react', 'react-dom'],
+                    'react-router': ['react-router-dom'],
+                    'mui-vendor': ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
+                    'utils': ['axios']
                 },
                 // アセットのファイル名設定（バージョニング強化）
                 chunkFileNames: 'assets/js/[name]-[hash].js',
