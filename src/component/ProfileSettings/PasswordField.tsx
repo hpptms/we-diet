@@ -17,7 +17,6 @@ const PasswordField: React.FC<PasswordFieldProps> = ({ isDarkMode }) => {
   const [hasPassword, setHasPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [changing, setChanging] = useState<boolean>(false);
-  const [currentPassword, setCurrentPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [message, setMessage] = useState<string>('');
@@ -66,11 +65,6 @@ const PasswordField: React.FC<PasswordFieldProps> = ({ isDarkMode }) => {
       return;
     }
 
-    if (hasPassword && !currentPassword) {
-      setError('現在のパスワードを入力してください');
-      return;
-    }
-
     setChanging(true);
 
     try {
@@ -81,7 +75,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({ isDarkMode }) => {
       }
 
       const requestData = {
-        current_password: hasPassword ? currentPassword : '',
+        current_password: '', // 現在のパスワード認証をスキップ
         new_password: newPassword,
       };
 
@@ -92,7 +86,6 @@ const PasswordField: React.FC<PasswordFieldProps> = ({ isDarkMode }) => {
 
       if (response.status === 200) {
         setMessage('パスワードが正常に変更されました');
-        setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
         setHasPassword(true); // パスワードが設定されました
@@ -146,38 +139,6 @@ const PasswordField: React.FC<PasswordFieldProps> = ({ isDarkMode }) => {
       )}
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {hasPassword && (
-          <TextField
-            label="現在のパスワード"
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            variant="outlined"
-            fullWidth
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: isDarkMode ? '#000000' : 'white',
-                color: isDarkMode ? '#ffffff' : 'inherit',
-                '& fieldset': {
-                  borderColor: isDarkMode ? '#ffffff' : 'rgba(0, 0, 0, 0.23)',
-                },
-                '&:hover fieldset': {
-                  borderColor: isDarkMode ? '#ffffff' : 'rgba(0, 0, 0, 0.87)',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: isDarkMode ? '#ffffff' : '#1976d2',
-                },
-              },
-              '& .MuiInputLabel-root': {
-                color: isDarkMode ? '#ffffff' : 'inherit',
-                '&.Mui-focused': {
-                  color: isDarkMode ? '#ffffff' : '#1976d2',
-                },
-              },
-            }}
-          />
-        )}
-
         <TextField
           label="新しいパスワード"
           type="password"
