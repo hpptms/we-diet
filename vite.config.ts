@@ -26,15 +26,8 @@ export default defineConfig({
         modulePreload: {
             polyfill: false // ポリフィルを無効化してバンドルサイズ削減
         },
-        // バンドルサイズ最適化
-        minify: 'terser',
-        terserOptions: {
-            compress: {
-                drop_console: true, // console.logを削除
-                drop_debugger: true,
-                pure_funcs: ['console.log'],
-            },
-        },
+        // バンドルサイズ最適化（esbuildを使用）
+        minify: 'esbuild',
         rollupOptions: {
             output: {
                 // クリティカルパス最適化のためのチャンク分割
