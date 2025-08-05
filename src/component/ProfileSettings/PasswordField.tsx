@@ -115,10 +115,14 @@ const PasswordField: React.FC<PasswordFieldProps> = ({ isDarkMode }) => {
     );
   }
 
-  // パスワードが設定されていないユーザーには表示しない
-  if (!hasPassword) {
+  // パスワードが設定されているユーザーのみ表示（メール認証完了ユーザー向け）
+  // エラーがある場合やパスワードが設定されていない場合も表示しない
+  if (!hasPassword && !error.includes('ユーザー情報の取得に失敗')) {
     return null;
   }
+  
+  // メール認証完了直後のユーザーは常に表示（仮パスワードが設定されているため）
+  const showForEmailVerifiedUser = localStorage.getItem('accountName') && !localStorage.getItem('user_id');
 
   return (
     <Box sx={{ mb: 3 }}>

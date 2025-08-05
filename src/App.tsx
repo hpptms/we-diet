@@ -100,6 +100,13 @@ function App() {
             </DashboardLayout>
           </PrivateRoute>
         } />
+        <Route path="/dashboard/profile-settings" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <ProfileSettings />
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
         <Route path="/Exercise" element={
           <PrivateRoute>
             <DashboardLayout>
