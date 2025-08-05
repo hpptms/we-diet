@@ -165,6 +165,13 @@ async function handleImageRequest(request) {
 // 静的アセットの処理関数
 async function handleStaticAssets(request) {
     try {
+        const url = new URL(request.url);
+
+        // Chrome拡張機能やサポートされていないスキームをスキップ
+        if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+            return fetch(request);
+        }
+
         // Cache First戦略
         const cachedResponse = await caches.match(request);
         if (cachedResponse) {
@@ -174,7 +181,7 @@ async function handleStaticAssets(request) {
         // ネットワークから取得してキャッシュ
         const networkResponse = await fetch(request);
 
-        if (networkResponse.ok) {
+        if (networkResponse.ok && url.origin === self.location.origin) {
             const cache = await caches.open(STATIC_CACHE);
             cache.put(request, networkResponse.clone());
         }
