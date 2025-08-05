@@ -207,7 +207,13 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       try {
         // console.log('既存データをチェック中...');
         const checkRes = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/exercise_record?user_id=${userId}&date=${today}`
+          `${import.meta.env.VITE_API_BASE_URL}/api/exercise_record?user_id=${userId}&date=${today}`,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
         );
         // console.log('既存データチェック結果:', checkRes.data);
         if (checkRes.status === 200 && checkRes.data && checkRes.data.record) {
@@ -258,6 +264,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         `${import.meta.env.VITE_API_BASE_URL}/api/exercise_record`,
         formData,
         {
+          withCredentials: true,
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
