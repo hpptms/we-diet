@@ -15,6 +15,7 @@ import TermsOfService from './page/TermsOfService';
 import { initializeFacebookSDK } from './utils/facebookSDK';
 import { initGA, trackPageView } from './utils/googleAnalytics';
 import { initPerformanceMonitoring } from './utils/performanceMonitoring';
+import { LanguageProvider } from './context/LanguageContext';
 
 // 認証判定用のラップコンポーネント
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -69,14 +70,15 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter
-      future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true,
-      }}
-    >
-      <PageViewTracker />
-      <Routes>
+    <LanguageProvider>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
+        <PageViewTracker />
+        <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/Dashboard" element={
           <PrivateRoute>
@@ -148,8 +150,9 @@ function App() {
         <Route path="/data-deletion" element={<DataDeletion />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/" element={<TopPage />} />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </LanguageProvider>
   );
 }
 
