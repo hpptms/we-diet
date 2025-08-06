@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import {
   Box,
   IconButton,
@@ -111,23 +112,22 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
   if (!open || !images.length) return null;
 
-  return (
-    <Box
-      sx={{
+  // React Portalを使用してdocument.bodyに直接レンダリング
+  return createPortal(
+    <div
+      style={{
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: 9999, // より高いz-indexで確実に最前面に表示
+        zIndex: 10000,
         backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
         margin: 0,
-        // ビューポート全体に確実に表示されるようにする
-        inset: 0, // top: 0, right: 0, bottom: 0, left: 0 の省略記法
       }}
       onClick={onClose}
       onTouchStart={handleTouchStart}
@@ -275,8 +275,8 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
         )}
 
         {/* 操作ヒント */}
-        <Box
-          sx={{
+        <div
+          style={{
             position: 'absolute',
             top: 24,
             left: '50%',
@@ -298,8 +298,9 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
               : 'ESC: 閉じる'
             }
           </Typography>
-        </Box>
-    </Box>
+        </div>
+    </div>,
+    document.body
   );
 };
 
