@@ -12,7 +12,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
       minHeight: "100vh", 
       display: "flex", 
       flexDirection: "column", 
-      backgroundColor: isDarkMode ? "#000000" : "#f5f5f7" 
+      backgroundColor: isDarkMode ? "#000000" : "#ffffff" // より明確な白背景
     }}>
       <Header />
       <main style={{ 
@@ -20,12 +20,13 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
         display: "flex", 
         width: "100%", 
         padding: "0",
-        backgroundColor: isDarkMode ? "#000000" : "transparent"
+        backgroundColor: isDarkMode ? "#000000" : "#ffffff" // 白背景で統一
       }}>
         <div style={{ 
           width: "100%", 
           maxWidth: "100vw",
-          backgroundColor: isDarkMode ? "#000000" : "transparent"
+          backgroundColor: isDarkMode ? "#000000" : "#ffffff", // 白背景で統一
+          paddingBottom: "env(safe-area-inset-bottom)" // iOS Safariのセーフエリア対応
         }}>
           {children}
         </div>
