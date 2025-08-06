@@ -38,6 +38,17 @@ const ProfileSettings: React.FC = () => {
   const navigate = useNavigate();
   const isDarkMode = useRecoilValue(darkModeState);
   const theme = useTheme();
+
+  // iOS Safari debugging: Component-level error boundary
+  React.useEffect(() => {
+    const handleComponentError = (event: ErrorEvent) => {
+      console.error('ProfileSettings component error:', event.error);
+      alert('ProfileSettings Error: ' + event.message + ' at line ' + event.lineno);
+    };
+    
+    window.addEventListener('error', handleComponentError);
+    return () => window.removeEventListener('error', handleComponentError);
+  }, []);
   
   // レスポンシブデザイン用のブレークポイント
   const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下

@@ -246,6 +246,16 @@
   <div id="fb-root"></div>
 
   <script>
+    // Global error handler for debugging iOS Safari issues
+    window.onerror = function (message, source, lineno, colno, error) {
+      alert("Error: " + message + "\nSource: " + source + "\nLine: " + lineno);
+    };
+
+    // Unhandled promise rejection handler
+    window.addEventListener('unhandledrejection', function (event) {
+      alert("Unhandled Promise Rejection: " + event.reason);
+    });
+
     // Facebook SDK will be initialized dynamically from React app
     // This ensures environment variables are properly loaded
   </script>
