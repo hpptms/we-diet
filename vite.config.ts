@@ -9,14 +9,14 @@ export default defineConfig({
         minifyIdentifiers: false, // 変数名の難読化を無効化
         minifySyntax: true,       // 構文の最小化のみ有効
         minifyWhitespace: true,   // 空白の除去は有効
-        keepNames: true          // 関数名・変数名を保持
+        keepNames: true,         // 関数名・変数名を保持
+        // Reactライブラリは最小化を無効化
+        exclude: ['react', 'react-dom']
     },
-    // ローカルテスト用：段階的最適化設定
+    // ローカルテスト用：段階的最適化設定（Reactを除外）
     optimizeDeps: {
-        // 安全な基本ライブラリを拡張
+        // Reactを除外して安全な基本ライブラリのみ
         include: [
-            'react',
-            'react-dom',
             'react-router-dom',
             'axios',
             'recoil'
