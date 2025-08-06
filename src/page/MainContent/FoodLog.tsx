@@ -91,97 +91,19 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     }, [foodLog.selectedDate]);
 
     const loadTodayRecord = async () => {
-        // 今日の日付のみrecoil状態で管理、過去の記録は保存しない
-        const today = new Date().toISOString().slice(0, 10);
+        // 過去のローカルデータを一切参照しない - 常に空の状態から開始
+        setMealData({ breakfast: '', lunch: '', dinner: '', snack: '' });
+        setFoodLog(prev => ({
+            ...prev,
+            diary: '',
+            photos: [], // 常に空の配列から開始
+            isPublic: false,
+            isSensitive: false,
+            currentRecord: undefined
+        }));
         
-        // 選択された日付が今日でない場合は、recoil状態をクリアして閲覧専用にする
-        if (foodLog.selectedDate !== today) {
-            // 過去の記録はローカル状態のみで管理し、recoilには保存しない
-            setMealData({ breakfast: '', lunch: '', dinner: '', snack: '' });
-            setFoodLog(prev => ({
-                ...prev,
-                diary: '',
-                photos: [],
-                isPublic: false,
-                isSensitive: false,
-                currentRecord: undefined
-            }));
-            return;
-        }
-
-        try {
-            const request: GetFoodLogRequest = {
-                user_id: userId,
-                date: foodLog.selectedDate
-            };
-
-            const response = await axios.post<GetFoodLogResponse>(
-                `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/get`,
-                request,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                }
-            );
-
-            if (response.data.success && response.data.record) {
-                const record = response.data.record;
-                const diary = record.diary || '';
-                
-                // 既存の記録を時間帯別に分解（簡単な方法）
-                const parts = diary.split('\\\\n').filter(part => part.trim());
-                const newMealData = { breakfast: '', lunch: '', dinner: '', snack: '' };
-                
-                parts.forEach(part => {
-                    const lower = part.toLowerCase();
-                    if (lower.includes('朝') || lower.includes('breakfast')) {
-                        newMealData.breakfast += part + '\\\\n';
-                    } else if (lower.includes('昼') || lower.includes('lunch')) {
-                        newMealData.lunch += part + '\\\\n';
-                    } else if (lower.includes('夜') || lower.includes('夕') || lower.includes('dinner')) {
-                        newMealData.dinner += part + '\\\\n';
-                    } else if (lower.includes('間食') || lower.includes('おやつ') || lower.includes('snack')) {
-                        newMealData.snack += part + '\\\\n';
-                    } else {
-                        // 分類できない場合は朝食に入れる
-                        newMealData.breakfast += part + '\\\\n';
-                    }
-                });
-                
-                setMealData(newMealData);
-                setFoodLog(prev => ({
-                    ...prev,
-                    diary: diary,
-                    photos: record.photos || [],
-                    isPublic: record.is_public || false,
-                    currentRecord: record
-                }));
-            } else {
-                // 今日の記録が見つからない場合は新しい記録として初期化
-                setMealData({ breakfast: '', lunch: '', dinner: '', snack: '' });
-                setFoodLog(prev => ({
-                    ...prev,
-                    diary: '',
-                    photos: [],
-                    isPublic: false,
-                    isSensitive: false,
-                    currentRecord: undefined
-                }));
-            }
-        } catch (error: any) {
-            console.log('今日の記録は見つかりませんでした - 新しい記録として初期化します');
-            // エラーの場合も新しい記録として初期化
-            setMealData({ breakfast: '', lunch: '', dinner: '', snack: '' });
-            setFoodLog(prev => ({
-                ...prev,
-                diary: '',
-                photos: [],
-                isPublic: false,
-                isSensitive: false,
-                currentRecord: undefined
-            }));
-        }
+        // 注意: サーバーからの記録読み込みも行わず、完全に新規状態で開始
+        console.log('FoodLog: 常に新規状態で初期化しました');
     };
 
     const loadRecordedDates = async () => {
