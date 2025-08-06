@@ -33,14 +33,9 @@ export default defineConfig({
     },
     build: {
         outDir: 'build',
-        // ローカルテスト用：段階的最適化設定
-        minify: 'esbuild', // 最小化を有効化（esbuildは高速で安全）
+        // ローカルテスト用：段階的最適化設定（第3段階・安全版）
+        minify: false,
         sourcemap: false,
-        // CSS最適化とTree shaking設定
-        cssCodeSplit: true,
-        assetsInlineLimit: 4096, // 4KB以下はinline化
-        target: 'es2020', // モダンブラウザ対応で更なる最適化
-        chunkSizeWarningLimit: 1000,
         rollupOptions: {
             output: {
                 // より詳細なチャンク分離（安全な範囲で）
