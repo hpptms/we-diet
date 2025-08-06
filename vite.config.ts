@@ -12,21 +12,12 @@ export default defineConfig({
             'react-router-dom',
             '@mui/material',
             '@mui/icons-material',
-            '@emotion/react',
-            '@emotion/styled',
             'recoil',
             'axios'
         ],
-        // 大きなライブラリを事前バンドル
+        // Emotionを除外してバンドルエラーを回避
+        exclude: ['@emotion/react', '@emotion/styled'],
         force: true
-    },
-    // Emotion重複解決と明示的alias設定
-    resolve: {
-        dedupe: ['@emotion/react', '@emotion/styled'],
-        alias: {
-            '@emotion/react': '@emotion/react',
-            '@emotion/styled': '@emotion/styled'
-        }
     },
     server: {
         host: '0.0.0.0',
@@ -67,9 +58,9 @@ export default defineConfig({
                     if (id.includes('@mui/icons-material')) {
                         return 'mui-icons';
                     }
-                    // Emotionを独立したチャンクとして分離（初期化問題対策）
-                    if (id.includes('@emotion/react') || id.includes('@emotion/styled')) {
-                        return 'emotion';
+                    // Emotionを他のライブラリと混在させずvendorチャンクに統合
+                    if (id.includes('@emotion')) {
+                        return 'vendor';
                     }
                     // Chart.js関連をより細分化
                     if (id.includes('chart.js/dist/chart.js')) {
