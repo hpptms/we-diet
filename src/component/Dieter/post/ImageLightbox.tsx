@@ -227,7 +227,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
             maxHeight: '85vh',
           }}
         >
-          {/* 前の画像ボタン */}
+          {/* PC版：前の画像ボタン */}
           {images.length > 1 && (
             <IconButton
               onClick={handlePrevious}
@@ -242,6 +242,8 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
                 },
                 transition: 'all 0.3s ease',
                 flexShrink: 0,
+                // スマホでは非表示
+                display: { xs: 'none', md: 'flex' }
               }}
             >
               <ArrowBackIos sx={{ fontSize: '1.5rem' }} />
@@ -251,8 +253,9 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
           {/* 画像表示 */}
           <Box
             sx={{
-              maxWidth: '65vw',
-              maxHeight: '65vh',
+              // PCでは従来のサイズ、スマホではより大きく表示
+              maxWidth: { xs: '90vw', md: '65vw' },
+              maxHeight: { xs: '80vh', md: '65vh' },
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -272,7 +275,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
             />
           </Box>
 
-          {/* 次の画像ボタン */}
+          {/* PC版：次の画像ボタン */}
           {images.length > 1 && (
             <IconButton
               onClick={handleNext}
@@ -287,6 +290,8 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
                 },
                 transition: 'all 0.3s ease',
                 flexShrink: 0,
+                // スマホでは非表示
+                display: { xs: 'none', md: 'flex' }
               }}
             >
               <ArrowForwardIos sx={{ fontSize: '1.5rem' }} />
