@@ -43,7 +43,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
       setTimeout(() => {
         const modalElement = document.querySelector('.image-lightbox-modal') as HTMLElement;
         if (modalElement) {
-          // 強制的にスタイルを適用
+          // 強制的にスタイルを適用 - 現在のビューポートに表示
           modalElement.style.setProperty('position', 'fixed', 'important');
           modalElement.style.setProperty('top', '0', 'important');
           modalElement.style.setProperty('left', '0', 'important');
@@ -55,6 +55,11 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
           modalElement.style.setProperty('display', 'flex', 'important');
           modalElement.style.setProperty('align-items', 'center', 'important');
           modalElement.style.setProperty('justify-content', 'center', 'important');
+          
+          // 追加: ビューポート全体を確実に覆う
+          modalElement.style.setProperty('inset', '0', 'important');
+          modalElement.style.setProperty('margin', '0', 'important');
+          modalElement.style.setProperty('padding', '0', 'important');
           
           // 詳細なデバッグ情報を出力
           const rect = modalElement.getBoundingClientRect();
