@@ -40,8 +40,8 @@ export default defineConfig({
     },
     build: {
         outDir: 'build',
-        // ローカルテスト用：段階的最適化設定（方法1: esbuildの設定を弱める）
-        minify: 'esbuild',
+        // ローカルテスト用：段階的最適化設定（Reactエラー完全回避）
+        minify: false, // Reactエラー完全回避のためminificationを無効化
         sourcemap: false,
         rollupOptions: {
             output: {
