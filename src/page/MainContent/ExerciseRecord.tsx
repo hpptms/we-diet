@@ -433,23 +433,29 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       <Dialog
         open={confirmOverwriteOpen}
         onClose={() => setConfirmOverwriteOpen(false)}
+        disableScrollLock
         sx={{
+          position: 'fixed',
+          zIndex: 1300,
           '& .MuiDialog-container': {
+            height: '100vh',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
           },
           '& .MuiDialog-paper': {
             backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
             color: isDarkMode ? '#ffffff' : 'inherit',
             border: isDarkMode ? '1px solid #444' : 'none',
             margin: 0,
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
             maxHeight: '90vh',
             maxWidth: '90vw',
-            minWidth: '300px'
+            minWidth: '300px',
+            width: 'auto'
           }
         }}
         BackdropProps={{
@@ -458,7 +464,13 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
             top: 0,
             left: 0,
             right: 0,
-            bottom: 0
+            bottom: 0,
+            zIndex: -1
+          }
+        }}
+        PaperProps={{
+          sx: {
+            position: 'relative'
           }
         }}
       >
