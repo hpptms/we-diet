@@ -238,47 +238,20 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     is_update: isUpdate
                 });
 
-                // dieterに投稿がチェックされている場合、新規投稿を作成（保存されたデータは使わない）
+                // dieterに投稿がチェックされている場合、現在の入力情報のみで投稿を作成
                 if (foodLog.isPublic) {
                     try {
                         const postContent = createFoodLogPostContent();
                         
-                        // レスポンスから新しく保存された画像URLを取得
-                        const newImageFiles: File[] = [];
-                        
-                        const convertUrlToFile = async (url: string, filename: string): Promise<File> => {
-                            try {
-                                const response = await fetch(url);
-                                const blob = await response.blob();
-                                return new File([blob], filename, { type: blob.type });
-                            } catch (error) {
-                                console.error(`画像の変換に失敗しました: ${url}`, error);
-                                throw error;
-                            }
-                        };
-                        
-                        // APIレスポンスから取得した新しい写真URLのみを使用
-                        if (response.data.record && response.data.record.photos && response.data.record.photos.length > 0) {
-                            try {
-                                const filePromises = response.data.record.photos.map((photoUrl, index) => 
-                                    convertUrlToFile(photoUrl, `food-photo-${index + 1}.jpg`)
-                                );
-                                const convertedFiles = await Promise.all(filePromises);
-                                newImageFiles.push(...convertedFiles);
-                            } catch (photoError) {
-                                console.error('写真の変換でエラーが発生しました:', photoError);
-                            }
-                        }
-                        
-                        // 新しい投稿を作成（APIレスポンスから取得したデータのみ使用）
+                        // 現在のRecoil状態から画像は使用しない（テキストのみの投稿）
                         const success = await postManager.createPost({
                             content: postContent,
-                            images: newImageFiles,
+                            images: [], // 画像は使用せず、テキストのみの投稿
                             is_sensitive: foodLog.isSensitive
                         });
 
                         if (success) {
-                            console.log('Dieter投稿を作成しました（新規データのみ使用）');
+                            console.log('Dieter投稿を作成しました（テキストのみ）');
                         }
                         
                     } catch (postError) {
