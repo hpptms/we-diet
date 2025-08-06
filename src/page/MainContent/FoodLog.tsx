@@ -85,6 +85,11 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         loadRecordedDates();
     }, []);
 
+    // 日付が変更された際に新しい記録をロードし、画像データをクリアする
+    useEffect(() => {
+        loadTodayRecord();
+    }, [foodLog.selectedDate]);
+
     const loadTodayRecord = async () => {
         try {
             const request: GetFoodLogRequest = {
@@ -107,22 +112,22 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 const diary = record.diary || '';
                 
                 // 既存の記録を時間帯別に分解（簡単な方法）
-                const parts = diary.split('\n').filter(part => part.trim());
+                const parts = diary.split('\\n').filter(part => part.trim());
                 const newMealData = { breakfast: '', lunch: '', dinner: '', snack: '' };
                 
                 parts.forEach(part => {
                     const lower = part.toLowerCase();
                     if (lower.includes('朝') || lower.includes('breakfast')) {
-                        newMealData.breakfast += part + '\n';
+                        newMealData.breakfast += part + '\\n';
                     } else if (lower.includes('昼') || lower.includes('lunch')) {
-                        newMealData.lunch += part + '\n';
+                        newMealData.lunch += part + '\\n';
                     } else if (lower.includes('夜') || lower.includes('夕') || lower.includes('dinner')) {
-                        newMealData.dinner += part + '\n';
+                        newMealData.dinner += part + '\\n';
                     } else if (lower.includes('間食') || lower.includes('おやつ') || lower.includes('snack')) {
-                        newMealData.snack += part + '\n';
+                        newMealData.snack += part + '\\n';
                     } else {
                         // 分類できない場合は朝食に入れる
-                        newMealData.breakfast += part + '\n';
+                        newMealData.breakfast += part + '\\n';
                     }
                 });
                 
@@ -134,9 +139,30 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     isPublic: record.is_public || false,
                     currentRecord: record
                 }));
+            } else {
+                // 記録が見つからない場合は新しい記録として画像データをクリア
+                setMealData({ breakfast: '', lunch: '', dinner: '', snack: '' });
+                setFoodLog(prev => ({
+                    ...prev,
+                    diary: '',
+                    photos: [], // 画像データを明示的にクリア
+                    isPublic: false,
+                    isSensitive: false,
+                    currentRecord: undefined
+                }));
             }
         } catch (error: any) {
-            console.log('今日の記録は見つかりませんでした');
+            console.log('今日の記録は見つかりませんでした - 新しい記録として初期化します');
+            // エラーの場合も新しい記録として画像データをクリア
+            setMealData({ breakfast: '', lunch: '', dinner: '', snack: '' });
+            setFoodLog(prev => ({
+                ...prev,
+                diary: '',
+                photos: [], // 画像データを明示的にクリア
+                isPublic: false,
+                isSensitive: false,
+                currentRecord: undefined
+            }));
         }
     };
 
