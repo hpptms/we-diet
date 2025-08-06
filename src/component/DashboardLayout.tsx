@@ -17,8 +17,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
       flexDirection: "column", 
       backgroundColor: isDarkMode ? "#000000" : "#ffffff", // より明確な白背景
       width: "100%",
-      maxWidth: "100vw",
-      overflow: isMobile ? "hidden" : "auto" // モバイルでははみ出しを厳格に制御
+      maxWidth: "100vw"
     }}>
       <Header />
       <main style={{ 
@@ -32,7 +31,6 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
           width: "100%", 
           maxWidth: "100vw",
           backgroundColor: isDarkMode ? "#000000" : "#ffffff", // 透明ではなく明確な色指定
-          paddingBottom: isMobile ? "env(safe-area-inset-bottom)" : "0", // モバイルのみセーフエリア
           minHeight: "100%", // 最小高さを確保
           position: "relative", // ポジション制御
           boxSizing: "border-box" // ボックスサイジング明確化
