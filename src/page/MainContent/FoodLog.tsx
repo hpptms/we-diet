@@ -22,7 +22,7 @@ import { darkModeState } from '../../recoil/darkModeAtom';
 import { foodLogState } from '../../recoil/foodLogAtom';
 import { postsApi } from '../../api/postsApi';
 import { useToast } from '../../hooks/useToast';
-import { usePostManager } from '../../hooks/usePostManager';
+import { usePostCreation } from '../../hooks/usePostCreation';
 import ToastProvider from '../../component/ToastProvider';
 import {
     CreateFoodLogRequest,
@@ -64,8 +64,8 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
     const theme = useTheme();
     
-    // 統一された投稿管理システムを使用
-    const postManager = usePostManager();
+    // 統一された投稿作成システムを使用
+    const { createPostFromCurrentInput } = usePostCreation();
     
     // レスポンシブデザイン用のブレークポイント
     const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下
@@ -243,12 +243,12 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     try {
                         const postContent = createFoodLogPostContent();
                         
-                        // 現在のRecoil状態から画像は使用しない（テキストのみの投稿）
-                        const success = await postManager.createPost({
-                            content: postContent,
-                            images: [], // 画像は使用せず、テキストのみの投稿
-                            is_sensitive: foodLog.isSensitive
-                        });
+                        // 統一された投稿作成システムを使用（テキストのみ、画像なし）
+                        const success = await createPostFromCurrentInput(
+                            postContent,
+                            [], // 画像は使用せず、テキストのみの投稿
+                            foodLog.isSensitive
+                        );
 
                         if (success) {
                             console.log('Dieter投稿を作成しました（テキストのみ）');
