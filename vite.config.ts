@@ -4,8 +4,17 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    // 公開用の最も安全な設定 - 一切の最適化を行わない
-    // optimizeDepsを完全に削除して標準設定
+    // ローカルテスト用：段階的最適化設定
+    optimizeDeps: {
+        // 安全な基本ライブラリを拡張
+        include: [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            'axios',
+            'recoil'
+        ]
+    },
     server: {
         host: '0.0.0.0',
         port: 3000,
@@ -24,9 +33,40 @@ export default defineConfig({
     },
     build: {
         outDir: 'build',
-        // 公開用の最も安全な設定 - 最小限の設定のみ
+        // ローカルテスト用：段階的最適化設定
         minify: false,
-        sourcemap: false
+        sourcemap: false,
+        rollupOptions: {
+            output: {
+                // より詳細なチャンク分離（安全な範囲で）
+                manualChunks: (id) => {
+                    // React関連
+                    if (id.includes('react') || id.includes('react-dom')) {
+                        return 'react-vendor';
+                    }
+                    // Chart.js関連
+                    if (id.includes('chart.js')) {
+                        return 'charts';
+                    }
+                    // Recoil関連
+                    if (id.includes('recoil')) {
+                        return 'state-management';
+                    }
+                    // Router関連
+                    if (id.includes('react-router')) {
+                        return 'routing';
+                    }
+                    // Utils（axios等）
+                    if (id.includes('axios')) {
+                        return 'utils';
+                    }
+                    // その他のnode_modulesは標準のvendorチャンクに
+                    if (id.includes('node_modules')) {
+                        return 'vendor';
+                    }
+                }
+            }
+        }
     },
     // プレビュー設定（SPAサポート）
     preview: {
