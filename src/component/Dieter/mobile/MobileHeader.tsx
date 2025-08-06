@@ -19,8 +19,10 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
   return (
     <Box sx={{
       display: { xs: 'block', md: 'none' },
-      position: 'sticky',
+      position: 'fixed',
       top: 0,
+      left: 0,
+      right: 0,
       zIndex: 100,
       backgroundColor: isDarkMode ? '#000000' : 'white',
       borderBottom: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}`,
