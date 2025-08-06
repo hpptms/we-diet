@@ -1,10 +1,12 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../recoil/darkModeAtom';
 
 const Footer: React.FC = () => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下をモバイルとして判定
   
   // Header と同じストライプ配色
   const stripes = ['#cceeff', '#b3e5fc', '#e0f7fa', '#b2ebf2', '#80deea', '#4dd0e1', '#26c6da'];
@@ -13,6 +15,11 @@ const Footer: React.FC = () => {
     to right,
     ${stripes.map((color, i) => `${color} ${i * 14.2}% ${(i + 1) * 14.2}%`).join(', ')}
   )`;
+
+  // モバイルでは非表示または最小限のスタイリング
+  if (isMobile) {
+    return null; // モバイルではFooterを完全に非表示
+  }
 
   return (
     <Box
