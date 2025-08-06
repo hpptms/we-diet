@@ -191,17 +191,33 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     is_update: isUpdate
                 });
 
-                // dieterに投稿がチェックされている場合、現在の入力情報のみで投稿を作成
+                // dieterに投稿がチェックされている場合、画面に現在入力されている情報のみで投稿を作成
                 if (foodLog.isPublic) {
                     try {
-                        const postContent = createFoodLogPostContent();
+                        // 画面に入力されたテキストデータを取得（requestで送信するのと同じデータ）
+                        const currentDiary = request.diary; // 現在送信しようとしているdiaryデータ
+                        const currentPhotos = request.photos; // 現在送信しようとしているphotosデータ
+                        const currentIsSensitive = foodLog.isSensitive; // 現在のセンシティブフラグ
+                        
+                        console.log('現在の画面入力データ:', {
+                            diary: currentDiary,
+                            photosCount: currentPhotos.length,
+                            isSensitive: currentIsSensitive
+                        });
+                        
+                        // 投稿内容を現在の入力データから作成
+                        let postContent = "今日の食事記録 🍽️\n\n";
+                        if (currentDiary && currentDiary.trim()) {
+                            postContent += currentDiary + "\n\n";
+                        }
+                        postContent += "#今日の食事";
                         
                         // Base64画像データをFileオブジェクトの配列に変換
                         const imageFiles: File[] = [];
-                        if (foodLog.photos && foodLog.photos.length > 0) {
-                            console.log('変換前の画像データ:', foodLog.photos.length, '枚');
-                            for (let i = 0; i < foodLog.photos.length; i++) {
-                                const base64Data = foodLog.photos[i];
+                        if (currentPhotos && currentPhotos.length > 0) {
+                            console.log('変換前の画像データ:', currentPhotos.length, '枚');
+                            for (let i = 0; i < currentPhotos.length; i++) {
+                                const base64Data = currentPhotos[i];
                                 console.log(`画像 ${i + 1}:`, base64Data.substring(0, 50) + '...');
                                 if (base64Data.startsWith('data:')) {
                                     try {
@@ -221,23 +237,22 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                             console.log('画像データがありません');
                         }
                         
-                        console.log('投稿内容:', {
+                        console.log('投稿用データ:', {
                             content: postContent,
                             imageCount: imageFiles.length,
-                            isSensitive: foodLog.isSensitive,
-                            diary: foodLog.diary
+                            isSensitive: currentIsSensitive
                         });
                         
-                        // postsApiを直接使用（FoodLogのrecoilやローカルストレージに依存しない）
+                        // postsApiを直接使用（現在の画面入力データのみ使用）
                         const postData = {
                             content: postContent,
-                            images: imageFiles, // 画像ファイルを含める
-                            is_sensitive: foodLog.isSensitive // センシティブフィルターの状態を反映
+                            images: imageFiles, // 現在の画面の画像
+                            is_sensitive: currentIsSensitive // 現在のセンシティブフィルター設定
                         };
                         
                         await postsApi.createPost(postData);
-                        const imageText = foodLog.photos.length > 0 ? '（画像付き）' : '（テキストのみ）';
-                        const sensitiveText = foodLog.isSensitive ? ' [センシティブ]' : '';
+                        const imageText = imageFiles.length > 0 ? '（画像付き）' : '（テキストのみ）';
+                        const sensitiveText = currentIsSensitive ? ' [センシティブ]' : '';
                         console.log(`Dieter投稿を作成しました${imageText}${sensitiveText}`);
                         
                     } catch (postError) {
