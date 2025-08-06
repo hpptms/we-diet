@@ -265,20 +265,107 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       if (!response.success) throw new Error(response.message || '保存に失敗しました');
       const caloriesBurned = response.calories_burned || 0;
 
-      // dieterに投稿がチェックされている場合、投稿も作成
+      // dieterに投稿がチェックされている場合、画面に現在入力されているデータのみで投稿を作成
       if (exerciseData.isPublic) {
         try {
-          // console.log('=== Dieter投稿作成開始 ===');
-          const postContent = createExercisePostContent(caloriesBurned);
-          // console.log('投稿コンテンツ:', postContent);
+          console.log('=== Dieter投稿作成開始（ExerciseRecord） ===');
+          
+          // 現在の画面入力データを取得（保存処理と同じデータを使用）
+          const currentExerciseData = {
+            walkingDistance: exerciseData.walkingDistance || '',
+            walkingTime: exerciseData.walkingTime || '',
+            runningDistance: exerciseData.runningDistance || '',
+            runningTime: exerciseData.runningTime || '',
+            pushUps: exerciseData.pushUps || '',
+            sitUps: exerciseData.sitUps || '',
+            squats: exerciseData.squats || '',
+            otherExerciseTime: exerciseData.otherExerciseTime || '',
+            todayWeight: exerciseData.todayWeight || '',
+            exerciseNote: exerciseData.exerciseNote || '',
+            todayImages: exerciseData.todayImages,
+            isSensitive: exerciseData.isSensitive
+          };
+          
+          console.log('現在の画面入力データ:', {
+            exerciseInputs: Object.keys(currentExerciseData).filter(key => 
+              key !== 'todayImages' && key !== 'isSensitive' && (currentExerciseData as any)[key]
+            ).length,
+            imageCount: currentExerciseData.todayImages.length,
+            exerciseNote: currentExerciseData.exerciseNote,
+            caloriesBurned: caloriesBurned,
+            isSensitive: currentExerciseData.isSensitive
+          });
+          
+          // 投稿内容を現在の画面入力データから作成
+          let postContent = `今日は大体${caloriesBurned}カロリー消費しました！🔥\n\n`;
+          
+          // 有酸素運動
+          if (currentExerciseData.walkingDistance || currentExerciseData.walkingTime) {
+            postContent += "🚶 ウォーキング: ";
+            if (currentExerciseData.walkingDistance) {
+              postContent += currentExerciseData.walkingDistance + "km ";
+            }
+            if (currentExerciseData.walkingTime) {
+              postContent += currentExerciseData.walkingTime + "分";
+            }
+            postContent += "\n";
+          }
+          
+          if (currentExerciseData.runningDistance || currentExerciseData.runningTime) {
+            postContent += "🏃 ランニング: ";
+            if (currentExerciseData.runningDistance) {
+              postContent += currentExerciseData.runningDistance + "km ";
+            }
+            if (currentExerciseData.runningTime) {
+              postContent += currentExerciseData.runningTime + "分";
+            }
+            postContent += "\n";
+          }
+          
+          // 筋力トレーニング
+          if (currentExerciseData.pushUps) {
+            postContent += "💪 腕立て伏せ: " + currentExerciseData.pushUps + "回\n";
+          }
+          if (currentExerciseData.sitUps) {
+            postContent += "🏋️ 腹筋: " + currentExerciseData.sitUps + "回\n";
+          }
+          if (currentExerciseData.squats) {
+            postContent += "🏋️ スクワット: " + currentExerciseData.squats + "回\n";
+          }
+          
+          // その他運動
+          if (currentExerciseData.otherExerciseTime) {
+            postContent += "🔥 その他運動: " + currentExerciseData.otherExerciseTime + "分\n";
+          }
+          
+          // 体重記録
+          if (currentExerciseData.todayWeight) {
+            postContent += "⚖️ 今日の体重: " + currentExerciseData.todayWeight + "kg\n";
+          }
+          
+          // 運動メモ（どんな運動したの？の文字データ）
+          if (currentExerciseData.exerciseNote) {
+            postContent += "\n📝 " + currentExerciseData.exerciseNote;
+          }
+          
+          postContent += "\n\n#今日の運動";
+          
+          console.log('投稿用データ:', {
+            content: postContent,
+            imageCount: currentExerciseData.todayImages.length,
+            isSensitive: currentExerciseData.isSensitive
+          });
           
           const postResult = await postsApi.createPost({
             content: postContent,
-            images: exerciseData.todayImages,
-            is_sensitive: exerciseData.isSensitive
+            images: currentExerciseData.todayImages, // 現在の画面の画像（今日の一枚）
+            is_sensitive: currentExerciseData.isSensitive // 現在のセンシティブフィルター設定
           });
           
-          // console.log('Dieter投稿作成成功:', postResult);
+          const imageText = currentExerciseData.todayImages.length > 0 ? '（画像付き）' : '（テキストのみ）';
+          const sensitiveText = currentExerciseData.isSensitive ? ' [センシティブ]' : '';
+          console.log(`ExerciseRecord Dieter投稿を作成しました${imageText}${sensitiveText}、カロリー消費: ${caloriesBurned}kcal`);
+          
         } catch (postError) {
           console.error('Dieter投稿作成エラー:', postError);
           // 投稿作成に失敗してもアラートは表示するが、運動記録の成功メッセージは表示する
