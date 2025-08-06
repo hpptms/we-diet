@@ -4,19 +4,22 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    // 依存関係の最適化設定
+    // 依存関係の最適化設定 - 安全性最優先
     optimizeDeps: {
         include: [
             'react',
             'react-dom',
             'react-router-dom',
-            '@mui/material',
-            '@mui/icons-material',
             'recoil',
             'axios'
         ],
-        // Emotionを除外してバンドルエラーを回避
-        exclude: ['@emotion/react', '@emotion/styled'],
+        // MUIとEmotionを完全に除外してエラーを回避
+        exclude: [
+            '@mui/material',
+            '@mui/icons-material',
+            '@emotion/react',
+            '@emotion/styled'
+        ],
         force: true
     },
     server: {
@@ -51,15 +54,8 @@ export default defineConfig({
                     if (id.includes('react') || id.includes('react-dom')) {
                         return 'react-vendor';
                     }
-                    // MUI関連を細分化
-                    if (id.includes('@mui/material')) {
-                        return 'mui-core';
-                    }
-                    if (id.includes('@mui/icons-material')) {
-                        return 'mui-icons';
-                    }
-                    // Emotionを他のライブラリと混在させずvendorチャンクに統合
-                    if (id.includes('@emotion')) {
+                    // MUI関連とEmotionを全てvendorチャンクに統合（安全性最優先）
+                    if (id.includes('@mui/material') || id.includes('@mui/icons-material') || id.includes('@emotion')) {
                         return 'vendor';
                     }
                     // Chart.js関連をより細分化
