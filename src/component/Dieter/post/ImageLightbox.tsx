@@ -133,13 +133,15 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
         left: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: 1300,
+        zIndex: 9999, // より高いz-indexで確実に最前面に表示
         backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
         margin: 0,
+        // ビューポート全体に確実に表示されるようにする
+        inset: 0, // top: 0, right: 0, bottom: 0, left: 0 の省略記法
       }}
       onClick={onClose}
       onTouchStart={handleTouchStart}
