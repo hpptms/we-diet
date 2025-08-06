@@ -194,7 +194,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     if (isStandalone || isIOSStandalone) {
       setShowInstallButton(false);
     } else {
-      // イベントリスナーを追加
+      // iOS Safari等では常にボタンを表示
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (isIOS) {
+        setShowInstallButton(true);
+      }
+      
+      // Androidやデスクトップ向けのイベントリスナーを追加
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.addEventListener('appinstalled', handleAppInstalled);
     }
