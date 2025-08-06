@@ -32,22 +32,36 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
   const isDarkMode = useRecoilValue(darkModeState);
   const [touchStart, setTouchStart] = React.useState<number | null>(null);
   const [touchEnd, setTouchEnd] = React.useState<number | null>(null);
-  // シンプルにスクロールを無効化するだけ - スクロール位置は変更しない
+  // 現在のスクロール位置を保持してモーダルを表示
   React.useEffect(() => {
     if (open) {
-      // モーダル表示時はスクロールを無効化
+      // 現在のスクロール位置を保存
+      const currentScrollY = window.scrollY;
+      
+      // body要素を現在のスクロール位置に固定
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${currentScrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
-      console.log('モーダル表示: スクロール無効化');
-    } else {
-      // モーダル非表示時はスクロールを復元
-      document.body.style.overflow = '';
-      console.log('モーダル非表示: スクロール復元');
+      
+      console.log('モーダル表示: スクロール位置を固定', currentScrollY);
+      
+      // クリーンアップ関数で元の状態に戻す
+      return () => {
+        // 固定スタイルを削除
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.overflow = '';
+        
+        // 元のスクロール位置に戻す
+        window.scrollTo(0, currentScrollY);
+        
+        console.log('モーダル非表示: スクロール位置を復元', currentScrollY);
+      };
     }
-
-    return () => {
-      // クリーンアップ
-      document.body.style.overflow = '';
-    };
   }, [open]);
 
   // キーボードナビゲーション
