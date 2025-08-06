@@ -194,13 +194,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     if (isStandalone || isIOSStandalone) {
       setShowInstallButton(false);
     } else {
-      // iOS Safari等では常にボタンを表示
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      if (isIOS) {
-        setShowInstallButton(true);
-      }
+      // PWAインストールボタンを常に表示（PC、Mobile問わず）
+      setShowInstallButton(true);
       
-      // Androidやデスクトップ向けのイベントリスナーを追加
+      // イベントリスナーを追加（beforeinstallpromptがサポートされている場合）
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.addEventListener('appinstalled', handleAppInstalled);
     }
@@ -224,9 +221,22 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         return;
       }
       
+      // PC Chrome/Edge等でのブラウザメニューによるインストール案内
+      const isChrome = /Chrome/.test(navigator.userAgent);
+      const isEdge = /Edg/.test(navigator.userAgent);
+      
+      if (isChrome || isEdge) {
+        setInstallSnackbar({
+          open: true,
+          message: 'ブラウザの右上メニュー「アプリをインストール」からPWAとしてインストールできます',
+          severity: 'info'
+        });
+        return;
+      }
+      
       setInstallSnackbar({
         open: true,
-        message: 'このブラウザではインストールがサポートされていません',
+        message: 'このブラウザではPWAインストールがサポートされていません',
         severity: 'warning'
       });
       return;
