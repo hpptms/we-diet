@@ -210,8 +210,6 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         setLoading(true);
         try {
             const { isUpdate } = saveData;
-            // 投稿IDをローカルストレージから取得
-            const existingPostId = localStorage.getItem(`foodlog_post_${foodLog.selectedDate}_${userId}`);
 
             const request: CreateFoodLogRequest = {
                 user_id: userId,
@@ -240,15 +238,13 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     is_update: isUpdate
                 });
 
-                let dieterPostId = existingPostId;
-
-                // dieterに投稿がチェックされている場合、単純に新規投稿を作成
+                // dieterに投稿がチェックされている場合、新規投稿を作成（保存されたデータは使わない）
                 if (foodLog.isPublic) {
                     try {
                         const postContent = createFoodLogPostContent();
                         
-                        // 食事記録の写真をFile型に変換（postsApi用）
-                        const imageFiles: File[] = [];
+                        // レスポンスから新しく保存された画像URLを取得
+                        const newImageFiles: File[] = [];
                         
                         const convertUrlToFile = async (url: string, filename: string): Promise<File> => {
                             try {
@@ -261,28 +257,28 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                             }
                         };
                         
-                        // 保存された写真URLをFile型に変換
-                        if (foodLog.photos && foodLog.photos.length > 0) {
+                        // APIレスポンスから取得した新しい写真URLのみを使用
+                        if (response.data.record && response.data.record.photos && response.data.record.photos.length > 0) {
                             try {
-                                const filePromises = foodLog.photos.map((photoUrl, index) => 
+                                const filePromises = response.data.record.photos.map((photoUrl, index) => 
                                     convertUrlToFile(photoUrl, `food-photo-${index + 1}.jpg`)
                                 );
                                 const convertedFiles = await Promise.all(filePromises);
-                                imageFiles.push(...convertedFiles);
+                                newImageFiles.push(...convertedFiles);
                             } catch (photoError) {
                                 console.error('写真の変換でエラーが発生しました:', photoError);
                             }
                         }
                         
-                        // 新しい投稿を作成（独立した投稿として）
+                        // 新しい投稿を作成（APIレスポンスから取得したデータのみ使用）
                         const success = await postManager.createPost({
                             content: postContent,
-                            images: imageFiles,
+                            images: newImageFiles,
                             is_sensitive: foodLog.isSensitive
                         });
 
                         if (success) {
-                            console.log('Dieter投稿を作成しました');
+                            console.log('Dieter投稿を作成しました（新規データのみ使用）');
                         }
                         
                     } catch (postError) {
