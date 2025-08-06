@@ -210,6 +210,8 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         setLoading(true);
         try {
             const { isUpdate } = saveData;
+            // 投稿IDをローカルストレージから取得
+            const existingPostId = localStorage.getItem(`foodlog_post_${foodLog.selectedDate}_${userId}`);
 
             const request: CreateFoodLogRequest = {
                 user_id: userId,
@@ -218,8 +220,6 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 photos: foodLog.photos,
                 is_public: foodLog.isPublic
             };
-
-            // console.log('送信するリクエストデータ:', request);
 
             const response = await axios.post<CreateFoodLogResponse>(
                 `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/create`,
@@ -231,8 +231,6 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 }
             );
 
-            // console.log('食事記録保存レスポンス:', response.data);
-
             if (response.data.success) {
                 // Google Analyticsで食事記録イベントを追跡
                 trackDietEvent('food_log', {
@@ -242,17 +240,29 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     is_update: isUpdate
                 });
 
-                // dieterに投稿がチェックされている場合、投稿も作成
+                let dieterPostId = existingPostId;
+
+                // dieterに投稿がチェックされている場合の処理
                 if (foodLog.isPublic) {
                     try {
-                        // console.log('=== Dieter投稿作成開始 ===');
                         const postContent = createFoodLogPostContent();
-                        // console.log('投稿コンテンツ:', postContent);
                         
+                        // 既存の投稿がある場合は削除してから新規作成
+                        if (existingPostId && isUpdate) {
+                            try {
+                                const postId = parseInt(existingPostId);
+                                if (!isNaN(postId)) {
+                                    await postManager.deletePost(postId);
+                                    console.log('既存のDieter投稿を削除しました:', existingPostId);
+                                }
+                            } catch (deleteError) {
+                                console.error('既存投稿の削除に失敗:', deleteError);
+                            }
+                        }
+
                         // 食事記録の写真をFile型に変換（postsApi用）
                         const imageFiles: File[] = [];
                         
-                        // URLからFileオブジェクトを作成する関数
                         const convertUrlToFile = async (url: string, filename: string): Promise<File> => {
                             try {
                                 const response = await fetch(url);
@@ -272,36 +282,47 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                                 );
                                 const convertedFiles = await Promise.all(filePromises);
                                 imageFiles.push(...convertedFiles);
-                                // console.log(`${convertedFiles.length}枚の写真を変換しました`);
                             } catch (photoError) {
                                 console.error('写真の変換でエラーが発生しました:', photoError);
-                                // 写真の変換に失敗しても投稿は続行（テキストのみ）
                             }
                         }
                         
-                        const postResult = await postsApi.createPost({
+                        // 新しい投稿を作成
+                        const success = await postManager.createPost({
                             content: postContent,
                             images: imageFiles,
                             is_sensitive: foodLog.isSensitive
                         });
+
+                        if (success) {
+                            console.log('新しいDieter投稿を作成しました');
+                        }
                         
-                        // console.log('Dieter投稿作成成功:', postResult);
                     } catch (postError) {
                         console.error('Dieter投稿作成エラー:', postError);
-                        // 投稿作成に失敗してもアラートは表示するが、食事記録の成功メッセージは表示する
                         showWarning('食事記録は保存されましたが、Dieter投稿の作成に失敗しました。');
+                    }
+                } else if (existingPostId && isUpdate) {
+                    // 投稿をオフにした場合、既存の投稿を削除
+                    try {
+                        const postId = parseInt(existingPostId);
+                        if (!isNaN(postId)) {
+                            await postManager.deletePost(postId);
+                            console.log('Dieter投稿を削除しました（投稿オフ）');
+                        }
+                    } catch (deleteError) {
+                        console.error('投稿削除に失敗:', deleteError);
                     }
                 }
 
                 const successMessage = isUpdate 
-                    ? '食事記録を更新しました！古い写真は自動的に削除されました。'
+                    ? '食事記録を更新しました！'
                     : '食事記録を保存しました！';
                 setSuccess(successMessage);
                 setFoodLog(prev => ({
                     ...prev,
                     currentRecord: response.data.record
                 }));
-                // Reload recorded dates
                 loadRecordedDates();
             } else {
                 setError(`食事記録の保存に失敗しました: ${response.data.message}`);
