@@ -418,20 +418,34 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       {/* インストール結果のスナックバー */}
       <Snackbar
         open={installSnackbar.open}
-        autoHideDuration={4000}
+        autoHideDuration={10000}
         onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{
+          zIndex: 9999,
+          '& .MuiSnackbarContent-root': {
+            minWidth: '350px'
+          }
+        }}
       >
         <Alert 
           onClose={handleSnackbarClose} 
           severity={installSnackbar.severity}
           variant="filled"
           sx={{
+            fontSize: '16px',
+            fontWeight: 'bold',
+            minWidth: '350px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
             backgroundColor: isDarkMode ? (
               installSnackbar.severity === 'success' ? '#2e7d32' :
-              installSnackbar.severity === 'info' ? '#0288d1' :
+              installSnackbar.severity === 'info' ? '#1976d2' :
               installSnackbar.severity === 'warning' ? '#ed6c02' : '#d32f2f'
-            ) : undefined
+            ) : (
+              installSnackbar.severity === 'success' ? '#4caf50' :
+              installSnackbar.severity === 'info' ? '#2196f3' :
+              installSnackbar.severity === 'warning' ? '#ff9800' : '#f44336'
+            )
           }}
         >
           {installSnackbar.message}
