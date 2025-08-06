@@ -242,24 +242,11 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
 
                 let dieterPostId = existingPostId;
 
-                // dieterに投稿がチェックされている場合の処理
+                // dieterに投稿がチェックされている場合、単純に新規投稿を作成
                 if (foodLog.isPublic) {
                     try {
                         const postContent = createFoodLogPostContent();
                         
-                        // 既存の投稿がある場合は削除してから新規作成
-                        if (existingPostId && isUpdate) {
-                            try {
-                                const postId = parseInt(existingPostId);
-                                if (!isNaN(postId)) {
-                                    await postManager.deletePost(postId);
-                                    console.log('既存のDieter投稿を削除しました:', existingPostId);
-                                }
-                            } catch (deleteError) {
-                                console.error('既存投稿の削除に失敗:', deleteError);
-                            }
-                        }
-
                         // 食事記録の写真をFile型に変換（postsApi用）
                         const imageFiles: File[] = [];
                         
@@ -287,7 +274,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                             }
                         }
                         
-                        // 新しい投稿を作成
+                        // 新しい投稿を作成（独立した投稿として）
                         const success = await postManager.createPost({
                             content: postContent,
                             images: imageFiles,
@@ -295,23 +282,12 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         });
 
                         if (success) {
-                            console.log('新しいDieter投稿を作成しました');
+                            console.log('Dieter投稿を作成しました');
                         }
                         
                     } catch (postError) {
                         console.error('Dieter投稿作成エラー:', postError);
                         showWarning('食事記録は保存されましたが、Dieter投稿の作成に失敗しました。');
-                    }
-                } else if (existingPostId && isUpdate) {
-                    // 投稿をオフにした場合、既存の投稿を削除
-                    try {
-                        const postId = parseInt(existingPostId);
-                        if (!isNaN(postId)) {
-                            await postManager.deletePost(postId);
-                            console.log('Dieter投稿を削除しました（投稿オフ）');
-                        }
-                    } catch (deleteError) {
-                        console.error('投稿削除に失敗:', deleteError);
                     }
                 }
 
@@ -693,7 +669,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 <DialogContent>
                     <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
                         {pendingSaveData?.isUpdate 
-                            ? '既存の記録を更新します。古い写真は自動的に削除され、新しい写真で置き換えられます。よろしいですか？'
+                            ? '既存の記録を更新します。よろしいですか？'
                             : '新しい食事記録を保存します。よろしいですか？'
                         }
                     </DialogContentText>
