@@ -61,7 +61,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
     // 統一された投稿管理システムを使用
     const postManager = usePostManager();
 
-    // Load posts
+    // Load posts - コンポーネント初期化時とshowFollowingPosts変更時に実行
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -73,15 +73,40 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
                     response = await dieterApi.getPosts();
                 }
                 setPosts(response.posts);
+                console.log('投稿を取得しました:', response.posts?.length || 0, '件');
             } catch (error) {
                 console.error('投稿の取得に失敗しました:', error);
+                // エラー時は空配列をセット
+                setPosts([]);
             } finally {
                 setLoading(false);
             }
         };
 
+        // 常に最新の投稿を取得（初回ロード時とshowFollowingPosts変更時）
         fetchPosts();
-    }, [showFollowingPosts]);
+    }, [showFollowingPosts, setPosts, setLoading]);
+
+    // 初期化時に強制的に投稿を取得するための追加のuseEffect
+    useEffect(() => {
+        const initialFetch = async () => {
+            try {
+                setLoading(true);
+                console.log('Dieterページ初期化: 投稿を取得中...');
+                const response = await dieterApi.getPosts();
+                setPosts(response.posts);
+                console.log('初期投稿取得完了:', response.posts?.length || 0, '件');
+            } catch (error) {
+                console.error('初期投稿の取得に失敗しました:', error);
+                setPosts([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        // コンポーネントマウント時に一度だけ実行
+        initialFetch();
+    }, [setPosts, setLoading]);
 
     // Load recommended users
     useEffect(() => {
