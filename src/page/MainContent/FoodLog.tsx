@@ -622,10 +622,31 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 open={confirmSaveOpen}
                 onClose={() => setConfirmSaveOpen(false)}
                 sx={{
+                    '& .MuiDialog-container': {
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    },
                     '& .MuiDialog-paper': {
                         backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
                         color: isDarkMode ? '#ffffff' : 'inherit',
-                        border: isDarkMode ? '1px solid #444' : 'none'
+                        border: isDarkMode ? '1px solid #444' : 'none',
+                        margin: 0,
+                        position: 'fixed',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        maxHeight: '90vh',
+                        maxWidth: '90vw',
+                        minWidth: '300px'
+                    }
+                }}
+                BackdropProps={{
+                    sx: {
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0
                     }
                 }}
             >

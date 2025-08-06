@@ -1,5 +1,14 @@
 # Cloudflare Pages SPA リダイレクト設定
-# シンプルなSPAフォールバック設定
+# AMP対応のハイブリッド戦略設定
 
-# SPA fallback - all routes serve index.html
+# AMP版ページの直接配信
+/amp/index.html /amp/index.html 200
+/amp/privacy-policy.html /amp/privacy-policy.html 200
+/amp/terms-of-service.html /amp/terms-of-service.html 200
+
+# AMPページへのリダイレクト（オプション）
+# GoogleクローラーがAMP版を発見できるように
+# /amp/* /amp/:splat 200
+
+# 通常のSPA fallback - AMPパス以外の全ルートはindex.htmlを配信
 /* /index.html 200
