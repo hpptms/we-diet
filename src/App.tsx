@@ -150,6 +150,8 @@ function App() {
         <Route path="/data-deletion" element={<DataDeletion />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/" element={<TopPage />} />
+        {/* 404ページのフォールバック - 不正なルートをトップページにリダイレクト */}
+        <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>

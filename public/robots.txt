@@ -1,20 +1,22 @@
 User-agent: *
 Allow: /
 
-# サイトマップの場所
-Sitemap: https://we-diat.com/sitemap.xml
+# プライベートページは除外
+Disallow: /dashboard
+Disallow: /Dashboard
+Disallow: /ProfileSettings
+Disallow: /Exercise
+Disallow: /WeightManagement
+Disallow: /FoodLog
+Disallow: /Dieter
+Disallow: /admin/
+Disallow: /api/
 
-# クローリング頻度の推奨（任意）
-Crawl-delay: 1
-
-# 検索エンジンに対してインデックス化を推奨するページ
+# パブリックページは許可
 Allow: /login
-Allow: /register
-Allow: /dashboard
-Allow: /food-log
-Allow: /exercise-record
-Allow: /weight-management
-Allow: /dieter
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /data-deletion
 
 # 不要なファイルはクローリング対象外
 Disallow: /build/
@@ -22,3 +24,23 @@ Disallow: /src/
 Disallow: /*.js$
 Disallow: /*.css$
 Disallow: /*.json$
+
+# 検索エンジン固有の設定
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+# サイトマップの指定
+Sitemap: https://we-diat.com/sitemap.xml
+Sitemap: https://we-diat.com/sitemap_multilang.xml
+
+# クローリング頻度の推奨（任意）
+Crawl-delay: 1

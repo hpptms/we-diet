@@ -72,5 +72,10 @@ export default defineConfig({
         chunkSizeWarningLimit: 1000,
         // ビルド最適化
         reportCompressedSize: false, // ビルド時間短縮
+    },
+    // プレビュー設定（SPAサポート）
+    preview: {
+        port: 3000,
+        host: '0.0.0.0'
     }
 });
