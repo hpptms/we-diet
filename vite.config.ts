@@ -22,9 +22,9 @@ export default defineConfig({
     },
     build: {
         outDir: 'build',
-        // モジュールプリロード最適化
+        // モジュールプリロード最適化（iOS Safari対応でポリフィル有効化）
         modulePreload: {
-            polyfill: false // ポリフィルを無効化してバンドルサイズ削減
+            polyfill: true // iOS Safari対応のためポリフィルを有効化
         },
         // バンドルサイズ最適化（esbuildを使用）
         minify: 'esbuild',
@@ -64,8 +64,8 @@ export default defineConfig({
         cssCodeSplit: true,
         // CSS inlining の閾値を調整（重要なCSSはインライン化）
         assetsInlineLimit: 1024, // 1KB以下は inline化
-        // ターゲット設定で最新ブラウザに最適化
-        target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari13'],
+        // ターゲット設定でiOSのSafari互換性を向上
+        target: ['es2015', 'edge88', 'firefox78', 'chrome87', 'safari14'],
         // ソースマップは本番では無効化してパフォーマンス向上
         sourcemap: false,
         // チャンクサイズの警告を調整

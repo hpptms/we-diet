@@ -50,17 +50,23 @@ function App() {
     // Initialize performance monitoring
     const performanceMonitor = initPerformanceMonitoring();
     
-    // Register Service Worker for performance optimization
+    // Register Service Worker for performance optimization (excluding iOS Safari)
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then((registration) => {
-            console.log('SW registered: ', registration);
-          })
-          .catch((registrationError) => {
-            console.log('SW registration failed: ', registrationError);
-          });
-      });
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      
+      // iOSのSafariではService Workerを登録しない
+      if (!isIOS || !isSafari) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
     }
     
     // Cleanup function
