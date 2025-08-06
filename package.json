@@ -37,7 +37,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "analyze": "vite build --mode analyze",
+    "build:prod": "NODE_ENV=production vite build",
+    "proto:generate": "protoc --ts_out frontend/src/proto --ts_opt target=ts --proto_path backend/proto backend/proto/*.proto"
   },
   "eslintConfig": {
     "extends": [

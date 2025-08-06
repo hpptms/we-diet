@@ -1,0 +1,89 @@
+import { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { serverProfileState, profileSettingsState } from '../recoil/profileSettingsAtom';
+import { dieterApi, LegacyRecommendedUser as ApiRecommendedUser } from '../api/dieterApi';
+import { postsApi } from '../api/postsApi';
+import { Post, TrendingTopic, RecommendedUser } from '../component/Dieter/types';
+import { useFollowCounts } from '../component/Dieter/layout/LeftSidebar/hooks/useFollowCounts';
+
+type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
+
+export const useDieterState = (onViewChange?: (view: CurrentView) => void) => {
+    const serverProfile = useRecoilValue(serverProfileState);
+    const profileSettings = useRecoilValue(profileSettingsState);
+    const navigate = useNavigate();
+    const { followCounts, refreshFollowCounts } = useFollowCounts();
+
+    // Core state
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [recommendedUsers, setRecommendedUsers] = useState<RecommendedUser[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [deletedPostIds, setDeletedPostIds] = useState<Set<number>>(new Set());
+    const [trendingTopics, setTrendingTopics] = useState<TrendingTopic[]>([]);
+
+    // View state
+    const [showFollowManagement, setShowFollowManagement] = useState(false);
+    const [showFollowingPosts, setShowFollowingPosts] = useState(false);
+    const [showMessages, setShowMessages] = useState(false);
+    const [showNotifications, setShowNotifications] = useState(false);
+
+    // Search state
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState<Post[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchLoading, setSearchLoading] = useState(false);
+
+    // Modal state
+    const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+
+    // Mobile UI state
+    const [showMobileLeftSidebar, setShowMobileLeftSidebar] = useState(false);
+    const [showMobileRightSidebar, setShowMobileRightSidebar] = useState(false);
+
+    return {
+        // State
+        posts,
+        recommendedUsers,
+        loading,
+        deletedPostIds,
+        trendingTopics,
+        showFollowManagement,
+        showFollowingPosts,
+        showMessages,
+        showNotifications,
+        searchQuery,
+        searchResults,
+        isSearching,
+        searchLoading,
+        isPostModalOpen,
+        showMobileLeftSidebar,
+        showMobileRightSidebar,
+        serverProfile,
+        profileSettings,
+        followCounts,
+
+        // Setters
+        setPosts,
+        setRecommendedUsers,
+        setLoading,
+        setDeletedPostIds,
+        setTrendingTopics,
+        setShowFollowManagement,
+        setShowFollowingPosts,
+        setShowMessages,
+        setShowNotifications,
+        setSearchQuery,
+        setSearchResults,
+        setIsSearching,
+        setSearchLoading,
+        setIsPostModalOpen,
+        setShowMobileLeftSidebar,
+        setShowMobileRightSidebar,
+
+        // Utils
+        navigate,
+        refreshFollowCounts,
+        onViewChange
+    };
+};

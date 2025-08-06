@@ -4,6 +4,22 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
+    // 依存関係の最適化設定
+    optimizeDeps: {
+        include: [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            '@mui/material',
+            '@mui/icons-material',
+            '@emotion/react',
+            '@emotion/styled',
+            'recoil',
+            'axios'
+        ],
+        // 大きなライブラリを事前バンドル
+        force: true
+    },
     server: {
         host: '0.0.0.0',
         port: 3000,
@@ -31,12 +47,48 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 // クリティカルパス最適化のためのチャンク分割
-                manualChunks: {
-                    // 重要なライブラリを安全にグループ化
-                    'react-vendor': ['react', 'react-dom'],
-                    'react-router': ['react-router-dom'],
-                    'mui-vendor': ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
-                    'utils': ['axios']
+                manualChunks: (id) => {
+                    // React関連
+                    if (id.includes('react') || id.includes('react-dom')) {
+                        return 'react-vendor';
+                    }
+                    // MUI関連を細分化
+                    if (id.includes('@mui/material')) {
+                        return 'mui-core';
+                    }
+                    if (id.includes('@mui/icons-material')) {
+                        return 'mui-icons';
+                    }
+                    if (id.includes('@emotion')) {
+                        return 'emotion';
+                    }
+                    // Chart.js関連をより細分化
+                    if (id.includes('chart.js/dist/chart.js')) {
+                        return 'chart-core';
+                    }
+                    if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
+                        return 'chart-components';
+                    }
+                    // Recoil関連
+                    if (id.includes('recoil')) {
+                        return 'state-management';
+                    }
+                    // Router関連
+                    if (id.includes('react-router')) {
+                        return 'routing';
+                    }
+                    // Utils
+                    if (id.includes('axios') || id.includes('protobuf')) {
+                        return 'utils';
+                    }
+                    // Cloudinary関連
+                    if (id.includes('cloudinary')) {
+                        return 'media';
+                    }
+                    // 外部ライブラリ
+                    if (id.includes('node_modules')) {
+                        return 'vendor';
+                    }
                 },
                 // アセットのファイル名設定（バージョニング強化）
                 chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -69,7 +121,15 @@ export default defineConfig({
         // ソースマップは本番では無効化してパフォーマンス向上
         sourcemap: false,
         // チャンクサイズの警告を調整
-        chunkSizeWarningLimit: 1000,
+        chunkSizeWarningLimit: 500,
+        // Tree Shaking最適化
+        terserOptions: {
+            compress: {
+                drop_console: true, // 本番でconsoleを削除
+                drop_debugger: true,
+                pure_funcs: ['console.log', 'console.info', 'console.warn']
+            }
+        },
         // ビルド最適化
         reportCompressedSize: false, // ビルド時間短縮
     },

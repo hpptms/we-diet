@@ -1,21 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { TopPage } from './page/TopPage';
-import LoginPage from './page/LoginPage';
-import DashboardPage from './page/DashboardPage';
-import RegisterCompletePage from './page/RegisterCompletePage';
-import VerifyEmailPage from './page/VerifyEmailPage';
-import ProfileSettings from './page/MainContent/ProfileSettings';
-import FoodLog from './page/MainContent/FoodLog';
-import Dieter from './page/MainContent/Dieter';
+import { CircularProgress, Box } from '@mui/material';
 import DashboardLayout from './component/DashboardLayout';
-import PrivacyPolicy from './page/PrivacyPolicy';
-import DataDeletion from './page/DataDeletion';
-import TermsOfService from './page/TermsOfService';
-import { initializeFacebookSDK } from './utils/facebookSDK';
 import { initGA, trackPageView } from './utils/googleAnalytics';
 import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 import { LanguageProvider } from './context/LanguageContext';
+
+// Lazy load heavy components for better performance
+import { 
+  LazyDieter, 
+  LazyExerciseRecord, 
+  LazyFoodLog, 
+  LazyWeightManagement, 
+  LazyProfileSettings 
+} from './utils/LazyComponents';
+
+// Lazy load page components
+const LazyTopPage = React.lazy(() => import('./page/TopPage').then(module => ({ default: module.TopPage })));
+const LazyLoginPage = React.lazy(() => import('./page/LoginPage'));
+const LazyDashboardPage = React.lazy(() => import('./page/DashboardPage'));
+const LazyRegisterCompletePage = React.lazy(() => import('./page/RegisterCompletePage'));
+const LazyVerifyEmailPage = React.lazy(() => import('./page/VerifyEmailPage'));
+const LazyPrivacyPolicy = React.lazy(() => import('./page/PrivacyPolicy'));
+const LazyDataDeletion = React.lazy(() => import('./page/DataDeletion'));
+const LazyTermsOfService = React.lazy(() => import('./page/TermsOfService'));
+
+// Loading component for suspense
+const LoadingComponent = () => (
+  <Box 
+    sx={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      minHeight: '60vh',
+      flexDirection: 'column',
+      gap: 2
+    }}
+  >
+    <CircularProgress size={40} sx={{ color: '#29b6f6' }} />
+    <Box sx={{ 
+      color: '#666', 
+      fontSize: '0.9rem',
+      textAlign: 'center' 
+    }}>
+      読み込み中...
+    </Box>
+  </Box>
+);
 
 // 認証判定用のラップコンポーネント
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -85,11 +116,17 @@ function App() {
       >
         <PageViewTracker />
         <Routes>
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyLoginPage />
+          </Suspense>
+        } />
         <Route path="/Dashboard" element={
           <PrivateRoute>
             <DashboardLayout>
-              <DashboardPage />
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyDashboardPage />
+              </Suspense>
             </DashboardLayout>
           </PrivateRoute>
         } />
@@ -97,65 +134,105 @@ function App() {
         <Route path="/dashboard" element={
           <PrivateRoute>
             <DashboardLayout>
-              <DashboardPage />
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyDashboardPage />
+              </Suspense>
             </DashboardLayout>
           </PrivateRoute>
         } />
         <Route path="/ProfileSettings" element={
           <PrivateRoute>
             <DashboardLayout>
-              <ProfileSettings />
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyProfileSettings />
+              </Suspense>
             </DashboardLayout>
           </PrivateRoute>
         } />
         <Route path="/dashboard/profile-settings" element={
           <PrivateRoute>
             <DashboardLayout>
-              <ProfileSettings />
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyProfileSettings />
+              </Suspense>
             </DashboardLayout>
           </PrivateRoute>
         } />
         <Route path="/Exercise" element={
           <PrivateRoute>
             <DashboardLayout>
-              <DashboardPage initialView="exercise" />
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyDashboardPage initialView="exercise" />
+              </Suspense>
             </DashboardLayout>
           </PrivateRoute>
         } />
         <Route path="/WeightManagement" element={
           <PrivateRoute>
             <DashboardLayout>
-              <DashboardPage initialView="weight" />
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyDashboardPage initialView="weight" />
+              </Suspense>
             </DashboardLayout>
           </PrivateRoute>
         } />
         <Route path="/FoodLog" element={
           <PrivateRoute>
             <DashboardLayout>
-              <DashboardPage initialView="FoodLog" />
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyDashboardPage initialView="FoodLog" />
+              </Suspense>
             </DashboardLayout>
           </PrivateRoute>
         } />
         <Route path="/Dieter" element={
           <PrivateRoute>
             <DashboardLayout>
-              <DashboardPage initialView="dieter" />
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyDashboardPage initialView="dieter" />
+              </Suspense>
             </DashboardLayout>
           </PrivateRoute>
         } />
         <Route path="/Dieter/Follow" element={
           <PrivateRoute>
             <DashboardLayout>
-              <DashboardPage initialView="dieter" subView="follow" />
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyDashboardPage initialView="dieter" subView="follow" />
+              </Suspense>
             </DashboardLayout>
           </PrivateRoute>
         } />
-        <Route path="/register/complete" element={<RegisterCompletePage />} />
-        <Route path="/verify-email" element={<VerifyEmailPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/data-deletion" element={<DataDeletion />} />
-        <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="/" element={<TopPage />} />
+        <Route path="/register/complete" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyRegisterCompletePage />
+          </Suspense>
+        } />
+        <Route path="/verify-email" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyVerifyEmailPage />
+          </Suspense>
+        } />
+        <Route path="/privacy-policy" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyPrivacyPolicy />
+          </Suspense>
+        } />
+        <Route path="/data-deletion" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyDataDeletion />
+          </Suspense>
+        } />
+        <Route path="/terms-of-service" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyTermsOfService />
+          </Suspense>
+        } />
+        <Route path="/" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyTopPage />
+          </Suspense>
+        } />
         {/* 404ページのフォールバック - 不正なルートをトップページにリダイレクト */}
         <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

@@ -1,16 +1,20 @@
 {
-  "short_name": "We diet",
-  "name": "We diet - ダイエット・健康管理SNSアプリ",
-  "description": "ダイエットと健康管理を楽しくサポートするSNSアプリ。食事記録、運動記録、体重管理機能で健康習慣をサポート。",
+  "name": "We Diet - ダイエット記録＆コミュニティアプリ",
+  "short_name": "We Diet",
+  "description": "体重管理、食事記録、運動記録を通してダイエットをサポートするSNSコミュニティアプリ",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2196f3",
+  "orientation": "portrait",
+  "categories": [
+    "health",
+    "fitness",
+    "lifestyle",
+    "social"
+  ],
   "lang": "ja",
-  "dir": "ltr",
   "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon",
-      "purpose": "any maskable"
-    },
     {
       "src": "16favicon.ico",
       "sizes": "16x16",
@@ -20,77 +24,24 @@
       "src": "128favicon.ico",
       "sizes": "128x128",
       "type": "image/x-icon"
+    },
+    {
+      "src": "original.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
     }
   ],
-  "start_url": "/",
   "scope": "/",
-  "display": "standalone",
-  "orientation": "portrait-primary",
-  "theme_color": "#2196f3",
-  "background_color": "#ffffff",
-  "categories": [
-    "health",
-    "fitness",
-    "lifestyle",
-    "social"
-  ],
+  "id": "we-diet-app",
+  "dir": "ltr",
   "screenshots": [
     {
-      "src": "https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp",
-      "sizes": "1200x630",
-      "type": "image/webp",
-      "form_factor": "wide"
+      "src": "original.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "We Diet アプリのスクリーンショット"
     }
-  ],
-  "shortcuts": [
-    {
-      "name": "食事記録",
-      "short_name": "食事記録",
-      "description": "食事を記録する",
-      "url": "/FoodLog",
-      "icons": [
-        {
-          "src": "favicon.ico",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "運動記録",
-      "short_name": "運動記録",
-      "description": "運動を記録する",
-      "url": "/Exercise",
-      "icons": [
-        {
-          "src": "favicon.ico",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "体重管理",
-      "short_name": "体重管理",
-      "description": "体重を管理する",
-      "url": "/WeightManagement",
-      "icons": [
-        {
-          "src": "favicon.ico",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "ダイエット仲間",
-      "short_name": "SNS",
-      "description": "仲間とつながる",
-      "url": "/Dieter",
-      "icons": [
-        {
-          "src": "favicon.ico",
-          "sizes": "96x96"
-        }
-      ]
-    }
-  ],
-  "prefer_related_applications": false
+  ]
 }
