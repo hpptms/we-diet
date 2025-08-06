@@ -33,14 +33,35 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
   const isDarkMode = useRecoilValue(darkModeState);
   const [touchStart, setTouchStart] = React.useState<number | null>(null);
   const [touchEnd, setTouchEnd] = React.useState<number | null>(null);
-  // シンプルにスクロールを無効化するだけで位置は変更しない
+  // PCでの表示位置問題を解決するため、より確実な方法を使用
   React.useEffect(() => {
     if (open) {
-      // モーダル表示時はスクロールを無効化
+      // モーダル表示時の処理
       document.body.style.overflow = 'hidden';
-      console.log('モーダル表示: スクロール無効化');
+      
+      // モーダル要素が確実にレンダリングされるまで待機
+      setTimeout(() => {
+        const modalElement = document.querySelector('.image-lightbox-modal') as HTMLElement;
+        if (modalElement) {
+          // 強制的にスタイルを適用
+          modalElement.style.setProperty('position', 'fixed', 'important');
+          modalElement.style.setProperty('top', '0', 'important');
+          modalElement.style.setProperty('left', '0', 'important');
+          modalElement.style.setProperty('right', '0', 'important');
+          modalElement.style.setProperty('bottom', '0', 'important');
+          modalElement.style.setProperty('width', '100vw', 'important');
+          modalElement.style.setProperty('height', '100vh', 'important');
+          modalElement.style.setProperty('z-index', '10000', 'important');
+          modalElement.style.setProperty('display', 'flex', 'important');
+          modalElement.style.setProperty('align-items', 'center', 'important');
+          modalElement.style.setProperty('justify-content', 'center', 'important');
+          console.log('PCモーダル位置を強制適用:', modalElement.getBoundingClientRect());
+        }
+      }, 50);
+      
+      console.log('モーダル表示: スクロール無効化 & 位置固定');
     } else {
-      // モーダル非表示時はスクロールを復元
+      // モーダル非表示時の処理
       document.body.style.overflow = '';
       console.log('モーダル非表示: スクロール復元');
     }
