@@ -384,6 +384,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         flexDirection: 'column' as const,
         boxSizing: 'border-box' as const,
         overflowX: 'hidden' as const,
+        paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(2rem, env(safe-area-inset-bottom))' : undefined,
     };
 
     return (

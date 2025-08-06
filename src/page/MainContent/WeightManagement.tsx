@@ -954,7 +954,12 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     }), [viewPeriod, currentDate, weightRecords, isDarkMode]);
 
     return (
-        <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
+        <Box sx={{ 
+            p: 3, 
+            maxWidth: 1200, 
+            mx: 'auto',
+            paddingBottom: { xs: 'max(3rem, env(safe-area-inset-bottom))', md: 3 }
+        }}>
             {/* Header */}
             <WeightManagementHeader onBack={handleBack} />
 

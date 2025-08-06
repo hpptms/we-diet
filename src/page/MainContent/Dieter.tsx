@@ -990,9 +990,10 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
             order: 3
           }}>
             <Box sx={{
-              backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
-              borderTop: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}`,
-              py: 1
+              backgroundColor: isDarkMode ? '#000000' : 'white',
+              borderTop: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`,
+              py: 1,
+              paddingBottom: 'env(safe-area-inset-bottom)' // iOS Safari対応
             }}>
               <Box sx={{
                 display: 'flex',

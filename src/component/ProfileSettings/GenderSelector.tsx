@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button, FormControlLabel, Checkbox } from '@mui/material';
+import { Box, Typography, Button, FormControlLabel, Checkbox, useTheme, useMediaQuery } from '@mui/material';
 import { GenderType } from '../../recoil/profileSettingsAtom';
 
 interface GenderSelectorProps {
@@ -17,14 +17,22 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
   onPrivacyChange,
   isDarkMode = false,
 }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // 600px以下
+
   return (
     <Box sx={{ mb: 3 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h6" sx={{ mr: 2, color: isDarkMode ? '#ffffff' : 'inherit' }}>
-            性別
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Typography variant="h6" sx={{ mb: 2, color: isDarkMode ? '#ffffff' : 'inherit' }}>
+        性別
+      </Typography>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: isSmallScreen ? 'column' : 'row',
+        alignItems: isSmallScreen ? 'flex-start' : 'center',
+        justifyContent: 'space-between',
+        gap: isSmallScreen ? 2 : 0
+      }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
             <Button
               variant={gender === 'female' ? 'contained' : 'outlined'}
               onClick={() => onGenderChange('female')}
@@ -78,7 +86,6 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
             >
               秘密☆
             </Button>
-          </Box>
         </Box>
         <FormControlLabel
           control={
@@ -95,7 +102,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
           }
           label="非公開"
           sx={{ 
-            ml: 2,
+            ml: isSmallScreen ? 0 : 2,
             '& .MuiFormControlLabel-label': {
               color: isDarkMode ? '#ffffff' : 'inherit',
             },
