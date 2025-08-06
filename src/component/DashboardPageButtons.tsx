@@ -7,9 +7,11 @@ type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' |
 interface DashboardPageButtonsProps {
   onViewChange: (view: CurrentView) => void;
   hasWeightInput?: boolean;
+  showInstallButton?: boolean;
+  onInstallClick?: () => void;
 }
 
-const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChange, hasWeightInput }) => {
+const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChange, hasWeightInput, showInstallButton, onInstallClick }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const isDarkMode = useRecoilValue(darkModeState);
 
@@ -319,6 +321,59 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
       >
         💬 dieter
       </button>
+      
+      {/* PWAインストールボタン */}
+      {showInstallButton && (
+        <button
+          style={{
+            padding: "20px 25px",
+            fontSize: "18px",
+            fontWeight: "bold",
+            background: isDarkMode ? "#000000" : "linear-gradient(135deg, #E91E63, #C2185B, #880E4F)",
+            color: "white",
+            border: isDarkMode ? "2px solid #ffffff" : "none",
+            borderRadius: "15px",
+            cursor: "pointer",
+            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+            boxShadow: "0 6px 20px rgba(233, 30, 99, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)",
+            position: "relative",
+            overflow: "hidden",
+            textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+            transform: "translateY(0)",
+          }}
+          onMouseOver={(e) => {
+            if (!isDarkMode) {
+              e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 12px 30px rgba(233, 30, 99, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+              e.currentTarget.style.background = "linear-gradient(135deg, #F06292, #E91E63, #C2185B)";
+            }
+          }}
+          onMouseOut={(e) => {
+            if (!isDarkMode) {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.boxShadow = "0 6px 20px rgba(233, 30, 99, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+              e.currentTarget.style.background = "linear-gradient(135deg, #E91E63, #C2185B, #880E4F)";
+            }
+          }}
+          onFocus={(e) => {
+            if (isDarkMode) {
+              e.currentTarget.style.background = "#000000";
+              e.currentTarget.style.border = "2px solid #ffffff";
+              e.currentTarget.style.color = "white";
+            }
+          }}
+          onBlur={(e) => {
+            if (isDarkMode) {
+              e.currentTarget.style.background = "#000000";
+              e.currentTarget.style.border = "2px solid #ffffff";
+              e.currentTarget.style.color = "white";
+            }
+          }}
+          onClick={onInstallClick}
+        >
+          🏠✨ ホームに追加
+        </button>
+      )}
     </div>
   );
 };

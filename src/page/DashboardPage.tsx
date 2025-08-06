@@ -299,47 +299,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       default:
         return (
           <>
-            {/* PWAインストールボタン */}
-            {showInstallButton && currentView === 'dashboard' && (
-              <Box sx={{ 
-                position: 'fixed',
-                top: { xs: 70, md: 80 },
-                right: { xs: 16, md: 24 },
-                zIndex: 1000,
-                opacity: 0.9,
-                transition: 'opacity 0.3s ease-in-out',
-                '&:hover': {
-                  opacity: 1
-                }
-              }}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={handleInstallClick}
-                  startIcon={<HomeIcon />}
-                  endIcon={<AddIcon />}
-                  sx={{
-                    backgroundColor: isDarkMode ? '#1976d2' : '#2196f3',
-                    color: '#ffffff',
-                    fontSize: '0.75rem',
-                    padding: '6px 12px',
-                    borderRadius: '20px',
-                    textTransform: 'none',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                    '&:hover': {
-                      backgroundColor: isDarkMode ? '#1565c0' : '#1976d2',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                    },
-                    '&:active': {
-                      transform: 'scale(0.98)'
-                    }
-                  }}
-                >
-                  ホームに追加
-                </Button>
-              </Box>
-            )}
-            <DashboardPageButtons onViewChange={handleViewChange} hasWeightInput={hasWeightInput} />
+            <DashboardPageButtons 
+              onViewChange={handleViewChange} 
+              hasWeightInput={hasWeightInput} 
+              showInstallButton={showInstallButton}
+              onInstallClick={handleInstallClick}
+            />
           </>
         );
     }
