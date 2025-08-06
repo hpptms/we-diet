@@ -4,6 +4,13 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
+    // esbuildの設定を分離（トップレベルで定義）
+    esbuild: {
+        minifyIdentifiers: false, // 変数名の難読化を無効化
+        minifySyntax: true,       // 構文の最小化のみ有効
+        minifyWhitespace: true,   // 空白の除去は有効
+        keepNames: true          // 関数名・変数名を保持
+    },
     // ローカルテスト用：段階的最適化設定
     optimizeDeps: {
         // 安全な基本ライブラリを拡張
@@ -33,8 +40,8 @@ export default defineConfig({
     },
     build: {
         outDir: 'build',
-        // ローカルテスト用：段階的最適化設定（第3段階・安全版）
-        minify: false,
+        // ローカルテスト用：段階的最適化設定（方法1: esbuildの設定を弱める）
+        minify: 'esbuild',
         sourcemap: false,
         rollupOptions: {
             output: {
