@@ -255,40 +255,40 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         setIsPostModalOpen(false);
     };
 
-    // Post handling
+    // Post handling - 投稿後はシンプルにバックエンドから最新の投稿を取得
     const handlePost = async (content: string, images?: File[], isSensitive?: boolean) => {
         try {
+            console.log('投稿を作成中...');
+            setLoading(true);
+
             const postData = {
                 content: content,
                 images: images || [],
                 is_sensitive: isSensitive || false
             };
 
+            // 投稿を作成
             const newPost = await dieterApi.createPost(postData);
+            console.log('投稿作成完了:', newPost.ID);
 
-            setPosts((prevPosts: Post[]) => {
-                const exists = prevPosts.find((post: Post) => post.ID === newPost.ID);
-                if (exists) {
-                    return prevPosts;
-                }
-
-                const updatedPosts = [newPost, ...prevPosts];
-                return updatedPosts;
-            });
-
-            try {
-                const response = await dieterApi.getPosts();
-                const allPosts = response.posts;
-                setPosts(allPosts);
-                // 削除されたIDはリセットしない（削除された投稿は引き続き非表示に保つ）
-            } catch (fetchError) {
-                console.warn('投稿一覧の再取得に失敗しましたが、ローカル更新は成功しています:', fetchError);
+            // 投稿作成後、シンプルにバックエンドから最新の投稿一覧を取得
+            console.log('投稿作成後、最新の投稿一覧を取得中...');
+            let response;
+            if (showFollowingPosts) {
+                response = await dieterApi.getFollowingPosts();
+            } else {
+                response = await dieterApi.getPosts();
             }
+
+            setPosts(response.posts);
+            console.log('投稿作成後の投稿一覧更新完了:', response.posts?.length || 0, '件');
 
         } catch (error) {
             console.error('投稿の作成に失敗しました:', error);
             alert('投稿の作成に失敗しました。もう一度お試しください。');
             throw error;
+        } finally {
+            setLoading(false);
         }
     };
 
