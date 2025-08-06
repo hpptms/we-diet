@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Box, Grid, useTheme, useMediaQuery } from '@mui/material';
+import { Box, Grid, useTheme, useMediaQuery, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
 import { exerciseRecordState, ExerciseRecordData, checkAndResetIfDateChanged, isExerciseDataEmpty } from '../../recoil/exerciseRecordAtom';
@@ -29,6 +29,8 @@ interface ExerciseRecordProps {
 const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [exerciseData, setExerciseData] = useRecoilState(exerciseRecordState);
   const [loading, setLoading] = useState(false);
+  const [confirmOverwriteOpen, setConfirmOverwriteOpen] = useState(false);
+  const [pendingSaveData, setPendingSaveData] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
   const isDarkMode = useRecoilValue(darkModeState);
@@ -214,13 +216,31 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       }
       
       if (recordExists) {
-        const overwrite = window.confirm('既に本日の運動記録があります。上書きすると古い写真は自動的に削除され、新しい写真で置き換えられます。よろしいですか？');
-        if (!overwrite) {
-          setLoading(false);
-          return;
-        }
+        // 保存データを一時保存してダイアログを表示
+        setPendingSaveData({ userId, today });
+        setConfirmOverwriteOpen(true);
+        setLoading(false);
+        return;
       }
 
+      // 実際の保存処理を実行
+      await performSave(userId, today);
+    } catch (error: any) {
+      let errorMessage = '保存に失敗しました。もう一度お試しください。';
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage = `保存に失敗しました: ${error.response.data.message}`;
+      } else if (error.message) {
+        errorMessage = `保存に失敗しました: ${error.message}`;
+      }
+      showError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 実際の保存処理を行う関数
+  const performSave = async (userId: number, today: string) => {
+    try {
       // Protobuf APIで送信
       const response = await exerciseRecordApi.createExerciseRecord({
         userId: userId,
@@ -280,10 +300,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         todayImages: [],
       });
 
-      const isUpdate = recordExists;
-      const message = isUpdate 
-        ? `運動記録を更新しました！古い写真は自動的に削除されました。\n今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`
-        : `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
+      const message = `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
       showSuccess(message);
     } catch (error: any) {
       // console.error('=== 保存エラー詳細 ===');
@@ -411,6 +428,60 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         loading={loading}
         isDarkMode={isDarkMode}
       />
+      
+      {/* 確認ダイアログ */}
+      <Dialog
+        open={confirmOverwriteOpen}
+        onClose={() => setConfirmOverwriteOpen(false)}
+        sx={{
+          '& .MuiDialog-paper': {
+            backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+            color: isDarkMode ? '#ffffff' : 'inherit',
+            border: isDarkMode ? '1px solid #444' : 'none'
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
+          既存データの上書き確認
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
+            既に本日の運動記録があります。上書きすると古い写真は自動的に削除され、新しい写真で置き換えられます。よろしいですか？
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            onClick={() => {
+              setConfirmOverwriteOpen(false);
+              setPendingSaveData(null);
+            }}
+            sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
+          >
+            キャンセル
+          </Button>
+          <Button 
+            onClick={async () => {
+              setConfirmOverwriteOpen(false);
+              if (pendingSaveData) {
+                setLoading(true);
+                await performSave(pendingSaveData.userId, pendingSaveData.today);
+                setLoading(false);
+              }
+              setPendingSaveData(null);
+            }}
+            variant="contained"
+            sx={{ 
+              backgroundColor: isDarkMode ? '#ffffff' : '#1976d2',
+              color: isDarkMode ? '#000000' : '#ffffff',
+              '&:hover': {
+                backgroundColor: isDarkMode ? '#f0f0f0' : '#1565c0'
+              }
+            }}
+          >
+            上書きする
+          </Button>
+        </DialogActions>
+      </Dialog>
       
       {/* 共通トースト */}
       <ToastProvider toast={toast} onClose={hideToast} />

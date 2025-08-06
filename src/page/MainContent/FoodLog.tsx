@@ -8,7 +8,13 @@ import {
     Paper,
     Fab,
     useTheme,
-    useMediaQuery
+    useMediaQuery,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button
 } from '@mui/material';
 import { Save, PhotoCamera } from '@mui/icons-material';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -51,6 +57,8 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const [calendarOpen, setCalendarOpen] = useState(false);
     const [recordViewOpen, setRecordViewOpen] = useState(false);
     const [viewingRecord, setViewingRecord] = useState<FoodLogType | undefined>();
+    const [confirmSaveOpen, setConfirmSaveOpen] = useState(false);
+    const [pendingSaveData, setPendingSaveData] = useState<any>(null);
     const isDarkMode = useRecoilValue(darkModeState);
     const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
     const theme = useTheme();
