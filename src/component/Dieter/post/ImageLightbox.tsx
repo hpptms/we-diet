@@ -20,6 +20,7 @@ interface ImageLightboxProps {
   currentIndex: number;
   onNext: () => void;
   onPrevious: () => void;
+  clickPosition?: {x: number, y: number} | null;
 }
 
 const ImageLightbox: React.FC<ImageLightboxProps> = ({
@@ -29,6 +30,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
   currentIndex,
   onNext,
   onPrevious,
+  clickPosition,
 }) => {
   const isDarkMode = useRecoilValue(darkModeState);
   const [touchStart, setTouchStart] = React.useState<number | null>(null);
@@ -161,13 +163,38 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
   if (!open || !images.length) return null;
 
+  // クリック位置を中心としたモーダル表示のスタイル計算
+  const getModalStyles = () => {
+    const baseStyles = {
+      backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
+    };
+
+    if (clickPosition) {
+      // クリック位置を中心にモーダルを表示
+      console.log('📍 クリック位置を中心にモーダル表示:', clickPosition);
+      return {
+        ...baseStyles,
+        // 画像コンテナの位置をクリック位置中心に調整
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'fixed' as const,
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 10000,
+      };
+    }
+
+    return baseStyles;
+  };
+
   // React Portalを使用してdocument.bodyに直接レンダリング
   return createPortal(
     <div
       className="image-lightbox-modal"
-      style={{
-        backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
-      }}
+      style={getModalStyles()}
       onClick={onClose}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}

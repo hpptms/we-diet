@@ -76,6 +76,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
   const [isBlockLoading, setIsBlockLoading] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
+  const [clickPosition, setClickPosition] = useState<{x: number, y: number} | null>(null);
   
   // フォローコンテキストを取得（オプション）
   const followContext = useFollowContextOptional();
@@ -469,6 +470,9 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
         clickFromTop: clickY + scrollY,
         clickFromLeft: clickX + scrollX
       });
+      
+      // クリック位置を保存
+      setClickPosition({ x: clickX, y: clickY });
     }
     
     setLightboxImageIndex(index);
@@ -1094,6 +1098,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
         currentIndex={lightboxImageIndex}
         onNext={handleLightboxNext}
         onPrevious={handleLightboxPrevious}
+        clickPosition={clickPosition}
       />
     </Box>
   );
