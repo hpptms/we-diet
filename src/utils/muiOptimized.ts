@@ -1,5 +1,8 @@
-// MUI個別インポート最適化
-// 必要なコンポーネントのみを再エクスポート
+// MUI個別インポート最適化 - Emotion初期化修正
+// @emotion/reactを直接使用してBundle化順序を制御
+
+// Emotionの基本設定を最初に実行
+import '@emotion/react';
 
 // Core components - default exports
 export { default as Box } from '@mui/material/Box';
@@ -21,6 +24,6 @@ export { default as InputLabel } from '@mui/material/InputLabel';
 export { default as Checkbox } from '@mui/material/Checkbox';
 export { default as FormControlLabel } from '@mui/material/FormControlLabel';
 
-// Theme
+// Theme exports
 export { useTheme, useMediaQuery } from '@mui/material';
 export type { Theme } from '@mui/material/styles';
