@@ -188,14 +188,24 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         try {
             // 既存の記録があるかチェック
             const isUpdate = foodLog.currentRecord !== undefined;
-            const confirmMessage = isUpdate 
-                ? '既存の記録を更新します。古い写真は自動的に削除され、新しい写真で置き換えられます。よろしいですか？'
-                : '新しい食事記録を保存します。よろしいですか？';
             
-            if (!window.confirm(confirmMessage)) {
-                setLoading(false);
-                return;
-            }
+            // 確認ダイアログを表示
+            setPendingSaveData({ isUpdate });
+            setConfirmSaveOpen(true);
+            setLoading(false);
+            return;
+        } catch (error: any) {
+            console.error('食事記録の保存に失敗しました:', error);
+            let errorMessage = '食事記録の保存に失敗しました';
+            setError(errorMessage);
+            setLoading(false);
+        }
+    };
+
+    const performActualSave = async (saveData: any) => {
+        setLoading(true);
+        try {
+            const { isUpdate } = saveData;
 
             const request: CreateFoodLogRequest = {
                 user_id: userId,
@@ -606,6 +616,61 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             >
                 🥗
             </Box>
+            
+            {/* 確認ダイアログ */}
+            <Dialog
+                open={confirmSaveOpen}
+                onClose={() => setConfirmSaveOpen(false)}
+                sx={{
+                    '& .MuiDialog-paper': {
+                        backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+                        color: isDarkMode ? '#ffffff' : 'inherit',
+                        border: isDarkMode ? '1px solid #444' : 'none'
+                    }
+                }}
+            >
+                <DialogTitle sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
+                    食事記録の保存確認
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
+                        {pendingSaveData?.isUpdate 
+                            ? '既存の記録を更新します。古い写真は自動的に削除され、新しい写真で置き換えられます。よろしいですか？'
+                            : '新しい食事記録を保存します。よろしいですか？'
+                        }
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button 
+                        onClick={() => {
+                            setConfirmSaveOpen(false);
+                            setPendingSaveData(null);
+                        }}
+                        sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
+                    >
+                        キャンセル
+                    </Button>
+                    <Button 
+                        onClick={async () => {
+                            setConfirmSaveOpen(false);
+                            if (pendingSaveData) {
+                                await performActualSave(pendingSaveData);
+                            }
+                            setPendingSaveData(null);
+                        }}
+                        variant="contained"
+                        sx={{ 
+                            backgroundColor: isDarkMode ? '#ffffff' : '#1976d2',
+                            color: isDarkMode ? '#000000' : '#ffffff',
+                            '&:hover': {
+                                backgroundColor: isDarkMode ? '#f0f0f0' : '#1565c0'
+                            }
+                        }}
+                    >
+                        保存する
+                    </Button>
+                </DialogActions>
+            </Dialog>
             
             {/* 共通トースト */}
             <ToastProvider toast={toast} onClose={hideToast} />
