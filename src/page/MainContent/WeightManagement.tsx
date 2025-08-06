@@ -14,6 +14,8 @@ import { Box } from '@mui/material';
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { weightRecordCacheAtom, clearWeightCacheAtom } from '../../recoil/weightRecordCacheAtom';
 import { darkModeState } from '../../recoil/darkModeAtom';
+import { useToast } from '../../hooks/useToast';
+import ToastProvider from '../../component/ToastProvider';
 
 // Import protobuf types
 import {
@@ -123,6 +125,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     const [cache, setCache] = useRecoilState(weightRecordCacheAtom);
     const setClearCache = useSetRecoilState(clearWeightCacheAtom);
     const isDarkMode = useRecoilValue(darkModeState);
+    const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
     
     // State
     const [weightRecords, setWeightRecords] = useState<any[]>([]);
@@ -401,16 +404,16 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             }));
             
             fetchWeightRecords();
-            alert('体重記録を上書きしました');
+            showSuccess('体重記録を上書きしました');
         } catch (error: any) {
             console.error('体重記録の上書きに失敗しました:', error);
             console.error('Error response:', error.response?.data);
             console.error('Error status:', error.response?.status);
             
             if (error.response?.data?.error) {
-                alert(`体重記録の上書きに失敗しました: ${error.response.data.error}`);
+                showError(`体重記録の上書きに失敗しました: ${error.response.data.error}`);
             } else {
-                alert('体重記録の上書きに失敗しました');
+                showError('体重記録の上書きに失敗しました');
             }
         }
     };
@@ -418,14 +421,14 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     // Add weight record handlers
     const handleAddWeight = async () => {
         if (!formData.weight) {
-            alert('体重を入力してください');
+            showWarning('体重を入力してください');
             return;
         }
 
         // 体重の値をチェック
         const weightValue = parseFloat(formData.weight);
         if (isNaN(weightValue) || weightValue <= 0) {
-            alert('正しい体重を入力してください');
+            showWarning('正しい体重を入力してください');
             return;
         }
 
@@ -494,7 +497,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             }
             
             fetchWeightRecords();
-            alert('体重記録を追加しました');
+            showSuccess('体重記録を追加しました');
         } catch (error: any) {
             console.error('体重記録の追加に失敗しました:', error);
             
@@ -520,20 +523,20 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 errorMessage = 'ネットワークエラーが発生しました。接続を確認してください';
             }
             
-            alert(errorMessage);
+            showError(errorMessage);
         }
     };
 
     const handleAddPastWeight = async () => {
         if (!pastFormData.weight) {
-            alert('体重を入力してください');
+            showWarning('体重を入力してください');
             return;
         }
 
         // 体重の値をチェック
         const weightValue = parseFloat(pastFormData.weight);
         if (isNaN(weightValue) || weightValue <= 0) {
-            alert('正しい体重を入力してください');
+            showWarning('正しい体重を入力してください');
             return;
         }
 
@@ -586,7 +589,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             }));
             
             fetchWeightRecords();
-            alert('過去の体重記録を追加しました');
+            showSuccess('過去の体重記録を追加しました');
         } catch (error: any) {
             console.error('体重記録の追加に失敗しました:', error);
             
@@ -612,7 +615,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 errorMessage = 'ネットワークエラーが発生しました。接続を確認してください';
             }
             
-            alert(errorMessage);
+            showError(errorMessage);
         }
     };
 
@@ -1044,6 +1047,9 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 currentWeight={existingRecord?.weight || existingRecord?.Weight}
                 newWeight={pendingRecord?.weight || 0}
             />
+            
+            {/* 共通トースト */}
+            <ToastProvider toast={toast} onClose={hideToast} />
         </Box>
     );
 };

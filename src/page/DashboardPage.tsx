@@ -17,6 +17,8 @@ import { weightRecordedDateAtom } from "../recoil/weightRecordedDateAtom";
 import { clearWeightCacheAtom, weightRecordCacheAtom } from "../recoil/weightRecordCacheAtom";
 import { profileSettingsState, convertServerProfileToLocalProfile } from "../recoil/profileSettingsAtom";
 import { UserProfile } from "../proto/user_profile_pb";
+import { useToast } from "../hooks/useToast";
+import ToastProvider from "../component/ToastProvider";
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
@@ -37,6 +39,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   const navigate = useNavigate();
   const location = useLocation();
   const isDarkMode = useRecoilValue(darkModeState);
+  const { toast, hideToast, showError } = useToast();
 
   // PWA Install関連の状態
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -414,6 +417,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       }
     }}>
       {renderContent()}
+      
+      {/* 共通トースト */}
+      <ToastProvider toast={toast} onClose={hideToast} />
       
       {/* インストール結果のスナックバー */}
       <Snackbar

@@ -7,6 +7,8 @@ import { useSetRecoilState } from 'recoil';
 import { weightRecordedDateAtom } from '../../recoil/weightRecordedDateAtom';
 import { postsApi } from '../../api/postsApi';
 import { exerciseRecordApi } from '../../api/exerciseRecordApi';
+import { useToast } from '../../hooks/useToast';
+import ToastProvider from '../../component/ToastProvider';
 import '../../styles/mobile-responsive-fix.css';
 
 // Import components
@@ -30,6 +32,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
   const isDarkMode = useRecoilValue(darkModeState);
+  const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
   const theme = useTheme();
   
   // レスポンシブデザイン用のブレークポイント
@@ -115,7 +118,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
           todayImages: [...exerciseData.todayImages, ...newImages],
         });
       } else {
-        alert('画像は最大3枚まで選択できます');
+        showWarning('画像は最大3枚まで選択できます');
       }
     }
   };
@@ -259,7 +262,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         } catch (postError) {
           console.error('Dieter投稿作成エラー:', postError);
           // 投稿作成に失敗してもアラートは表示するが、運動記録の成功メッセージは表示する
-          alert('運動記録は保存されましたが、Dieter投稿の作成に失敗しました。');
+          showWarning('運動記録は保存されましたが、Dieter投稿の作成に失敗しました。');
         }
       }
 
@@ -281,7 +284,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       const message = isUpdate 
         ? `運動記録を更新しました！古い写真は自動的に削除されました。\n今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`
         : `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
-      alert(message);
+      showSuccess(message);
     } catch (error: any) {
       // console.error('=== 保存エラー詳細 ===');
       // console.error('Error object:', error);
@@ -300,7 +303,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       } else if (error.message) {
         errorMessage = `保存に失敗しました: ${error.message}`;
       }
-      alert(errorMessage);
+      showError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -408,6 +411,9 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         loading={loading}
         isDarkMode={isDarkMode}
       />
+      
+      {/* 共通トースト */}
+      <ToastProvider toast={toast} onClose={hideToast} />
     </Box>
   );
 };

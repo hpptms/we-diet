@@ -15,6 +15,8 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
 import { foodLogState } from '../../recoil/foodLogAtom';
 import { postsApi } from '../../api/postsApi';
+import { useToast } from '../../hooks/useToast';
+import ToastProvider from '../../component/ToastProvider';
 import {
     CreateFoodLogRequest,
     CreateFoodLogResponse,
@@ -50,6 +52,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const [recordViewOpen, setRecordViewOpen] = useState(false);
     const [viewingRecord, setViewingRecord] = useState<FoodLogType | undefined>();
     const isDarkMode = useRecoilValue(darkModeState);
+    const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
     const theme = useTheme();
     
     // レスポンシブデザイン用のブレークポイント
@@ -264,7 +267,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     } catch (postError) {
                         console.error('Dieter投稿作成エラー:', postError);
                         // 投稿作成に失敗してもアラートは表示するが、食事記録の成功メッセージは表示する
-                        alert('食事記録は保存されましたが、Dieter投稿の作成に失敗しました。');
+                        showWarning('食事記録は保存されましたが、Dieter投稿の作成に失敗しました。');
                     }
                 }
 
@@ -595,6 +598,9 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             >
                 🥗
             </Box>
+            
+            {/* 共通トースト */}
+            <ToastProvider toast={toast} onClose={hideToast} />
         </Box>
     );
 };

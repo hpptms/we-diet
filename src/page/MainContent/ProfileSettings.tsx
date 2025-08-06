@@ -17,6 +17,8 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
 import { profileSettingsState, isProfileDataEmpty } from '../../recoil/profileSettingsAtom';
 import { CreateUserProfileRequest, CreateUserProfileResponse } from '../../proto/user_profile_pb';
+import { useToast } from '../../hooks/useToast';
+import ToastProvider from '../../component/ToastProvider';
 
 // Import components
 import DisplayNameField from '../../component/ProfileSettings/DisplayNameField';
@@ -37,6 +39,7 @@ const ProfileSettings: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const isDarkMode = useRecoilValue(darkModeState);
+  const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
   const theme = useTheme();
 
   // iOS Safari debugging: Component-level error boundary
@@ -135,17 +138,17 @@ const ProfileSettings: React.FC = () => {
             }
           } catch (error) {
             console.error('File reading error:', error);
-            alert('ファイルの読み込みに失敗しました。別の画像を選択してください。');
+            showError('ファイルの読み込みに失敗しました。別の画像を選択してください。');
           }
         };
         reader.onerror = () => {
           console.error('FileReader error');
-          alert('ファイルの読み込みに失敗しました。');
+          showError('ファイルの読み込みに失敗しました。');
         };
         reader.readAsDataURL(file);
       } catch (error) {
         console.error('FileReader not supported:', error);
-        alert('このブラウザではファイルアップロードがサポートされていません。');
+        showError('このブラウザではファイルアップロードがサポートされていません。');
       }
     }
   };
@@ -204,7 +207,7 @@ const ProfileSettings: React.FC = () => {
           finalPublicId = newPublicId;
         } catch (error) {
           console.error('Image upload error:', error);
-          alert('画像のアップロードに失敗しました。別の画像を選択してください。');
+          showError('画像のアップロードに失敗しました。別の画像を選択してください。');
           setLoading(false);
           return;
         }
@@ -216,7 +219,7 @@ const ProfileSettings: React.FC = () => {
       // プロトバフリクエストデータを準備
       const userIdFromStorage = localStorage.getItem('user_id');
       if (!userIdFromStorage) {
-        alert('ユーザーIDが見つかりません。再ログインしてください。');
+        showError('ユーザーIDが見つかりません。再ログインしてください。');
         return;
       }
       
@@ -254,7 +257,7 @@ const ProfileSettings: React.FC = () => {
       });
       
       // console.log('プロフィール保存成功:', response.data);
-      alert('プロフィールが保存されました！');
+      showSuccess('プロフィールが保存されました！');
       
     } catch (error: any) {
       console.error('プロフィール保存エラー:', error);
@@ -263,7 +266,7 @@ const ProfileSettings: React.FC = () => {
         console.error('Response status:', error.response.status);
         console.error('Response headers:', error.response.headers);
       }
-      alert(`プロフィールの保存に失敗しました。詳細: ${error.response?.data?.error || error.message}`);
+      showError(`プロフィールの保存に失敗しました。詳細: ${error.response?.data?.error || error.message}`);
     } finally {
       setLoading(false);
     }
@@ -443,6 +446,9 @@ const ProfileSettings: React.FC = () => {
           />
         </CardContent>
       </Card>
+      
+      {/* 共通トースト */}
+      <ToastProvider toast={toast} onClose={hideToast} />
     </Box>
   );
 };
