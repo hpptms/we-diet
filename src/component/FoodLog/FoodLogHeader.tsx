@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box, IconButton, Paper, Chip } from '@mui/material';
+import { Typography, Box, IconButton, Paper, Chip, useTheme, useMediaQuery } from '@mui/material';
 import { ArrowBack, Restaurant, LocalDining, Cake } from '@mui/icons-material';
 
 interface FoodLogHeaderProps {
@@ -9,6 +9,8 @@ interface FoodLogHeaderProps {
 }
 
 const FoodLogHeader: React.FC<FoodLogHeaderProps> = ({ onBack, selectedDate, isDarkMode = false }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('ja-JP', {
@@ -90,25 +92,27 @@ const FoodLogHeader: React.FC<FoodLogHeaderProps> = ({ onBack, selectedDate, isD
                 </Typography>
             </Box>
             
-            {/* 日付表示 */}
-            <Chip
-                label={formatDate(selectedDate)}
-                sx={{
-                    position: 'absolute',
-                    bottom: 16,
-                    right: 16,
-                    bgcolor: 'rgba(255, 255, 255, 0.95)',
-                    fontWeight: 'bold',
-                    fontSize: '1.1rem',
-                    height: 40,
-                    '& .MuiChip-label': {
+            {/* 日付表示 - モバイル時は非表示 */}
+            {!isMobile && (
+                <Chip
+                    label={formatDate(selectedDate)}
+                    sx={{
+                        position: 'absolute',
+                        bottom: 16,
+                        right: 16,
+                        bgcolor: 'rgba(255, 255, 255, 0.95)',
+                        fontWeight: 'bold',
                         fontSize: '1.1rem',
-                        px: 2,
-                    },
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                    zIndex: 10,
-                }}
-            />
+                        height: 40,
+                        '& .MuiChip-label': {
+                            fontSize: '1.1rem',
+                            px: 2,
+                        },
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                        zIndex: 10,
+                    }}
+                />
+            )}
 
             {/* デコレーション要素 */}
             <Box sx={{

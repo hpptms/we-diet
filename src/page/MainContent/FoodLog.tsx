@@ -440,6 +440,41 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 isDarkMode={isDarkMode}
             />
 
+            {/* Mobile Date Display - モバイル時のみ表示 */}
+            {(isTabletOrMobile || isPortraitMode || isSmallScreen) && (
+                <Box sx={{ 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    mb: 3,
+                    px: 1
+                }}>
+                    <Box sx={{
+                        bgcolor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(116, 185, 255, 0.1)',
+                        border: isDarkMode ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid rgba(116, 185, 255, 0.3)',
+                        borderRadius: 3,
+                        px: 3,
+                        py: 1.5,
+                        textAlign: 'center'
+                    }}>
+                        <Typography 
+                            variant="body1" 
+                            sx={{ 
+                                color: isDarkMode ? '#ffffff' : '#0984e3',
+                                fontWeight: 'bold',
+                                fontSize: '1rem'
+                            }}
+                        >
+                            📅 {new Date(foodLog.selectedDate).toLocaleDateString('ja-JP', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                weekday: 'short'
+                            })}
+                        </Typography>
+                    </Box>
+                </Box>
+            )}
+
             {/* Action Buttons */}
             <Box sx={{ 
                 display: 'flex', 
