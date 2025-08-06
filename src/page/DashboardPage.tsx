@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, Button, Snackbar, Alert } from "@mui/material";
+import { Add as AddIcon, Home as HomeIcon } from "@mui/icons-material";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
 import DashboardPageButtons from "../component/DashboardPageButtons";
@@ -36,6 +37,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   const navigate = useNavigate();
   const location = useLocation();
   const isDarkMode = useRecoilValue(darkModeState);
+
+  // PWA Install関連の状態
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+  const [installSnackbar, setInstallSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'info' | 'warning' | 'error' });
 
   // Recoil atomからweightRecordedDateを取得
   const weightRecordedDate = useRecoilValue(weightRecordedDateAtom);
@@ -161,6 +167,103 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     }
   }, [currentView]);
 
+  // PWAインストールプロンプトの処理
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      // デフォルトのプロンプトを防ぐ
+      e.preventDefault();
+      // 後で使用するためにイベントを保存
+      setDeferredPrompt(e);
+      setShowInstallButton(true);
+    };
+
+    const handleAppInstalled = () => {
+      setInstallSnackbar({ 
+        open: true, 
+        message: 'We Dietがホーム画面に追加されました！', 
+        severity: 'success' 
+      });
+      setShowInstallButton(false);
+      setDeferredPrompt(null);
+    };
+
+    // 既にPWAとしてインストールされているかチェック
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isIOSStandalone = (window.navigator as any).standalone;
+    
+    if (isStandalone || isIOSStandalone) {
+      setShowInstallButton(false);
+    } else {
+      // イベントリスナーを追加
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.addEventListener('appinstalled', handleAppInstalled);
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  // PWAインストールボタンのクリックハンドラー
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) {
+      // iOS Safari用の案内
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        setInstallSnackbar({
+          open: true,
+          message: 'Safari で「共有」→「ホーム画面に追加」を選択してください',
+          severity: 'info'
+        });
+        return;
+      }
+      
+      setInstallSnackbar({
+        open: true,
+        message: 'このブラウザではインストールがサポートされていません',
+        severity: 'warning'
+      });
+      return;
+    }
+
+    try {
+      // インストールプロンプトを表示
+      deferredPrompt.prompt();
+      
+      // ユーザーの選択を待機
+      const choiceResult = await deferredPrompt.userChoice;
+      
+      if (choiceResult.outcome === 'accepted') {
+        setInstallSnackbar({ 
+          open: true, 
+          message: 'We Dietをインストール中です...', 
+          severity: 'info' 
+        });
+      } else {
+        setInstallSnackbar({ 
+          open: true, 
+          message: 'インストールがキャンセルされました', 
+          severity: 'warning' 
+        });
+      }
+      
+      // プロンプトをクリア
+      setDeferredPrompt(null);
+      setShowInstallButton(false);
+    } catch (error) {
+      console.error('PWAインストールエラー:', error);
+      setInstallSnackbar({ 
+        open: true, 
+        message: 'インストール中にエラーが発生しました', 
+        severity: 'error' 
+      });
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setInstallSnackbar({ ...installSnackbar, open: false });
+  };
+
   const renderContent = () => {
     switch (currentView) {
       case 'profile':
@@ -190,6 +293,46 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       default:
         return (
           <>
+            {/* PWAインストールボタン */}
+            {showInstallButton && currentView === 'dashboard' && (
+              <Box sx={{ 
+                position: 'fixed',
+                top: { xs: 70, md: 80 },
+                right: { xs: 16, md: 24 },
+                zIndex: 1000,
+                opacity: 0.9,
+                transition: 'opacity 0.3s ease-in-out',
+                '&:hover': {
+                  opacity: 1
+                }
+              }}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={handleInstallClick}
+                  startIcon={<HomeIcon />}
+                  endIcon={<AddIcon />}
+                  sx={{
+                    backgroundColor: isDarkMode ? '#1976d2' : '#2196f3',
+                    color: '#ffffff',
+                    fontSize: '0.75rem',
+                    padding: '6px 12px',
+                    borderRadius: '20px',
+                    textTransform: 'none',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    '&:hover': {
+                      backgroundColor: isDarkMode ? '#1565c0' : '#1976d2',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                    },
+                    '&:active': {
+                      transform: 'scale(0.98)'
+                    }
+                  }}
+                >
+                  ホームに追加
+                </Button>
+              </Box>
+            )}
             <DashboardPageButtons onViewChange={handleViewChange} hasWeightInput={hasWeightInput} />
           </>
         );
@@ -222,6 +365,29 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       }
     }}>
       {renderContent()}
+      
+      {/* インストール結果のスナックバー */}
+      <Snackbar
+        open={installSnackbar.open}
+        autoHideDuration={4000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={handleSnackbarClose} 
+          severity={installSnackbar.severity}
+          variant="filled"
+          sx={{
+            backgroundColor: isDarkMode ? (
+              installSnackbar.severity === 'success' ? '#2e7d32' :
+              installSnackbar.severity === 'info' ? '#0288d1' :
+              installSnackbar.severity === 'warning' ? '#ed6c02' : '#d32f2f'
+            ) : undefined
+          }}
+        >
+          {installSnackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
