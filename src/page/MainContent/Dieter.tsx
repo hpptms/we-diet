@@ -11,7 +11,6 @@ import '../../styles/mobile-responsive-fix.css';
 import ResponsiveLayout from '../../component/Dieter/layout/ResponsiveLayout';
 import MobileOverlays from '../../component/Dieter/mobile/MobileOverlays';
 import MobileHeader from '../../component/Dieter/mobile/MobileHeader';
-import MobileBottomNav from '../../component/Dieter/mobile/MobileBottomNav';
 import MainContent from '../../component/Dieter/content/MainContent';
 import PostModal from '../../component/Dieter/modal/PostModal';
 
@@ -123,20 +122,6 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
             isDarkMode={isDarkMode}
             onShowLeftSidebar={() => dieterState.setShowMobileLeftSidebar(true)}
             onShowRightSidebar={() => dieterState.setShowMobileRightSidebar(true)}
-          />
-        }
-        mobileBottomNav={
-          <MobileBottomNav
-            isDarkMode={isDarkMode}
-            showFollowingPosts={dieterState.showFollowingPosts}
-            showMessages={dieterState.showMessages}
-            showNotifications={dieterState.showNotifications}
-            isSearching={dieterState.isSearching}
-            onNavigateToHome={dieterLogic.handleNavigateToHome}
-            onOpenPostModal={dieterLogic.handleOpenPostModal}
-            onNavigateToProfile={dieterLogic.handleNavigateToProfile}
-            onNavigateToNotifications={dieterLogic.handleNavigateToNotifications}
-            onSearch={dieterLogic.handleSearch}
           />
         }
         mobileLeftOverlay={

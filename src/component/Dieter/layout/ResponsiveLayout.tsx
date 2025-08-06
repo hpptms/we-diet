@@ -7,7 +7,7 @@ interface ResponsiveLayoutProps {
   mainContent: ReactNode;
   rightSidebar: ReactNode;
   mobileHeader: ReactNode;
-  mobileBottomNav: ReactNode;
+  mobileBottomNav?: ReactNode;
   mobileLeftOverlay: ReactNode;
   mobileRightOverlay: ReactNode;
 }
@@ -52,7 +52,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6.75} sx={{ order: { xs: 1, md: 2 } }}>
             <Box sx={{ 
               backgroundColor: isDarkMode ? '#000000' : 'white', 
-              minHeight: { xs: 'calc(100vh - 80px)', md: '100vh' },
+              minHeight: '100vh',
               borderLeft: { xs: 'none', md: '1px solid white' },
               borderRight: { xs: 'none', md: '1px solid white' },
               borderTop: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, md: 'none' },
@@ -61,7 +61,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
                 ? '0 4px 12px rgba(187, 134, 252, 0.15)' 
                 : '0 4px 12px rgba(66, 165, 245, 0.15)' },
               maxWidth: '100%',
-              pb: { xs: 10, md: 0 }
+              pb: 0
             }}>
               {/* Mobile Header */}
               {isMobile && mobileHeader}
@@ -103,17 +103,19 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
           </Grid>
 
           {/* Mobile Bottom Navigation */}
-          <Grid item xs={12} sx={{ 
-            display: { xs: 'block', md: 'none' },
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1000,
-            order: 3
-          }}>
-            {mobileBottomNav}
-          </Grid>
+          {mobileBottomNav && (
+            <Grid item xs={12} sx={{ 
+              display: { xs: 'block', md: 'none' },
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1000,
+              order: 3
+            }}>
+              {mobileBottomNav}
+            </Grid>
+          )}
         </Grid>
       </Box>
     </Box>
