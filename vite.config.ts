@@ -47,27 +47,31 @@ export default defineConfig({
             output: {
                 // より詳細なチャンク分離（安全な範囲で）
                 manualChunks: (id) => {
-                    // React関連
-                    if (id.includes('react') || id.includes('react-dom')) {
+                    // React関連は完全分離（React、React-DOM、JSX runtime等）
+                    if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx')) {
                         return 'react-vendor';
+                    }
+                    // MUI関連（Reactに依存するため独立チャンク）
+                    if (id.includes('@mui/') || id.includes('@emotion/')) {
+                        return 'mui-vendor';
                     }
                     // Chart.js関連
                     if (id.includes('chart.js')) {
                         return 'charts';
                     }
-                    // Recoil関連
+                    // Recoil関連（React依存だが独立）
                     if (id.includes('recoil')) {
                         return 'state-management';
                     }
-                    // Router関連
+                    // Router関連（React依存だが独立）
                     if (id.includes('react-router')) {
                         return 'routing';
                     }
-                    // Utils（axios等）
+                    // Utils（React非依存）
                     if (id.includes('axios')) {
                         return 'utils';
                     }
-                    // その他のnode_modulesは標準のvendorチャンクに
+                    // その他のnode_modules（React非依存のみ）
                     if (id.includes('node_modules')) {
                         return 'vendor';
                     }
