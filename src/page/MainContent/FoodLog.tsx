@@ -85,25 +85,15 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         loadRecordedDates();
     }, []);
 
-    // 日付が変更された際に新しい記録をロードし、画像データをクリアする
-    useEffect(() => {
-        loadTodayRecord();
-    }, [foodLog.selectedDate]);
+    // 日付変更時の処理をスキップ - ユーザー入力を保持
+    // useEffect(() => {
+    //     loadTodayRecord();
+    // }, [foodLog.selectedDate]);
 
     const loadTodayRecord = async () => {
-        // 過去のローカルデータを一切参照しない - 常に空の状態から開始
-        setMealData({ breakfast: '', lunch: '', dinner: '', snack: '' });
-        setFoodLog(prev => ({
-            ...prev,
-            diary: '',
-            photos: [], // 常に空の配列から開始
-            isPublic: false,
-            isSensitive: false,
-            currentRecord: undefined
-        }));
-        
-        // 注意: サーバーからの記録読み込みも行わず、完全に新規状態で開始
-        console.log('FoodLog: 常に新規状態で初期化しました');
+        // 初回ロードのみ初期化し、その後はユーザー入力を保持
+        console.log('FoodLog: 初期化をスキップ - ユーザー入力を保持');
+        // 何も変更しない - ユーザーの入力データを維持
     };
 
     const loadRecordedDates = async () => {
@@ -209,8 +199,10 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         // Base64画像データをFileオブジェクトの配列に変換
                         const imageFiles: File[] = [];
                         if (foodLog.photos && foodLog.photos.length > 0) {
+                            console.log('変換前の画像データ:', foodLog.photos.length, '枚');
                             for (let i = 0; i < foodLog.photos.length; i++) {
                                 const base64Data = foodLog.photos[i];
+                                console.log(`画像 ${i + 1}:`, base64Data.substring(0, 50) + '...');
                                 if (base64Data.startsWith('data:')) {
                                     try {
                                         // Base64をBlobに変換してからFileオブジェクトを作成
@@ -218,13 +210,23 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                                         const blob = await response.blob();
                                         const file = new File([blob], `food_image_${i + 1}.jpg`, { type: 'image/jpeg' });
                                         imageFiles.push(file);
+                                        console.log(`画像 ${i + 1} 変換成功:`, file.name, file.size, 'bytes');
                                     } catch (error) {
                                         console.error('画像の変換に失敗しました:', error);
                                     }
                                 }
                             }
                             console.log('FoodLog images converted to File objects:', imageFiles.length);
+                        } else {
+                            console.log('画像データがありません');
                         }
+                        
+                        console.log('投稿内容:', {
+                            content: postContent,
+                            imageCount: imageFiles.length,
+                            isSensitive: foodLog.isSensitive,
+                            diary: foodLog.diary
+                        });
                         
                         // postsApiを直接使用（FoodLogのrecoilやローカルストレージに依存しない）
                         const postData = {
