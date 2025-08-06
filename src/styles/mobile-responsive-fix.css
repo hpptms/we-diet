@@ -1,0 +1,35 @@
+/* iPhone 12 Pro およびモバイルデバイス向けの白いブロック問題対応CSS */
+/* 
+ * Material-UIの自動生成クラス .css-6f8tw6 の max-height プロパティを
+ * モバイルでのみオーバーライドして白いブロック問題を解決
+ */
+
+@media (max-width: 768px) {
+    .css-6f8tw6 {
+        /* 元々の設定: max-height: calc(-200px + 100vh); を上書き */
+        max-height: 100vh !important;
+
+        /* 追加の調整でスクロール動作を改善 */
+        overflow-y: auto !important;
+
+        /* iOS Safariの安全エリア対応 */
+        padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+    }
+}
+
+/* より小さなスクリーンサイズ（iPhone SE等）向けの追加対応 */
+@media (max-width: 480px) {
+    .css-6f8tw6 {
+        max-height: calc(100vh - 60px) !important;
+        /* ボトムナビゲーション分を引く */
+        min-height: calc(100vh - 60px) !important;
+    }
+}
+
+/* 横向き表示時の対応 */
+@media (max-width: 768px) and (orientation: landscape) {
+    .css-6f8tw6 {
+        max-height: 100vh !important;
+        min-height: 100vh !important;
+    }
+}

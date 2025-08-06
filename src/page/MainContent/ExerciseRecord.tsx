@@ -7,6 +7,7 @@ import { useSetRecoilState } from 'recoil';
 import { weightRecordedDateAtom } from '../../recoil/weightRecordedDateAtom';
 import { postsApi } from '../../api/postsApi';
 import { exerciseRecordApi } from '../../api/exerciseRecordApi';
+import '../../styles/mobile-responsive-fix.css';
 
 // Import components
 import ExerciseHeader from '../../component/ExerciseRecord/ExerciseHeader';

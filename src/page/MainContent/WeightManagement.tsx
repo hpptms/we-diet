@@ -28,6 +28,8 @@ import {
     UpdateWeightRecordResponse
 } from '../../proto/weight_record_pb';
 
+import '../../styles/mobile-responsive-fix.css';
+
 // Import components
 import WeightManagementHeader from '../../component/WeightManagement/WeightManagementHeader';
 import WeightActionButtons from '../../component/WeightManagement/WeightActionButtons';

@@ -35,6 +35,7 @@ import FoodActionButtons from '../../component/FoodLog/FoodActionButtons';
 import FoodCalendar from '../../component/FoodLog/FoodCalendar';
 import RecordViewDialog from '../../component/FoodLog/RecordViewDialog';
 import { trackDietEvent } from '../../utils/googleAnalytics';
+import '../../styles/mobile-responsive-fix.css';
 
 interface FoodLogProps {
     onBack?: () => void;

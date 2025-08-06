@@ -30,6 +30,7 @@ import { NotificationSettings } from '../../component/NotificationSettings';
 import { useFollowCounts } from '../../component/Dieter/layout/LeftSidebar/hooks/useFollowCounts';
 import { useFollowContextOptional } from '../../context/FollowContext';
 import { postsApi } from '../../api/postsApi';
+import '../../styles/mobile-responsive-fix.css';
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
