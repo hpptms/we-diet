@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { dieterApi, LegacyRecommendedUser as ApiRecommendedUser } from '../api/dieterApi';
 import { postsApi } from '../api/postsApi';
 import { Post, TrendingTopic, RecommendedUser } from '../component/Dieter/types';
+import { usePostManager } from './usePostManager';
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
@@ -56,6 +57,9 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         refreshFollowCounts,
         onViewChange
     } = props;
+
+    // 統一された投稿管理システムを使用
+    const postManager = usePostManager();
 
     // Load posts
     useEffect(() => {

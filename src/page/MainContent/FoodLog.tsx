@@ -22,6 +22,7 @@ import { darkModeState } from '../../recoil/darkModeAtom';
 import { foodLogState } from '../../recoil/foodLogAtom';
 import { postsApi } from '../../api/postsApi';
 import { useToast } from '../../hooks/useToast';
+import { usePostManager } from '../../hooks/usePostManager';
 import ToastProvider from '../../component/ToastProvider';
 import {
     CreateFoodLogRequest,
@@ -62,6 +63,9 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const isDarkMode = useRecoilValue(darkModeState);
     const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
     const theme = useTheme();
+    
+    // 統一された投稿管理システムを使用
+    const postManager = usePostManager();
     
     // レスポンシブデザイン用のブレークポイント
     const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下
