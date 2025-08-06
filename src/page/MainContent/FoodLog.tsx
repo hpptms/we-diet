@@ -206,15 +206,37 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     try {
                         const postContent = createFoodLogPostContent();
                         
+                        // Base64画像データをFileオブジェクトの配列に変換
+                        const imageFiles: File[] = [];
+                        if (foodLog.photos && foodLog.photos.length > 0) {
+                            for (let i = 0; i < foodLog.photos.length; i++) {
+                                const base64Data = foodLog.photos[i];
+                                if (base64Data.startsWith('data:')) {
+                                    try {
+                                        // Base64をBlobに変換してからFileオブジェクトを作成
+                                        const response = await fetch(base64Data);
+                                        const blob = await response.blob();
+                                        const file = new File([blob], `food_image_${i + 1}.jpg`, { type: 'image/jpeg' });
+                                        imageFiles.push(file);
+                                    } catch (error) {
+                                        console.error('画像の変換に失敗しました:', error);
+                                    }
+                                }
+                            }
+                            console.log('FoodLog images converted to File objects:', imageFiles.length);
+                        }
+                        
                         // postsApiを直接使用（FoodLogのrecoilやローカルストレージに依存しない）
                         const postData = {
                             content: postContent,
-                            images: [], // 画像は使用せず、テキストのみの投稿
-                            is_sensitive: foodLog.isSensitive
+                            images: imageFiles, // 画像ファイルを含める
+                            is_sensitive: foodLog.isSensitive // センシティブフィルターの状態を反映
                         };
                         
                         await postsApi.createPost(postData);
-                        console.log('Dieter投稿を作成しました（テキストのみ）');
+                        const imageText = foodLog.photos.length > 0 ? '（画像付き）' : '（テキストのみ）';
+                        const sensitiveText = foodLog.isSensitive ? ' [センシティブ]' : '';
+                        console.log(`Dieter投稿を作成しました${imageText}${sensitiveText}`);
                         
                     } catch (postError) {
                         console.error('Dieter投稿作成エラー:', postError);
