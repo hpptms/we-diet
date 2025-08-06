@@ -251,6 +251,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
                 const response = await dieterApi.getPosts();
                 const allPosts = response.posts;
                 setPosts(allPosts);
+                // 削除されたIDはリセットしない（削除された投稿は引き続き非表示に保つ）
             } catch (fetchError) {
                 console.warn('投稿一覧の再取得に失敗しましたが、ローカル更新は成功しています:', fetchError);
             }
@@ -324,8 +325,23 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
     };
 
     // Post deletion
-    const handlePostDelete = (postId: number) => {
+    const handlePostDelete = async (postId: number) => {
+        // 即座にローカル状態から削除
         setDeletedPostIds((prev: Set<number>) => new Set(Array.from(prev).concat(postId)));
+
+        // サーバーから最新の投稿一覧を再取得
+        try {
+            let response;
+            if (showFollowingPosts) {
+                response = await dieterApi.getFollowingPosts();
+            } else {
+                response = await dieterApi.getPosts();
+            }
+            setPosts(response.posts);
+            console.log('投稿削除後、投稿一覧を更新しました');
+        } catch (error) {
+            console.error('投稿削除後の投稿一覧の更新に失敗しました:', error);
+        }
     };
 
     // Sensitive content filtering

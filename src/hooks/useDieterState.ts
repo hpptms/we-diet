@@ -19,7 +19,31 @@ export const useDieterState = (onViewChange?: (view: CurrentView) => void) => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [recommendedUsers, setRecommendedUsers] = useState<RecommendedUser[]>([]);
     const [loading, setLoading] = useState(true);
-    const [deletedPostIds, setDeletedPostIds] = useState<Set<number>>(new Set());
+    const [deletedPostIds, setDeletedPostIds] = useState<Set<number>>(() => {
+        // localStorageから削除されたIDを復元
+        try {
+            const saved = localStorage.getItem('dieter_deleted_post_ids');
+            const savedTimestamp = localStorage.getItem('dieter_deleted_post_ids_timestamp');
+            if (saved && savedTimestamp) {
+                const parsedIds = JSON.parse(saved);
+                const timestamp = parseInt(savedTimestamp);
+                const now = Date.now();
+                const maxAge = 7 * 24 * 60 * 60 * 1000; // 7日間
+
+                // 7日以上前のデータは削除
+                if (now - timestamp > maxAge) {
+                    localStorage.removeItem('dieter_deleted_post_ids');
+                    localStorage.removeItem('dieter_deleted_post_ids_timestamp');
+                    return new Set();
+                }
+
+                return new Set(parsedIds);
+            }
+        } catch (error) {
+            console.error('削除された投稿IDの復元に失敗:', error);
+        }
+        return new Set();
+    });
     const [trendingTopics, setTrendingTopics] = useState<TrendingTopic[]>([]);
 
     // View state
@@ -40,6 +64,20 @@ export const useDieterState = (onViewChange?: (view: CurrentView) => void) => {
     // Mobile UI state
     const [showMobileLeftSidebar, setShowMobileLeftSidebar] = useState(false);
     const [showMobileRightSidebar, setShowMobileRightSidebar] = useState(false);
+
+    // deletedPostIdsをlocalStorageに保存するsetterをラップ
+    const setDeletedPostIdsWithStorage = (ids: Set<number> | ((prev: Set<number>) => Set<number>)) => {
+        setDeletedPostIds((prev) => {
+            const newIds = typeof ids === 'function' ? ids(prev) : ids;
+            try {
+                localStorage.setItem('dieter_deleted_post_ids', JSON.stringify(Array.from(newIds)));
+                localStorage.setItem('dieter_deleted_post_ids_timestamp', Date.now().toString());
+            } catch (error) {
+                console.error('削除された投稿IDの保存に失敗:', error);
+            }
+            return newIds;
+        });
+    };
 
     return {
         // State
@@ -67,7 +105,7 @@ export const useDieterState = (onViewChange?: (view: CurrentView) => void) => {
         setPosts,
         setRecommendedUsers,
         setLoading,
-        setDeletedPostIds,
+        setDeletedPostIds: setDeletedPostIdsWithStorage,
         setTrendingTopics,
         setShowFollowManagement,
         setShowFollowingPosts,
