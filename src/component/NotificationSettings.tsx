@@ -4,22 +4,37 @@ import { notificationManager, NotificationSettings as NotificationSettingsType }
 
 export const NotificationSettings: React.FC = () => {
     const [settings, setSettings] = useState<NotificationSettingsType>(notificationManager.getSettings());
-    const [permission, setPermission] = useState<NotificationPermission>(Notification.permission);
+    const [permission, setPermission] = useState<NotificationPermission>('default');
     const [testNotificationSent, setTestNotificationSent] = useState(false);
+    const [isNotificationSupported, setIsNotificationSupported] = useState(false);
 
     useEffect(() => {
-        // 権限状態をチェック
-        setPermission(Notification.permission);
+        // iOS Safari対応: Notification APIの存在をチェック
+        if (typeof Notification !== 'undefined' && 'permission' in Notification) {
+            setIsNotificationSupported(true);
+            setPermission(Notification.permission);
+        } else {
+            setIsNotificationSupported(false);
+            console.log('Notification API is not supported in this browser');
+        }
     }, []);
 
     const handleEnableChange = async (enabled: boolean) => {
+        if (!isNotificationSupported) {
+            console.log('Notifications are not supported in this browser');
+            return;
+        }
+        
         if (enabled) {
             const hasPermission = await notificationManager.enableNotifications();
             if (hasPermission) {
                 setSettings({ ...settings, enabled: true });
                 setPermission('granted');
             } else {
-                setPermission(Notification.permission);
+                // iOS Safari対応: 安全にNotification.permissionにアクセス
+                if (typeof Notification !== 'undefined' && 'permission' in Notification) {
+                    setPermission(Notification.permission);
+                }
             }
         } else {
             notificationManager.disableNotifications();
@@ -47,6 +62,10 @@ export const NotificationSettings: React.FC = () => {
     };
 
     const getPermissionMessage = () => {
+        if (!isNotificationSupported) {
+            return { type: 'warning' as const, message: 'このブラウザでは通知機能がサポートされていません（iOS Safariなど）' };
+        }
+        
         switch (permission) {
             case 'granted':
                 return { type: 'success' as const, message: '通知の権限が許可されています' };
@@ -73,7 +92,7 @@ export const NotificationSettings: React.FC = () => {
                             <Switch
                                 checked={settings.enabled && permission === 'granted'}
                                 onChange={(e) => handleEnableChange(e.target.checked)}
-                                disabled={permission === 'denied'}
+                                disabled={permission === 'denied' || !isNotificationSupported}
                             />
                         }
                         label="通知を有効にする"
