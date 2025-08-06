@@ -68,9 +68,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
               {isMobile && mobileHeader}
               
               {/* Main Content */}
-              <Box sx={{ pt: isMobile ? 8 : 0 }}>
-                {mainContent}
-              </Box>
+              {mainContent}
             </Box>
           </Grid>
 

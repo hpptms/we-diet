@@ -19,14 +19,21 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
   return (
     <Box sx={{
       display: { xs: 'block', md: 'none' },
-      position: 'fixed',
+      position: 'sticky',
       top: 0,
       left: 0,
       right: 0,
-      zIndex: 100,
+      zIndex: 1000,
       backgroundColor: isDarkMode ? '#000000' : 'white',
       borderBottom: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}`,
-      p: 2
+      p: 2,
+      // iOS Safari の自動ヘッダー隠し機能を無効化
+      WebkitTransform: 'translateZ(0)',
+      transform: 'translateZ(0)',
+      // ハードウェアアクセラレーションを強制
+      willChange: 'transform',
+      // 3D変換コンテキストを作成
+      transformStyle: 'preserve-3d'
     }}>
       <Box sx={{
         display: 'flex',

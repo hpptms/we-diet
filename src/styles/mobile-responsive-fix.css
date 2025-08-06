@@ -43,6 +43,10 @@
     /* スクロール動作の改善 */
     body {
         -webkit-overflow-scrolling: touch !important;
+        /* iOS Safari の自動UI隠し機能を無効化 */
+        position: fixed;
+        position: relative;
+        overflow-x: hidden;
     }
 
     /* Material-UIコンテナの改善 */
@@ -55,5 +59,24 @@
         display: none;
         width: 0;
         background: transparent;
+    }
+
+    /* モバイルヘッダーを確実に固定 */
+    [data-mui-internal-clone-element] {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        -webkit-transform: translateZ(0) !important;
+        transform: translateZ(0) !important;
+    }
+
+    /* iOS Safari の viewport meta tag効果を強制 */
+    html {
+        position: fixed;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        overflow: auto;
     }
 }
