@@ -115,19 +115,9 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
   // React Portalを使用してdocument.bodyに直接レンダリング
   return createPortal(
     <div
+      className="image-lightbox-modal"
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        zIndex: 10000,
         backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 0,
-        margin: 0,
       }}
       onClick={onClose}
       onTouchStart={handleTouchStart}
