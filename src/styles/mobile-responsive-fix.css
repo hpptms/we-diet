@@ -11,18 +11,20 @@
 
         /* 追加の調整でスクロール動作を改善 */
         overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
 
         /* iOS Safariの安全エリア対応 */
-        padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+        padding-bottom: max(4rem, env(safe-area-inset-bottom)) !important;
     }
 }
 
 /* より小さなスクリーンサイズ（iPhone SE等）向けの追加対応 */
 @media (max-width: 480px) {
     .css-6f8tw6 {
-        max-height: calc(100vh - 60px) !important;
-        /* ボトムナビゲーション分を引く */
-        min-height: calc(100vh - 60px) !important;
+        max-height: 100vh !important;
+        /* ボトムナビゲーションが削除されたため、高さ制限を削除 */
+        min-height: auto !important;
+        padding-bottom: max(6rem, env(safe-area-inset-bottom)) !important;
     }
 }
 
@@ -30,6 +32,28 @@
 @media (max-width: 768px) and (orientation: landscape) {
     .css-6f8tw6 {
         max-height: 100vh !important;
-        min-height: 100vh !important;
+        min-height: auto !important;
+        padding-bottom: max(4rem, env(safe-area-inset-bottom)) !important;
+    }
+}
+
+/* ライトモード時の追加修正 */
+@media (max-width: 768px) {
+
+    /* スクロール動作の改善 */
+    body {
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    /* Material-UIコンテナの改善 */
+    .MuiBox-root {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* スクロールバー非表示（iOS Safari対応） */
+    ::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        background: transparent;
     }
 }

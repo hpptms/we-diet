@@ -420,13 +420,16 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
     mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
     background: isDarkMode ? '#000000' : '#ffffff',
-    minHeight: '100vh',
+    minHeight: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'auto' : '100vh',
     color: isDarkMode ? '#ffffff' : 'inherit',
-    paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(1rem, env(safe-area-inset-bottom))' : 4,
+    paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(6rem, env(safe-area-inset-bottom))' : 4,
     display: 'flex',
     flexDirection: 'column' as const,
     boxSizing: 'border-box' as const,
     overflowX: 'hidden' as const,
+    // モバイル時のスクロール動作を改善
+    WebkitOverflowScrolling: 'touch',
+    position: 'relative' as const,
   };
 
   return (

@@ -52,7 +52,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6.75} sx={{ order: { xs: 1, md: 2 } }}>
             <Box sx={{ 
               backgroundColor: isDarkMode ? '#000000' : 'white', 
-              minHeight: '100vh',
+              minHeight: { xs: '100vh', md: '100vh' },
               borderLeft: { xs: 'none', md: '1px solid white' },
               borderRight: { xs: 'none', md: '1px solid white' },
               borderTop: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, md: 'none' },
@@ -61,7 +61,8 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
                 ? '0 4px 12px rgba(187, 134, 252, 0.15)' 
                 : '0 4px 12px rgba(66, 165, 245, 0.15)' },
               maxWidth: '100%',
-              pb: 0
+              pb: { xs: 4, md: 0 },
+              overflowY: { xs: 'auto', md: 'visible' }
             }}>
               {/* Mobile Header */}
               {isMobile && mobileHeader}
