@@ -33,6 +33,26 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
   const isDarkMode = useRecoilValue(darkModeState);
   const [touchStart, setTouchStart] = React.useState<number | null>(null);
   const [touchEnd, setTouchEnd] = React.useState<number | null>(null);
+  const [scrollPosition, setScrollPosition] = React.useState<{ top: number; left: number }>({ top: 0, left: 0 });
+
+  // スクロール位置を記録してモーダルが現在のビューポート内に表示されるようにする
+  React.useEffect(() => {
+    if (open) {
+      const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
+      const currentScrollLeft = window.scrollX || document.documentElement.scrollLeft;
+      setScrollPosition({ top: currentScrollTop, left: currentScrollLeft });
+      
+      // スクロールを無効化
+      document.body.style.overflow = 'hidden';
+    } else {
+      // モーダルが閉じられたらスクロールを復元
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
 
   // キーボードナビゲーション
   React.useEffect(() => {
@@ -109,11 +129,37 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
           maxHeight: '100vh',
           maxWidth: '100vw',
           borderRadius: 0,
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
         }
       }}
       sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 1300,
         '& .MuiBackdrop-root': {
           backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        },
+        '& .MuiDialog-container': {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }
       }}
     >
