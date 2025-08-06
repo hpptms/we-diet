@@ -109,15 +109,33 @@ const ProfileSettings: React.FC = () => {
   const handleIconUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setProfile(prev => ({
-          ...prev,
-          uploadedIcon: e.target?.result as string,
-          iconType: 'upload',
-        }));
-      };
-      reader.readAsDataURL(file);
+      // iOS Safari対応: FileReaderを安全に使用
+      try {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const result = e.target?.result;
+            if (result && typeof result === 'string') {
+              setProfile(prev => ({
+                ...prev,
+                uploadedIcon: result,
+                iconType: 'upload',
+              }));
+            }
+          } catch (error) {
+            console.error('File reading error:', error);
+            alert('ファイルの読み込みに失敗しました。別の画像を選択してください。');
+          }
+        };
+        reader.onerror = () => {
+          console.error('FileReader error');
+          alert('ファイルの読み込みに失敗しました。');
+        };
+        reader.readAsDataURL(file);
+      } catch (error) {
+        console.error('FileReader not supported:', error);
+        alert('このブラウザではファイルアップロードがサポートされていません。');
+      }
     }
   };
 
@@ -131,38 +149,54 @@ const ProfileSettings: React.FC = () => {
 
       // アップロード画像がある場合、Cloudinaryにアップロード
       if (profile.iconType === 'upload' && profile.uploadedIcon && profile.uploadedIcon.startsWith('data:')) {
-        // base64をBlobに変換
-        const base64Data = profile.uploadedIcon.split(',')[1];
-        const byteCharacters = atob(base64Data);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: 'image/jpeg' });
+        try {
+          // iOS Safari対応: base64をBlobに安全に変換
+          const base64Data = profile.uploadedIcon.split(',')[1];
+          if (!base64Data) {
+            throw new Error('Invalid base64 data');
+          }
+          
+          // atobがサポートされているかチェック
+          if (typeof atob !== 'function') {
+            throw new Error('atob not supported');
+          }
+          
+          const byteCharacters = atob(base64Data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'image/jpeg' });
         
-        // FormDataを作成してアップロード
-        const formData = new FormData();
-        formData.append('file', blob, 'profile_icon.jpg');
+          // FormDataを作成してアップロード
+          const formData = new FormData();
+          formData.append('file', blob, 'profile_icon.jpg');
 
-        const uploadResponse = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/proto/upload/user_icon`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        uploadedIconUrl = uploadResponse.data.url;
-        
-        // 新しくアップロードした画像のPublic IDを直接使用
-        const newPublicId = uploadResponse.data.public_id;
-        
-        // Public IDをプロフィール設定に保存
-        setProfile(prev => ({
-          ...prev,
-          uploadedIconPublicId: newPublicId
-        }));
-        
-        // プロトバフリクエストで新しいPublic IDを使用
-        finalPublicId = newPublicId;
+          const uploadResponse = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/proto/upload/user_icon`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          uploadedIconUrl = uploadResponse.data.url;
+          
+          // 新しくアップロードした画像のPublic IDを直接使用
+          const newPublicId = uploadResponse.data.public_id;
+          
+          // Public IDをプロフィール設定に保存
+          setProfile(prev => ({
+            ...prev,
+            uploadedIconPublicId: newPublicId
+          }));
+          
+          // プロトバフリクエストで新しいPublic IDを使用
+          finalPublicId = newPublicId;
+        } catch (error) {
+          console.error('Image upload error:', error);
+          alert('画像のアップロードに失敗しました。別の画像を選択してください。');
+          setLoading(false);
+          return;
+        }
       } else {
         // 既存の画像を使用する場合
         finalPublicId = profile.uploadedIconPublicId;
