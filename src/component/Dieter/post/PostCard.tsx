@@ -452,7 +452,25 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
   };
 
   // 画像ライトボックス関連の関数
-  const handleImageClick = (index: number) => {
+  const handleImageClick = (index: number, event?: React.MouseEvent) => {
+    // クリック位置の情報を取得してログ出力
+    if (event) {
+      const clickX = event.clientX;
+      const clickY = event.clientY;
+      const scrollX = window.scrollX;
+      const scrollY = window.scrollY;
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      console.log('🖱️ 画像クリック位置情報:', {
+        clickPosition: { x: clickX, y: clickY },
+        scrollPosition: { x: scrollX, y: scrollY },
+        viewportSize: { width: viewportWidth, height: viewportHeight },
+        clickFromTop: clickY + scrollY,
+        clickFromLeft: clickX + scrollX
+      });
+    }
+    
     setLightboxImageIndex(index);
     setLightboxOpen(true);
   };
@@ -585,7 +603,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
                 <img
                   src={post.Images[0]}
                   alt="投稿画像"
-                  onClick={() => handleImageClick(0)}
+                  onClick={(e) => handleImageClick(0, e)}
                   style={{
                     width: '100%',
                     maxHeight: '400px',
@@ -613,7 +631,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
                       key={`post-${post.ID}-${post.CreatedAt}-image-2-${index}`}
                       src={image}
                       alt={`投稿画像${index + 1}`}
-                      onClick={() => handleImageClick(index)}
+                      onClick={(e) => handleImageClick(index, e)}
                       style={{
                         width: '50%',
                         height: '200px',
@@ -670,7 +688,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
                         key={`post-${post.ID}-${post.CreatedAt}-image-3-${index + 1}`}
                         src={image}
                         alt={`投稿画像${index + 2}`}
-                        onClick={() => handleImageClick(index + 1)}
+                        onClick={(e) => handleImageClick(index + 1, e)}
                         style={{
                           width: '50%',
                           height: '150px',

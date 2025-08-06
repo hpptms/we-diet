@@ -55,7 +55,30 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
           modalElement.style.setProperty('display', 'flex', 'important');
           modalElement.style.setProperty('align-items', 'center', 'important');
           modalElement.style.setProperty('justify-content', 'center', 'important');
-          console.log('PCモーダル位置を強制適用:', modalElement.getBoundingClientRect());
+          
+          // 詳細なデバッグ情報を出力
+          const rect = modalElement.getBoundingClientRect();
+          const computedStyles = window.getComputedStyle(modalElement);
+          
+          console.log('🖼️ モーダル表示位置の詳細情報:', {
+            boundingRect: rect,
+            position: computedStyles.position,
+            top: computedStyles.top,
+            left: computedStyles.left,
+            width: computedStyles.width,
+            height: computedStyles.height,
+            zIndex: computedStyles.zIndex,
+            transform: computedStyles.transform,
+            viewport: {
+              width: window.innerWidth,
+              height: window.innerHeight
+            },
+            scroll: {
+              x: window.scrollX,
+              y: window.scrollY
+            },
+            modalVisible: rect.top >= 0 && rect.left >= 0
+          });
         }
       }, 50);
       
