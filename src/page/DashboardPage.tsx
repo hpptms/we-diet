@@ -210,9 +210,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
 
   // PWAインストールボタンのクリックハンドラー
   const handleInstallClick = async () => {
+    console.log('PWAインストールボタンがクリックされました');
+    console.log('deferredPrompt:', deferredPrompt);
+    console.log('User Agent:', navigator.userAgent);
+    
     if (!deferredPrompt) {
       // iOS Safari用の案内
       if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        console.log('iOS Safariとして判定');
         setInstallSnackbar({
           open: true,
           message: 'Safari で「共有」→「ホーム画面に追加」を選択してください',
@@ -225,7 +230,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       const isChrome = /Chrome/.test(navigator.userAgent);
       const isEdge = /Edg/.test(navigator.userAgent);
       
+      console.log('Chrome判定:', isChrome, 'Edge判定:', isEdge);
+      
       if (isChrome || isEdge) {
+        console.log('Chrome/Edgeのメニューインストール案内を表示');
         setInstallSnackbar({
           open: true,
           message: 'ブラウザの右上メニュー「アプリをインストール」からPWAとしてインストールできます',
@@ -234,6 +242,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         return;
       }
       
+      console.log('PWAインストール非対応ブラウザ');
       setInstallSnackbar({
         open: true,
         message: 'このブラウザではPWAインストールがサポートされていません',
