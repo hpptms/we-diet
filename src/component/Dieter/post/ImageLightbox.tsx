@@ -42,17 +42,36 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
       const currentScrollLeft = window.scrollX || document.documentElement.scrollLeft;
       setScrollPosition({ top: currentScrollTop, left: currentScrollLeft });
       
-      // スクロールを無効化
+      // 現在のスクロール位置を固定するため、bodyの位置を調整
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${currentScrollTop}px`;
+      document.body.style.left = `-${currentScrollLeft}px`;
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
     } else {
-      // モーダルが閉じられたらスクロールを復元
+      // モーダルが閉じられたら元の位置に戻す
+      const scrollTop = scrollPosition.top;
+      const scrollLeft = scrollPosition.left;
+      
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.width = '';
       document.body.style.overflow = '';
+      
+      // 元のスクロール位置に戻す
+      window.scrollTo(scrollLeft, scrollTop);
     }
 
     return () => {
+      // クリーンアップ
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.width = '';
       document.body.style.overflow = '';
     };
-  }, [open]);
+  }, [open, scrollPosition.top, scrollPosition.left]);
 
   // キーボードナビゲーション
   React.useEffect(() => {
@@ -121,6 +140,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
       onClose={onClose}
       maxWidth={false}
       fullWidth
+      disableScrollLock={true}
       PaperProps={{
         sx: {
           backgroundColor: 'transparent',
@@ -130,36 +150,38 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
           maxWidth: '100vw',
           borderRadius: 0,
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          top: scrollPosition.top,
+          left: scrollPosition.left,
+          width: '100vw',
+          height: '100vh',
         }
       }}
       sx={{
         position: 'fixed',
-        top: 0,
-        left: 0,
+        top: scrollPosition.top,
+        left: scrollPosition.left,
         width: '100vw',
         height: '100vh',
         zIndex: 1300,
         '& .MuiBackdrop-root': {
           backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          top: scrollPosition.top,
+          left: scrollPosition.left,
+          width: '100vw',
+          height: '100vh',
         },
         '& .MuiDialog-container': {
           position: 'fixed',
-          top: 0,
-          left: 0,
+          top: scrollPosition.top,
+          left: scrollPosition.left,
           width: '100vw',
           height: '100vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          padding: 0,
+          margin: 0,
         }
       }}
     >
