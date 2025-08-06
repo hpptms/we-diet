@@ -19,9 +19,19 @@ const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose }) => {
             onClose={onClose}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             sx={{
+                position: 'fixed',
+                top: '20px',
+                left: '50%',
+                transform: 'translateX(-50%)',
                 zIndex: 9999,
+                width: 'auto',
+                maxWidth: '90vw',
+                '& .MuiSnackbar-root': {
+                    position: 'fixed'
+                },
                 '& .MuiSnackbarContent-root': {
-                    minWidth: '300px'
+                    minWidth: '300px',
+                    maxWidth: '90vw'
                 }
             }}
         >
@@ -33,6 +43,8 @@ const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose }) => {
                     fontSize: '14px',
                     fontWeight: 'normal',
                     minWidth: '300px',
+                    maxWidth: '90vw',
+                    wordBreak: 'break-word',
                     boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
                     backgroundColor: isDarkMode ? (
                         toast.severity === 'success' ? '#2e7d32' :
