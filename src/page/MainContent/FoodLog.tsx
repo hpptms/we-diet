@@ -377,7 +377,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
         p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 0, sm: 1 } : 3,
         minHeight: '100vh',
-        background: isDarkMode ? '#000000' : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        background: isDarkMode ? '#000000' : '#ffffff',
         color: isDarkMode ? '#ffffff' : 'inherit',
         position: 'relative' as const,
         display: 'flex',

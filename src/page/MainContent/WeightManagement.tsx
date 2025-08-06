@@ -958,7 +958,11 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             p: 3, 
             maxWidth: 1200, 
             mx: 'auto',
-            paddingBottom: { xs: 'max(3rem, env(safe-area-inset-bottom))', md: 3 }
+            paddingBottom: { xs: 'max(3rem, env(safe-area-inset-bottom))', md: 3 },
+            minHeight: '100vh',
+            backgroundColor: isDarkMode ? '#000000' : '#ffffff',
+            color: isDarkMode ? '#ffffff' : 'inherit',
+            boxSizing: 'border-box'
         }}>
             {/* Header */}
             <WeightManagementHeader onBack={handleBack} />

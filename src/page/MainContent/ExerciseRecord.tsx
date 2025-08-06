@@ -311,7 +311,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     maxWidth: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 900,
     width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
     mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
-    background: isDarkMode ? '#000000' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background: isDarkMode ? '#000000' : '#ffffff',
     minHeight: '100vh',
     color: isDarkMode ? '#ffffff' : 'inherit',
     paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(1rem, env(safe-area-inset-bottom))' : 4,
