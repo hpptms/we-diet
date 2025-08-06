@@ -4,23 +4,11 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    // 依存関係の最適化設定 - 安全性最優先
+    // 依存関係の最適化を完全無効化 - 最高レベルの安全性
     optimizeDeps: {
-        include: [
-            'react',
-            'react-dom',
-            'react-router-dom',
-            'recoil',
-            'axios'
-        ],
-        // MUIとEmotionを完全に除外してエラーを回避
-        exclude: [
-            '@mui/material',
-            '@mui/icons-material',
-            '@emotion/react',
-            '@emotion/styled'
-        ],
-        force: true
+        // Vite 5.1以降の新しい方式で最適化を無効化
+        noDiscovery: true,
+        include: []
     },
     server: {
         host: '0.0.0.0',
@@ -44,8 +32,8 @@ export default defineConfig({
         modulePreload: {
             polyfill: true // iOS Safari対応のためポリフィルを有効化
         },
-        // バンドルサイズ最適化（esbuildを使用）
-        minify: 'esbuild',
+        // 最小化を無効化して安全性を最優先
+        minify: false,
         rollupOptions: {
             output: {
                 // クリティカルパス最適化のためのチャンク分割
