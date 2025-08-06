@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress, useTheme, useMediaQuery } from '@mui/material';
 
 interface SaveButtonsProps {
   loading: boolean;
@@ -12,31 +12,51 @@ const SaveButtons: React.FC<SaveButtonsProps> = ({
   onSave,
   onBack,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
-    <Box sx={{ textAlign: 'center', mt: 4, display: 'flex', justifyContent: 'center', gap: 2 }}>
+    <Box sx={{ 
+      textAlign: 'center', 
+      mt: 4, 
+      display: 'flex', 
+      flexDirection: isMobile ? 'column' : 'row',
+      justifyContent: 'center', 
+      gap: isMobile ? 1.5 : 2,
+      px: isMobile ? 1 : 0
+    }}>
       <Button
         variant="contained"
-        size="large"
+        size={isMobile ? 'medium' : 'large'}
         onClick={onSave}
         disabled={loading}
         sx={{
-          px: 4,
-          py: 1.5,
-          fontSize: '1.1rem',
-          borderRadius: 2
+          px: isMobile ? 2 : 4,
+          py: isMobile ? 1.2 : 1.5,
+          fontSize: isMobile ? '0.9rem' : isTablet ? '1rem' : '1.1rem',
+          borderRadius: 2,
+          minWidth: isMobile ? 'auto' : 140,
+          whiteSpace: 'nowrap',
+          width: isMobile ? '100%' : 'auto',
+          maxWidth: isMobile ? '100%' : 'none'
         }}
       >
-        {loading ? <CircularProgress size={24} color="inherit" /> : 'プロフィールを保存'}
+        {loading ? <CircularProgress size={20} color="inherit" /> : 'プロフィールを保存'}
       </Button>
       <Button
         variant="outlined"
-        size="large"
+        size={isMobile ? 'medium' : 'large'}
         onClick={onBack}
         sx={{
-          px: 4,
-          py: 1.5,
-          fontSize: '1.1rem',
-          borderRadius: 2
+          px: isMobile ? 2 : 4,
+          py: isMobile ? 1.2 : 1.5,
+          fontSize: isMobile ? '0.9rem' : isTablet ? '1rem' : '1.1rem',
+          borderRadius: 2,
+          minWidth: isMobile ? 'auto' : 100,
+          whiteSpace: 'nowrap',
+          width: isMobile ? '100%' : 'auto',
+          maxWidth: isMobile ? '100%' : 'none'
         }}
       >
         戻る

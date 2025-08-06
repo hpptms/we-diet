@@ -278,13 +278,16 @@ const ProfileSettings: React.FC = () => {
     width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
     mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
     p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 1, sm: 2 } : 3,
-    minHeight: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100vh' : 'auto',
+    minHeight: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'calc(100vh + 6rem)' : 'auto',
     backgroundColor: isDarkMode ? '#000000' : 'transparent',
     color: isDarkMode ? '#ffffff' : 'inherit',
     display: 'flex',
     flexDirection: 'column' as const,
     boxSizing: 'border-box' as const,
     overflowX: 'hidden' as const,
+    paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(6rem, env(safe-area-inset-bottom))' : 4,
+    // モバイル時のスクロール動作を改善
+    WebkitOverflowScrolling: 'touch',
   };
 
   const cardStyles = {
