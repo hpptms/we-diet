@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Dialog,
   Box,
   IconButton,
   Typography,
@@ -113,27 +112,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
   if (!open || !images.length) return null;
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth={false}
-      fullWidth
-      disableScrollLock={true}
-      PaperProps={{
-        sx: {
-          backgroundColor: 'transparent',
-          boxShadow: 'none',
-          margin: 0,
-          maxHeight: '100vh',
-          maxWidth: '100vw',
-          borderRadius: 0,
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-        }
-      }}
+    <Box
       sx={{
         position: 'fixed',
         top: 0,
@@ -141,44 +120,18 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
         width: '100vw',
         height: '100vh',
         zIndex: 1300,
-        '& .MuiBackdrop-root': {
-          backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-        },
-        '& .MuiDialog-container': {
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 0,
-          margin: 0,
-        }
+        backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 0,
+        margin: 0,
       }}
+      onClick={onClose}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
-      <Box
-        sx={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-          backgroundColor: 'transparent',
-        }}
-        onClick={onClose}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
         {/* 閉じるボタン */}
         <IconButton
           onClick={onClose}
@@ -344,8 +297,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
             }
           </Typography>
         </Box>
-      </Box>
-    </Dialog>
+    </Box>
   );
 };
 
