@@ -4,24 +4,6 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    // esbuildの設定を分離（トップレベルで定義）
-    esbuild: {
-        minifyIdentifiers: false, // 変数名の難読化を無効化
-        minifySyntax: true,       // 構文の最小化のみ有効
-        minifyWhitespace: true,   // 空白の除去は有効
-        keepNames: true,         // 関数名・変数名を保持
-        // Reactライブラリは最小化を無効化
-        exclude: ['react', 'react-dom']
-    },
-    // ローカルテスト用：段階的最適化設定（Reactを除外）
-    optimizeDeps: {
-        // Reactを除外して安全な基本ライブラリのみ
-        include: [
-            'react-router-dom',
-            'axios',
-            'recoil'
-        ]
-    },
     server: {
         host: '0.0.0.0',
         port: 3000,
@@ -40,38 +22,18 @@ export default defineConfig({
     },
     build: {
         outDir: 'build',
-        // ローカルテスト用：段階的最適化設定（Reactエラー完全回避）
-        minify: false, // Reactエラー完全回避のためminificationを無効化
+        // 最も安全な設定：Chart.jsのみ分離
+        minify: false, // 全てのminificationを無効化
         sourcemap: false,
         rollupOptions: {
             output: {
-                // より詳細なチャンク分離（安全な範囲で）
+                // Chart.jsのみを分離（最もシンプルで安全）
                 manualChunks: (id) => {
-                    // React関連は完全分離（React、React-DOM、JSX runtime等）
-                    if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx')) {
-                        return 'react-vendor';
-                    }
-                    // MUI関連（Reactに依存するため独立チャンク）
-                    if (id.includes('@mui/') || id.includes('@emotion/')) {
-                        return 'mui-vendor';
-                    }
-                    // Chart.js関連
+                    // Chart.js関連のみ分離
                     if (id.includes('chart.js')) {
                         return 'charts';
                     }
-                    // Recoil関連（React依存だが独立）
-                    if (id.includes('recoil')) {
-                        return 'state-management';
-                    }
-                    // Router関連（React依存だが独立）
-                    if (id.includes('react-router')) {
-                        return 'routing';
-                    }
-                    // Utils（React非依存）
-                    if (id.includes('axios')) {
-                        return 'utils';
-                    }
-                    // その他のnode_modules（React非依存のみ）
+                    // その他は全て標準のvendorチャンクに
                     if (id.includes('node_modules')) {
                         return 'vendor';
                     }
