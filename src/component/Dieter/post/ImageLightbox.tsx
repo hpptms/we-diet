@@ -33,66 +33,23 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
   const isDarkMode = useRecoilValue(darkModeState);
   const [touchStart, setTouchStart] = React.useState<number | null>(null);
   const [touchEnd, setTouchEnd] = React.useState<number | null>(null);
-  const [scrollPosition, setScrollPosition] = React.useState<{ top: number; left: number }>({ top: 0, left: 0 });
-
-  // スクロール位置を記録してモーダルが現在のビューポート内に表示されるようにする
+  // シンプルにスクロールを無効化するだけ - スクロール位置は変更しない
   React.useEffect(() => {
     if (open) {
-      const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
-      const currentScrollLeft = window.scrollX || document.documentElement.scrollLeft;
-      setScrollPosition({ top: currentScrollTop, left: currentScrollLeft });
-      
-      console.log('モーダル開始時のスクロール位置:', { top: currentScrollTop, left: currentScrollLeft });
-      
-      // 現在のスクロール位置を固定するため、bodyの位置を調整
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${currentScrollTop}px`;
-      document.body.style.left = `-${currentScrollLeft}px`;
-      document.body.style.width = '100%';
+      // モーダル表示時はスクロールを無効化
       document.body.style.overflow = 'hidden';
-    } else if (scrollPosition.top !== 0 || scrollPosition.left !== 0) {
-      // モーダルが閉じられたら元の位置に戻す
-      const scrollTop = scrollPosition.top;
-      const scrollLeft = scrollPosition.left;
-      
-      console.log('モーダル終了時、復帰するスクロール位置:', { top: scrollTop, left: scrollLeft });
-      
-      // スタイルをリセット
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.width = '';
+      console.log('モーダル表示: スクロール無効化');
+    } else {
+      // モーダル非表示時はスクロールを復元
       document.body.style.overflow = '';
-      
-      // 少し遅延させて確実にスクロール位置を復元
-      requestAnimationFrame(() => {
-        window.scrollTo({
-          left: scrollLeft,
-          top: scrollTop,
-          behavior: 'instant'
-        });
-        console.log('スクロール位置復元完了:', { top: scrollTop, left: scrollLeft });
-      });
+      console.log('モーダル非表示: スクロール復元');
     }
 
     return () => {
-      // クリーンアップ - 万が一の場合のリセット
-      if (document.body.style.position === 'fixed') {
-        const scrollTop = scrollPosition.top;
-        const scrollLeft = scrollPosition.left;
-        
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.width = '';
-        document.body.style.overflow = '';
-        
-        if (scrollTop !== 0 || scrollLeft !== 0) {
-          window.scrollTo(scrollLeft, scrollTop);
-        }
-      }
+      // クリーンアップ
+      document.body.style.overflow = '';
     };
-  }, [open, scrollPosition.top, scrollPosition.left]);
+  }, [open]);
 
   // キーボードナビゲーション
   React.useEffect(() => {
@@ -171,31 +128,31 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
           maxWidth: '100vw',
           borderRadius: 0,
           position: 'fixed',
-          top: scrollPosition.top,
-          left: scrollPosition.left,
+          top: 0,
+          left: 0,
           width: '100vw',
           height: '100vh',
         }
       }}
       sx={{
         position: 'fixed',
-        top: scrollPosition.top,
-        left: scrollPosition.left,
+        top: 0,
+        left: 0,
         width: '100vw',
         height: '100vh',
         zIndex: 1300,
         '& .MuiBackdrop-root': {
           backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)',
           position: 'fixed',
-          top: scrollPosition.top,
-          left: scrollPosition.left,
+          top: 0,
+          left: 0,
           width: '100vw',
           height: '100vh',
         },
         '& .MuiDialog-container': {
           position: 'fixed',
-          top: scrollPosition.top,
-          left: scrollPosition.left,
+          top: 0,
+          left: 0,
           width: '100vw',
           height: '100vh',
           display: 'flex',
