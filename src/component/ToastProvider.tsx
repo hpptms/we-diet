@@ -12,14 +12,14 @@ interface ToastProviderProps {
 const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose }) => {
     const isDarkMode = useRecoilValue(darkModeState);
 
-    // 画面に固定された位置でトーストを表示
+    // 現在表示されている画面の中央にトーストを表示
     return (
         <div
             style={{
                 position: 'fixed',
-                top: '20px',
+                top: '50%',
                 left: '50%',
-                transform: 'translateX(-50%)',
+                transform: 'translate(-50%, -50%)',
                 zIndex: 9999,
                 width: 'auto',
                 maxWidth: '90vw',
