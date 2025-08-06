@@ -22,7 +22,6 @@ import { darkModeState } from '../../recoil/darkModeAtom';
 import { foodLogState } from '../../recoil/foodLogAtom';
 import { postsApi } from '../../api/postsApi';
 import { useToast } from '../../hooks/useToast';
-import { usePostCreation } from '../../hooks/usePostCreation';
 import ToastProvider from '../../component/ToastProvider';
 import {
     CreateFoodLogRequest,
@@ -64,8 +63,6 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
     const theme = useTheme();
     
-    // 統一された投稿作成システムを使用
-    const { createPostFromCurrentInput } = usePostCreation();
     
     // レスポンシブデザイン用のブレークポイント
     const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下
@@ -243,16 +240,15 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     try {
                         const postContent = createFoodLogPostContent();
                         
-                        // 統一された投稿作成システムを使用（テキストのみ、画像なし）
-                        const success = await createPostFromCurrentInput(
-                            postContent,
-                            [], // 画像は使用せず、テキストのみの投稿
-                            foodLog.isSensitive
-                        );
-
-                        if (success) {
-                            console.log('Dieter投稿を作成しました（テキストのみ）');
-                        }
+                        // postsApiを直接使用（FoodLogのrecoilやローカルストレージに依存しない）
+                        const postData = {
+                            content: postContent,
+                            images: [], // 画像は使用せず、テキストのみの投稿
+                            is_sensitive: foodLog.isSensitive
+                        };
+                        
+                        await postsApi.createPost(postData);
+                        console.log('Dieter投稿を作成しました（テキストのみ）');
                         
                     } catch (postError) {
                         console.error('Dieter投稿作成エラー:', postError);
