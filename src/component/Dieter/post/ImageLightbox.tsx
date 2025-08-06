@@ -336,31 +336,6 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
           </Box>
         )}
 
-        {/* 操作ヒント */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 24,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            borderRadius: '12px',
-            padding: '8px 16px',
-          }}
-        >
-          <Typography
-            variant="caption"
-            sx={{
-              color: 'white',
-              fontSize: '0.75rem',
-            }}
-          >
-            {images.length > 1 
-              ? 'ESC: 閉じる  ←→: 前後の画像  スワイプ: 移動' 
-              : 'ESC: 閉じる'
-            }
-          </Typography>
-        </div>
     </div>,
     document.body
   );
