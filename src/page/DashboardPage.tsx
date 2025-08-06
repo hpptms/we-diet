@@ -170,6 +170,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   // PWAインストールプロンプトの処理
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
+      console.log('beforeinstallprompt イベントが発生しました');
       // デフォルトのプロンプトを防ぐ
       e.preventDefault();
       // 後で使用するためにイベントを保存
@@ -178,6 +179,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     };
 
     const handleAppInstalled = () => {
+      console.log('PWAアプリがインストールされました');
       setInstallSnackbar({ 
         open: true, 
         message: 'We Dietがホーム画面に追加されました！', 
@@ -191,15 +193,72 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     const isIOSStandalone = (window.navigator as any).standalone;
     
+    console.log('PWA状態チェック:', { isStandalone, isIOSStandalone });
+    
     if (isStandalone || isIOSStandalone) {
+      console.log('既にPWAとしてインストール済み');
       setShowInstallButton(false);
     } else {
+      console.log('PWAインストールボタンを表示');
       // PWAインストールボタンを常に表示（PC、Mobile問わず）
       setShowInstallButton(true);
       
-      // イベントリスナーを追加（beforeinstallpromptがサポートされている場合）
+      // イベントリスナーを追加
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.addEventListener('appinstalled', handleAppInstalled);
+      
+      // PWA条件を強制的にトリガー（開発用）
+      const checkPWAReadiness = async () => {
+        const manifestLink = document.head.querySelector('link[rel="manifest"]');
+        const serviceWorkerSupported = 'serviceWorker' in navigator;
+        
+        console.log('PWA チェック結果:', {
+          serviceWorkerSupported,
+          manifestLinkExists: !!manifestLink,
+          isHTTPS: window.location.protocol === 'https:' || window.location.hostname === 'localhost'
+        });
+        
+        if (serviceWorkerSupported && manifestLink) {
+          console.log('PWA要件が満たされています');
+          
+          // Service Worker強制登録
+          try {
+            if ('serviceWorker' in navigator) {
+              const registration = await navigator.serviceWorker.register('/sw.js');
+              console.log('Service Worker登録成功:', registration);
+              
+              // Service Workerが更新されたかチェック
+              registration.addEventListener('updatefound', () => {
+                console.log('Service Workerの更新が見つかりました');
+              });
+            }
+          } catch (error) {
+            console.error('Service Worker登録エラー:', error);
+          }
+          
+          // ユーザーエンゲージメントをシミュレート（クリック後に実行）
+          const triggerInstallPrompt = () => {
+            console.log('ユーザーエンゲージメント発生 - PWAプロンプトを待機中');
+            setTimeout(() => {
+              if (!deferredPrompt) {
+                console.log('beforeinstallpromptが発生しませんでした - 手動プロンプト戦略を使用');
+                console.log('可能な原因: ');
+                console.log('1. PWAがすでにインストール済み');
+                console.log('2. ブラウザがPWAインストールバナーの表示を決定しない');
+                console.log('3. HTTPSでない、またはその他のPWA要件が満たされていない');
+              }
+            }, 2000);
+          };
+          
+          // 最初のクリック等でエンゲージメントをトリガー
+          document.addEventListener('click', triggerInstallPrompt, { once: true });
+          
+        } else {
+          console.log('PWA要件が満たされていません');
+        }
+      };
+      
+      checkPWAReadiness();
     }
 
     return () => {
