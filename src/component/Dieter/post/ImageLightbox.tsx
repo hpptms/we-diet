@@ -42,34 +42,55 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
       const currentScrollLeft = window.scrollX || document.documentElement.scrollLeft;
       setScrollPosition({ top: currentScrollTop, left: currentScrollLeft });
       
+      console.log('モーダル開始時のスクロール位置:', { top: currentScrollTop, left: currentScrollLeft });
+      
       // 現在のスクロール位置を固定するため、bodyの位置を調整
       document.body.style.position = 'fixed';
       document.body.style.top = `-${currentScrollTop}px`;
       document.body.style.left = `-${currentScrollLeft}px`;
       document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
-    } else {
+    } else if (scrollPosition.top !== 0 || scrollPosition.left !== 0) {
       // モーダルが閉じられたら元の位置に戻す
       const scrollTop = scrollPosition.top;
       const scrollLeft = scrollPosition.left;
       
+      console.log('モーダル終了時、復帰するスクロール位置:', { top: scrollTop, left: scrollLeft });
+      
+      // スタイルをリセット
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.left = '';
       document.body.style.width = '';
       document.body.style.overflow = '';
       
-      // 元のスクロール位置に戻す
-      window.scrollTo(scrollLeft, scrollTop);
+      // 少し遅延させて確実にスクロール位置を復元
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          left: scrollLeft,
+          top: scrollTop,
+          behavior: 'instant'
+        });
+        console.log('スクロール位置復元完了:', { top: scrollTop, left: scrollLeft });
+      });
     }
 
     return () => {
-      // クリーンアップ
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.width = '';
-      document.body.style.overflow = '';
+      // クリーンアップ - 万が一の場合のリセット
+      if (document.body.style.position === 'fixed') {
+        const scrollTop = scrollPosition.top;
+        const scrollLeft = scrollPosition.left;
+        
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        
+        if (scrollTop !== 0 || scrollLeft !== 0) {
+          window.scrollTo(scrollLeft, scrollTop);
+        }
+      }
     };
   }, [open, scrollPosition.top, scrollPosition.left]);
 
