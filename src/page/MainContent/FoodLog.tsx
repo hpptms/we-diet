@@ -369,7 +369,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
         mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
         p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 0, sm: 1 } : 3,
-        minHeight: '100vh',
+        minHeight: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'calc(100vh + 8rem)' : '100vh',
         background: isDarkMode ? '#000000' : '#ffffff',
         color: isDarkMode ? '#ffffff' : 'inherit',
         position: 'relative' as const,
@@ -377,7 +377,9 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         flexDirection: 'column' as const,
         boxSizing: 'border-box' as const,
         overflowX: 'hidden' as const,
-        paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(2rem, env(safe-area-inset-bottom))' : undefined,
+        paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(8rem, env(safe-area-inset-bottom))' : 4,
+        // モバイル時のスクロール動作を改善
+        WebkitOverflowScrolling: 'touch',
     };
 
     return (
