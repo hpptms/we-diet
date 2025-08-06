@@ -1,7 +1,7 @@
-const CACHE_NAME = 'we-diet-v1.1.0';
-const STATIC_CACHE = 'static-v1.1.0';
-const DYNAMIC_CACHE = 'dynamic-v1.1.0';
-const IMAGE_CACHE = 'images-v1.1.0';
+const CACHE_NAME = 'we-diet-v1.1.1';
+const STATIC_CACHE = 'static-v1.1.1';
+const DYNAMIC_CACHE = 'dynamic-v1.1.1';
+const IMAGE_CACHE = 'images-v1.1.1';
 
 // キャッシュするリソースのリスト
 const STATIC_ASSETS = [
@@ -81,13 +81,7 @@ self.addEventListener('fetch', (event) => {
     // APIリクエストは常にネットワークから取得（クロスオリジンAPIを含む）
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/') ||
         url.hostname === 'we-diet-backend.com') {
-        event.respondWith(
-            fetch(request).catch((error) => {
-                // CORSエラーやネットワークエラーをそのまま伝播させる
-                console.error('API fetch failed:', error);
-                throw error;
-            })
-        );
+        // クロスオリジンAPIリクエストはService Workerで処理せず、ブラウザに直接委ねる
         return;
     }
 
