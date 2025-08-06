@@ -78,18 +78,14 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // APIリクエストは常にネットワークから取得
-    if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/')) {
+    // APIリクエストは常にネットワークから取得（クロスオリジンAPIを含む）
+    if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/auth/') ||
+        url.hostname === 'we-diet-backend.com') {
         event.respondWith(
-            fetch(request).catch(() => {
-                // ネットワークエラー時の処理
-                return new Response(
-                    JSON.stringify({ error: 'Network unavailable' }),
-                    {
-                        status: 503,
-                        headers: { 'Content-Type': 'application/json' }
-                    }
-                );
+            fetch(request).catch((error) => {
+                // CORSエラーやネットワークエラーをそのまま伝播させる
+                console.error('API fetch failed:', error);
+                throw error;
             })
         );
         return;
