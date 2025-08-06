@@ -12,13 +12,10 @@ interface ToastProviderProps {
 const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose }) => {
     const isDarkMode = useRecoilValue(darkModeState);
 
+    // 画面に固定された位置でトーストを表示
     return (
-        <Snackbar
-            open={toast.open}
-            autoHideDuration={6000}
-            onClose={onClose}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            sx={{
+        <div
+            style={{
                 position: 'fixed',
                 top: '20px',
                 left: '50%',
@@ -26,40 +23,57 @@ const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose }) => {
                 zIndex: 9999,
                 width: 'auto',
                 maxWidth: '90vw',
-                '& .MuiSnackbar-root': {
-                    position: 'fixed'
-                },
-                '& .MuiSnackbarContent-root': {
-                    minWidth: '300px',
-                    maxWidth: '90vw'
-                }
+                pointerEvents: toast.open ? 'auto' : 'none'
             }}
         >
-            <Alert 
-                onClose={onClose} 
-                severity={toast.severity}
-                variant="filled"
+            <Snackbar
+                open={toast.open}
+                autoHideDuration={6000}
+                onClose={onClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 sx={{
-                    fontSize: '14px',
-                    fontWeight: 'normal',
-                    minWidth: '300px',
-                    maxWidth: '90vw',
-                    wordBreak: 'break-word',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                    backgroundColor: isDarkMode ? (
-                        toast.severity === 'success' ? '#2e7d32' :
-                        toast.severity === 'info' ? '#1976d2' :
-                        toast.severity === 'warning' ? '#ed6c02' : '#d32f2f'
-                    ) : (
-                        toast.severity === 'success' ? '#4caf50' :
-                        toast.severity === 'info' ? '#2196f3' :
-                        toast.severity === 'warning' ? '#ff9800' : '#f44336'
-                    )
+                    position: 'relative',
+                    top: 0,
+                    left: 0,
+                    transform: 'none',
+                    width: '100%',
+                    zIndex: 'inherit',
+                    '& .MuiSnackbar-root': {
+                        position: 'static',
+                        transform: 'none'
+                    },
+                    '& .MuiSnackbarContent-root': {
+                        minWidth: '300px',
+                        maxWidth: '90vw'
+                    }
                 }}
             >
-                {toast.message}
-            </Alert>
-        </Snackbar>
+                <Alert 
+                    onClose={onClose} 
+                    severity={toast.severity}
+                    variant="filled"
+                    sx={{
+                        fontSize: '14px',
+                        fontWeight: 'normal',
+                        minWidth: '300px',
+                        maxWidth: '90vw',
+                        wordBreak: 'break-word',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                        backgroundColor: isDarkMode ? (
+                            toast.severity === 'success' ? '#2e7d32' :
+                            toast.severity === 'info' ? '#1976d2' :
+                            toast.severity === 'warning' ? '#ed6c02' : '#d32f2f'
+                        ) : (
+                            toast.severity === 'success' ? '#4caf50' :
+                            toast.severity === 'info' ? '#2196f3' :
+                            toast.severity === 'warning' ? '#ff9800' : '#f44336'
+                        )
+                    }}
+                >
+                    {toast.message}
+                </Alert>
+            </Snackbar>
+        </div>
     );
 };
 
