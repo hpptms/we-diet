@@ -26,8 +26,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
         display: "flex", 
         width: "100%", 
         padding: "0",
-        backgroundColor: isDarkMode ? "#000000" : "#ffffff", // 白背景で統一
-        overflow: isMobile ? "hidden" : "auto" // モバイルでの制御
+        backgroundColor: isDarkMode ? "#000000" : "#ffffff" // 白背景で統一
       }}>
         <div style={{ 
           width: "100%", 
@@ -35,7 +34,6 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
           backgroundColor: isDarkMode ? "#000000" : "#ffffff", // 透明ではなく明確な色指定
           paddingBottom: isMobile ? "env(safe-area-inset-bottom)" : "0", // モバイルのみセーフエリア
           minHeight: "100%", // 最小高さを確保
-          overflow: "hidden", // はみ出し防止
           position: "relative", // ポジション制御
           boxSizing: "border-box" // ボックスサイジング明確化
         }}>
