@@ -398,9 +398,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       if (!isAnimating) return '';
       
       if (animationDirection === 'slideIn') {
-        return 'slide-in-from-right';
+        return 'slide-in-from-left';
       } else {
-        return 'slide-out-to-right';
+        return 'slide-out-to-left';
       }
     };
 
@@ -448,15 +448,15 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           width: '100%',
           height: '100%',
           position: 'relative',
-          '&.slide-in-from-right': {
-            animation: 'slideInFromRight 0.3s ease-out forwards'
+          '&.slide-in-from-left': {
+            animation: 'slideInFromLeft 0.3s ease-out forwards'
           },
-          '&.slide-out-to-right': {
-            animation: 'slideOutToRight 0.3s ease-in forwards'
+          '&.slide-out-to-left': {
+            animation: 'slideOutToLeft 0.3s ease-in forwards'
           },
-          '@keyframes slideInFromRight': {
+          '@keyframes slideInFromLeft': {
             '0%': {
-              transform: 'translateX(100%)',
+              transform: 'translateX(-100%)',
               opacity: 0.8
             },
             '100%': {
@@ -464,13 +464,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
               opacity: 1
             }
           },
-          '@keyframes slideOutToRight': {
+          '@keyframes slideOutToLeft': {
             '0%': {
               transform: 'translateX(0)',
               opacity: 1
             },
             '100%': {
-              transform: 'translateX(100%)',
+              transform: 'translateX(-100%)',
               opacity: 0.8
             }
           }
