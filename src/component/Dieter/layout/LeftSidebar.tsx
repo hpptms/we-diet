@@ -37,7 +37,9 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     onToggleFollowingPosts,
     onOpenPostModal,
     showFollowingPosts = false,
-    showNotifications = false
+    showNotifications = false,
+    notificationManager,
+    messageManager
 }) => {
     // Recoilからプロフィール情報を取得
     const profileSettings = useRecoilValue(profileSettingsState);
@@ -48,11 +50,19 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     
     // カスタムフックを使用（フォロー数はコンテキストがない場合のフォールバック）
     const { followCounts: localFollowCounts, refreshFollowCounts: localRefreshFollowCounts } = useFollowCounts();
-    const {
-        unreadNotificationCount,
-        resetNotificationCount
-    } = useNotifications();
-    const { unreadMessageCount } = useMessages();
+    
+    // 通知管理は統合されたnotificationManagerを使用
+    const unreadNotificationCount = notificationManager?.unreadCount || 0;
+    
+    // メッセージ管理は統合されたmessageManagerを使用
+    const unreadMessageCount = messageManager?.unreadCount || 0;
+    
+    // 通知リセット関数（既読処理）
+    const resetNotificationCount = async () => {
+        if (notificationManager) {
+            await notificationManager.markAllNotificationsAsRead();
+        }
+    };
     
     // フォロー数を表示するための関数を定義
     const getFollowCounts = () => {

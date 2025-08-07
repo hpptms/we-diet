@@ -11,6 +11,8 @@ export interface LeftSidebarProps {
     onOpenPostModal?: () => void;
     showFollowingPosts?: boolean;
     showNotifications?: boolean;
+    notificationManager?: any;
+    messageManager?: any;
 }
 
 export interface MenuItem {

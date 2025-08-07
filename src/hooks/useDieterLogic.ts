@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { dieterApi, LegacyRecommendedUser as ApiRecommendedUser } from '../api/dieterApi';
 import { postsApi } from '../api/postsApi';
 import { Post, TrendingTopic, RecommendedUser } from '../component/Dieter/types';
-import { usePostManager } from './usePostManager';
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
@@ -11,6 +10,8 @@ interface UseDieterLogicProps {
     showFollowingPosts: boolean;
     serverProfile: any;
     profileSettings: any;
+    notificationManager: any;
+    messageManager: any;
 
     // Setters
     setPosts: (posts: Post[] | ((prev: Post[]) => Post[])) => void;
@@ -39,6 +40,8 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         showFollowingPosts,
         serverProfile,
         profileSettings,
+        notificationManager,
+        messageManager,
         setPosts,
         setLoading,
         setRecommendedUsers,
@@ -58,55 +61,127 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         onViewChange
     } = props;
 
-    // 統一された投稿管理システムを使用
-    const postManager = usePostManager();
+    // リアルタイム更新のためのインターバル管理
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const MAX_POSTS = 200; // 最大表示件数
 
-    // Load posts - コンポーネント初期化時とshowFollowingPosts変更時に実行
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
+    // 投稿取得関数（統合版）
+    const fetchPosts = useCallback(async (isInitial: boolean = false) => {
+        try {
+            if (isInitial) {
                 setLoading(true);
-                let response;
-                if (showFollowingPosts) {
-                    response = await dieterApi.getFollowingPosts();
-                } else {
-                    response = await dieterApi.getPosts();
-                }
-                setPosts(response.posts);
-                console.log('投稿を取得しました:', response.posts?.length || 0, '件');
-            } catch (error) {
-                console.error('投稿の取得に失敗しました:', error);
-                // エラー時は空配列をセット
+            }
+
+            let response;
+            if (showFollowingPosts) {
+                // フォローTL: フォロー中ユーザーの投稿のみを取得
+                console.log('フォローTL: フォロー中ユーザーの投稿を取得中...');
+                response = await dieterApi.getFollowingPosts(1, 50);
+                console.log('フォローTL取得結果:', response.posts?.length || 0, '件');
+            } else {
+                // 通常TL: 公開投稿を取得
+                console.log('通常TL: 公開投稿を取得中...');
+                response = await dieterApi.getPosts(1, 50);
+                console.log('通常TL取得結果:', response.posts?.length || 0, '件');
+            }
+
+            if (isInitial) {
+                // 初期取得時は最新20件をセット
+                const initialPosts = response.posts.slice(0, 20);
+                setPosts(initialPosts);
+                console.log(`${showFollowingPosts ? 'フォローTL' : '通常TL'}初期取得完了:`, initialPosts.length, '件');
+            } else {
+                // リアルタイム更新時: 現在の投稿より新しいもののみを追加
+                setPosts((currentPosts) => {
+                    if (currentPosts.length === 0) {
+                        // 投稿が空の場合は20件を取得
+                        return response.posts.slice(0, 20);
+                    }
+
+                    // 最新投稿のCreatedAtを取得
+                    const latestPostTime = currentPosts[0]?.CreatedAt;
+                    if (!latestPostTime) {
+                        return response.posts.slice(0, 20);
+                    }
+
+                    // 現在の投稿より新しい投稿を抽出
+                    const newPosts = response.posts.filter(post =>
+                        new Date(post.CreatedAt) > new Date(latestPostTime)
+                    );
+
+                    if (newPosts.length > 0) {
+                        // 新しい投稿を先頭に追加し、最大200件まで制限
+                        const updatedPosts = [...newPosts, ...currentPosts].slice(0, MAX_POSTS);
+                        console.log(`${showFollowingPosts ? 'フォローTL' : '通常TL'}新規投稿追加:`, newPosts.length, '件 (合計:', updatedPosts.length, '件)');
+                        return updatedPosts;
+                    }
+
+                    console.log(`${showFollowingPosts ? 'フォローTL' : '通常TL'}リアルタイム更新: 新しい投稿なし`);
+                    return currentPosts;
+                });
+            }
+        } catch (error) {
+            console.error(`${showFollowingPosts ? 'フォローTL' : '通常TL'}の取得に失敗しました:`, error);
+            if (isInitial) {
                 setPosts([]);
-            } finally {
+            }
+        } finally {
+            if (isInitial) {
                 setLoading(false);
             }
-        };
-
-        // 常に最新の投稿を取得（初回ロード時とshowFollowingPosts変更時）
-        fetchPosts();
+        }
     }, [showFollowingPosts, setPosts, setLoading]);
 
-    // 初期化時に強制的に投稿を取得するための追加のuseEffect
-    useEffect(() => {
-        const initialFetch = async () => {
-            try {
-                setLoading(true);
-                console.log('Dieterページ初期化: 投稿を取得中...');
-                const response = await dieterApi.getPosts();
-                setPosts(response.posts);
-                console.log('初期投稿取得完了:', response.posts?.length || 0, '件');
-            } catch (error) {
-                console.error('初期投稿の取得に失敗しました:', error);
-                setPosts([]);
-            } finally {
-                setLoading(false);
-            }
-        };
+    // リアルタイム更新の管理
+    const startRealtimeUpdates = useCallback(() => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
 
-        // コンポーネントマウント時に一度だけ実行
-        initialFetch();
-    }, [setPosts, setLoading]);
+        intervalRef.current = setInterval(() => {
+            fetchPosts(false);
+        }, 30000); // 30秒間隔
+
+        console.log('リアルタイム更新開始 (30秒間隔)');
+    }, [fetchPosts]);
+
+    const stopRealtimeUpdates = useCallback(() => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+            console.log('リアルタイム更新停止');
+        }
+    }, []);
+
+    // 投稿管理の統一 useEffect
+    useEffect(() => {
+        console.log('Dieter投稿管理初期化開始');
+
+        // 初期取得
+        fetchPosts(true);
+
+        // リアルタイム更新開始（1秒後）
+        const timer = setTimeout(() => {
+            startRealtimeUpdates();
+        }, 1000);
+
+        // クリーンアップ
+        return () => {
+            clearTimeout(timer);
+            stopRealtimeUpdates();
+        };
+    }, [showFollowingPosts]);
+
+    // ページ離脱時の処理
+    useEffect(() => {
+        const handleBeforeUnload = () => stopRealtimeUpdates();
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            stopRealtimeUpdates();
+        };
+    }, [stopRealtimeUpdates]);
 
     // Load recommended users
     useEffect(() => {
@@ -228,13 +303,19 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         navigate('/Dieter/Follow');
     };
 
-    const handleNavigateToMessages = () => {
+    const handleNavigateToMessages = async () => {
         setShowMessages(true);
+
+        // メッセージ画面を開いた時に会話一覧を取得
+        await messageManager.fetchConversations();
     };
 
-    const handleNavigateToNotifications = () => {
+    const handleNavigateToNotifications = async () => {
         setShowNotifications(true);
         setShowMessages(false);
+
+        // 通知画面を開いた時に通知一覧を取得
+        await notificationManager.fetchNotifications();
     };
 
     const handleNavigateToHome = () => {
@@ -255,10 +336,10 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         setIsPostModalOpen(false);
     };
 
-    // Post handling - 投稿後はシンプルにバックエンドから最新の投稿を取得
+    // 投稿処理
     const handlePost = async (content: string, images?: File[], isSensitive?: boolean) => {
         try {
-            console.log('投稿を作成中...');
+            console.log('投稿作成中...');
             setLoading(true);
 
             const postData = {
@@ -267,24 +348,15 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
                 is_sensitive: isSensitive || false
             };
 
-            // 投稿を作成
+            // 投稿作成
             const newPost = await dieterApi.createPost(postData);
             console.log('投稿作成完了:', newPost.ID);
 
-            // 投稿作成後、シンプルにバックエンドから最新の投稿一覧を取得
-            console.log('投稿作成後、最新の投稿一覧を取得中...');
-            let response;
-            if (showFollowingPosts) {
-                response = await dieterApi.getFollowingPosts();
-            } else {
-                response = await dieterApi.getPosts();
-            }
-
-            setPosts(response.posts);
-            console.log('投稿作成後の投稿一覧更新完了:', response.posts?.length || 0, '件');
+            // 投稿後は最新の投稿一覧を取得
+            await fetchPosts(true);
 
         } catch (error) {
-            console.error('投稿の作成に失敗しました:', error);
+            console.error('投稿作成に失敗:', error);
             alert('投稿の作成に失敗しました。もう一度お試しください。');
             throw error;
         } finally {
@@ -353,23 +425,20 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         }
     };
 
-    // Post deletion
+    // 投稿削除処理
     const handlePostDelete = async (postId: number) => {
-        // 即座にローカル状態から削除
+        // 削除IDを記録
         setDeletedPostIds((prev: Set<number>) => new Set(Array.from(prev).concat(postId)));
 
-        // サーバーから最新の投稿一覧を再取得
+        // ローカル状態から即座に削除
+        setPosts(currentPosts => currentPosts.filter(post => post.ID !== postId));
+
+        // 最新の投稿一覧を取得
         try {
-            let response;
-            if (showFollowingPosts) {
-                response = await dieterApi.getFollowingPosts();
-            } else {
-                response = await dieterApi.getPosts();
-            }
-            setPosts(response.posts);
+            await fetchPosts(true);
             console.log('投稿削除後、投稿一覧を更新しました');
         } catch (error) {
-            console.error('投稿削除後の投稿一覧の更新に失敗しました:', error);
+            console.error('投稿削除後の投稿一覧更新に失敗:', error);
         }
     };
 
@@ -403,6 +472,8 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         handleFollow,
         handlePostDelete,
         filterSensitivePosts,
-        currentUser
+        currentUser,
+        notificationManager,
+        messageManager
     };
 };

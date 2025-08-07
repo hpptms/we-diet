@@ -6,6 +6,8 @@ import { dieterApi, LegacyRecommendedUser as ApiRecommendedUser } from '../api/d
 import { postsApi } from '../api/postsApi';
 import { Post, TrendingTopic, RecommendedUser } from '../component/Dieter/types';
 import { useFollowCounts } from '../component/Dieter/layout/LeftSidebar/hooks/useFollowCounts';
+import { useNotificationManager } from './useNotificationManager';
+import { useMessageManager } from './useMessageManager';
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
@@ -14,6 +16,8 @@ export const useDieterState = (onViewChange?: (view: CurrentView) => void) => {
     const profileSettings = useRecoilValue(profileSettingsState);
     const navigate = useNavigate();
     const { followCounts, refreshFollowCounts } = useFollowCounts();
+    const notificationManager = useNotificationManager();
+    const messageManager = useMessageManager();
 
     // Core state
     const [posts, setPosts] = useState<Post[]>([]);
@@ -100,6 +104,8 @@ export const useDieterState = (onViewChange?: (view: CurrentView) => void) => {
         serverProfile,
         profileSettings,
         followCounts,
+        notificationManager,
+        messageManager,
 
         // Setters
         setPosts,

@@ -16,6 +16,7 @@ interface MainContentProps {
   posts: any[];
   deletedPostIds: Set<number>;
   currentUser: any;
+  showFollowingPosts?: boolean;
   onBackFromMessages: () => void;
   onBackFromNotifications: () => void;
   onNotificationClick: (notification: any) => void;
@@ -36,6 +37,7 @@ const MainContent: React.FC<MainContentProps> = ({
   posts,
   deletedPostIds,
   currentUser,
+  showFollowingPosts = false,
   onBackFromMessages,
   onBackFromNotifications,
   onNotificationClick,
@@ -61,6 +63,38 @@ const MainContent: React.FC<MainContentProps> = ({
 
   return (
     <>
+      {/* Timeline Header - Show which timeline is active */}
+      {!isSearching && !showMessages && !showNotifications && (
+        <Box sx={{ 
+          p: 2, 
+          borderBottom: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}`,
+          backgroundColor: isDarkMode ? '#1a1a1a' : '#f8f9fa'
+        }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: isDarkMode ? '#ffffff' : '#333333',
+              fontSize: '1.1rem',
+              fontWeight: 600 
+            }}
+          >
+            {showFollowingPosts ? 'フォローTL' : 'ホームTL'}
+          </Typography>
+          {showFollowingPosts && (
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: isDarkMode ? '#cccccc' : '#666666',
+                fontSize: '0.9rem',
+                mt: 0.5
+              }}
+            >
+              フォロー中のユーザーの投稿のみ表示
+            </Typography>
+          )}
+        </Box>
+      )}
+
       {/* Post Form - Only show when not searching */}
       {!isSearching && (
         <PostForm onPost={onPost} currentUser={currentUser} />
@@ -187,13 +221,16 @@ const MainContent: React.FC<MainContentProps> = ({
                   textAlign: 'center'
                 }}
               >
-                まだ投稿がありません。<br />
-                最初の投稿をしてみましょう！
+                {showFollowingPosts 
+                  ? 'フォロー中のユーザーの投稿がありません。<br />ユーザーをフォローしてタイムラインを充実させましょう！'
+                  : 'まだ投稿がありません。<br />最初の投稿をしてみましょう！'
+                }
               </Typography>
             </Box>
           ) : (
             filterSensitivePosts(posts)
               .filter(post => !deletedPostIds.has(post.ID))
+              .slice(0, 200) // 最大200件まで表示
               .map((post, index) => (
                 <PostCard 
                   key={`${post.ID}-${post.CreatedAt}-${index}`} 
@@ -202,6 +239,37 @@ const MainContent: React.FC<MainContentProps> = ({
                 />
               ))
           )}
+
+          {/* Display post count info */}
+          {!loading && posts.length > 0 && (() => {
+            const validPosts = filterSensitivePosts(posts).filter(post => !deletedPostIds.has(post.ID));
+            const displayedCount = Math.min(validPosts.length, 200);
+            
+            return (
+              <Box sx={{ 
+                p: 2, 
+                textAlign: 'center',
+                borderTop: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}`,
+                backgroundColor: isDarkMode ? '#1a1a1a' : '#f8f9fa'
+              }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: isDarkMode ? '#cccccc' : '#666666',
+                    fontSize: '0.9rem'
+                  }}
+                >
+                  {validPosts.length <= 200 
+                    ? `${displayedCount}件の投稿を表示中`
+                    : `最新の200件を表示中 (全${validPosts.length}件)`
+                  }
+                  {validPosts.length > 200 && (
+                    <><br />パフォーマンス向上のため、200件を超える投稿は非表示になります</>
+                  )}
+                </Typography>
+              </Box>
+            );
+          })()}
         </>
       )}
     </>

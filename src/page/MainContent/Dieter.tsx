@@ -80,6 +80,8 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
             onOpenPostModal={dieterLogic.handleOpenPostModal}
             showFollowingPosts={dieterState.showFollowingPosts}
             showNotifications={dieterState.showNotifications}
+            notificationManager={dieterState.notificationManager}
+            messageManager={dieterState.messageManager}
           />
         }
         mainContent={
@@ -95,6 +97,7 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
             posts={dieterState.posts}
             deletedPostIds={dieterState.deletedPostIds}
             currentUser={dieterLogic.currentUser}
+            showFollowingPosts={dieterState.showFollowingPosts}
             onBackFromMessages={() => dieterState.setShowMessages(false)}
             onBackFromNotifications={() => dieterState.setShowNotifications(false)}
             onNotificationClick={handleNotificationClick}
@@ -145,6 +148,8 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
                 onOpenPostModal={dieterLogic.handleOpenPostModal}
                 showFollowingPosts={dieterState.showFollowingPosts}
                 showNotifications={dieterState.showNotifications}
+                notificationManager={dieterState.notificationManager}
+                messageManager={dieterState.messageManager}
               />
             }
             rightSidebarContent={<></>}
