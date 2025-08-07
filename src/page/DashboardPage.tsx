@@ -416,7 +416,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       return 800; // プロフィールの2段階アニメーション
     }
     if (view === 'exercise' && direction === 'slideIn') {
-      return 1200; // 運動記録の3段階振動アニメーション
+      return 500; // 運動記録の上から下への滑らかアニメーション
     }
     if (direction === 'slideOut') {
       return 500; // すべての戻りを円形展開で統一（500ms）
@@ -442,7 +442,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           case 'profile':
             return 'slide-pause-complete';
           case 'exercise':
-            return 'slide-up-vibrate-3stage';
+            return 'slide-down-pause-smooth';
           case 'weight':
             return 'zoom-in';
           case 'dieter':
@@ -513,9 +513,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             animation: 'slidePauseComplete 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
           
-          // 運動記録用の3段階振動スライド
-          '&.slide-up-vibrate-3stage': {
-            animation: 'slideUpVibrate3Stage 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+          // 運動記録用の上から下への滑らかスライド
+          '&.slide-down-pause-smooth': {
+            animation: 'slideDownPauseSmooth 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
           '&.slide-down': {
             animation: 'slideDown 0.25s ease-in forwards'
@@ -573,50 +573,19 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
               opacity: 1
             }
           },
-          '@keyframes slideUpVibrate3Stage': {
+          '@keyframes slideDownPauseSmooth': {
             '0%': { 
-              transform: 'translateY(100%)', 
+              transform: 'translateY(-100%)', 
               opacity: 0.8 
             },
-            '25%': { 
-              transform: 'translateY(35%)', 
+            '30%': { 
+              transform: 'translateY(-80%)', 
               opacity: 0.9 
             },
-            '26%': { transform: 'translateY(35%) translateX(-3px)' },
-            '27%': { transform: 'translateY(35%) translateX(3px)' },
-            '28%': { transform: 'translateY(35%) translateX(-2px)' },
-            '29%': { transform: 'translateY(35%) translateX(2px)' },
-            '30%': { transform: 'translateY(35%) translateX(-1px)' },
-            '31%': { transform: 'translateY(35%) translateX(1px)' },
-            '32%': { transform: 'translateY(35%)' },
-            '50%': { 
-              transform: 'translateY(20%)', 
+            '60%': { 
+              transform: 'translateY(-80%)', 
               opacity: 0.95 
             },
-            '51%': { transform: 'translateY(20%) translateX(-4px)' },
-            '52%': { transform: 'translateY(20%) translateX(4px)' },
-            '53%': { transform: 'translateY(20%) translateX(-3px)' },
-            '54%': { transform: 'translateY(20%) translateX(3px)' },
-            '55%': { transform: 'translateY(20%) translateX(-2px)' },
-            '56%': { transform: 'translateY(20%) translateX(2px)' },
-            '57%': { transform: 'translateY(20%) translateX(-1px)' },
-            '58%': { transform: 'translateY(20%) translateX(1px)' },
-            '59%': { transform: 'translateY(20%)' },
-            '75%': { 
-              transform: 'translateY(5%)', 
-              opacity: 0.98 
-            },
-            '76%': { transform: 'translateY(5%) translateX(-5px)' },
-            '77%': { transform: 'translateY(5%) translateX(5px)' },
-            '78%': { transform: 'translateY(5%) translateX(-4px)' },
-            '79%': { transform: 'translateY(5%) translateX(4px)' },
-            '80%': { transform: 'translateY(5%) translateX(-3px)' },
-            '81%': { transform: 'translateY(5%) translateX(3px)' },
-            '82%': { transform: 'translateY(5%) translateX(-2px)' },
-            '83%': { transform: 'translateY(5%) translateX(2px)' },
-            '84%': { transform: 'translateY(5%) translateX(-1px)' },
-            '85%': { transform: 'translateY(5%) translateX(1px)' },
-            '86%': { transform: 'translateY(5%)' },
             '100%': { 
               transform: 'translateY(0)', 
               opacity: 1 
