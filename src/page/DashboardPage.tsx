@@ -36,6 +36,9 @@ interface DashboardPageProps {
 const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) => {
   const accountName = getAccountName();
   const [currentView, setCurrentView] = useState<CurrentView>(initialView || 'dashboard');
+  const [previousView, setPreviousView] = useState<CurrentView>('dashboard');
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [animationDirection, setAnimationDirection] = useState<'slideIn' | 'slideOut'>('slideIn');
   const navigate = useNavigate();
   const location = useLocation();
   const isDarkMode = useRecoilValue(darkModeState);
@@ -79,6 +82,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   };
 
   const handleViewChange = (view: CurrentView) => {
+    // 既に同じビューの場合は何もしない
+    if (view === currentView) return;
+
+    // アニメーション中の場合は処理を無視
+    if (isAnimating) return;
+
     // ダッシュボードに戻る時にWeightManagementのキャッシュをクリア
     if (view === "dashboard" && currentView === "weight") {
       setClearWeightCache(true);
@@ -89,8 +98,38 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         viewPeriod: 'month'
       });
     }
-    
-    setCurrentView(view);
+
+    // ダッシュボードから他の画面への遷移
+    if (currentView === 'dashboard' && view !== 'dashboard') {
+      setIsAnimating(true);
+      setAnimationDirection('slideIn');
+      setPreviousView(currentView);
+      
+      // アニメーション後にビューを変更
+      setTimeout(() => {
+        setCurrentView(view);
+        setIsAnimating(false);
+      }, 300);
+    }
+    // 他の画面からダッシュボードへの遷移
+    else if (currentView !== 'dashboard' && view === 'dashboard') {
+      setIsAnimating(true);
+      setAnimationDirection('slideOut');
+      
+      // アニメーション後にビューを変更
+      setTimeout(() => {
+        setPreviousView(currentView);
+        setCurrentView(view);
+        setIsAnimating(false);
+      }, 300);
+    }
+    // 通常の遷移（アニメーション無し）
+    else {
+      setPreviousView(currentView);
+      setCurrentView(view);
+    }
+
+    // URL navigation
     if (view === "profile") {
       navigate("/ProfileSettings");
     } else if (view === "dashboard") {
@@ -104,7 +143,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     } else if (view === "dieter") {
       navigate("/Dieter");
     }
-    // 他のviewはURL変更なし
   };
 
   // Googleログインのコールバック処理
@@ -352,43 +390,95 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   };
 
   const renderContent = () => {
-    switch (currentView) {
-      case 'profile':
-        return <ProfileSettings />;
-      case 'exercise':
-        return <ExerciseRecord onBack={() => { setCurrentView('dashboard'); navigate('/Dashboard'); }} />;
-      case 'weight':
-        return <WeightManagement onBack={() => { 
-          setClearWeightCache(true);
-          setWeightCache({
-            monthlyRecords: {},
-            yearlyRecords: {},
-            currentDate: new Date(),
-            viewPeriod: 'month'
-          });
-          setCurrentView('dashboard'); 
-          navigate('/Dashboard'); 
-        }} />;
-      case 'FoodLog':
-        return <FoodLog onBack={() => { setCurrentView('dashboard'); navigate('/Dashboard'); }} />;
-      case 'dieter':
-        return <Dieter 
-          onBack={() => { setCurrentView('dashboard'); navigate('/Dashboard'); }}
-          onViewChange={handleViewChange}
-          subView={subView}
-        />;
-      default:
-        return (
-          <>
+    const handleBackToDashboard = () => {
+      handleViewChange('dashboard');
+    };
+
+    const getAnimationClass = () => {
+      if (!isAnimating) return '';
+      
+      if (animationDirection === 'slideIn') {
+        return 'slide-in-from-right';
+      } else {
+        return 'slide-out-to-right';
+      }
+    };
+
+    const contentToRender = (() => {
+      switch (currentView) {
+        case 'profile':
+          return <ProfileSettings />;
+        case 'exercise':
+          return <ExerciseRecord onBack={handleBackToDashboard} />;
+        case 'weight':
+          return <WeightManagement onBack={() => { 
+            setClearWeightCache(true);
+            setWeightCache({
+              monthlyRecords: {},
+              yearlyRecords: {},
+              currentDate: new Date(),
+              viewPeriod: 'month'
+            });
+            handleBackToDashboard();
+          }} />;
+        case 'FoodLog':
+          return <FoodLog onBack={handleBackToDashboard} />;
+        case 'dieter':
+          return <Dieter 
+            onBack={handleBackToDashboard}
+            onViewChange={handleViewChange}
+            subView={subView}
+          />;
+        default:
+          return (
             <DashboardPageButtons 
               onViewChange={handleViewChange} 
               hasWeightInput={hasWeightInput} 
               showInstallButton={showInstallButton}
               onInstallClick={handleInstallClick}
             />
-          </>
-        );
-    }
+          );
+      }
+    })();
+
+    return (
+      <Box
+        className={getAnimationClass()}
+        sx={{
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+          '&.slide-in-from-right': {
+            animation: 'slideInFromRight 0.3s ease-out forwards'
+          },
+          '&.slide-out-to-right': {
+            animation: 'slideOutToRight 0.3s ease-in forwards'
+          },
+          '@keyframes slideInFromRight': {
+            '0%': {
+              transform: 'translateX(100%)',
+              opacity: 0.8
+            },
+            '100%': {
+              transform: 'translateX(0)',
+              opacity: 1
+            }
+          },
+          '@keyframes slideOutToRight': {
+            '0%': {
+              transform: 'translateX(0)',
+              opacity: 1
+            },
+            '100%': {
+              transform: 'translateX(100%)',
+              opacity: 0.8
+            }
+          }
+        }}
+      >
+        {contentToRender}
+      </Box>
+    );
   };
 
   return (
