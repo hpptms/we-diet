@@ -155,6 +155,9 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                   InputProps={{
                     endAdornment: <InputAdornment position="end">歩</InputAdornment>,
                   }}
+                  InputLabelProps={{
+                    shrink: walkingSteps !== '',
+                  }}
                   fullWidth
                   variant="outlined"
                   sx={{
