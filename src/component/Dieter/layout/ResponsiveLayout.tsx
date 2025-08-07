@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
-import { Box, Grid, useTheme, useMediaQuery } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import { useResponsive } from '../../../hooks/useResponsive';
 
 interface ResponsiveLayoutProps {
   isDarkMode: boolean;
@@ -22,8 +23,8 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
   mobileLeftOverlay,
   mobileRightOverlay,
 }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { isTabletOrMobile } = useResponsive();
+  const isMobile = isTabletOrMobile;
 
   return (
     <Box sx={{ 

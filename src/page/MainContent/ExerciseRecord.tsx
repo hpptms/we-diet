@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Box, Grid, useTheme, useMediaQuery, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import { Box, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
 import { exerciseRecordState, ExerciseRecordData, checkAndResetIfDateChanged, isExerciseDataEmpty } from '../../recoil/exerciseRecordAtom';
@@ -8,6 +8,7 @@ import { weightRecordedDateAtom } from '../../recoil/weightRecordedDateAtom';
 import { postsApi } from '../../api/postsApi';
 import { exerciseRecordApi } from '../../api/exerciseRecordApi';
 import { useToast } from '../../hooks/useToast';
+import { useResponsive } from '../../hooks/useResponsive';
 import ToastProvider from '../../component/ToastProvider';
 import '../../styles/mobile-responsive-fix.css';
 
@@ -35,12 +36,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
   const isDarkMode = useRecoilValue(darkModeState);
   const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
-  const theme = useTheme();
-  
   // レスポンシブデザイン用のブレークポイント
-  const isTabletOrMobile = useMediaQuery(theme.breakpoints.down('md')); // 768px以下
-  const isPortraitMode = useMediaQuery('(orientation: portrait)');
-  const isSmallScreen = useMediaQuery('(max-width: 900px)');
+  const { isTabletOrMobile, isPortraitMode, isSmallScreen } = useResponsive();
 
   // サーバーから本日のデータを取得する関数
   const loadTodayData = async () => {
