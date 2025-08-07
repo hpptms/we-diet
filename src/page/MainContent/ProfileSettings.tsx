@@ -34,7 +34,11 @@ import PasswordField from '../../component/ProfileSettings/PasswordField';
 import SaveButtons from '../../component/ProfileSettings/SaveButtons';
 import { NotificationSettings } from '../../component/NotificationSettings';
 
-const ProfileSettings: React.FC = () => {
+interface ProfileSettingsProps {
+  onBack?: () => void;
+}
+
+const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
   const [profile, setProfile] = useRecoilState(profileSettingsState);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -445,7 +449,7 @@ const ProfileSettings: React.FC = () => {
           <SaveButtons
             loading={loading}
             onSave={handleSave}
-            onBack={() => navigate('/Dashboard')}
+            onBack={onBack || (() => navigate('/Dashboard'))}
           />
         </CardContent>
       </Card>
