@@ -121,7 +121,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         setPreviousView(currentView);
         setCurrentView(view);
         setIsAnimating(false);
-      }, 400);
+      }, 300);
     }
     // 通常の遷移（アニメーション無し）
     else {
@@ -452,7 +452,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             animation: 'complexSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
           '&.slide-out-complex': {
-            animation: 'complexSlideOut 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards'
+            animation: 'complexSlideOut 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
           '@keyframes complexSlideIn': {
             '0%': {
@@ -478,24 +478,24 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           },
           '@keyframes complexSlideOut': {
             '0%': {
-              transform: 'translateX(0) scale(1) rotateY(0deg)',
+              transform: 'scale(1)',
               opacity: 1,
               filter: 'blur(0px)'
             },
             '30%': {
-              transform: 'translateX(-5%) scale(1.02) rotateY(-2deg)',
-              opacity: 0.95,
-              filter: 'blur(1px)'
+              transform: 'scale(0.95)',
+              opacity: 0.9,
+              filter: 'blur(2px)'
             },
             '70%': {
-              transform: 'translateX(-20%) scale(0.95) rotateY(5deg)',
-              opacity: 0.7,
-              filter: 'blur(4px)'
+              transform: 'scale(0.7)',
+              opacity: 0.6,
+              filter: 'blur(6px)'
             },
             '100%': {
-              transform: 'translateX(-100%) scale(0.9) rotateY(15deg)',
+              transform: 'scale(0.5)',
               opacity: 0,
-              filter: 'blur(8px)'
+              filter: 'blur(10px)'
             }
           }
         }}
