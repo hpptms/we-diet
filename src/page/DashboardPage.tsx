@@ -572,19 +572,23 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           '@keyframes slidePauseComplete': {
             '0%': {
               transform: 'translateX(100%)',
-              opacity: 0.8
+              opacity: 0.8,
+              visibility: 'visible'
             },
             '40%': {
               transform: 'translateX(0)',
-              opacity: 1
+              opacity: 1,
+              visibility: 'visible'
             },
             '60%': {
               transform: 'translateX(0)',
-              opacity: 1
+              opacity: 1,
+              visibility: 'visible'
             },
             '100%': {
               transform: 'translateX(0)',
-              opacity: 1
+              opacity: 1,
+              visibility: 'visible'
             }
           },
           '@keyframes slideDownSmooth': {
