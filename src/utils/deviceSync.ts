@@ -77,29 +77,32 @@ export const getSettingsInstructions = (): {
 
     if (deviceInfo.isIOS) {
         return {
-            title: 'iPhoneのヘルスケア設定',
+            title: 'iPhone同期設定',
             instructions: [
-                '1. iPhoneの「設定」アプリを開く',
-                '2. 「プライバシーとセキュリティ」→「モーションとフィットネス」をタップ',
-                '3. 「フィットネストラッキング」をオンにする',
-                '4. 「ヘルスケア」アプリを開く',
-                '5. 「共有」→「アプリとサービス」でWebサイトへのデータ共有を許可'
+                '📱 iPhoneの設定アプリを開いてください',
+                '🔒 「プライバシーとセキュリティ」をタップ',
+                '🏃 「モーションとフィットネス」をタップ',
+                '✅ 「フィットネストラッキング」をオンにする',
+                '🌐 Safariでこのサイトに戻り、再度同期ボタンを押してください',
+                '',
+                '⚠️ 権限を求めるポップアップが表示されたら「許可」を選択してください'
             ],
             settingsUrl: 'prefs:root=PRIVACY&path=MOTION',
-            alternativeMethod: 'iPhoneのヘルスケアアプリで歩数を確認して手動入力'
+            alternativeMethod: 'ヘルスケアアプリで今日の歩数を確認し、手動で入力してください'
         };
     } else if (deviceInfo.isAndroid) {
         return {
-            title: 'AndroidのGoogle Fit設定',
+            title: 'Android同期設定',
             instructions: [
-                '1. Google Fitアプリをインストール（未インストールの場合）',
-                '2. アプリを開いて位置情報・身体活動の権限を許可',
-                '3. Chromeの設定から「サイトの設定」→「センサー」を確認',
-                '4. このサイトでのセンサーアクセスを許可',
-                '5. Google アカウントでフィットネスデータの共有設定を確認'
+                '📱 Chromeの設定を開いてください',
+                '🔧 「サイトの設定」→「センサー」をタップ',
+                '✅ センサーアクセスを「許可」に設定',
+                '🏃 Google Fitアプリがインストールされていることを確認',
+                '📍 Google Fitで位置情報と身体活動の権限を許可',
+                '🌐 このサイトに戻り、再度同期ボタンを押してください'
             ],
             settingsUrl: 'https://fit.google.com/settings',
-            alternativeMethod: 'Google Fitアプリで歩数を確認して手動入力'
+            alternativeMethod: 'Google Fitアプリで今日の歩数を確認し、手動で入力してください'
         };
     }
 
@@ -110,25 +113,20 @@ export const getSettingsInstructions = (): {
     };
 };
 
-// より実用的な同期方法 - 簡易推定データまたは手動入力支援
+// 実際のデバイス同期のみを試行（自動推定は行わない）
 export const syncWithDevice = async (): Promise<DeviceExerciseData | null> => {
     try {
         console.log('デバイス同期を開始...');
 
-        // Method 1: 実験的なセンサーAPI試行
+        // 実験的なセンサーAPI試行のみ
         const sensorData = await tryExperimentalSensors();
         if (sensorData) {
             console.log('センサーからデータを取得:', sensorData);
             return sensorData;
         }
 
-        // Method 2: 時間ベースの推定データ生成
-        const estimatedData = await generateEstimatedData();
-        if (estimatedData) {
-            console.log('推定データを生成:', estimatedData);
-            return estimatedData;
-        }
-
+        // センサーアクセスに失敗した場合はnullを返す（自動推定は行わない）
+        console.log('センサーアクセスに失敗しました');
         return null;
     } catch (error) {
         console.error('Error syncing with device:', error);
@@ -183,30 +181,7 @@ const tryExperimentalSensors = async (): Promise<DeviceExerciseData | null> => {
     return null;
 };
 
-// 時間ベースの推定データを生成（デモ・学習目的）
-const generateEstimatedData = async (): Promise<DeviceExerciseData | null> => {
-    // 現在時刻から活動レベルを推定
-    const now = new Date();
-    const hour = now.getHours();
-
-    // アクティブな時間帯かどうか判定
-    const isActiveTime = (hour >= 7 && hour <= 9) || (hour >= 12 && hour <= 14) || (hour >= 17 && hour <= 20);
-
-    if (isActiveTime) {
-        // アクティブ時間帯の推定値
-        const baseSteps = 2000 + Math.floor(Math.random() * 3000); // 2000-5000歩
-        const steps = baseSteps;
-
-        return {
-            steps,
-            distance: Math.round((steps * 0.65) / 1000 * 100) / 100,
-            duration: Math.round(steps / 80) + Math.floor(Math.random() * 20),
-            calories: Math.round(steps * 0.04) + Math.floor(Math.random() * 50)
-        };
-    }
-
-    return null;
-};
+// 推定データ生成機能を削除（手動入力のみ）
 
 // iOS Motion検出
 const detectStepsFromMotion = (): Promise<number | null> => {
