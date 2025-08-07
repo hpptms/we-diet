@@ -252,10 +252,12 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         hasWeightInput: exerciseData.hasWeightInput,
       });
 
-      // console.log('サーバーレスポンス:', response);
+      console.log('サーバーレスポンス:', response);
 
       if (!response.success) throw new Error(response.message || '保存に失敗しました');
       const caloriesBurned = response.calories_burned || 0;
+
+      console.log('カロリー消費量:', caloriesBurned);
 
       // dieterに投稿がチェックされている場合、画面に現在入力されているデータのみで投稿を作成
       if (exerciseData.isPublic) {
@@ -383,6 +385,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       });
 
       const message = `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
+      console.log('成功メッセージ:', message);
       showSuccess(message);
     } catch (error: any) {
       // console.error('=== 保存エラー詳細 ===');
@@ -403,9 +406,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         errorMessage = `保存に失敗しました: ${error.message}`;
       }
       showError(errorMessage);
-    } finally {
-      setLoading(false);
     }
+    // 注意: setLoading(false)はここでは呼び出さない（呼び出し元で処理される）
   };
 
   // レスポンシブスタイル設定
