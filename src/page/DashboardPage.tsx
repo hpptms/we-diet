@@ -82,6 +82,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   };
 
   const handleViewChange = (view: CurrentView) => {
+    console.log('handleViewChange called:', { 
+      newView: view, 
+      currentView, 
+      previousView, 
+      isAnimating 
+    });
+    
     // 既に同じビューの場合は何もしない
     if (view === currentView) return;
 
@@ -101,19 +108,25 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
 
     // ダッシュボードから他の画面への遷移
     if (currentView === 'dashboard' && view !== 'dashboard') {
+      console.log('Dashboard to other screen transition:', view);
       setIsAnimating(true);
       setAnimationDirection('slideIn');
       setPreviousView(currentView);
       
       // 機能別のアニメーション時間
       const animationTime = getAnimationDuration(view, 'slideIn');
+      console.log('Animation time for', view, ':', animationTime);
+      
+      // currentViewを即座に更新してからアニメーション開始
+      setCurrentView(view);
+      
       setTimeout(() => {
-        setCurrentView(view);
         setIsAnimating(false);
       }, animationTime);
     }
     // 他の画面からダッシュボードへの遷移
     else if (currentView !== 'dashboard' && view === 'dashboard') {
+      console.log('Other screen to dashboard transition from:', currentView);
       setIsAnimating(true);
       setAnimationDirection('slideOut');
       
@@ -127,6 +140,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     }
     // 通常の遷移（アニメーション無し）
     else {
+      console.log('Normal transition (no animation):', currentView, '->', view);
       setPreviousView(currentView);
       setCurrentView(view);
     }
