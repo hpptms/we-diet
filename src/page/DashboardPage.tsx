@@ -401,7 +401,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       return 800; // プロフィールの2段階アニメーション
     }
     if (view === 'exercise' && direction === 'slideIn') {
-      return 500; // 運動記録の上から下への滑らかアニメーション
+      return 300; // 運動記録のシンプルスライドダウン（0.3秒）
     }
     if (direction === 'slideOut') {
       return 500; // すべての戻りを円形展開で統一（500ms）
@@ -427,7 +427,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           case 'profile':
             return 'slide-pause-complete';
           case 'exercise':
-            return 'slide-down-pause-smooth';
+            return 'slide-down-smooth';
           case 'weight':
             return 'zoom-in';
           case 'dieter':
@@ -498,9 +498,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             animation: 'slidePauseComplete 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
           
-          // 運動記録用の上から下への滑らかスライド
-          '&.slide-down-pause-smooth': {
-            animation: 'slideDownPauseSmooth 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+          // 運動記録用の上から下へのスムーズスライド
+          '&.slide-down-smooth': {
+            animation: 'slideDownSmooth 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
           '&.slide-down': {
             animation: 'slideDown 0.25s ease-in forwards'
@@ -558,18 +558,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
               opacity: 1
             }
           },
-          '@keyframes slideDownPauseSmooth': {
+          '@keyframes slideDownSmooth': {
             '0%': { 
               transform: 'translateY(-100%)', 
               opacity: 0.8 
-            },
-            '30%': { 
-              transform: 'translateY(-80%)', 
-              opacity: 0.9 
-            },
-            '60%': { 
-              transform: 'translateY(-80%)', 
-              opacity: 0.95 
             },
             '100%': { 
               transform: 'translateY(0)', 
