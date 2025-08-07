@@ -539,29 +539,89 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         isDarkMode={isDarkMode}
       />
 
-      {/* スマホ同期ボタン */}
-      {isDeviceSyncSupported() && (
-        <Box sx={{ mb: 3, textAlign: 'center' }}>
+      {/* スマホ同期ボタン（モバイル表示時のみ） */}
+      {isDeviceSyncSupported() && (isTabletOrMobile || isPortraitMode || isSmallScreen) && (
+        <Box sx={{ mb: 3, textAlign: 'center', px: 2 }}>
           <Button
-            variant="outlined"
+            variant="contained"
             onClick={handleDeviceSync}
             disabled={loading || syncLoading}
             sx={{
-              borderColor: isDarkMode ? '#ffffff' : '#2196F3',
-              color: isDarkMode ? '#ffffff' : '#2196F3',
+              background: syncLoading 
+                ? (isDarkMode ? 'linear-gradient(45deg, #424242 30%, #616161 90%)' : 'linear-gradient(45deg, #e0e0e0 30%, #f5f5f5 90%)')
+                : (isDarkMode 
+                  ? 'linear-gradient(45deg, #FF6B6B 30%, #4ECDC4 50%, #45B7D1 90%)'
+                  : 'linear-gradient(45deg, #FF6B6B 30%, #4ECDC4 50%, #45B7D1 90%)'
+                ),
+              border: 0,
+              borderRadius: '25px',
+              boxShadow: syncLoading 
+                ? '0 2px 4px 0 rgba(0,0,0,0.2)' 
+                : '0 4px 15px 0 rgba(255,107,107,0.3), 0 4px 15px 0 rgba(78,205,196,0.2)',
+              color: 'white',
+              height: 56,
+              padding: '12px 32px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              textTransform: 'none',
+              minWidth: '280px',
+              position: 'relative',
+              overflow: 'hidden',
               '&:hover': {
-                borderColor: isDarkMode ? '#f0f0f0' : '#1976d2',
-                backgroundColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(33,150,243,0.1)',
+                background: syncLoading 
+                  ? (isDarkMode ? 'linear-gradient(45deg, #424242 30%, #616161 90%)' : 'linear-gradient(45deg, #e0e0e0 30%, #f5f5f5 90%)')
+                  : (isDarkMode 
+                    ? 'linear-gradient(45deg, #FF5252 30%, #26C6DA 50%, #42A5F5 90%)'
+                    : 'linear-gradient(45deg, #FF5252 30%, #26C6DA 50%, #42A5F5 90%)'
+                  ),
+                boxShadow: syncLoading 
+                  ? '0 2px 4px 0 rgba(0,0,0,0.2)' 
+                  : '0 6px 20px 0 rgba(255,107,107,0.4), 0 6px 20px 0 rgba(78,205,196,0.3)',
+                transform: syncLoading ? 'none' : 'translateY(-2px)',
               },
               '&:disabled': {
-                borderColor: isDarkMode ? '#666666' : '#cccccc',
-                color: isDarkMode ? '#666666' : '#cccccc',
+                background: isDarkMode ? 'linear-gradient(45deg, #424242 30%, #616161 90%)' : 'linear-gradient(45deg, #e0e0e0 30%, #f5f5f5 90%)',
+                color: isDarkMode ? '#888888' : '#999999',
+                boxShadow: '0 2px 4px 0 rgba(0,0,0,0.2)',
+              },
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: '-100%',
+                width: '100%',
+                height: '100%',
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                transition: 'left 0.6s',
+              },
+              '&:hover::before': {
+                left: '100%',
               },
             }}
-            startIcon={syncLoading ? <div>🔄</div> : <div>📱</div>}
+            startIcon={
+              syncLoading ? (
+                <div style={{ 
+                  animation: 'spin 1s linear infinite',
+                  display: 'inline-block',
+                  fontSize: '20px'
+                }}>
+                  ⚡
+                </div>
+              ) : (
+                <div style={{ fontSize: '20px', marginRight: '8px' }}>📱✨</div>
+              )
+            }
           >
             {syncLoading ? 'デバイスと同期中...' : 'スマホと同期'}
           </Button>
+          <style>
+            {`
+              @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+              }
+            `}
+          </style>
         </Box>
       )}
 
