@@ -187,35 +187,20 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     }
   }, []); // 初回のみ実行
 
-  // URLに応じてcurrentViewを切り替え（アニメーション対応）
+  // URLに応じてcurrentViewを切り替え
   useEffect(() => {
-    let targetView: CurrentView | null = null;
-    
     if (location.pathname === "/ProfileSettings") {
-      targetView = "profile";
+      setCurrentView("profile");
     } else if (location.pathname === "/Dashboard") {
-      targetView = "dashboard";
+      setCurrentView("dashboard");
     } else if (location.pathname === "/WeightManagement") {
-      targetView = "weight";
+      setCurrentView("weight");
     } else if (location.pathname === "/FoodLog") {
-      targetView = "FoodLog";
+      setCurrentView("FoodLog");
     } else if (location.pathname === "/Dieter") {
-      targetView = "dieter";
+      setCurrentView("dieter");
     } else if (location.pathname === "/Exercise") {
-      targetView = "exercise";
-    }
-    
-    if (targetView && targetView !== currentView && !isAnimating) {
-      // アニメーション中でない場合のみ実行
-      // 初回ロード時は直接設定、それ以外はhandleViewChangeでアニメーション処理
-      const isInitialLoad = previousView === 'dashboard' && currentView === 'dashboard';
-      
-      if (isInitialLoad) {
-        setCurrentView(targetView);
-      } else {
-        // handleViewChangeを使用してアニメーション処理
-        handleViewChange(targetView);
-      }
+      setCurrentView("exercise");
     }
   }, [location.pathname]);
 
