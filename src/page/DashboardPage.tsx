@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Box, Button, Snackbar, Alert } from "@mui/material";
-import { Add as AddIcon, Home as HomeIcon } from "@mui/icons-material";
-import Header from "../component/Header";
-import Footer from "../component/Footer";
+import { Box, Snackbar, Alert } from "@mui/material";
 import DashboardPageButtons from "../component/DashboardPageButtons";
 import ProfileSettings from "./MainContent/ProfileSettings";
 import ExerciseRecord from "./MainContent/ExerciseRecord";
@@ -12,19 +9,15 @@ import FoodLog from "./MainContent/FoodLog";
 import Dieter from "./MainContent/Dieter";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { darkModeState } from "../recoil/darkModeAtom";
-import { exerciseRecordState } from "../recoil/exerciseRecordAtom";
 import { weightRecordedDateAtom } from "../recoil/weightRecordedDateAtom";
 import { clearWeightCacheAtom, weightRecordCacheAtom } from "../recoil/weightRecordCacheAtom";
 import { profileSettingsState, convertServerProfileToLocalProfile } from "../recoil/profileSettingsAtom";
-import { UserProfile } from "../proto/user_profile_pb";
 import { useToast } from "../hooks/useToast";
 import ToastProvider from "../component/ToastProvider";
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
-// 仮のユーザー名取得（本来はContextやAPIから取得する想定）
 const getAccountName = () => {
-  // 例: localStorage.getItem("accountName") など
   return localStorage.getItem("accountName") || "ユーザー";
 };
 
@@ -82,13 +75,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   };
 
   const handleViewChange = (view: CurrentView) => {
-    console.log('handleViewChange called:', { 
-      newView: view, 
-      currentView, 
-      previousView, 
-      isAnimating 
-    });
-    
     // 既に同じビューの場合は何もしない
     if (view === currentView) return;
 
@@ -108,16 +94,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
 
     // ダッシュボードから他の画面への遷移
     if (currentView === 'dashboard' && view !== 'dashboard') {
-      console.log('Dashboard to other screen transition:', view);
       setIsAnimating(true);
       setAnimationDirection('slideIn');
       setPreviousView(currentView);
       
-      // 機能別のアニメーション時間
       const animationTime = getAnimationDuration(view, 'slideIn');
-      console.log('Animation time for', view, ':', animationTime);
-      
-      // currentViewを即座に更新してからアニメーション開始
       setCurrentView(view);
       
       setTimeout(() => {
@@ -126,11 +107,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     }
     // 他の画面からダッシュボードへの遷移
     else if (currentView !== 'dashboard' && view === 'dashboard') {
-      console.log('Other screen to dashboard transition from:', currentView);
       setIsAnimating(true);
       setAnimationDirection('slideOut');
       
-      // 機能別のアニメーション時間
       const animationTime = getAnimationDuration(currentView, 'slideOut');
       setTimeout(() => {
         setPreviousView(currentView);
@@ -140,7 +119,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     }
     // 通常の遷移（アニメーション無し）
     else {
-      console.log('Normal transition (no animation):', currentView, '->', view);
       setPreviousView(currentView);
       setCurrentView(view);
     }
@@ -425,24 +403,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     const getAnimationClass = () => {
       if (!isAnimating) return '';
       
-      // 現在のビューまたは前のビューに基づいてアニメーションを決定
-      const targetView = animationDirection === 'slideIn' ? currentView : previousView;
-      
-      console.log('Animation Debug:', {
-        isAnimating,
-        animationDirection,
-        currentView,
-        previousView,
-        targetView
-      });
-      
       if (animationDirection === 'slideIn') {
-        // 全ての機能に統一された2段階スライドアニメーションを適用
-        console.log(`Applying unified animation for ${targetView}: slide-pause-complete`);
         return 'slide-pause-complete';
       } else {
-        // すべての戻りを円形展開アニメーションに統一
-        console.log('Applying slideOut animation: circle-expand');
         return 'circle-expand';
       }
     };
