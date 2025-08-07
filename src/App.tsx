@@ -144,7 +144,7 @@ function App() {
           <PrivateRoute>
             <DashboardLayout>
               <Suspense fallback={<LoadingComponent />}>
-                <LazyProfileSettings />
+                <LazyDashboardPage initialView="profile" />
               </Suspense>
             </DashboardLayout>
           </PrivateRoute>
