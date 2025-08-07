@@ -6,7 +6,7 @@ import { darkModeState } from '../recoil/darkModeAtom';
 const Footer: React.FC = () => {
   const isDarkMode = useRecoilValue(darkModeState);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('lg')); // 1024px以下をモバイル/タブレットとして判定
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // 600px以下をモバイルとして判定
   
   // Header と同じストライプ配色
   const stripes = ['#cceeff', '#b3e5fc', '#e0f7fa', '#b2ebf2', '#80deea', '#4dd0e1', '#26c6da'];
