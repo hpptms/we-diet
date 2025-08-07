@@ -12,15 +12,17 @@ import {
 } from '@mui/material';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
-import { DistanceButtons, TimeButtons } from './CommonButtons';
+import { DistanceButtons, TimeButtons, StepsButtons } from './CommonButtons';
 
 interface AerobicExerciseCardProps {
   walkingDistance: string;
   walkingTime: string;
+  walkingSteps: string;
   runningDistance: string;
   runningTime: string;
   onWalkingDistanceChange: (value: string) => void;
   onWalkingTimeChange: (value: string) => void;
+  onWalkingStepsChange: (value: string) => void;
   onRunningDistanceChange: (value: string) => void;
   onRunningTimeChange: (value: string) => void;
   isDarkMode?: boolean;
@@ -29,10 +31,12 @@ interface AerobicExerciseCardProps {
 const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
   walkingDistance,
   walkingTime,
+  walkingSteps,
   runningDistance,
   runningTime,
   onWalkingDistanceChange,
   onWalkingTimeChange,
+  onWalkingStepsChange,
   onRunningDistanceChange,
   onRunningTimeChange,
   isDarkMode = false,
@@ -138,6 +142,46 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                   onAdd={(amount) => {
                     const walk = parseInt(walkingTime || '0', 10);
                     onWalkingTimeChange((isNaN(walk) ? amount : walk + amount).toString());
+                  }}
+                  isDarkMode={isDarkMode}
+                />
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <TextField
+                  label="歩数"
+                  value={walkingSteps}
+                  onChange={(e) => onWalkingStepsChange(e.target.value)}
+                  type="number"
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">歩</InputAdornment>,
+                  }}
+                  fullWidth
+                  variant="outlined"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                      '& fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: isDarkMode ? 'white' : '#2196F3',
+                      },
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: isDarkMode ? 'white' : 'inherit',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: isDarkMode ? 'white' : '#2196F3',
+                    },
+                  }}
+                />
+                <StepsButtons
+                  onAdd={(amount) => {
+                    const steps = parseInt(walkingSteps || '0', 10);
+                    onWalkingStepsChange((isNaN(steps) ? amount : steps + amount).toString());
                   }}
                   isDarkMode={isDarkMode}
                 />

@@ -105,3 +105,58 @@ export const RepsButtons: React.FC<{
         </Box>
     );
 };
+
+// 歩数ボタン（1歩・10歩・100歩・1000歩）コンポーネント
+export const StepsButtons: React.FC<{
+    onAdd: (amount: number) => void;
+    isDarkMode?: boolean;
+}> = ({ onAdd, isDarkMode = false }) => {
+    return (
+        <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+            <Button
+                size="medium"
+                variant="contained"
+                sx={{
+                    ...createGradientButtonStyle(['#667eea', '#764ba2'], isDarkMode),
+                    minWidth: isDarkMode ? 35 : 50,
+                }}
+                onClick={() => onAdd(1)}
+            >
+                1歩
+            </Button>
+            <Button
+                size="medium"
+                variant="contained"
+                sx={{
+                    ...createGradientButtonStyle(['#f093fb', '#f5576c'], isDarkMode),
+                    minWidth: isDarkMode ? 42 : 60,
+                }}
+                onClick={() => onAdd(10)}
+            >
+                10歩
+            </Button>
+            <Button
+                size="medium"
+                variant="contained"
+                sx={{
+                    ...createGradientButtonStyle(['#4facfe', '#00f2fe'], isDarkMode),
+                    minWidth: isDarkMode ? 50 : 70,
+                }}
+                onClick={() => onAdd(100)}
+            >
+                100歩
+            </Button>
+            <Button
+                size="medium"
+                variant="contained"
+                sx={{
+                    ...createGradientButtonStyle(['#43e97b', '#38f9d7'], isDarkMode),
+                    minWidth: isDarkMode ? 55 : 75,
+                }}
+                onClick={() => onAdd(1000)}
+            >
+                1000歩
+            </Button>
+        </Box>
+    );
+};

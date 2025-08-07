@@ -6,6 +6,7 @@ export interface CreateExerciseRecordRequest {
     date: string;
     walking_distance: string;
     walking_time: string;
+    walking_steps: string;
     running_distance: string;
     running_time: string;
     push_ups: string;
@@ -54,6 +55,7 @@ class ExerciseRecordApi {
         date: string;
         walkingDistance: string;
         walkingTime: string;
+        walkingSteps: string;
         runningDistance: string;
         runningTime: string;
         pushUps: string;
@@ -83,6 +85,7 @@ class ExerciseRecordApi {
                 date: data.date,
                 walking_distance: data.walkingDistance,
                 walking_time: data.walkingTime,
+                walking_steps: data.walkingSteps,
                 running_distance: data.runningDistance,
                 running_time: data.runningTime,
                 push_ups: data.pushUps,

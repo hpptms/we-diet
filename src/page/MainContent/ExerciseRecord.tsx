@@ -55,6 +55,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
           ...exerciseData,
           walkingDistance: record.walking_distance || '',
           walkingTime: record.walking_time || '',
+          walkingSteps: record.walking_steps || '',
           runningDistance: record.running_distance || '',
           runningTime: record.running_time || '',
           pushUps: record.push_ups || '',
@@ -237,6 +238,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         date: today,
         walkingDistance: exerciseData.walkingDistance || '',
         walkingTime: exerciseData.walkingTime || '',
+        walkingSteps: exerciseData.walkingSteps || '',
         runningDistance: exerciseData.runningDistance || '',
         runningTime: exerciseData.runningTime || '',
         pushUps: exerciseData.pushUps || '',
@@ -287,18 +289,21 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
           });
           
           // 投稿内容を現在の画面入力データから作成
-          let postContent = `今日は大体${caloriesBurned}カロリー消費しました！🔥\n\n`;
+          let postContent = `今日は大体${caloriesBurned}カロリー消費しました！🔥\\n\\n`;
           
           // 有酸素運動
-          if (currentExerciseData.walkingDistance || currentExerciseData.walkingTime) {
+          if (currentExerciseData.walkingDistance || currentExerciseData.walkingTime || exerciseData.walkingSteps) {
             postContent += "🚶 ウォーキング: ";
             if (currentExerciseData.walkingDistance) {
               postContent += currentExerciseData.walkingDistance + "km ";
             }
             if (currentExerciseData.walkingTime) {
-              postContent += currentExerciseData.walkingTime + "分";
+              postContent += currentExerciseData.walkingTime + "分 ";
             }
-            postContent += "\n";
+            if (exerciseData.walkingSteps) {
+              postContent += exerciseData.walkingSteps + "歩";
+            }
+            postContent += "\\n";
           }
           
           if (currentExerciseData.runningDistance || currentExerciseData.runningTime) {
@@ -441,10 +446,12 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       <AerobicExerciseCard
         walkingDistance={exerciseData.walkingDistance}
         walkingTime={exerciseData.walkingTime}
+        walkingSteps={exerciseData.walkingSteps}
         runningDistance={exerciseData.runningDistance}
         runningTime={exerciseData.runningTime}
         onWalkingDistanceChange={handleInputChange('walkingDistance')}
         onWalkingTimeChange={handleInputChange('walkingTime')}
+        onWalkingStepsChange={handleInputChange('walkingSteps')}
         onRunningDistanceChange={handleInputChange('runningDistance')}
         onRunningTimeChange={handleInputChange('runningTime')}
         isDarkMode={isDarkMode}

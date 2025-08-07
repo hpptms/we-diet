@@ -4,6 +4,7 @@ export interface ExerciseRecordData {
     userId?: number;
     walkingDistance: string;
     walkingTime: string;
+    walkingSteps: string; // 歩数フィールドを追加
     runningDistance: string;
     runningTime: string;
     pushUps: string;
@@ -28,6 +29,7 @@ const defaultExerciseData: ExerciseRecordData = {
     userId: undefined,
     walkingDistance: '',
     walkingTime: '',
+    walkingSteps: '', // 歩数のデフォルト値
     runningDistance: '',
     runningTime: '',
     pushUps: '',
@@ -132,6 +134,7 @@ export const isExerciseDataEmpty = (data: ExerciseRecordData): boolean => {
     return (
         !data.walkingDistance &&
         !data.walkingTime &&
+        !data.walkingSteps &&
         !data.runningDistance &&
         !data.runningTime &&
         !data.pushUps &&
