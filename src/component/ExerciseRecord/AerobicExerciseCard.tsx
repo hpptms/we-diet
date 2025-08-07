@@ -9,6 +9,8 @@ import {
   InputAdornment,
   Chip,
   Divider,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
@@ -41,6 +43,8 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
   onRunningTimeChange,
   isDarkMode = false,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   return (
     <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden', border: isDarkMode ? '1px solid white' : 'none' }}>
       <Box sx={{ 
@@ -64,132 +68,266 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                 <Chip label="記録済み" color="success" size="small" />
               )}
             </Box>
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-              <Box sx={{ flex: 1 }}>
-                <TextField
-                  label="距離"
-                  value={walkingDistance}
-                  onChange={(e) => onWalkingDistanceChange(e.target.value)}
-                  type="number"
-                  InputProps={{
-                    endAdornment: <InputAdornment position="end">km</InputAdornment>,
-                  }}
-                  fullWidth
-                  variant="outlined"
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      color: isDarkMode ? 'white' : 'inherit',
-                      '& fieldset': {
-                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+            {isMobile ? (
+              // モバイル表示: 歩数を上段に、距離・時間を下段に
+              <Box>
+                {/* 歩数フィールド（上段） */}
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    label="歩数"
+                    value={walkingSteps}
+                    onChange={(e) => onWalkingStepsChange(e.target.value)}
+                    type="number"
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end">歩</InputAdornment>,
+                    }}
+                    InputLabelProps={{
+                      shrink: walkingSteps !== '',
+                    }}
+                    fullWidth
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: isDarkMode ? 'white' : 'inherit',
+                        '& fieldset': {
+                          borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: isDarkMode ? 'white' : '#2196F3',
+                        },
                       },
-                      '&:hover fieldset': {
-                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                      '& .MuiInputLabel-root': {
+                        color: isDarkMode ? 'white' : 'inherit',
                       },
-                      '&.Mui-focused fieldset': {
-                        borderColor: isDarkMode ? 'white' : '#2196F3',
+                      '& .MuiInputLabel-root.Mui-focused': {
+                        color: isDarkMode ? 'white' : '#2196F3',
                       },
-                    },
-                    '& .MuiInputLabel-root': {
-                      color: isDarkMode ? 'white' : 'inherit',
-                    },
-                    '& .MuiInputLabel-root.Mui-focused': {
-                      color: isDarkMode ? 'white' : '#2196F3',
-                    },
-                  }}
-                />
-                <DistanceButtons
-                  onAdd={(amount) => {
-                    const walk = parseFloat(walkingDistance || '0');
-                    onWalkingDistanceChange((isNaN(walk) ? amount : walk + amount).toFixed(1));
-                  }}
-                  isDarkMode={isDarkMode}
-                />
+                    }}
+                  />
+                  <StepsButtons
+                    onAdd={(amount) => {
+                      const steps = parseInt(walkingSteps || '0', 10);
+                      onWalkingStepsChange((isNaN(steps) ? amount : steps + amount).toString());
+                    }}
+                    isDarkMode={isDarkMode}
+                  />
+                </Box>
+                
+                {/* 距離・時間フィールド（下段） */}
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                  <Box sx={{ flex: 1 }}>
+                    <TextField
+                      label="距離"
+                      value={walkingDistance}
+                      onChange={(e) => onWalkingDistanceChange(e.target.value)}
+                      type="number"
+                      InputProps={{
+                        endAdornment: <InputAdornment position="end">km</InputAdornment>,
+                      }}
+                      fullWidth
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          color: isDarkMode ? 'white' : 'inherit',
+                          '& fieldset': {
+                            borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                          },
+                          '&:hover fieldset': {
+                            borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: isDarkMode ? 'white' : '#2196F3',
+                          },
+                        },
+                        '& .MuiInputLabel-root': {
+                          color: isDarkMode ? 'white' : 'inherit',
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
+                          color: isDarkMode ? 'white' : '#2196F3',
+                        },
+                      }}
+                    />
+                    <DistanceButtons
+                      onAdd={(amount) => {
+                        const walk = parseFloat(walkingDistance || '0');
+                        onWalkingDistanceChange((isNaN(walk) ? amount : walk + amount).toFixed(1));
+                      }}
+                      isDarkMode={isDarkMode}
+                    />
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <TextField
+                      label="時間"
+                      value={walkingTime}
+                      onChange={(e) => onWalkingTimeChange(e.target.value)}
+                      type="number"
+                      InputProps={{
+                        endAdornment: <InputAdornment position="end">分</InputAdornment>,
+                      }}
+                      fullWidth
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          color: isDarkMode ? 'white' : 'inherit',
+                          '& fieldset': {
+                            borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                          },
+                          '&:hover fieldset': {
+                            borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: isDarkMode ? 'white' : '#2196F3',
+                          },
+                        },
+                        '& .MuiInputLabel-root': {
+                          color: isDarkMode ? 'white' : 'inherit',
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
+                          color: isDarkMode ? 'white' : '#2196F3',
+                        },
+                      }}
+                    />
+                    <TimeButtons
+                      onAdd={(amount) => {
+                        const walk = parseInt(walkingTime || '0', 10);
+                        onWalkingTimeChange((isNaN(walk) ? amount : walk + amount).toString());
+                      }}
+                      isDarkMode={isDarkMode}
+                    />
+                  </Box>
+                </Box>
               </Box>
-              <Box sx={{ flex: 1 }}>
-                <TextField
-                  label="時間"
-                  value={walkingTime}
-                  onChange={(e) => onWalkingTimeChange(e.target.value)}
-                  type="number"
-                  InputProps={{
-                    endAdornment: <InputAdornment position="end">分</InputAdornment>,
-                  }}
-                  fullWidth
-                  variant="outlined"
-                  sx={{
-                    flex: 1,
-                    '& .MuiOutlinedInput-root': {
-                      color: isDarkMode ? 'white' : 'inherit',
-                      '& fieldset': {
-                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+            ) : (
+              // デスクトップ表示: 距離・時間・歩数を横並び
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                <Box sx={{ flex: 1 }}>
+                  <TextField
+                    label="距離"
+                    value={walkingDistance}
+                    onChange={(e) => onWalkingDistanceChange(e.target.value)}
+                    type="number"
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end">km</InputAdornment>,
+                    }}
+                    fullWidth
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: isDarkMode ? 'white' : 'inherit',
+                        '& fieldset': {
+                          borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: isDarkMode ? 'white' : '#2196F3',
+                        },
                       },
-                      '&:hover fieldset': {
-                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                      '& .MuiInputLabel-root': {
+                        color: isDarkMode ? 'white' : 'inherit',
                       },
-                      '&.Mui-focused fieldset': {
-                        borderColor: isDarkMode ? 'white' : '#2196F3',
+                      '& .MuiInputLabel-root.Mui-focused': {
+                        color: isDarkMode ? 'white' : '#2196F3',
                       },
-                    },
-                    '& .MuiInputLabel-root': {
-                      color: isDarkMode ? 'white' : 'inherit',
-                    },
-                    '& .MuiInputLabel-root.Mui-focused': {
-                      color: isDarkMode ? 'white' : '#2196F3',
-                    },
-                  }}
-                />
-                <TimeButtons
-                  onAdd={(amount) => {
-                    const walk = parseInt(walkingTime || '0', 10);
-                    onWalkingTimeChange((isNaN(walk) ? amount : walk + amount).toString());
-                  }}
-                  isDarkMode={isDarkMode}
-                />
+                    }}
+                  />
+                  <DistanceButtons
+                    onAdd={(amount) => {
+                      const walk = parseFloat(walkingDistance || '0');
+                      onWalkingDistanceChange((isNaN(walk) ? amount : walk + amount).toFixed(1));
+                    }}
+                    isDarkMode={isDarkMode}
+                  />
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <TextField
+                    label="時間"
+                    value={walkingTime}
+                    onChange={(e) => onWalkingTimeChange(e.target.value)}
+                    type="number"
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end">分</InputAdornment>,
+                    }}
+                    fullWidth
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: isDarkMode ? 'white' : 'inherit',
+                        '& fieldset': {
+                          borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: isDarkMode ? 'white' : '#2196F3',
+                        },
+                      },
+                      '& .MuiInputLabel-root': {
+                        color: isDarkMode ? 'white' : 'inherit',
+                      },
+                      '& .MuiInputLabel-root.Mui-focused': {
+                        color: isDarkMode ? 'white' : '#2196F3',
+                      },
+                    }}
+                  />
+                  <TimeButtons
+                    onAdd={(amount) => {
+                      const walk = parseInt(walkingTime || '0', 10);
+                      onWalkingTimeChange((isNaN(walk) ? amount : walk + amount).toString());
+                    }}
+                    isDarkMode={isDarkMode}
+                  />
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <TextField
+                    label="歩数"
+                    value={walkingSteps}
+                    onChange={(e) => onWalkingStepsChange(e.target.value)}
+                    type="number"
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end">歩</InputAdornment>,
+                    }}
+                    InputLabelProps={{
+                      shrink: walkingSteps !== '',
+                    }}
+                    fullWidth
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: isDarkMode ? 'white' : 'inherit',
+                        '& fieldset': {
+                          borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: isDarkMode ? 'white' : '#2196F3',
+                        },
+                      },
+                      '& .MuiInputLabel-root': {
+                        color: isDarkMode ? 'white' : 'inherit',
+                      },
+                      '& .MuiInputLabel-root.Mui-focused': {
+                        color: isDarkMode ? 'white' : '#2196F3',
+                      },
+                    }}
+                  />
+                  <StepsButtons
+                    onAdd={(amount) => {
+                      const steps = parseInt(walkingSteps || '0', 10);
+                      onWalkingStepsChange((isNaN(steps) ? amount : steps + amount).toString());
+                    }}
+                    isDarkMode={isDarkMode}
+                  />
+                </Box>
               </Box>
-              <Box sx={{ flex: 1 }}>
-                <TextField
-                  label="歩数"
-                  value={walkingSteps}
-                  onChange={(e) => onWalkingStepsChange(e.target.value)}
-                  type="number"
-                  InputProps={{
-                    endAdornment: <InputAdornment position="end">歩</InputAdornment>,
-                  }}
-                  InputLabelProps={{
-                    shrink: walkingSteps !== '',
-                  }}
-                  fullWidth
-                  variant="outlined"
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      color: isDarkMode ? 'white' : 'inherit',
-                      '& fieldset': {
-                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.23)',
-                      },
-                      '&:hover fieldset': {
-                        borderColor: isDarkMode ? 'white' : 'rgba(0, 0, 0, 0.87)',
-                      },
-                      '&.Mui-focused fieldset': {
-                        borderColor: isDarkMode ? 'white' : '#2196F3',
-                      },
-                    },
-                    '& .MuiInputLabel-root': {
-                      color: isDarkMode ? 'white' : 'inherit',
-                    },
-                    '& .MuiInputLabel-root.Mui-focused': {
-                      color: isDarkMode ? 'white' : '#2196F3',
-                    },
-                  }}
-                />
-                <StepsButtons
-                  onAdd={(amount) => {
-                    const steps = parseInt(walkingSteps || '0', 10);
-                    onWalkingStepsChange((isNaN(steps) ? amount : steps + amount).toString());
-                  }}
-                  isDarkMode={isDarkMode}
-                />
-              </Box>
-            </Box>
+            )}
           </Grid>
 
           <Divider sx={{ width: '100%', my: 2 }} />
