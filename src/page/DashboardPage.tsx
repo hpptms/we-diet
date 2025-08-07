@@ -396,6 +396,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     if (view === 'FoodLog') {
       return direction === 'slideIn' ? 400 : 500; // 円形展開は少し長め
     }
+    if (view === 'profile' && direction === 'slideIn') {
+      return 800; // プロフィールの2段階アニメーション
+    }
     if (direction === 'slideOut') {
       return 500; // すべての戻りを円形展開で統一（500ms）
     }
@@ -418,7 +421,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           case 'FoodLog':
             return 'slide-in-complex';
           case 'profile':
-            return 'fade-in';
+            return 'slide-pause-complete';
           case 'exercise':
             return 'slide-up';
           case 'weight':
@@ -486,12 +489,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             animation: 'zoomInReverse 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
           
-          // プロフィール用のフェード
-          '&.fade-in': {
-            animation: 'fadeIn 0.25s ease-out forwards'
-          },
-          '&.fade-out': {
-            animation: 'fadeOut 0.25s ease-in forwards'
+          // プロフィール用の2段階スライド
+          '&.slide-pause-complete': {
+            animation: 'slidePauseComplete 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
           
           // 運動記録用の縦スライド
@@ -536,13 +536,23 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             '70%': { transform: 'scale(0.95)', opacity: 0.9, filter: 'blur(2px)' },
             '100%': { transform: 'scale(1)', opacity: 1, filter: 'blur(0px)' }
           },
-          '@keyframes fadeIn': {
-            '0%': { opacity: 0 },
-            '100%': { opacity: 1 }
-          },
-          '@keyframes fadeOut': {
-            '0%': { opacity: 1 },
-            '100%': { opacity: 0 }
+          '@keyframes slidePauseComplete': {
+            '0%': {
+              transform: 'translateX(100%)',
+              opacity: 0.8
+            },
+            '40%': {
+              transform: 'translateX(0)',
+              opacity: 1
+            },
+            '60%': {
+              transform: 'translateX(0)',
+              opacity: 1
+            },
+            '100%': {
+              transform: 'translateX(0)',
+              opacity: 1
+            }
           },
           '@keyframes slideUp': {
             '0%': { transform: 'translateY(100%)', opacity: 0.8 },
