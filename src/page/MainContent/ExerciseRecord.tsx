@@ -122,13 +122,6 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     }
   };
 
-  const handleImageDelete = (index: number) => {
-    const newImages = exerciseData.todayImages.filter((_, i) => i !== index);
-    setExerciseData({
-      ...exerciseData,
-      todayImages: newImages,  
-    });
-  };
 
   // 運動記録投稿のコンテンツを作成する関数
   const createExercisePostContent = (caloriesBurned: number) => {
@@ -504,7 +497,6 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         todayImages={exerciseData.todayImages}
         fileInputRef={fileInputRef}
         onImageUpload={handleImageUpload}
-        onImageDelete={handleImageDelete}
         isDarkMode={isDarkMode}
       />
 
@@ -566,7 +558,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
-            既に本日の運動記録があります。上書きすると古い写真は自動的に削除され、新しい写真で置き換えられます。よろしいですか？
+            既に本日の運動記録があります。上書きしますか？
           </DialogContentText>
         </DialogContent>
         <DialogActions>

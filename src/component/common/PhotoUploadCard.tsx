@@ -18,7 +18,7 @@ interface PhotoUploadCardProps {
   todayImages: File[];
   fileInputRef: React.RefObject<HTMLInputElement>;
   onImageUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onImageDelete: (index: number) => void;
+  onImageDelete?: (index: number) => void;
   maxPhotos?: number;
   emoji?: string;
   gradient?: string;
@@ -93,20 +93,22 @@ const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
                     objectFit: 'cover',
                   }}
                 />
-                <ImageListItemBar
-                  sx={{
-                    background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-                  }}
-                  position="top"
-                  actionIcon={
-                    <IconButton
-                      sx={{ color: 'white' }}
-                      onClick={() => onImageDelete(index)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  }
-                />
+                {onImageDelete && (
+                  <ImageListItemBar
+                    sx={{
+                      background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                    }}
+                    position="top"
+                    actionIcon={
+                      <IconButton
+                        sx={{ color: 'white' }}
+                        onClick={() => onImageDelete(index)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    }
+                  />
+                )}
               </ImageListItem>
             ))}
           </ImageList>
