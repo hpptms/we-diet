@@ -105,23 +105,25 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       setAnimationDirection('slideIn');
       setPreviousView(currentView);
       
-      // アニメーション後にビューを変更
+      // 機能別のアニメーション時間
+      const animationTime = getAnimationDuration(view, 'slideIn');
       setTimeout(() => {
         setCurrentView(view);
         setIsAnimating(false);
-      }, 400);
+      }, animationTime);
     }
     // 他の画面からダッシュボードへの遷移
     else if (currentView !== 'dashboard' && view === 'dashboard') {
       setIsAnimating(true);
       setAnimationDirection('slideOut');
       
-      // アニメーション後にビューを変更
+      // 機能別のアニメーション時間
+      const animationTime = getAnimationDuration(currentView, 'slideOut');
       setTimeout(() => {
         setPreviousView(currentView);
         setCurrentView(view);
         setIsAnimating(false);
-      }, 300);
+      }, animationTime);
     }
     // 通常の遷移（アニメーション無し）
     else {
@@ -389,6 +391,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     setInstallSnackbar({ ...installSnackbar, open: false });
   };
 
+  // アニメーション時間を取得する関数
+  const getAnimationDuration = (view: CurrentView, direction: 'slideIn' | 'slideOut') => {
+    if (view === 'FoodLog') {
+      return direction === 'slideIn' ? 400 : 300;
+    }
+    return 250; // 他の機能は短時間
+  };
+
   const renderContent = () => {
     const handleBackToDashboard = () => {
       handleViewChange('dashboard');
@@ -397,10 +407,39 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     const getAnimationClass = () => {
       if (!isAnimating) return '';
       
+      // 現在のビューまたは前のビューに基づいてアニメーションを決定
+      const targetView = animationDirection === 'slideIn' ? currentView : previousView;
+      
       if (animationDirection === 'slideIn') {
-        return 'slide-in-complex';
+        switch (targetView) {
+          case 'FoodLog':
+            return 'slide-in-complex';
+          case 'profile':
+            return 'fade-in';
+          case 'exercise':
+            return 'slide-up';
+          case 'weight':
+            return 'zoom-in';
+          case 'dieter':
+            return 'slide-left';
+          default:
+            return 'fade-in';
+        }
       } else {
-        return 'slide-out-complex';
+        switch (targetView) {
+          case 'FoodLog':
+            return 'zoom-in-reverse'; // ズームイン効果
+          case 'profile':
+            return 'fade-out';
+          case 'exercise':
+            return 'slide-down';
+          case 'weight':
+            return 'zoom-out';
+          case 'dieter':
+            return 'slide-right';
+          default:
+            return 'fade-out';
+        }
       }
     };
 
@@ -448,55 +487,90 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           width: '100%',
           height: '100%',
           position: 'relative',
+          // 食事記録用の複合アニメーション
           '&.slide-in-complex': {
             animation: 'complexSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
-          '&.slide-out-complex': {
-            animation: 'complexSlideOut 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+          '&.zoom-in-reverse': {
+            animation: 'zoomInReverse 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
+          
+          // プロフィール用のフェード
+          '&.fade-in': {
+            animation: 'fadeIn 0.25s ease-out forwards'
+          },
+          '&.fade-out': {
+            animation: 'fadeOut 0.25s ease-in forwards'
+          },
+          
+          // 運動記録用の縦スライド
+          '&.slide-up': {
+            animation: 'slideUp 0.25s ease-out forwards'
+          },
+          '&.slide-down': {
+            animation: 'slideDown 0.25s ease-in forwards'
+          },
+          
+          // 体重管理用のズーム
+          '&.zoom-in': {
+            animation: 'zoomIn 0.25s ease-out forwards'
+          },
+          '&.zoom-out': {
+            animation: 'zoomOut 0.25s ease-in forwards'
+          },
+          
+          // Dieter用の横スライド
+          '&.slide-left': {
+            animation: 'slideLeft 0.25s ease-out forwards'
+          },
+          '&.slide-right': {
+            animation: 'slideRight 0.25s ease-in forwards'
+          },
+          
+          // キーフレーム定義
           '@keyframes complexSlideIn': {
-            '0%': {
-              transform: 'translateX(-100%) scale(0.9) rotateY(-15deg)',
-              opacity: 0,
-              filter: 'blur(8px)'
-            },
-            '30%': {
-              transform: 'translateX(-20%) scale(0.95) rotateY(-5deg)',
-              opacity: 0.7,
-              filter: 'blur(4px)'
-            },
-            '70%': {
-              transform: 'translateX(5%) scale(1.02) rotateY(2deg)',
-              opacity: 0.95,
-              filter: 'blur(1px)'
-            },
-            '100%': {
-              transform: 'translateX(0) scale(1) rotateY(0deg)',
-              opacity: 1,
-              filter: 'blur(0px)'
-            }
+            '0%': { transform: 'translateX(-100%) scale(0.9) rotateY(-15deg)', opacity: 0, filter: 'blur(8px)' },
+            '30%': { transform: 'translateX(-20%) scale(0.95) rotateY(-5deg)', opacity: 0.7, filter: 'blur(4px)' },
+            '70%': { transform: 'translateX(5%) scale(1.02) rotateY(2deg)', opacity: 0.95, filter: 'blur(1px)' },
+            '100%': { transform: 'translateX(0) scale(1) rotateY(0deg)', opacity: 1, filter: 'blur(0px)' }
           },
-          '@keyframes complexSlideOut': {
-            '0%': {
-              transform: 'scale(1)',
-              opacity: 1,
-              filter: 'blur(0px)'
-            },
-            '30%': {
-              transform: 'scale(0.95)',
-              opacity: 0.9,
-              filter: 'blur(2px)'
-            },
-            '70%': {
-              transform: 'scale(0.7)',
-              opacity: 0.6,
-              filter: 'blur(6px)'
-            },
-            '100%': {
-              transform: 'scale(0.5)',
-              opacity: 0,
-              filter: 'blur(10px)'
-            }
+          '@keyframes zoomInReverse': {
+            '0%': { transform: 'scale(0.5)', opacity: 0, filter: 'blur(10px)' },
+            '30%': { transform: 'scale(0.7)', opacity: 0.6, filter: 'blur(6px)' },
+            '70%': { transform: 'scale(0.95)', opacity: 0.9, filter: 'blur(2px)' },
+            '100%': { transform: 'scale(1)', opacity: 1, filter: 'blur(0px)' }
+          },
+          '@keyframes fadeIn': {
+            '0%': { opacity: 0 },
+            '100%': { opacity: 1 }
+          },
+          '@keyframes fadeOut': {
+            '0%': { opacity: 1 },
+            '100%': { opacity: 0 }
+          },
+          '@keyframes slideUp': {
+            '0%': { transform: 'translateY(100%)', opacity: 0.8 },
+            '100%': { transform: 'translateY(0)', opacity: 1 }
+          },
+          '@keyframes slideDown': {
+            '0%': { transform: 'translateY(0)', opacity: 1 },
+            '100%': { transform: 'translateY(100%)', opacity: 0.8 }
+          },
+          '@keyframes zoomIn': {
+            '0%': { transform: 'scale(0.8)', opacity: 0.8 },
+            '100%': { transform: 'scale(1)', opacity: 1 }
+          },
+          '@keyframes zoomOut': {
+            '0%': { transform: 'scale(1)', opacity: 1 },
+            '100%': { transform: 'scale(0.8)', opacity: 0.8 }
+          },
+          '@keyframes slideLeft': {
+            '0%': { transform: 'translateX(100%)', opacity: 0.8 },
+            '100%': { transform: 'translateX(0)', opacity: 1 }
+          },
+          '@keyframes slideRight': {
+            '0%': { transform: 'translateX(0)', opacity: 1 },
+            '100%': { transform: 'translateX(100%)', opacity: 0.8 }
           }
         }}
       >
