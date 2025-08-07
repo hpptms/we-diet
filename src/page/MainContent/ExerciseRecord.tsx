@@ -15,7 +15,9 @@ import {
   getSyncPermissionStatus, 
   setSyncPermissionStatus, 
   syncWithDevice, 
-  convertDeviceDataToExerciseRecord 
+  convertDeviceDataToExerciseRecord,
+  getSettingsInstructions,
+  openSettingsUrl
 } from '../../utils/deviceSync';
 import '../../styles/mobile-responsive-fix.css';
 
@@ -42,6 +44,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [overwriteResult, setOverwriteResult] = useState<{calories: number, message: string} | null>(null);
   const [syncPermissionOpen, setSyncPermissionOpen] = useState(false);
   const [syncLoading, setSyncLoading] = useState(false);
+  const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
   const isDarkMode = useRecoilValue(darkModeState);
@@ -454,7 +457,9 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       const deviceData = await syncWithDevice();
       
       if (!deviceData) {
-        showWarning('デバイスからデータを取得できませんでした。手動で入力してください。');
+        showWarning('デバイスからデータを取得できませんでした。');
+        // 設定案内ダイアログを表示
+        setSettingsDialogOpen(true);
         return;
       }
 
@@ -930,6 +935,99 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
             はい、同期する
           </Button>
         </DialogActions>
+      </Dialog>
+
+      {/* デバイス設定案内ダイアログ */}
+      <Dialog
+        open={settingsDialogOpen}
+        onClose={() => setSettingsDialogOpen(false)}
+        disableScrollLock
+        sx={{
+          position: 'fixed',
+          zIndex: 1300,
+          '& .MuiDialog-container': {
+            height: '100vh',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          },
+          '& .MuiDialog-paper': {
+            backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+            color: isDarkMode ? '#ffffff' : 'inherit',
+            border: isDarkMode ? '1px solid #444' : 'none',
+            margin: 0,
+            maxHeight: '90vh',
+            maxWidth: '90vw',
+            minWidth: '320px',
+            width: 'auto'
+          }
+        }}
+      >
+        {(() => {
+          const settings = getSettingsInstructions();
+          return (
+            <>
+              <DialogTitle sx={{ color: isDarkMode ? '#ffffff' : 'inherit', textAlign: 'center' }}>
+                ⚙️ {settings.title}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit', mb: 2 }}>
+                  同期を有効にするために、以下の設定を確認してください：
+                </DialogContentText>
+                {settings.instructions.map((instruction, index) => (
+                  <DialogContentText 
+                    key={index}
+                    sx={{ 
+                      color: isDarkMode ? '#ffffff' : 'inherit', 
+                      mb: 1,
+                      pl: 1,
+                      fontSize: '14px',
+                      lineHeight: 1.6
+                    }}
+                  >
+                    {instruction}
+                  </DialogContentText>
+                ))}
+                <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit', mt: 3, fontWeight: 'bold' }}>
+                  代替手段：
+                </DialogContentText>
+                <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit', fontSize: '14px' }}>
+                  {settings.alternativeMethod}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions sx={{ justifyContent: 'center', pb: 3, gap: 2 }}>
+                <Button 
+                  onClick={() => setSettingsDialogOpen(false)}
+                  sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
+                >
+                  閉じる
+                </Button>
+                {settings.settingsUrl && (
+                  <Button 
+                    onClick={() => {
+                      openSettingsUrl(settings.settingsUrl);
+                      setSettingsDialogOpen(false);
+                    }}
+                    variant="contained"
+                    sx={{ 
+                      backgroundColor: isDarkMode ? '#ffffff' : '#4CAF50',
+                      color: isDarkMode ? '#000000' : '#ffffff',
+                      '&:hover': {
+                        backgroundColor: isDarkMode ? '#f0f0f0' : '#45a049'
+                      }
+                    }}
+                  >
+                    設定を開く
+                  </Button>
+                )}
+              </DialogActions>
+            </>
+          );
+        })()}
       </Dialog>
 
       {/* 共通トースト */}
