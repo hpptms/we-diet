@@ -408,19 +408,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
 
   // アニメーション時間を取得する関数
   const getAnimationDuration = (view: CurrentView, direction: 'slideIn' | 'slideOut') => {
-    if (view === 'FoodLog') {
-      return direction === 'slideIn' ? 400 : 500; // 円形展開は少し長め
-    }
-    if (view === 'profile' && direction === 'slideIn') {
-      return 800; // プロフィールの2段階アニメーション
-    }
-    if (view === 'exercise' && direction === 'slideIn') {
-      return 300; // 運動記録のシンプルスライドダウン（0.3秒）
+    if (direction === 'slideIn') {
+      return 800; // 全ての機能を2段階スライドで統一（800ms）
     }
     if (direction === 'slideOut') {
       return 500; // すべての戻りを円形展開で統一（500ms）
     }
-    return 250; // 他の機能は短時間
+    return 800; // デフォルトも統一
   };
 
   const renderContent = () => {
@@ -443,28 +437,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       });
       
       if (animationDirection === 'slideIn') {
-        switch (targetView) {
-          case 'FoodLog':
-            console.log('Applying FoodLog animation: slide-in-complex');
-            return 'slide-in-complex';
-          case 'profile':
-            console.log('Applying Profile animation: slide-pause-complete');
-            return 'slide-pause-complete';
-          case 'exercise':
-            console.log('Applying Exercise animation: slide-down-smooth');
-            return 'slide-down-smooth';
-          case 'weight':
-            console.log('Applying Weight animation: zoom-in');
-            return 'zoom-in';
-          case 'dieter':
-            console.log('Applying Dieter animation: slide-left');
-            return 'slide-left';
-          default:
-            console.log('Applying default animation: fade-in');
-            return 'fade-in';
-        }
+        // 全ての機能に統一された2段階スライドアニメーションを適用
+        console.log(`Applying unified animation for ${targetView}: slide-pause-complete`);
+        return 'slide-pause-complete';
       } else {
-        // すべてのfeature戻りを円形展開アニメーションに統一
+        // すべての戻りを円形展開アニメーションに統一
         console.log('Applying slideOut animation: circle-expand');
         return 'circle-expand';
       }
@@ -514,43 +491,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           width: '100%',
           height: '100%',
           position: 'relative',
-          // 食事記録用の複合アニメーション
-          '&.slide-in-complex': {
-            animation: 'complexSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
-          },
-          '&.zoom-in-reverse': {
-            animation: 'zoomInReverse 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
-          },
-          
-          // プロフィール用の2段階スライド
+          // 統一された2段階スライドアニメーション（全機能共通）
           '&.slide-pause-complete': {
             animation: 'slidePauseComplete 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
             transform: 'translateX(100%)',
             opacity: 0.8
-          },
-          
-          // 運動記録用の上から下へのスムーズスライド
-          '&.slide-down-smooth': {
-            animation: 'slideDownSmooth 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
-          },
-          '&.slide-down': {
-            animation: 'slideDown 0.25s ease-in forwards'
-          },
-          
-          // 体重管理用のズーム
-          '&.zoom-in': {
-            animation: 'zoomIn 0.25s ease-out forwards'
-          },
-          '&.zoom-out': {
-            animation: 'zoomOut 0.25s ease-in forwards'
-          },
-          
-          // Dieter用の横スライド
-          '&.slide-left': {
-            animation: 'slideLeft 0.25s ease-out forwards'
-          },
-          '&.slide-right': {
-            animation: 'slideRight 0.25s ease-in forwards'
           },
           
           // ダッシュボード戻り用の円形展開
@@ -558,19 +503,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             animation: 'circleExpand 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
           
-          // キーフレーム定義
-          '@keyframes complexSlideIn': {
-            '0%': { transform: 'translateX(-100%) scale(0.9) rotateY(-15deg)', opacity: 0, filter: 'blur(8px)' },
-            '30%': { transform: 'translateX(-20%) scale(0.95) rotateY(-5deg)', opacity: 0.7, filter: 'blur(4px)' },
-            '70%': { transform: 'translateX(5%) scale(1.02) rotateY(2deg)', opacity: 0.95, filter: 'blur(1px)' },
-            '100%': { transform: 'translateX(0) scale(1) rotateY(0deg)', opacity: 1, filter: 'blur(0px)' }
-          },
-          '@keyframes zoomInReverse': {
-            '0%': { transform: 'scale(0.5)', opacity: 0, filter: 'blur(10px)' },
-            '30%': { transform: 'scale(0.7)', opacity: 0.6, filter: 'blur(6px)' },
-            '70%': { transform: 'scale(0.95)', opacity: 0.9, filter: 'blur(2px)' },
-            '100%': { transform: 'scale(1)', opacity: 1, filter: 'blur(0px)' }
-          },
+          // 使用するキーフレーム定義のみ保持
           '@keyframes slidePauseComplete': {
             '0%': {
               transform: 'translateX(100%)',
@@ -592,36 +525,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
               opacity: 1,
               visibility: 'visible'
             }
-          },
-          '@keyframes slideDownSmooth': {
-            '0%': { 
-              transform: 'translateY(-100%)', 
-              opacity: 0.8 
-            },
-            '100%': { 
-              transform: 'translateY(0)', 
-              opacity: 1 
-            }
-          },
-          '@keyframes slideDown': {
-            '0%': { transform: 'translateY(0)', opacity: 1 },
-            '100%': { transform: 'translateY(100%)', opacity: 0.8 }
-          },
-          '@keyframes zoomIn': {
-            '0%': { transform: 'scale(0.8)', opacity: 0.8 },
-            '100%': { transform: 'scale(1)', opacity: 1 }
-          },
-          '@keyframes zoomOut': {
-            '0%': { transform: 'scale(1)', opacity: 1 },
-            '100%': { transform: 'scale(0.8)', opacity: 0.8 }
-          },
-          '@keyframes slideLeft': {
-            '0%': { transform: 'translateX(100%)', opacity: 0.8 },
-            '100%': { transform: 'translateX(0)', opacity: 1 }
-          },
-          '@keyframes slideRight': {
-            '0%': { transform: 'translateX(0)', opacity: 1 },
-            '100%': { transform: 'translateX(100%)', opacity: 0.8 }
           },
           '@keyframes circleExpand': {
             '0%': {
