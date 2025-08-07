@@ -32,6 +32,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [loading, setLoading] = useState(false);
   const [confirmOverwriteOpen, setConfirmOverwriteOpen] = useState(false);
   const [pendingSaveData, setPendingSaveData] = useState<any>(null);
+  const [overwriteResult, setOverwriteResult] = useState<{calories: number, message: string} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
   const isDarkMode = useRecoilValue(darkModeState);
@@ -569,33 +570,105 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
-            既に本日の運動記録があります。上書きしますか？
+            {overwriteResult ? (
+              <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
+                  🎉 {overwriteResult.calories}カロリー消費しました！
+                </div>
+                <div style={{ whiteSpace: 'pre-line' }}>
+                  {overwriteResult.message}
+                </div>
+              </div>
+            ) : (
+              '既に本日の運動記録があります。上書きしますか？'
+            )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button 
-            onClick={() => {
-              setConfirmOverwriteOpen(false);
-              setPendingSaveData(null);
-            }}
-            sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
-          >
-            キャンセル
-          </Button>
+          {overwriteResult ? (
+            <Button 
+              onClick={() => {
+                setConfirmOverwriteOpen(false);
+                setPendingSaveData(null);
+                setOverwriteResult(null);
+              }}
+              variant="contained"
+              sx={{ 
+                backgroundColor: isDarkMode ? '#ffffff' : '#4caf50',
+                color: isDarkMode ? '#000000' : '#ffffff',
+                '&:hover': {
+                  backgroundColor: isDarkMode ? '#f0f0f0' : '#45a049'
+                }
+              }}
+            >
+              OK
+            </Button>
+          ) : (
+            <>
+              <Button 
+                onClick={() => {
+                  setConfirmOverwriteOpen(false);
+                  setPendingSaveData(null);
+                }}
+                sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
+              >
+                キャンセル
+              </Button>
           <Button 
             onClick={async () => {
-              setConfirmOverwriteOpen(false);
               if (pendingSaveData) {
                 setLoading(true);
                 try {
-                  await performSave(pendingSaveData.userId, pendingSaveData.today);
-                } catch (error) {
-                  // performSave内でエラーハンドリングされるので、ここでは何もしない
+                  // performSaveを修正して結果を返すようにする
+                  const response = await exerciseRecordApi.createExerciseRecord({
+                    userId: pendingSaveData.userId,
+                    date: pendingSaveData.today,
+                    walkingDistance: exerciseData.walkingDistance || '',
+                    walkingTime: exerciseData.walkingTime || '',
+                    walkingSteps: exerciseData.walkingSteps || '',
+                    runningDistance: exerciseData.runningDistance || '',
+                    runningTime: exerciseData.runningTime || '',
+                    pushUps: exerciseData.pushUps || '',
+                    sitUps: exerciseData.sitUps || '',
+                    squats: exerciseData.squats || '',
+                    otherExerciseTime: exerciseData.otherExerciseTime || '',
+                    todayWeight: exerciseData.todayWeight || '',
+                    exerciseNote: exerciseData.exerciseNote || '',
+                    todayImages: exerciseData.todayImages,
+                    isPublic: exerciseData.isPublic,
+                    hasWeightInput: exerciseData.hasWeightInput,
+                  });
+
+                  if (response.success) {
+                    const caloriesBurned = response.calories_burned || 0;
+                    const successMessage = `上書き保存が完了しました！\n今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
+                    setOverwriteResult({ calories: caloriesBurned, message: successMessage });
+                    
+                    // 保存後は入力をクリアしない - データを保持する
+                    // 画像のみクリア（アップロード済みなので）
+                    setExerciseData({
+                      ...exerciseData,
+                      todayImages: [],
+                    });
+                  } else {
+                    showError(response.message || '上書き保存に失敗しました');
+                    setConfirmOverwriteOpen(false);
+                    setPendingSaveData(null);
+                  }
+                } catch (error: any) {
+                  let errorMessage = '上書き保存に失敗しました。もう一度お試しください。';
+                  if (error.response && error.response.data && error.response.data.message) {
+                    errorMessage = `上書き保存に失敗しました: ${error.response.data.message}`;
+                  } else if (error.message) {
+                    errorMessage = `上書き保存に失敗しました: ${error.message}`;
+                  }
+                  showError(errorMessage);
+                  setConfirmOverwriteOpen(false);
+                  setPendingSaveData(null);
                 } finally {
                   setLoading(false);
                 }
               }
-              setPendingSaveData(null);
             }}
             variant="contained"
             sx={{ 
@@ -605,9 +678,11 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
                 backgroundColor: isDarkMode ? '#f0f0f0' : '#1565c0'
               }
             }}
-          >
-            上書きする
-          </Button>
+            >
+              上書きする
+            </Button>
+            </>
+          )}
         </DialogActions>
       </Dialog>
       
