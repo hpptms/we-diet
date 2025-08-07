@@ -386,7 +386,9 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
 
       const message = `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
       console.log('成功メッセージ:', message);
+      console.log('showSuccess呼び出し前のtoast状態:', toast);
       showSuccess(message);
+      console.log('showSuccess呼び出し後のtoast状態:', toast);
     } catch (error: any) {
       // console.error('=== 保存エラー詳細 ===');
       // console.error('Error object:', error);

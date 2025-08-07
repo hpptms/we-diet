@@ -14,40 +14,25 @@ const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose }) => {
 
     // 現在表示されている画面の中央にトーストを表示
     return (
-        <div
-            style={{
+        <Snackbar
+            open={toast.open}
+            autoHideDuration={6000}
+            onClose={onClose}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            sx={{
                 position: 'fixed',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                zIndex: 9999,
+                zIndex: 10000, // より高いz-indexを設定
                 width: 'auto',
                 maxWidth: '90vw',
-                pointerEvents: toast.open ? 'auto' : 'none'
+                '& .MuiSnackbarContent-root': {
+                    minWidth: '300px',
+                    maxWidth: '90vw'
+                }
             }}
         >
-            <Snackbar
-                open={toast.open}
-                autoHideDuration={6000}
-                onClose={onClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                sx={{
-                    position: 'relative',
-                    top: 0,
-                    left: 0,
-                    transform: 'none',
-                    width: '100%',
-                    zIndex: 'inherit',
-                    '& .MuiSnackbar-root': {
-                        position: 'static',
-                        transform: 'none'
-                    },
-                    '& .MuiSnackbarContent-root': {
-                        minWidth: '300px',
-                        maxWidth: '90vw'
-                    }
-                }}
-            >
                 <Alert 
                     onClose={onClose} 
                     severity={toast.severity}
@@ -72,8 +57,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose }) => {
                 >
                     {toast.message}
                 </Alert>
-            </Snackbar>
-        </div>
+        </Snackbar>
     );
 };
 
