@@ -394,7 +394,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
   // アニメーション時間を取得する関数
   const getAnimationDuration = (view: CurrentView, direction: 'slideIn' | 'slideOut') => {
     if (view === 'FoodLog') {
-      return direction === 'slideIn' ? 400 : 300;
+      return direction === 'slideIn' ? 400 : 500; // 円形展開は少し長め
+    }
+    if (direction === 'slideOut') {
+      return 500; // すべての戻りを円形展開で統一（500ms）
     }
     return 250; // 他の機能は短時間
   };
@@ -426,20 +429,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             return 'fade-in';
         }
       } else {
-        switch (targetView) {
-          case 'FoodLog':
-            return 'zoom-in-reverse'; // ズームイン効果
-          case 'profile':
-            return 'fade-out';
-          case 'exercise':
-            return 'slide-down';
-          case 'weight':
-            return 'zoom-out';
-          case 'dieter':
-            return 'slide-right';
-          default:
-            return 'fade-out';
-        }
+        // すべてのfeature戻りを円形展開アニメーションに統一
+        return 'circle-expand';
       }
     };
 
@@ -527,6 +518,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             animation: 'slideRight 0.25s ease-in forwards'
           },
           
+          // ダッシュボード戻り用の円形展開
+          '&.circle-expand': {
+            animation: 'circleExpand 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+          },
+          
           // キーフレーム定義
           '@keyframes complexSlideIn': {
             '0%': { transform: 'translateX(-100%) scale(0.9) rotateY(-15deg)', opacity: 0, filter: 'blur(8px)' },
@@ -571,6 +567,33 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           '@keyframes slideRight': {
             '0%': { transform: 'translateX(0)', opacity: 1 },
             '100%': { transform: 'translateX(100%)', opacity: 0.8 }
+          },
+          '@keyframes circleExpand': {
+            '0%': {
+              clipPath: 'circle(0% at 50% 50%)',
+              opacity: 0.8,
+              transform: 'scale(1.1)'
+            },
+            '20%': {
+              clipPath: 'circle(20% at 50% 50%)',
+              opacity: 0.9,
+              transform: 'scale(1.05)'
+            },
+            '50%': {
+              clipPath: 'circle(50% at 50% 50%)',
+              opacity: 0.95,
+              transform: 'scale(1.02)'
+            },
+            '80%': {
+              clipPath: 'circle(80% at 50% 50%)',
+              opacity: 0.98,
+              transform: 'scale(1.01)'
+            },
+            '100%': {
+              clipPath: 'circle(100% at 50% 50%)',
+              opacity: 1,
+              transform: 'scale(1)'
+            }
           }
         }}
       >
