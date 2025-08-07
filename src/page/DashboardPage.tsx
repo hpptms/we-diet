@@ -524,7 +524,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           
           // プロフィール用の2段階スライド
           '&.slide-pause-complete': {
-            animation: 'slidePauseComplete 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+            animation: 'slidePauseComplete 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
+            transform: 'translateX(100%)',
+            opacity: 0.8
           },
           
           // 運動記録用の上から下へのスムーズスライド
