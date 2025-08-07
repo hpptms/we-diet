@@ -10,6 +10,13 @@ import { exerciseRecordApi } from '../../api/exerciseRecordApi';
 import { useToast } from '../../hooks/useToast';
 import { useResponsive } from '../../hooks/useResponsive';
 import ToastProvider from '../../component/ToastProvider';
+import { 
+  isDeviceSyncSupported, 
+  getSyncPermissionStatus, 
+  setSyncPermissionStatus, 
+  syncWithDevice, 
+  convertDeviceDataToExerciseRecord 
+} from '../../utils/deviceSync';
 import '../../styles/mobile-responsive-fix.css';
 
 // Import components
@@ -33,10 +40,12 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [confirmOverwriteOpen, setConfirmOverwriteOpen] = useState(false);
   const [pendingSaveData, setPendingSaveData] = useState<any>(null);
   const [overwriteResult, setOverwriteResult] = useState<{calories: number, message: string} | null>(null);
+  const [syncPermissionOpen, setSyncPermissionOpen] = useState(false);
+  const [syncLoading, setSyncLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
   const isDarkMode = useRecoilValue(darkModeState);
-  const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
+  const { toast, hideToast, showSuccess, showError, showWarning, showInfo } = useToast();
   // レスポンシブデザイン用のブレークポイント
   const { isTabletOrMobile, isPortraitMode, isSmallScreen } = useResponsive();
 
@@ -413,6 +422,89 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     // 注意: setLoading(false)はここでは呼び出さない（呼び出し元で処理される）
   };
 
+  // デバイス同期の処理
+  const handleDeviceSync = async () => {
+    if (!isDeviceSyncSupported()) {
+      showWarning('お使いのデバイスは同期機能をサポートしていません。');
+      return;
+    }
+
+    const permissionStatus = getSyncPermissionStatus();
+    
+    if (permissionStatus.firstTime) {
+      // 初回のみ権限確認ダイアログを表示
+      setSyncPermissionOpen(true);
+      return;
+    }
+
+    if (!permissionStatus.granted) {
+      showWarning('デバイス同期の権限が許可されていません。');
+      return;
+    }
+
+    // 同期実行
+    await performDeviceSync();
+  };
+
+  const performDeviceSync = async () => {
+    setSyncLoading(true);
+    try {
+      showInfo('デバイスと同期中です...');
+      
+      const deviceData = await syncWithDevice();
+      
+      if (!deviceData) {
+        showWarning('デバイスからデータを取得できませんでした。手動で入力してください。');
+        return;
+      }
+
+      // デバイスデータをExerciseRecord形式に変換
+      const convertedData = convertDeviceDataToExerciseRecord(deviceData);
+      
+      // 既存データと統合（既存の値を上書きしないように注意）
+      const newExerciseData = {
+        ...exerciseData,
+        walkingSteps: convertedData.walkingSteps || exerciseData.walkingSteps,
+        walkingDistance: convertedData.walkingDistance || exerciseData.walkingDistance,  
+        walkingTime: convertedData.walkingTime || exerciseData.walkingTime,
+        otherExerciseTime: convertedData.otherExerciseTime || exerciseData.otherExerciseTime,
+      };
+
+      setExerciseData(newExerciseData);
+
+      // 同期結果をユーザーに通知
+      const syncedItems = [];
+      if (convertedData.walkingSteps) syncedItems.push(`歩数: ${convertedData.walkingSteps}歩`);
+      if (convertedData.walkingDistance) syncedItems.push(`距離: ${convertedData.walkingDistance}km`);
+      if (convertedData.walkingTime) syncedItems.push(`時間: ${convertedData.walkingTime}分`);
+      if (convertedData.otherExerciseTime) syncedItems.push(`その他運動: ${convertedData.otherExerciseTime}分`);
+
+      if (syncedItems.length > 0) {
+        showSuccess(`デバイス同期完了！\n${syncedItems.join('\n')}`);
+      } else {
+        showWarning('同期できるデータが見つかりませんでした。');
+      }
+
+    } catch (error: any) {
+      console.error('Device sync error:', error);
+      showError('デバイス同期中にエラーが発生しました。再度お試しください。');
+    } finally {
+      setSyncLoading(false);
+    }
+  };
+
+  const handleSyncPermissionApprove = async () => {
+    setSyncPermissionStatus(true);
+    setSyncPermissionOpen(false);
+    await performDeviceSync();
+  };
+
+  const handleSyncPermissionDeny = () => {
+    setSyncPermissionStatus(false);
+    setSyncPermissionOpen(false);
+    showInfo('デバイス同期が無効になりました。手動で入力してください。');
+  };
+
   // レスポンシブスタイル設定
   const containerStyles = {
     p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 0, sm: 1 } : 2,
@@ -446,6 +538,32 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         showSensitiveOption={true}
         isDarkMode={isDarkMode}
       />
+
+      {/* スマホ同期ボタン */}
+      {isDeviceSyncSupported() && (
+        <Box sx={{ mb: 3, textAlign: 'center' }}>
+          <Button
+            variant="outlined"
+            onClick={handleDeviceSync}
+            disabled={loading || syncLoading}
+            sx={{
+              borderColor: isDarkMode ? '#ffffff' : '#2196F3',
+              color: isDarkMode ? '#ffffff' : '#2196F3',
+              '&:hover': {
+                borderColor: isDarkMode ? '#f0f0f0' : '#1976d2',
+                backgroundColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(33,150,243,0.1)',
+              },
+              '&:disabled': {
+                borderColor: isDarkMode ? '#666666' : '#cccccc',
+                color: isDarkMode ? '#666666' : '#cccccc',
+              },
+            }}
+            startIcon={syncLoading ? <div>🔄</div> : <div>📱</div>}
+          >
+            {syncLoading ? 'デバイスと同期中...' : 'スマホと同期'}
+          </Button>
+        </Box>
+      )}
 
       {/* 有酸素運動 */}
       <AerobicExerciseCard
@@ -686,6 +804,74 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         </DialogActions>
       </Dialog>
       
+      {/* デバイス同期権限確認ダイアログ */}
+      <Dialog
+        open={syncPermissionOpen}
+        onClose={() => setSyncPermissionOpen(false)}
+        disableScrollLock
+        sx={{
+          position: 'fixed',
+          zIndex: 1300,
+          '& .MuiDialog-container': {
+            height: '100vh',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          },
+          '& .MuiDialog-paper': {
+            backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+            color: isDarkMode ? '#ffffff' : 'inherit',
+            border: isDarkMode ? '1px solid #444' : 'none',
+            margin: 0,
+            maxHeight: '90vh',
+            maxWidth: '90vw',
+            minWidth: '300px',
+            width: 'auto'
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: isDarkMode ? '#ffffff' : 'inherit', textAlign: 'center' }}>
+          📱 端末と同期しますか？
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit', textAlign: 'center' }}>
+            お使いのスマホのフィットネス機能から運動データを取得して、自動で入力欄に反映します。
+            <br /><br />
+            取得可能なデータ：
+            <br />• 歩数
+            <br />• 移動距離
+            <br />• 活動時間
+            <br /><br />
+            センサーへのアクセス権限が必要です。
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', pb: 3 }}>
+          <Button 
+            onClick={handleSyncPermissionDeny}
+            sx={{ color: isDarkMode ? '#ffffff' : 'inherit', mr: 2 }}
+          >
+            いいえ
+          </Button>
+          <Button 
+            onClick={handleSyncPermissionApprove}
+            variant="contained"
+            sx={{ 
+              backgroundColor: isDarkMode ? '#ffffff' : '#2196F3',
+              color: isDarkMode ? '#000000' : '#ffffff',
+              '&:hover': {
+                backgroundColor: isDarkMode ? '#f0f0f0' : '#1976d2'
+              }
+            }}
+          >
+            はい、同期する
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       {/* 共通トースト */}
       <ToastProvider toast={toast} onClose={hideToast} />
     </Box>
