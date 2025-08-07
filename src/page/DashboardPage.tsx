@@ -420,23 +420,38 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       // 現在のビューまたは前のビューに基づいてアニメーションを決定
       const targetView = animationDirection === 'slideIn' ? currentView : previousView;
       
+      console.log('Animation Debug:', {
+        isAnimating,
+        animationDirection,
+        currentView,
+        previousView,
+        targetView
+      });
+      
       if (animationDirection === 'slideIn') {
         switch (targetView) {
           case 'FoodLog':
+            console.log('Applying FoodLog animation: slide-in-complex');
             return 'slide-in-complex';
           case 'profile':
+            console.log('Applying Profile animation: slide-pause-complete');
             return 'slide-pause-complete';
           case 'exercise':
+            console.log('Applying Exercise animation: slide-down-smooth');
             return 'slide-down-smooth';
           case 'weight':
+            console.log('Applying Weight animation: zoom-in');
             return 'zoom-in';
           case 'dieter':
+            console.log('Applying Dieter animation: slide-left');
             return 'slide-left';
           default:
+            console.log('Applying default animation: fade-in');
             return 'fade-in';
         }
       } else {
         // すべてのfeature戻りを円形展開アニメーションに統一
+        console.log('Applying slideOut animation: circle-expand');
         return 'circle-expand';
       }
     };
