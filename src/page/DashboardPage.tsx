@@ -109,7 +109,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       setTimeout(() => {
         setCurrentView(view);
         setIsAnimating(false);
-      }, 300);
+      }, 400);
     }
     // 他の画面からダッシュボードへの遷移
     else if (currentView !== 'dashboard' && view === 'dashboard') {
@@ -121,7 +121,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         setPreviousView(currentView);
         setCurrentView(view);
         setIsAnimating(false);
-      }, 300);
+      }, 400);
     }
     // 通常の遷移（アニメーション無し）
     else {
@@ -398,9 +398,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
       if (!isAnimating) return '';
       
       if (animationDirection === 'slideIn') {
-        return 'slide-in-from-left';
+        return 'slide-in-complex';
       } else {
-        return 'slide-out-to-left';
+        return 'slide-out-complex';
       }
     };
 
@@ -448,30 +448,54 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
           width: '100%',
           height: '100%',
           position: 'relative',
-          '&.slide-in-from-left': {
-            animation: 'slideInFromLeft 0.3s ease-out forwards'
+          '&.slide-in-complex': {
+            animation: 'complexSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
           },
-          '&.slide-out-to-left': {
-            animation: 'slideOutToLeft 0.3s ease-in forwards'
+          '&.slide-out-complex': {
+            animation: 'complexSlideOut 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards'
           },
-          '@keyframes slideInFromLeft': {
+          '@keyframes complexSlideIn': {
             '0%': {
-              transform: 'translateX(-100%)',
-              opacity: 0.8
+              transform: 'translateX(-100%) scale(0.9) rotateY(-15deg)',
+              opacity: 0,
+              filter: 'blur(8px)'
+            },
+            '30%': {
+              transform: 'translateX(-20%) scale(0.95) rotateY(-5deg)',
+              opacity: 0.7,
+              filter: 'blur(4px)'
+            },
+            '70%': {
+              transform: 'translateX(5%) scale(1.02) rotateY(2deg)',
+              opacity: 0.95,
+              filter: 'blur(1px)'
             },
             '100%': {
-              transform: 'translateX(0)',
-              opacity: 1
+              transform: 'translateX(0) scale(1) rotateY(0deg)',
+              opacity: 1,
+              filter: 'blur(0px)'
             }
           },
-          '@keyframes slideOutToLeft': {
+          '@keyframes complexSlideOut': {
             '0%': {
-              transform: 'translateX(0)',
-              opacity: 1
+              transform: 'translateX(0) scale(1) rotateY(0deg)',
+              opacity: 1,
+              filter: 'blur(0px)'
+            },
+            '30%': {
+              transform: 'translateX(-5%) scale(1.02) rotateY(-2deg)',
+              opacity: 0.95,
+              filter: 'blur(1px)'
+            },
+            '70%': {
+              transform: 'translateX(-20%) scale(0.95) rotateY(5deg)',
+              opacity: 0.7,
+              filter: 'blur(4px)'
             },
             '100%': {
-              transform: 'translateX(-100%)',
-              opacity: 0.8
+              transform: 'translateX(-100%) scale(0.9) rotateY(15deg)',
+              opacity: 0,
+              filter: 'blur(8px)'
             }
           }
         }}
