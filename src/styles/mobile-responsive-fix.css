@@ -5,7 +5,9 @@
  */
 
 @media (max-width: 768px) {
-    .css-6f8tw6 {
+
+    .css-6f8tw6,
+    .css-16vzmk1 {
         /* 元々の設定: max-height: calc(-200px + 100vh); を上書き */
         max-height: 100vh !important;
 
@@ -20,7 +22,9 @@
 
 /* より小さなスクリーンサイズ（iPhone SE等）向けの追加対応 */
 @media (max-width: 480px) {
-    .css-6f8tw6 {
+
+    .css-6f8tw6,
+    .css-16vzmk1 {
         max-height: 100vh !important;
         /* ボトムナビゲーションが削除されたため、高さ制限を削除 */
         min-height: auto !important;
@@ -30,7 +34,9 @@
 
 /* 横向き表示時の対応 */
 @media (max-width: 768px) and (orientation: landscape) {
-    .css-6f8tw6 {
+
+    .css-6f8tw6,
+    .css-16vzmk1 {
         max-height: 100vh !important;
         min-height: auto !important;
         padding-bottom: max(4rem, env(safe-area-inset-bottom)) !important;
