@@ -340,7 +340,6 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
     const handlePost = async (content: string, images?: File[], isSensitive?: boolean) => {
         try {
             console.log('投稿作成中...');
-            setLoading(true);
 
             const postData = {
                 content: content,
@@ -352,15 +351,21 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
             const newPost = await dieterApi.createPost(postData);
             console.log('投稿作成完了:', newPost.ID);
 
-            // 投稿後は最新の投稿一覧を取得
-            await fetchPosts(true);
+            // 投稿作成後、少し待ってからリアルタイム更新を手動実行
+            // これにより、データベースへの反映を待つことができる
+            setTimeout(async () => {
+                try {
+                    console.log('投稿作成後の更新チェック開始...');
+                    await fetchPosts(false); // リアルタイム更新として実行
+                } catch (error) {
+                    console.error('投稿作成後の更新チェックに失敗:', error);
+                }
+            }, 1000); // 1秒待ってから更新チェック
 
         } catch (error) {
             console.error('投稿作成に失敗:', error);
             alert('投稿の作成に失敗しました。もう一度お試しください。');
             throw error;
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -433,13 +438,8 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         // ローカル状態から即座に削除
         setPosts(currentPosts => currentPosts.filter(post => post.ID !== postId));
 
-        // 最新の投稿一覧を取得
-        try {
-            await fetchPosts(true);
-            console.log('投稿削除後、投稿一覧を更新しました');
-        } catch (error) {
-            console.error('投稿削除後の投稿一覧更新に失敗:', error);
-        }
+        // 削除処理では再取得は不要（既にローカルから削除済み）
+        console.log('投稿削除完了: ID', postId);
     };
 
     // Sensitive content filtering
