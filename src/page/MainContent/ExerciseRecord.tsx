@@ -583,8 +583,13 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
               setConfirmOverwriteOpen(false);
               if (pendingSaveData) {
                 setLoading(true);
-                await performSave(pendingSaveData.userId, pendingSaveData.today);
-                setLoading(false);
+                try {
+                  await performSave(pendingSaveData.userId, pendingSaveData.today);
+                } catch (error) {
+                  // performSave内でエラーハンドリングされるので、ここでは何もしない
+                } finally {
+                  setLoading(false);
+                }
               }
               setPendingSaveData(null);
             }}
