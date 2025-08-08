@@ -121,9 +121,9 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     // Google Fit OAuth認証コールバックをチェック
     const authResult = handleGoogleFitAuthCallback();
     if (authResult.isAuthenticated) {
-      showSuccess('Google Fitとの連携が完了しました！\n再度「スマホと同期」ボタンを押してデータを取得してください。');
+      showSuccess(t('exercise', 'googleFitConnectSuccess'));
     } else if (authResult.error) {
-      showError(`Google Fit認証に失敗しました: ${authResult.error}`);
+      showError(t('exercise', 'googleFitAuthFailed', { error: authResult.error }));
     }
   }, [setExerciseData, showSuccess, showError]);
 
@@ -776,7 +776,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
               )
             }
           >
-            {syncLoading ? 'デバイスと同期中...' : 'スマホと同期'}
+            {syncLoading ? t('exercise', 'syncingWithDevice') : t('exercise', 'syncWithDevice')}
           </Button>
           <style>
             {`
@@ -908,7 +908,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         }}
       >
         <DialogTitle sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
-          既存データの上書き確認
+          {t('exercise', 'overwriteTitle')}
         </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
@@ -922,7 +922,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
                 </div>
               </div>
             ) : (
-              '既に本日の運動記録があります。上書きしますか？'
+              t('exercise', 'overwriteMessage')
             )}
           </DialogContentText>
         </DialogContent>

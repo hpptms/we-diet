@@ -18,6 +18,7 @@ import { darkModeState } from '../../recoil/darkModeAtom';
 import { profileSettingsState, isProfileDataEmpty } from '../../recoil/profileSettingsAtom';
 import { CreateUserProfileRequest, CreateUserProfileResponse } from '../../proto/user_profile_pb';
 import { useToast } from '../../hooks/useToast';
+import { useTranslation } from '../../hooks/useTranslation';
 import ToastProvider from '../../component/ToastProvider';
 
 // Import components
@@ -44,6 +45,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
   const navigate = useNavigate();
   const isDarkMode = useRecoilValue(darkModeState);
   const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
+  const { t } = useTranslation();
   const theme = useTheme();
 
   // iOS Safari debugging: Component-level error boundary
@@ -99,6 +101,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
           isCurrentWeightPrivate: serverProfile.is_current_weight_private || false,
           isTargetWeightPrivate: serverProfile.is_target_weight_private || false,
           enableSensitiveFilter: serverProfile.enable_sensitive_filter || false,
+          enableGlobalFilter: serverProfile.enable_global_filter || false,
         });
         
         // console.log('サーバーからプロフィールデータを読み込みました');
@@ -142,17 +145,17 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
             }
           } catch (error) {
             console.error('File reading error:', error);
-            showError('ファイルの読み込みに失敗しました。別の画像を選択してください。');
+            showError(t('profile', 'fileUploadFailed'));
           }
         };
         reader.onerror = () => {
           console.error('FileReader error');
-          showError('ファイルの読み込みに失敗しました。');
+          showError(t('profile', 'fileUploadError'));
         };
         reader.readAsDataURL(file);
       } catch (error) {
         console.error('FileReader not supported:', error);
-        showError('このブラウザではファイルアップロードがサポートされていません。');
+        showError(t('profile', 'fileUploadNotSupported'));
       }
     }
   };
@@ -211,7 +214,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
           finalPublicId = newPublicId;
         } catch (error) {
           console.error('Image upload error:', error);
-          showError('画像のアップロードに失敗しました。別の画像を選択してください。');
+          showError(t('profile', 'imageUploadFailed'));
           setLoading(false);
           return;
         }
@@ -249,6 +252,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
         is_current_weight_private: profile.isCurrentWeightPrivate,
         is_target_weight_private: profile.isTargetWeightPrivate,
         enable_sensitive_filter: profile.enableSensitiveFilter,
+        enable_global_filter: profile.enableGlobalFilter,
       };
 
       // console.log('送信するリクエストデータ:', requestData);
@@ -439,6 +443,41 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
               </Typography>
             </Box>
           )}
+
+          {/* グローバルフィルター設定 */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h6" gutterBottom sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
+              表示言語設定
+            </Typography>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={profile.enableGlobalFilter}
+                    onChange={(e) => setProfile(prev => ({ ...prev, enableGlobalFilter: e.target.checked }))}
+                    sx={{
+                      color: isDarkMode ? '#ffffff' : 'inherit',
+                      '&.Mui-checked': {
+                        color: isDarkMode ? '#ffffff' : 'inherit',
+                      },
+                    }}
+                  />
+                }
+                label="グローバルフィルター"
+                sx={{
+                  '& .MuiFormControlLabel-label': {
+                    color: isDarkMode ? '#ffffff' : 'inherit',
+                  },
+                }}
+              />
+            </FormGroup>
+            <Typography variant="body2" sx={{ 
+              mt: 1,
+              color: isDarkMode ? '#ffffff' : 'text.secondary'
+            }}>
+              オンの場合、すべての言語の投稿を表示します。オフの場合、あなたの表示言語の投稿のみを表示します。
+            </Typography>
+          </Box>
 
           {/* 通知設定 */}
           <Box sx={{ mb: 3 }}>

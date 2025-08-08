@@ -22,6 +22,7 @@ import { darkModeState } from '../../recoil/darkModeAtom';
 import { foodLogState } from '../../recoil/foodLogAtom';
 import { postsApi } from '../../api/postsApi';
 import { useToast } from '../../hooks/useToast';
+import { useTranslation } from '../../hooks/useTranslation';
 import ToastProvider from '../../component/ToastProvider';
 import {
     CreateFoodLogRequest,
@@ -61,6 +62,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     const [pendingSaveData, setPendingSaveData] = useState<any>(null);
     const isDarkMode = useRecoilValue(darkModeState);
     const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
+    const { t } = useTranslation();
     const theme = useTheme();
     
     
@@ -120,19 +122,19 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 }));
             }
         } catch (error: any) {
-            console.error('記録日の取得に失敗しました:', error);
+            console.error(t('food', 'loadRecordDatesFailed'), error);
         }
     };
 
     // 食事記録投稿のコンテンツを作成する関数
     const createFoodLogPostContent = () => {
-        let content = "今日の食事記録 🍽️\n\n";
+        let content = t('food', 'postContent') + "\n\n";
         
         if (foodLog.diary.trim()) {
             content += foodLog.diary + "\n\n";
         }
         
-        content += "#今日の食事";
+        content += t('food', 'hashtag');
         
         return content;
     };
@@ -152,8 +154,8 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
             setLoading(false);
             return;
         } catch (error: any) {
-            console.error('食事記録の保存に失敗しました:', error);
-            let errorMessage = '食事記録の保存に失敗しました';
+            console.error(t('food', 'saveFailed'), error);
+            let errorMessage = t('food', 'saveFailed');
             setError(errorMessage);
             setLoading(false);
         }
@@ -257,13 +259,13 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         
                     } catch (postError) {
                         console.error('Dieter投稿作成エラー:', postError);
-                        showWarning('食事記録は保存されましたが、Dieter投稿の作成に失敗しました。');
+                        showWarning(t('food', 'dieterPostFailed'));
                     }
                 }
 
                 const successMessage = isUpdate 
-                    ? '食事記録を更新しました！'
-                    : '食事記録を保存しました！';
+                    ? t('food', 'recordUpdated')
+                    : t('food', 'recordSaved');
                 setSuccess(successMessage);
                 setFoodLog(prev => ({
                     ...prev,
@@ -271,26 +273,26 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 }));
                 loadRecordedDates();
             } else {
-                setError(`食事記録の保存に失敗しました: ${response.data.message}`);
+                setError(`${t('food', 'saveFailed')}: ${response.data.message}`);
             }
         } catch (error: any) {
             console.error('食事記録の保存に失敗しました:', error);
             
-            let errorMessage = '食事記録の保存に失敗しました';
+            let errorMessage = t('food', 'saveFailed');
             
             if (error.response) {
                 console.error('Response data:', error.response.data);
                 if (error.response.data && error.response.data.error) {
                     errorMessage = error.response.data.error;
                 } else if (error.response.status === 400) {
-                    errorMessage = 'リクエストが不正です。入力内容を確認してください';
+                    errorMessage = t('food', 'saveFailedBadRequest');
                 } else if (error.response.status === 401) {
-                    errorMessage = '認証エラーです。再度ログインしてください';
+                    errorMessage = t('food', 'saveFailedAuth');
                 } else if (error.response.status >= 500) {
-                    errorMessage = 'サーバーエラーが発生しました。しばらく時間をおいて再試行してください';
+                    errorMessage = t('food', 'saveFailedServer');
                 }
             } else if (error.request) {
-                errorMessage = 'ネットワークエラーが発生しました。接続を確認してください';
+                errorMessage = t('food', 'saveFailedNetwork');
             }
             
             setError(errorMessage);
@@ -324,11 +326,11 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 setViewingRecord(response.data.record);
                 setRecordViewOpen(true);
             } else {
-                setError('昨日の記録が見つかりませんでした');
+                setError(t('food', 'noYesterdayRecord'));
             }
         } catch (error: any) {
-            console.error('昨日の記録の取得に失敗しました:', error);
-            setError('昨日の記録の取得に失敗しました');
+            console.error(t('food', 'loadRecordFailed'), error);
+            setError(t('food', 'loadRecordFailed'));
         }
     };
 

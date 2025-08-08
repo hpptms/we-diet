@@ -5,6 +5,7 @@ import { LeftSidebar } from '../../component/Dieter/layout';
 import { SearchBar, TrendingTopics } from '../../component/Dieter/discover';
 import { RecommendedUsers, FollowManagement } from '../../component/Dieter/user';
 import { FollowProvider } from '../../context/FollowContext';
+import { useTranslation } from '../../hooks/useTranslation';
 import '../../styles/mobile-responsive-fix.css';
 
 // Import new components
@@ -28,6 +29,7 @@ interface DieterProps {
 
 const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
 
   // Use custom hooks for state and logic
   const dieterState = useDieterState(onViewChange);
@@ -44,15 +46,15 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
 
   // Title for mobile header
   const getMobileHeaderTitle = () => {
-    if (dieterState.showMessages) return 'メッセージ';
-    if (dieterState.showNotifications) return '通知';
-    if (dieterState.showFollowingPosts) return 'フォロー中';
+    if (dieterState.showMessages) return t('messages', 'messages');
+    if (dieterState.showNotifications) return t('notifications', 'notifications');
+    if (dieterState.showFollowingPosts) return t('profile', 'following');
     return 'Dieter';
   };
 
   // Handle notification click
   const handleNotificationClick = (notification: any) => {
-    console.log('通知アイテムクリック:', notification);
+    console.log('Notification item clicked:', notification);
     dieterState.setShowNotifications(false);
   };
 

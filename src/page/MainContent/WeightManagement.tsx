@@ -15,6 +15,7 @@ import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { weightRecordCacheAtom, clearWeightCacheAtom } from '../../recoil/weightRecordCacheAtom';
 import { darkModeState } from '../../recoil/darkModeAtom';
 import { useToast } from '../../hooks/useToast';
+import { useTranslation } from '../../hooks/useTranslation';
 import ToastProvider from '../../component/ToastProvider';
 
 // Import protobuf types
@@ -126,6 +127,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     const setClearCache = useSetRecoilState(clearWeightCacheAtom);
     const isDarkMode = useRecoilValue(darkModeState);
     const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
+    const { t } = useTranslation();
     
     // State
     const [weightRecords, setWeightRecords] = useState<any[]>([]);
@@ -306,13 +308,13 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 });
             }
         } catch (error: any) {
-            console.error('体重記録の取得に失敗しました:', error);
+            console.error(t('weight', 'fetchFailed'), error);
             if (error.response && error.response.status === 401) {
-                setError('認証エラー：再度ログインしてください');
+                setError(t('weight', 'authError'));
             } else if (error.response && error.response.data && error.response.data.error) {
-                setError('エラー: ' + error.response.data.error);
+                setError(t('weight', 'apiError', { error: error.response.data.error }));
             } else {
-                setError('体重記録の取得に失敗しました');
+                setError(t('weight', 'fetchFailed'));
             }
         } finally {
             setLoading(false);
@@ -339,7 +341,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
             return response.data.record;
         } catch (error) {
-            console.error('既存記録の確認に失敗しました:', error);
+            console.error(t('weight', 'checkExistingFailed'), error);
             return null;
         }
     };
@@ -404,16 +406,16 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             }));
             
             fetchWeightRecords();
-            showSuccess('体重記録を上書きしました');
+            showSuccess(t('weight', 'overwriteSuccess'));
         } catch (error: any) {
             console.error('体重記録の上書きに失敗しました:', error);
             console.error('Error response:', error.response?.data);
             console.error('Error status:', error.response?.status);
             
             if (error.response?.data?.error) {
-                showError(`体重記録の上書きに失敗しました: ${error.response.data.error}`);
+                showError(t('weight', 'overwriteFailedWithError', { error: error.response.data.error }));
             } else {
-                showError('体重記録の上書きに失敗しました');
+                showError(t('weight', 'overwriteFailed'));
             }
         }
     };
@@ -421,14 +423,14 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     // Add weight record handlers
     const handleAddWeight = async () => {
         if (!formData.weight) {
-            showWarning('体重を入力してください');
+            showWarning(t('weight', 'enterWeight'));
             return;
         }
 
         // 体重の値をチェック
         const weightValue = parseFloat(formData.weight);
         if (isNaN(weightValue) || weightValue <= 0) {
-            showWarning('正しい体重を入力してください');
+            showWarning(t('weight', 'enterValidWeight'));
             return;
         }
 
@@ -497,11 +499,11 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             }
             
             fetchWeightRecords();
-            showSuccess('体重記録を追加しました');
+            showSuccess(t('weight', 'addSuccess'));
         } catch (error: any) {
-            console.error('体重記録の追加に失敗しました:', error);
+            console.error(t('weight', 'addFailed'), error);
             
-            let errorMessage = '体重記録の追加に失敗しました';
+            let errorMessage = t('weight', 'addFailed');
             
             if (error.response) {
                 // サーバーからのエラーレスポンス
@@ -509,18 +511,18 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 if (error.response.data && error.response.data.error) {
                     errorMessage = error.response.data.error;
                 } else if (error.response.status === 409) {
-                    errorMessage = 'この日付の体重記録は既に存在します';
+                    errorMessage = t('weight', 'recordExists');
                 } else if (error.response.status === 400) {
-                    errorMessage = 'リクエストが不正です。入力内容を確認してください';
+                    errorMessage = t('weight', 'badRequest');
                 } else if (error.response.status === 401) {
-                    errorMessage = '認証エラーです。再度ログインしてください';
+                    errorMessage = t('weight', 'authFailed');
                 } else if (error.response.status >= 500) {
-                    errorMessage = 'サーバーエラーが発生しました。しばらく時間をおいて再試行してください';
+                    errorMessage = t('weight', 'serverError');
                 }
             } else if (error.request) {
                 // ネットワークエラー
                 console.error('ネットワークエラー:', error.request);
-                errorMessage = 'ネットワークエラーが発生しました。接続を確認してください';
+                errorMessage = t('weight', 'networkError');
             }
             
             showError(errorMessage);
@@ -529,14 +531,14 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
     const handleAddPastWeight = async () => {
         if (!pastFormData.weight) {
-            showWarning('体重を入力してください');
+            showWarning(t('weight', 'enterWeight'));
             return;
         }
 
         // 体重の値をチェック
         const weightValue = parseFloat(pastFormData.weight);
         if (isNaN(weightValue) || weightValue <= 0) {
-            showWarning('正しい体重を入力してください');
+            showWarning(t('weight', 'enterValidWeight'));
             return;
         }
 
@@ -589,7 +591,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             }));
             
             fetchWeightRecords();
-            showSuccess('過去の体重記録を追加しました');
+            showSuccess(t('weight', 'addPastSuccess'));
         } catch (error: any) {
             console.error('体重記録の追加に失敗しました:', error);
             

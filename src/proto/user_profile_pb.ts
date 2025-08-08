@@ -23,6 +23,7 @@ export interface UserProfile {
     is_current_weight_private?: boolean;
     is_target_weight_private?: boolean;
     enable_sensitive_filter?: boolean;
+    enable_global_filter?: boolean;
     created_at?: string;
     updated_at?: string;
 }
@@ -49,6 +50,7 @@ export interface CreateUserProfileRequest {
     is_current_weight_private: boolean;
     is_target_weight_private: boolean;
     enable_sensitive_filter: boolean;
+    enable_global_filter: boolean;
 }
 
 export interface CreateUserProfileResponse {
