@@ -1,12 +1,50 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getCurrentLanguage } from '../i18n';
 
 const PrivacyPolicy: React.FC = () => {
+  const navigate = useNavigate();
   const currentLanguage = getCurrentLanguage();
+
+  const backButtonStyle = {
+    display: 'inline-block',
+    background: '#29b6f6',
+    color: 'white',
+    textDecoration: 'none',
+    padding: '12px 24px',
+    borderRadius: '25px',
+    marginBottom: '2rem',
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    boxShadow: '0 2px 5px rgba(41, 182, 246, 0.3)',
+  };
+
+  const handleBackClick = () => {
+    navigate('/');
+  };
 
   // 日本語版
   const renderJapanese = () => (
     <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+      <button 
+        style={backButtonStyle} 
+        onClick={handleBackClick}
+        onMouseOver={(e) => {
+          e.currentTarget.style.background = '#1e88e5';
+          e.currentTarget.style.transform = 'translateY(-1px)';
+          e.currentTarget.style.boxShadow = '0 4px 10px rgba(41, 182, 246, 0.4)';
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.background = '#29b6f6';
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 2px 5px rgba(41, 182, 246, 0.3)';
+        }}
+      >
+        ← トップページに戻る
+      </button>
       <h1>プライバシーポリシー</h1>
       <p>最終更新日: {new Date().toLocaleDateString('ja-JP')}</p>
       
@@ -56,6 +94,22 @@ const PrivacyPolicy: React.FC = () => {
   // 英語版
   const renderEnglish = () => (
     <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+      <button 
+        style={backButtonStyle} 
+        onClick={handleBackClick}
+        onMouseOver={(e) => {
+          e.currentTarget.style.background = '#1e88e5';
+          e.currentTarget.style.transform = 'translateY(-1px)';
+          e.currentTarget.style.boxShadow = '0 4px 10px rgba(41, 182, 246, 0.4)';
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.background = '#29b6f6';
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 2px 5px rgba(41, 182, 246, 0.3)';
+        }}
+      >
+        ← Back to Top
+      </button>
       <h1>Privacy Policy</h1>
       <p>Last updated: {new Date().toLocaleDateString('en-US')}</p>
       
