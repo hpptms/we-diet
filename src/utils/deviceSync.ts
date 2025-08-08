@@ -34,8 +34,8 @@ const GOOGLE_FIT_AUTH_KEY = 'google_fit_auth';
 
 // Google Fit API設定（GAPI使用）
 const GOOGLE_FIT_CONFIG = {
-    clientId: process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID || '',
-    apiKey: process.env.REACT_APP_GOOGLE_API_KEY || '',
+    clientId: import.meta.env.VITE_GOOGLE_FIT_CLIENT_ID || '',
+    apiKey: import.meta.env.VITE_GOOGLE_API_KEY || '',
     discoveryDoc: 'https://www.googleapis.com/discovery/v1/apis/fitness/v1/rest',
     scopes: [
         'https://www.googleapis.com/auth/fitness.activity.read',
@@ -44,11 +44,11 @@ const GOOGLE_FIT_CONFIG = {
 };
 
 // デバッグ用設定ログ出力（開発環境のみ）
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
     console.log('=== Google Fit設定 (GAPI) ===');
-    console.log('Client ID source:', process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID ? 'Environment' : 'Default');
+    console.log('Client ID source:', import.meta.env.VITE_GOOGLE_FIT_CLIENT_ID ? 'Environment' : 'Default');
     console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId);
-    console.log('API Key source:', process.env.REACT_APP_GOOGLE_API_KEY ? 'Environment' : 'Default');
+    console.log('API Key source:', import.meta.env.VITE_GOOGLE_API_KEY ? 'Environment' : 'Default');
     console.log('Scopes:', GOOGLE_FIT_CONFIG.scopes.join(', '));
     console.log('================================');
 }
