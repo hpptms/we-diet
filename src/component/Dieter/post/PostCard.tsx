@@ -463,13 +463,14 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
       
-      console.log('🖱️ 画像クリック位置情報:', {
+      // 画像クリック位置情報を取得（サイレント処理）
+      const clickPositionInfo = {
         clickPosition: { x: clickX, y: clickY },
         scrollPosition: { x: scrollX, y: scrollY },
         viewportSize: { width: viewportWidth, height: viewportHeight },
         clickFromTop: clickY + scrollY,
         clickFromLeft: clickX + scrollX
-      });
+      };
       
       // クリック位置を保存
       setClickPosition({ x: clickX, y: clickY });
