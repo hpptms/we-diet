@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Box, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
+import { useTranslation } from '../../hooks/useTranslation';
 import { exerciseRecordState, ExerciseRecordData, checkAndResetIfDateChanged, isExerciseDataEmpty } from '../../recoil/exerciseRecordAtom';
 import { useSetRecoilState } from 'recoil';
 import { weightRecordedDateAtom } from '../../recoil/weightRecordedDateAtom';
@@ -58,6 +59,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const { toast, hideToast, showSuccess, showError, showWarning, showInfo } = useToast();
   // レスポンシブデザイン用のブレークポイント
   const { isTabletOrMobile, isPortraitMode, isSmallScreen } = useResponsive();
+  const { t } = useTranslation();
 
   // サーバーから本日のデータを取得する関数
   const loadTodayData = async () => {
@@ -146,7 +148,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
           todayImages: [...exerciseData.todayImages, ...newImages],
         });
       } else {
-        showWarning('画像は最大3枚まで選択できます');
+        showWarning(t('errors', 'maxImagesError', {}, '画像は最大3枚まで選択できます'));
       }
     }
   };

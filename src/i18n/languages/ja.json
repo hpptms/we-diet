@@ -217,6 +217,7 @@
         "unexpectedError": "予期しないエラーが発生しました",
         "tryAgain": "もう一度試してください",
         "loginError": "ログインでエラーが発生しました: {error}",
+        "maxImagesError": "画像は最大3枚まで選択できます",
         "contactSupport": "サポートに連絡する"
     },
     "time": {
