@@ -410,7 +410,7 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
             }
         }
 
-        // 距離データも取得（別リクエスト）
+        // 距離データを取得
         try {
             const distanceRequest = {
                 aggregateBy: [
@@ -443,6 +443,41 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
             }
         } catch (distanceError) {
             console.log('Distance data not available:', distanceError);
+        }
+
+        // 身体活動時間データを取得
+        try {
+            const activityRequest = {
+                aggregateBy: [
+                    { dataTypeName: 'com.google.active_minutes' }
+                ],
+                bucketByTime: { durationMillis: 86400000 },
+                startTimeMillis: startTimeMillis,
+                endTimeMillis: endTimeMillis
+            };
+
+            const activityResponse = await (window as any).gapi.client.fitness.users.dataset.aggregate({
+                userId: 'me',
+                resource: activityRequest
+            });
+
+            if (activityResponse.result && activityResponse.result.bucket) {
+                for (const bucket of activityResponse.result.bucket) {
+                    if (bucket.dataset && bucket.dataset.length > 0) {
+                        for (const dataset of bucket.dataset) {
+                            if (dataset.point && dataset.point.length > 0) {
+                                for (const point of dataset.point) {
+                                    if (point.value && point.value.length > 0) {
+                                        activeMinutes += point.value[0].intVal || 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (activityError) {
+            console.log('Activity minutes data not available:', activityError);
         }
 
         console.log('取得データ - 歩数:', totalSteps, '距離:', totalDistance);
