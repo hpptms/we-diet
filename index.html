@@ -68,9 +68,7 @@
   <link rel="preconnect" href="https://res.cloudinary.com">
 
   <!-- 重要なリソースのプリロード -->
-  <link rel="preload"
-    href="https://res.cloudinary.com/drmyhhtjo/image/upload/w_1920,h_500,c_fill,q_auto,f_auto,dpr_auto/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp"
-    as="image" fetchpriority="high">
+  <!-- Hero画像のpreloadを削除（トップページ以外で未使用の警告を回避） -->
 
   <!-- フォントのプリロード（WOFF2形式） -->
   <!-- M PLUS 1p フォントの正しいURLに修正 -->
@@ -122,11 +120,7 @@
   </style>
 
   <!-- Google Fonts CSS の非同期読み込み -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap" as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap">
-  </noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap">
 
   <!-- ファビコン -->
   <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
