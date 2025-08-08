@@ -75,21 +75,17 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
             let response;
             if (showFollowingPosts) {
                 // フォローTL: フォロー中ユーザーの投稿のみを取得
-                console.log('フォローTL: フォロー中ユーザーの投稿を取得中...');
                 response = await dieterApi.getFollowingPosts(1, 50);
-                console.log('フォローTL取得結果:', response.posts?.length || 0, '件');
             } else {
                 // 通常TL: 公開投稿を取得
-                console.log('通常TL: 公開投稿を取得中...');
                 response = await dieterApi.getPosts(1, 50);
-                console.log('通常TL取得結果:', response.posts?.length || 0, '件');
             }
 
             if (isInitial) {
                 // 初期取得時は最新20件をセット
                 const initialPosts = response.posts.slice(0, 20);
                 setPosts(initialPosts);
-                console.log(`${showFollowingPosts ? 'フォローTL' : '通常TL'}初期取得完了:`, initialPosts.length, '件');
+                // TL初期取得完了（サイレント処理）
             } else {
                 // リアルタイム更新時: 現在の投稿より新しいもののみを追加
                 setPosts((currentPosts) => {
@@ -112,16 +108,15 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
                     if (newPosts.length > 0) {
                         // 新しい投稿を先頭に追加し、最大200件まで制限
                         const updatedPosts = [...newPosts, ...currentPosts].slice(0, MAX_POSTS);
-                        console.log(`${showFollowingPosts ? 'フォローTL' : '通常TL'}新規投稿追加:`, newPosts.length, '件 (合計:', updatedPosts.length, '件)');
                         return updatedPosts;
                     }
 
-                    console.log(`${showFollowingPosts ? 'フォローTL' : '通常TL'}リアルタイム更新: 新しい投稿なし`);
+                    // リアルタイム更新: 新しい投稿なし（サイレント処理）
                     return currentPosts;
                 });
             }
         } catch (error) {
-            console.error(`${showFollowingPosts ? 'フォローTL' : '通常TL'}の取得に失敗しました:`, error);
+            // TLの取得に失敗（サイレント処理）
             if (isInitial) {
                 setPosts([]);
             }
@@ -142,20 +137,20 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
             fetchPosts(false);
         }, 30000); // 30秒間隔
 
-        console.log('リアルタイム更新開始 (30秒間隔)');
+        // リアルタイム更新開始（サイレント処理）
     }, [fetchPosts]);
 
     const stopRealtimeUpdates = useCallback(() => {
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = null;
-            console.log('リアルタイム更新停止');
+            // リアルタイム更新停止（サイレント処理）
         }
     }, []);
 
     // 投稿管理の統一 useEffect
     useEffect(() => {
-        console.log('Dieter投稿管理初期化開始');
+        // Dieter投稿管理初期化開始（サイレント処理）
 
         // 初期取得
         fetchPosts(true);
@@ -269,7 +264,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
 
                 setTrendingTopics(convertedTopics);
             } catch (error) {
-                console.error('トレンドトピックの取得に失敗しました:', error);
+                // トレンドトピックの取得に失敗（サイレント処理）
                 setTrendingTopics([]);
             }
         };
@@ -339,7 +334,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
     // 投稿処理
     const handlePost = async (content: string, images?: File[], isSensitive?: boolean) => {
         try {
-            console.log('投稿作成中...');
+            // 投稿作成中（サイレント処理）
 
             const postData = {
                 content: content,
@@ -349,21 +344,21 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
 
             // 投稿作成
             const newPost = await dieterApi.createPost(postData);
-            console.log('投稿作成完了:', newPost.ID);
+            // 投稿作成完了（サイレント処理）
 
             // 投稿作成後、少し待ってからリアルタイム更新を手動実行
             // これにより、データベースへの反映を待つことができる
             setTimeout(async () => {
                 try {
-                    console.log('投稿作成後の更新チェック開始...');
+                    // 投稿作成後の更新チェック開始（サイレント処理）
                     await fetchPosts(false); // リアルタイム更新として実行
                 } catch (error) {
-                    console.error('投稿作成後の更新チェックに失敗:', error);
+                    // 投稿作成後の更新チェックに失敗（サイレント処理）
                 }
             }, 1000); // 1秒待ってから更新チェック
 
         } catch (error) {
-            console.error('投稿作成に失敗:', error);
+            // 投稿作成に失敗（サイレント処理）
             alert('投稿の作成に失敗しました。もう一度お試しください。');
             throw error;
         }
@@ -386,7 +381,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
             const response = await dieterApi.searchPosts(query.trim());
             setSearchResults(response.posts);
         } catch (error) {
-            console.error('検索に失敗しました:', error);
+            // 検索に失敗（サイレント処理）
             setSearchResults([]);
         } finally {
             setSearchLoading(false);
@@ -405,7 +400,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
                 try {
                     await refreshFollowCounts();
                 } catch (error) {
-                    console.error('フォロー数の再更新に失敗:', error);
+                    // フォロー数の再更新に失敗（サイレント処理）
                 }
             }, 1000);
 
@@ -424,7 +419,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
             localStorage.removeItem('recommended_users_cache');
 
         } catch (error: any) {
-            console.error('フォロー操作に失敗しました:', error);
+            // フォロー操作に失敗（サイレント処理）
             const errorMessage = error.response?.data?.error || error.message || 'フォロー操作に失敗しました。もう一度お試しください。';
             alert(`エラー: ${errorMessage}`);
         }
@@ -439,7 +434,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         setPosts(currentPosts => currentPosts.filter(post => post.ID !== postId));
 
         // 削除処理では再取得は不要（既にローカルから削除済み）
-        console.log('投稿削除完了: ID', postId);
+        // 投稿削除完了（サイレント処理）
     };
 
     // Sensitive content filtering

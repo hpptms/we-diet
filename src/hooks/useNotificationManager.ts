@@ -45,9 +45,9 @@ export const useNotificationManager = () => {
                 loading: false
             }));
 
-            console.log('通知取得完了:', response.notifications?.length || 0, '件');
+            // 通知取得完了（サイレント処理）
         } catch (error) {
-            console.error('通知の取得に失敗しました:', error);
+            // 通知の取得に失敗（サイレント処理）
             setState(prev => ({
                 ...prev,
                 error: '通知の取得に失敗しました',
@@ -66,9 +66,9 @@ export const useNotificationManager = () => {
                 unreadCount: response.unread_count || 0
             }));
 
-            console.log('未読通知数:', response.unread_count);
+            // 未読通知数取得完了（サイレント処理）
         } catch (error) {
-            console.error('未読通知数の取得に失敗しました:', error);
+            // 未読通知数の取得に失敗（サイレント処理）
         }
     }, []);
 
@@ -88,9 +88,9 @@ export const useNotificationManager = () => {
                 unreadCount: Math.max(0, prev.unreadCount - 1)
             }));
 
-            console.log('通知を既読にしました:', notificationId);
+            // 通知を既読処理完了（サイレント処理）
         } catch (error) {
-            console.error('通知の既読処理に失敗しました:', error);
+            // 通知の既読処理に失敗（サイレント処理）
         }
     }, []);
 
@@ -109,9 +109,9 @@ export const useNotificationManager = () => {
                 unreadCount: 0
             }));
 
-            console.log('全ての通知を既読にしました');
+            // 全ての通知を既読処理完了（サイレント処理）
         } catch (error) {
-            console.error('全ての通知の既読処理に失敗しました:', error);
+            // 全ての通知の既読処理に失敗（サイレント処理）
         }
     }, []);
 
@@ -126,7 +126,7 @@ export const useNotificationManager = () => {
             fetchUnreadCount();
         }, 30000);
 
-        console.log('通知ポーリング開始 (30秒間隔)');
+        // 通知ポーリング開始（サイレント処理）
     }, [fetchUnreadCount]);
 
     // リアルタイム通知チェックの停止
@@ -134,7 +134,7 @@ export const useNotificationManager = () => {
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = null;
-            console.log('通知ポーリング停止');
+            // 通知ポーリング停止（サイレント処理）
         }
     }, []);
 

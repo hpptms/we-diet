@@ -44,7 +44,7 @@ export const useDieterState = (onViewChange?: (view: CurrentView) => void) => {
                 return new Set(parsedIds);
             }
         } catch (error) {
-            console.error('削除された投稿IDの復元に失敗:', error);
+            // 削除された投稿IDの復元に失敗 - サイレント処理
         }
         return new Set();
     });
@@ -77,7 +77,7 @@ export const useDieterState = (onViewChange?: (view: CurrentView) => void) => {
                 localStorage.setItem('dieter_deleted_post_ids', JSON.stringify(Array.from(newIds)));
                 localStorage.setItem('dieter_deleted_post_ids_timestamp', Date.now().toString());
             } catch (error) {
-                console.error('削除された投稿IDの保存に失敗:', error);
+                // 削除された投稿IDの保存に失敗 - サイレント処理
             }
             return newIds;
         });

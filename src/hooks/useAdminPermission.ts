@@ -40,12 +40,7 @@ export const useAdminPermission = () => {
                 setIsAdmin(adminPermission);
                 setUserPermission(userInfo.permission);
 
-                console.log('User permission check (protobuf):', {
-                    userId: userInfo.id,
-                    userName: userInfo.user_name,
-                    permission: userInfo.permission,
-                    isAdmin: adminPermission
-                });
+                // User permission check completed - silent handling
             } else {
                 console.error('Invalid response from user API:', response.status);
                 setIsAdmin(false);

@@ -55,9 +55,9 @@ export const useMessageManager = () => {
                 loading: false
             }));
 
-            console.log('会話一覧取得完了:', response.conversations?.length || 0, '件');
+            // 会話一覧取得完了（サイレント処理）
         } catch (error) {
-            console.error('会話一覧の取得に失敗しました:', error);
+            // 会話一覧の取得に失敗（サイレント処理）
             setState(prev => ({
                 ...prev,
                 error: '会話一覧の取得に失敗しました',
@@ -79,9 +79,9 @@ export const useMessageManager = () => {
                 loading: false
             }));
 
-            console.log('メッセージ取得完了:', response.messages?.length || 0, '件');
+            // メッセージ取得完了（サイレント処理）
         } catch (error) {
-            console.error('メッセージの取得に失敗しました:', error);
+            // メッセージの取得に失敗（サイレント処理）
             setState(prev => ({
                 ...prev,
                 error: 'メッセージの取得に失敗しました',
@@ -100,9 +100,9 @@ export const useMessageManager = () => {
                 unreadCount: response.unread_count || 0
             }));
 
-            console.log('未読メッセージ数:', response.unread_count);
+            // 未読メッセージ数取得完了（サイレント処理）
         } catch (error) {
-            console.error('未読メッセージ数の取得に失敗しました:', error);
+            // 未読メッセージ数の取得に失敗（サイレント処理）
         }
     }, []);
 
@@ -123,10 +123,10 @@ export const useMessageManager = () => {
             // 会話一覧を更新
             await fetchConversations();
 
-            console.log('メッセージ送信完了:', newMessage.ID);
+            // メッセージ送信完了（サイレント処理）
             return newMessage;
         } catch (error) {
-            console.error('メッセージの送信に失敗しました:', error);
+            // メッセージの送信に失敗（サイレント処理）
             throw error;
         }
     }, [fetchConversations]);
@@ -142,7 +142,7 @@ export const useMessageManager = () => {
             fetchUnreadCount();
         }, 30000);
 
-        console.log('メッセージポーリング開始 (30秒間隔)');
+        // メッセージポーリング開始（サイレント処理）
     }, [fetchUnreadCount]);
 
     // リアルタイムメッセージチェックの停止
@@ -150,7 +150,7 @@ export const useMessageManager = () => {
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = null;
-            console.log('メッセージポーリング停止');
+            // メッセージポーリング停止（サイレント処理）
         }
     }, []);
 

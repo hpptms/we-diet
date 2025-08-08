@@ -14,7 +14,6 @@ export const usePWAInstall = () => {
 
     useEffect(() => {
         const handleBeforeInstallPrompt = (e: Event) => {
-            console.log('beforeinstallprompt イベントが発生しました');
             // デフォルトのプロンプトを防ぐ
             e.preventDefault();
             // 後で使用するためにイベントを保存
@@ -23,7 +22,6 @@ export const usePWAInstall = () => {
         };
 
         const handleAppInstalled = () => {
-            console.log('PWAアプリがインストールされました');
             setInstallSnackbar({
                 open: true,
                 message: 'We Dietがホーム画面に追加されました！',
@@ -37,13 +35,9 @@ export const usePWAInstall = () => {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
         const isIOSStandalone = (window.navigator as any).standalone;
 
-        console.log('PWA状態チェック:', { isStandalone, isIOSStandalone });
-
         if (isStandalone || isIOSStandalone) {
-            console.log('既にPWAとしてインストール済み');
             setShowInstallButton(false);
         } else {
-            console.log('PWAインストールボタンを表示');
             // PWAインストールボタンを常に表示（PC、Mobile問わず）
             setShowInstallButton(true);
 
@@ -56,49 +50,30 @@ export const usePWAInstall = () => {
                 const manifestLink = document.head.querySelector('link[rel="manifest"]');
                 const serviceWorkerSupported = 'serviceWorker' in navigator;
 
-                console.log('PWA チェック結果:', {
-                    serviceWorkerSupported,
-                    manifestLinkExists: !!manifestLink,
-                    isHTTPS: window.location.protocol === 'https:' || window.location.hostname === 'localhost'
-                });
-
                 if (serviceWorkerSupported && manifestLink) {
-                    console.log('PWA要件が満たされています');
-
                     // Service Worker強制登録
                     try {
                         if ('serviceWorker' in navigator) {
                             const registration = await navigator.serviceWorker.register('/sw.js');
-                            console.log('Service Worker登録成功:', registration);
 
                             // Service Workerが更新されたかチェック
                             registration.addEventListener('updatefound', () => {
-                                console.log('Service Workerの更新が見つかりました');
+                                // Update found - silent handling
                             });
                         }
                     } catch (error) {
-                        console.error('Service Worker登録エラー:', error);
+                        // Service Worker registration error - silent handling
                     }
 
                     // ユーザーエンゲージメントをシミュレート（クリック後に実行）
                     const triggerInstallPrompt = () => {
-                        console.log('ユーザーエンゲージメント発生 - PWAプロンプトを待機中');
                         setTimeout(() => {
-                            if (!deferredPrompt) {
-                                console.log('beforeinstallpromptが発生しませんでした - 手動プロンプト戦略を使用');
-                                console.log('可能な原因: ');
-                                console.log('1. PWAがすでにインストール済み');
-                                console.log('2. ブラウザがPWAインストールバナーの表示を決定しない');
-                                console.log('3. HTTPSでない、またはその他のPWA要件が満たされていない');
-                            }
+                            // Silent handling - no console output
                         }, 2000);
                     };
 
                     // 最初のクリック等でエンゲージメントをトリガー
                     document.addEventListener('click', triggerInstallPrompt, { once: true });
-
-                } else {
-                    console.log('PWA要件が満たされていません');
                 }
             };
 
@@ -113,14 +88,9 @@ export const usePWAInstall = () => {
 
     // PWAインストールボタンのクリックハンドラー
     const handleInstallClick = async () => {
-        console.log('PWAインストールボタンがクリックされました');
-        console.log('deferredPrompt:', deferredPrompt);
-        console.log('User Agent:', navigator.userAgent);
-
         if (!deferredPrompt) {
             // iOS Safari用の案内
             if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-                console.log('iOS Safariとして判定');
                 setInstallSnackbar({
                     open: true,
                     message: 'Safari で「共有」→「ホーム画面に追加」を選択してください',
@@ -133,10 +103,7 @@ export const usePWAInstall = () => {
             const isChrome = /Chrome/.test(navigator.userAgent);
             const isEdge = /Edg/.test(navigator.userAgent);
 
-            console.log('Chrome判定:', isChrome, 'Edge判定:', isEdge);
-
             if (isChrome || isEdge) {
-                console.log('Chrome/Edgeのメニューインストール案内を表示');
                 setInstallSnackbar({
                     open: true,
                     message: 'ブラウザの右上メニュー「アプリをインストール」からPWAとしてインストールできます',
@@ -145,7 +112,6 @@ export const usePWAInstall = () => {
                 return;
             }
 
-            console.log('PWAインストール非対応ブラウザ');
             setInstallSnackbar({
                 open: true,
                 message: 'このブラウザではPWAインストールがサポートされていません',
@@ -179,7 +145,6 @@ export const usePWAInstall = () => {
             setDeferredPrompt(null);
             setShowInstallButton(false);
         } catch (error) {
-            console.error('PWAインストールエラー:', error);
             setInstallSnackbar({
                 open: true,
                 message: 'インストール中にエラーが発生しました',

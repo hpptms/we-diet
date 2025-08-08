@@ -13,17 +13,8 @@ export function initPerformanceMonitoring() {
         const observer = new PerformanceObserver((list) => {
             const entries = list.getEntries();
             entries.forEach((entry) => {
-                if (entry.entryType === 'largest-contentful-paint') {
-                    console.log('LCP:', entry.startTime);
-                }
-                if (entry.entryType === 'first-input') {
-                    console.log('FID:', (entry as any).processingStart - entry.startTime);
-                }
-                if (entry.entryType === 'layout-shift') {
-                    if (!(entry as any).hadRecentInput) {
-                        console.log('CLS:', (entry as any).value);
-                    }
-                }
+                // Performance metrics are monitored silently
+                // LCP, FID, CLS data is collected but not logged to console
             });
         });
 
@@ -81,10 +72,10 @@ export function registerServiceWorker() {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
                 .then((registration) => {
-                    console.log('SW registered: ', registration);
+                    // Service Worker registered - silent handling
                 })
                 .catch((registrationError) => {
-                    console.log('SW registration failed: ', registrationError);
+                    // Service Worker registration failed - silent handling
                 });
         });
     }

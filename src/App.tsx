@@ -96,10 +96,10 @@ function App() {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-              console.log('SW registered: ', registration);
+              // Service Worker registered successfully - silent handling
             })
             .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
+              // Service Worker registration failed - silent handling
             });
         });
       }

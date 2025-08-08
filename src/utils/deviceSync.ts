@@ -55,17 +55,7 @@ debugLogger.googleFitConfig({
     currentDomain: window.location.origin
 });
 
-// コンソールにも出力（即座に確認するため）
-console.log('=== Google Fit設定 (GAPI) ===');
-console.log('Environment mode:', import.meta.env.DEV ? 'Development' : 'Production');
-console.log('Client ID source:', import.meta.env.VITE_GOOGLE_FIT_CLIENT_ID ? 'Environment Variable' : 'Default/Empty');
-console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId || '(未設定)');
-console.log('Client ID length:', GOOGLE_FIT_CONFIG.clientId?.length || 0);
-console.log('API Key source:', import.meta.env.VITE_GOOGLE_API_KEY ? 'Environment Variable' : 'Default/Empty');
-console.log('API Key length:', GOOGLE_FIT_CONFIG.apiKey?.length || 0);
-console.log('Scopes:', GOOGLE_FIT_CONFIG.scopes.join(', '));
-console.log('Current domain:', window.location.origin);
-console.log('================================');
+// Debug information stored in debugLogger only (no console output)
 
 // GAPI初期化状態
 let gapiInitialized = false;
@@ -175,8 +165,6 @@ const initializeGapi = async (): Promise<void> => {
     }
 
     try {
-        console.log('=== GAPI初期化開始 ===');
-
         // Google Scripts (GAPI + GIS) をロード
         await loadGoogleScripts();
 
@@ -184,30 +172,22 @@ const initializeGapi = async (): Promise<void> => {
         await new Promise<void>((resolve, reject) => {
             (window as any).gapi.load('client', {
                 callback: async () => {
-                    console.log('gapi.client loaded successfully');
                     try {
                         // GAPIクライアント初期化
                         await (window as any).gapi.client.init({
                             apiKey: GOOGLE_FIT_CONFIG.apiKey,
                             discoveryDocs: [GOOGLE_FIT_CONFIG.discoveryDoc]
                         });
-                        console.log('GAPI client initialized');
                         resolve();
                     } catch (initError) {
-                        console.error('GAPI client init failed:', initError);
                         reject(initError);
                     }
                 },
                 onerror: (error: any) => {
-                    console.error('Failed to load gapi.client:', error);
                     reject(new Error('Failed to load GAPI client'));
                 }
             });
         });
-
-        // 初期化時のドメイン確認
-        console.log('Current domain:', window.location.origin);
-        console.log('Expected domain:', 'https://we-diat.com');
 
         // ドメイン確認情報をDBに保存
         debugLogger.googleFitConfig({
@@ -217,9 +197,6 @@ const initializeGapi = async (): Promise<void> => {
             domainMatch: window.location.origin === 'https://we-diat.com',
             timestamp: new Date().toISOString()
         });
-
-        // Auth2初期化
-        console.log('Initializing gapi.auth2...');
 
         // GAPI初期化詳細ログをDBに保存
         debugLogger.googleFitConfig({
@@ -236,7 +213,6 @@ const initializeGapi = async (): Promise<void> => {
             scope: GOOGLE_FIT_CONFIG.scopes.join(' '),
             callback: (response: any) => {
                 if (response.access_token) {
-                    console.log('GIS認証成功:', response);
                     setGoogleFitAuthStatus(response.access_token, response.expires_in || 3600);
                 }
             }
@@ -247,7 +223,6 @@ const initializeGapi = async (): Promise<void> => {
         }
 
         gapiInitialized = true;
-        console.log('GAPI初期化完了');
 
         // GAPI初期化成功ログをDBに保存
         debugLogger.googleFitConfig({
@@ -257,7 +232,6 @@ const initializeGapi = async (): Promise<void> => {
             gapiVersion: (window as any).gapi?.version || 'unknown'
         });
     } catch (error) {
-        console.error('GAPI初期化エラー:', error);
 
         // 詳細デバッグ情報をDBに保存
         debugLogger.googleFitError('GAPI Initialization Failed', error, {
@@ -279,10 +253,7 @@ const initializeGapi = async (): Promise<void> => {
 
 // Google Fit認証を開始（GAPI使用）
 export const initiateGoogleFitAuth = async (): Promise<void> => {
-    console.log('=== Google Fit認証開始 (GAPI) ===');
-
     if (!GOOGLE_FIT_CONFIG.clientId || !GOOGLE_FIT_CONFIG.apiKey) {
-        console.error('Google Fit credentials are not configured');
         // ユーザーには技術的な詳細を表示せず、一般的なエラーメッセージを表示
         alert('現在Google Fitとの連携に問題が発生しています。\nしばらく時間をおいて再度お試しください。');
         return;
@@ -293,10 +264,8 @@ export const initiateGoogleFitAuth = async (): Promise<void> => {
         await initializeGapi();
 
         // GIS認証実行
-        console.log('Google認証を実行中...');
         gapiAuthInstance.requestAccessToken();
 
-        console.log('Google Fit認証要求送信済み');
         alert('Google認証画面が表示されます。\n認証完了後、再度「スマホと同期」ボタンを押してデータを取得してください。');
 
     } catch (error) {
@@ -308,10 +277,6 @@ export const initiateGoogleFitAuth = async (): Promise<void> => {
             currentUrl: window.location.href,
             userAgent: navigator.userAgent
         });
-
-        console.error('Google Fit認証エラー詳細:', error);
-        console.error('エラータイプ:', typeof error);
-        console.error('エラー内容:', JSON.stringify(error, null, 2));
 
         let errorMessage = '認証に失敗しました';
         if (error && typeof error === 'object') {
@@ -341,8 +306,6 @@ export const handleGoogleFitAuthCallback = (): GoogleFitAuthStatus => {
 // Google Fit APIからデータを取得（GAPI使用）
 export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceExerciseData | null> => {
     try {
-        console.log('=== Google Fit データ取得開始 ===');
-
         // GAPI初期化を確認
         if (!gapiInitialized) {
             await initializeGapi();
@@ -351,7 +314,6 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
         // 認証状態を確認（accessTokenパラメータまたはlocalStorage認証を使用）
         const authStatus = getGoogleFitAuthStatus();
         if (!authStatus.isAuthenticated && !accessToken) {
-            console.log('Google認証が必要です');
             return null;
         }
 
@@ -368,8 +330,6 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
         const startTimeMillis = now.setHours(0, 0, 0, 0); // 今日の0時
         const endTimeMillis = Date.now();
 
-        console.log('データ取得期間:', new Date(startTimeMillis), '～', new Date(endTimeMillis));
-
         // 歩数データを集計取得
         const requestBody = {
             aggregateBy: [
@@ -380,14 +340,10 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
             endTimeMillis: endTimeMillis
         };
 
-        console.log('Request body:', JSON.stringify(requestBody, null, 2));
-
         const response = await (window as any).gapi.client.fitness.users.dataset.aggregate({
             userId: 'me',
             resource: requestBody
         });
-
-        console.log('Google Fit API レスポンス:', response);
 
         let totalSteps = 0;
         let totalDistance = 0;
@@ -442,7 +398,7 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
                 }
             }
         } catch (distanceError) {
-            console.log('Distance data not available:', distanceError);
+            // Distance data not available - silent handling
         }
 
         // 身体活動時間データを取得
@@ -477,10 +433,8 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
                 }
             }
         } catch (activityError) {
-            console.log('Activity minutes data not available:', activityError);
+            // Activity minutes data not available - silent handling
         }
-
-        console.log('取得データ - 歩数:', totalSteps, '距離:', totalDistance);
 
         if (totalSteps > 0 || totalDistance > 0 || activeMinutes > 0) {
             // アクティブ時間の優先度設定: Google Fitからの実データ > 歩数からの推定値
@@ -495,11 +449,9 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
             };
         }
 
-        console.log('歩数データが見つかりませんでした');
         return null;
 
     } catch (error) {
-        console.error('Google Fit データ取得エラー:', error);
         return null;
     }
 };
@@ -584,18 +536,14 @@ export const getSettingsInstructions = (): {
 // 実際のデバイス同期のみを試行（Google Fit API優先）
 export const syncWithDevice = async (): Promise<DeviceExerciseData | null> => {
     try {
-        console.log('デバイス同期を開始...');
-
         const deviceInfo = getDeviceInfo();
 
         // Android端末でGoogle Fit認証済みの場合はGAPI使用
         if (deviceInfo.isAndroid) {
             const authStatus = getGoogleFitAuthStatus();
             if (authStatus.isAuthenticated) {
-                console.log('LocalStorage認証情報でGoogle Fit APIを使用...');
                 const fitData = await fetchGoogleFitData(authStatus.accessToken);
                 if (fitData) {
-                    console.log('Google Fit API からデータを取得:', fitData);
                     return fitData;
                 }
             }
@@ -604,15 +552,11 @@ export const syncWithDevice = async (): Promise<DeviceExerciseData | null> => {
         // Google Fit APIが利用できない場合は従来のセンサーAPI試行
         const sensorData = await tryExperimentalSensors();
         if (sensorData) {
-            console.log('センサーからデータを取得:', sensorData);
             return sensorData;
         }
 
-        // どちらも失敗した場合はnullを返す
-        console.log('デバイス同期に失敗しました');
         return null;
     } catch (error) {
-        console.error('Error syncing with device:', error);
         return null;
     }
 };
@@ -622,7 +566,6 @@ const tryExperimentalSensors = async (): Promise<DeviceExerciseData | null> => {
     try {
         // iOS Safari での DeviceMotion 権限要求
         if (window.DeviceMotionEvent && typeof (window.DeviceMotionEvent as any).requestPermission === 'function') {
-            console.log('iOS DeviceMotion権限を要求中...');
             const permission = await (window.DeviceMotionEvent as any).requestPermission();
             if (permission === 'granted') {
                 const steps = await detectStepsFromMotion();
@@ -653,12 +596,12 @@ const tryExperimentalSensors = async (): Promise<DeviceExerciseData | null> => {
                     }
                 }
             } catch (e) {
-                console.log('Accelerometer permission error:', e);
+                // Accelerometer permission error - silent handling
             }
         }
 
     } catch (error) {
-        console.log('Experimental sensor access failed:', error);
+        // Experimental sensor access failed - silent handling
     }
 
     return null;
@@ -744,7 +687,7 @@ const detectStepsFromAccelerometer = (): Promise<number | null> => {
             }, 3000);
 
         } catch (error) {
-            console.log('Accelerometer not available:', error);
+            // Accelerometer not available - silent handling
             resolve(null);
         }
     });
@@ -763,7 +706,7 @@ export const convertDeviceDataToExerciseRecord = (deviceData: DeviceExerciseData
 // Samsung Health同期試行（将来実装用）
 export const syncWithSamsungHealth = async (): Promise<DeviceExerciseData | null> => {
     try {
-        console.log('Samsung Health同期を試行中...');
+        // Samsung Health sync attempt - silent handling
 
         // 演出として少し待機
         await new Promise(resolve => setTimeout(resolve, 800));
@@ -774,11 +717,11 @@ export const syncWithSamsungHealth = async (): Promise<DeviceExerciseData | null
         // 2. Samsung Health APIの公開（現在未提供）
         // 3. 専用Androidアプリとの連携
 
-        console.log('Samsung Health: Web APIは未対応');
+        // Samsung Health: Web API not supported
         // 現在はnullを返す（実装されていない）
         return null;
     } catch (error) {
-        console.error('Samsung Health sync error:', error);
+        // Samsung Health sync error - silent handling
         return null;
     }
 };
@@ -786,7 +729,7 @@ export const syncWithSamsungHealth = async (): Promise<DeviceExerciseData | null
 // Huawei Health同期試行（将来実装用）
 export const syncWithHuaweiHealth = async (): Promise<DeviceExerciseData | null> => {
     try {
-        console.log('Huawei Health同期を試行中...');
+        // Huawei Health sync attempt - silent handling
 
         // 演出として少し待機
         await new Promise(resolve => setTimeout(resolve, 800));
@@ -797,11 +740,11 @@ export const syncWithHuaweiHealth = async (): Promise<DeviceExerciseData | null>
         // 2. Huawei Health APIの拡張
         // 3. 専用Huaweiアプリとの連携
 
-        console.log('Huawei Health: Web APIは未対応');
+        // Huawei Health: Web API not supported
         // 現在はnullを返す（実装されていない）
         return null;
     } catch (error) {
-        console.error('Huawei Health sync error:', error);
+        // Huawei Health sync error - silent handling
         return null;
     }
 };
@@ -812,7 +755,7 @@ export const openSettingsUrl = (url?: string) => {
         try {
             window.open(url, '_blank');
         } catch (error) {
-            console.log('Could not open settings URL:', error);
+            // Could not open settings URL - silent handling
         }
     }
 };

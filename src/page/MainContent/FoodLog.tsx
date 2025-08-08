@@ -94,7 +94,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
 
     const loadTodayRecord = async () => {
         // 初回ロードのみ初期化し、その後はユーザー入力を保持
-        console.log('FoodLog: 初期化をスキップ - ユーザー入力を保持');
+        // ユーザー入力を保持（サイレント処理）
         // 何も変更しない - ユーザーの入力データを維持
     };
 
@@ -201,11 +201,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         const currentPhotos = request.photos; // 現在送信しようとしているphotosデータ
                         const currentIsSensitive = foodLog.isSensitive; // 現在のセンシティブフラグ
                         
-                        console.log('現在の画面入力データ:', {
-                            diary: currentDiary,
-                            photosCount: currentPhotos.length,
-                            isSensitive: currentIsSensitive
-                        });
+                        // 現在の画面入力データをチェック（サイレント処理）
                         
                         // 投稿内容を現在の入力データから作成
                         let postContent = "今日の食事記録 🍽️\n\n";
@@ -217,10 +213,8 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         // Base64画像データをFileオブジェクトの配列に変換
                         const imageFiles: File[] = [];
                         if (currentPhotos && currentPhotos.length > 0) {
-                            console.log('変換前の画像データ:', currentPhotos.length, '枚');
                             for (let i = 0; i < currentPhotos.length; i++) {
                                 const base64Data = currentPhotos[i];
-                                console.log(`画像 ${i + 1}:`, base64Data.substring(0, 50) + '...');
                                 if (base64Data.startsWith('data:')) {
                                     try {
                                         // Base64をBlobに変換してからFileオブジェクトを作成
@@ -228,22 +222,12 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                                         const blob = await response.blob();
                                         const file = new File([blob], `food_image_${i + 1}.jpg`, { type: 'image/jpeg' });
                                         imageFiles.push(file);
-                                        console.log(`画像 ${i + 1} 変換成功:`, file.name, file.size, 'bytes');
                                     } catch (error) {
-                                        console.error('画像の変換に失敗しました:', error);
+                                        // 画像の変換に失敗 - サイレント処理
                                     }
                                 }
                             }
-                            console.log('FoodLog images converted to File objects:', imageFiles.length);
-                        } else {
-                            console.log('画像データがありません');
                         }
-                        
-                        console.log('投稿用データ:', {
-                            content: postContent,
-                            imageCount: imageFiles.length,
-                            isSensitive: currentIsSensitive
-                        });
                         
                         // postsApiを直接使用（現在の画面入力データのみ使用）
                         const postData = {
@@ -253,12 +237,10 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         };
                         
                         await postsApi.createPost(postData);
-                        const imageText = imageFiles.length > 0 ? '（画像付き）' : '（テキストのみ）';
-                        const sensitiveText = currentIsSensitive ? ' [センシティブ]' : '';
-                        console.log(`Dieter投稿を作成しました${imageText}${sensitiveText}`);
+                        // Dieter投稿を作成完了（サイレント処理）
                         
                     } catch (postError) {
-                        console.error('Dieter投稿作成エラー:', postError);
+                        // Dieter投稿作成エラー - サイレント処理
                         showWarning(t('food', 'dieterPostFailed'));
                     }
                 }
