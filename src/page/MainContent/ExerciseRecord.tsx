@@ -18,7 +18,10 @@ import {
   convertDeviceDataToExerciseRecord,
   getSettingsInstructions,
   openSettingsUrl,
-  getDeviceInfo
+  getDeviceInfo,
+  getGoogleFitAuthStatus,
+  initiateGoogleFitAuth,
+  handleGoogleFitAuthCallback
 } from '../../utils/deviceSync';
 import '../../styles/mobile-responsive-fix.css';
 
@@ -109,7 +112,15 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     } else {
       // console.log('ローカルストレージからデータを復元しました');
     }
-  }, [setExerciseData]);
+
+    // Google Fit OAuth認証コールバックをチェック
+    const authResult = handleGoogleFitAuthCallback();
+    if (authResult.isAuthenticated) {
+      showSuccess('Google Fitとの連携が完了しました！\n再度「スマホと同期」ボタンを押してデータを取得してください。');
+    } else if (authResult.error) {
+      showError(`Google Fit認証に失敗しました: ${authResult.error}`);
+    }
+  }, [setExerciseData, showSuccess, showError]);
 
   const handleInputChange = (field: keyof ExerciseRecordData) => (value: string) => {
     setExerciseData({
@@ -426,27 +437,25 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     // 注意: setLoading(false)はここでは呼び出さない（呼び出し元で処理される）
   };
 
-  // デバイス同期の処理
+  // デバイス同期の処理（Android端末でGoogle Fit API必須）
   const handleDeviceSync = async () => {
     if (!isDeviceSyncSupported()) {
       showWarning('お使いのデバイスは同期機能をサポートしていません。');
       return;
     }
 
-    const permissionStatus = getSyncPermissionStatus();
-    
-    if (permissionStatus.firstTime) {
-      // 初回のみ権限確認ダイアログを表示
-      setSyncPermissionOpen(true);
+    // Google Fit認証状態をチェック
+    const authStatus = getGoogleFitAuthStatus();
+    if (!authStatus.isAuthenticated) {
+      // Google Fit認証が必要
+      showInfo('Google Fitとの連携が必要です。認証画面に移動します...');
+      setTimeout(() => {
+        initiateGoogleFitAuth();
+      }, 1000);
       return;
     }
 
-    if (!permissionStatus.granted) {
-      showWarning('デバイス同期の権限が許可されていません。');
-      return;
-    }
-
-    // 同期実行
+    // 認証済みの場合は同期実行
     await performDeviceSync();
   };
 
