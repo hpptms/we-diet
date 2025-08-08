@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>We Diet - ダイエットコミュニティプラットフォーム</title>
-    <link rel="canonical" href="/">
+    <link rel="canonical" href="https://we-diat.com/">
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <meta name="description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。">
     <meta name="keywords" content="ダイエット,健康管理,体重記録,食事記録,運動記録,コミュニティ">
@@ -13,7 +13,7 @@
     <meta property="og:title" content="We Diet - ダイエットコミュニティプラットフォーム">
     <meta property="og:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="/">
+    <meta property="og:url" content="https://we-diat.com/">
     <meta property="og:image"
         content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp">
     <meta property="og:site_name" content="We Diet">
@@ -25,6 +25,14 @@
     <meta name="twitter:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。">
     <meta name="twitter:image"
         content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp">
+
+    <!-- Multi-language Support -->
+    <link rel="alternate" hreflang="ja" href="https://we-diat.com/">
+    <link rel="alternate" hreflang="en" href="https://we-diat.com/amp/top/index-en.html">
+    <link rel="alternate" hreflang="zh" href="https://we-diat.com/amp/top/index-zh.html">
+    <link rel="alternate" hreflang="ko" href="https://we-diat.com/amp/top/index-ko.html">
+    <link rel="alternate" hreflang="es" href="https://we-diat.com/amp/top/index-es.html">
+    <link rel="alternate" hreflang="x-default" href="https://we-diat.com/">
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -63,72 +71,6 @@
       "@type": "Organization",
       "@id": "https://we-diat.com/#organization"
     }
-  }
-  </script>
-
-    <!-- 組織情報の構造化データ -->
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": "https://we-diat.com/#organization",
-    "name": "We Diet",
-    "url": "https://we-diat.com",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://we-diat.com/original.png",
-      "width": 512,
-      "height": 512
-    },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+81-3-1234-5678",
-      "contactType": "Customer Service",
-      "email": "support@we-diet.com",
-      "availableLanguage": ["Japanese", "English"]
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "渋谷1-1-1",
-      "addressLocality": "渋谷区",
-      "addressRegion": "東京都",
-      "postalCode": "150-0002",
-      "addressCountry": "JP"
-    }
-  }
-  </script>
-
-    <!-- FAQページの構造化データ -->
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "We Dietは無料で使えますか？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "はい、We Dietの基本機能は完全無料でご利用いただけます。体重記録、食事記録、運動記録、コミュニティ機能などがすべて無料です。"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "どのような機能がありますか？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "体重管理、食事記録、運動記録、BMI計算、目標設定、ソーシャル機能、コミュニティ参加、フォロー機能、投稿共有、データ分析などの機能があります。"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "データは安全に管理されていますか？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "はい、お客様のデータは最新のセキュリティ技術で暗号化され、GDPR、CCPA、個人情報保護法に準拠して厳重に管理されています。"
-        }
-      }
-    ]
   }
   </script>
 
@@ -247,6 +189,27 @@
 
         .nav-link:hover {
             opacity: 0.8;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         /* Hero Section */
@@ -436,48 +399,6 @@
             text-decoration: underline;
         }
 
-        /* Toast Styles */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #333;
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            max-width: 300px;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast-icon {
-            font-size: 1.5rem;
-        }
-
-        .toast-content {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .toast-title {
-            font-weight: bold;
-            margin-bottom: 0.25rem;
-        }
-
-        .toast-message {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .hero-title {
@@ -499,18 +420,6 @@
             .product-grid {
                 grid-template-columns: 1fr;
             }
-
-            .toast {
-                top: 10px;
-                right: 10px;
-                left: 10px;
-                max-width: none;
-                transform: translateY(-100px);
-            }
-
-            .toast.show {
-                transform: translateY(0);
-            }
         }
     </style>
 </head>
@@ -521,9 +430,12 @@
         <div class="header-content">
             <a href="#" class="logo">We Diet</a>
             <nav>
+                <div class="language-selector">
+                    <button class="language-btn" onclick="changeLanguage()">🌐 日本語</button>
+                </div>
                 <a href="/login" class="nav-link">ログイン</a>
-                <a href="/amp/privacy-policy.html" class="nav-link">プライバシー</a>
-                <a href="/amp/terms-of-service.html" class="nav-link">利用規約</a>
+                <a href="/amp/privacy/privacy-policy-ja.html" class="nav-link">プライバシー</a>
+                <a href="/amp/terms-of-service/terms-of-service-ja.html" class="nav-link">利用規約</a>
             </nav>
         </div>
     </header>
@@ -609,76 +521,63 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-links">
-                <a href="/amp/privacy-policy.html" class="footer-link">プライバシーポリシー</a>
-                <a href="/amp/terms-of-service.html" class="footer-link">利用規約</a>
+                <a href="/amp/privacy/privacy-policy-ja.html" class="footer-link">プライバシーポリシー</a>
+                <a href="/amp/terms-of-service/terms-of-service-ja.html" class="footer-link">利用規約</a>
             </div>
             <p>&copy; 2025 We Diet. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Toast Notification -->
-    <div id="languageToast" class="toast">
-        <div class="toast-icon">🌐</div>
-        <div class="toast-content">
-            <div class="toast-title">言語を検出しました</div>
-            <div class="toast-message">あなたの言語のページに移動します...</div>
-        </div>
-    </div>
-
     <script>
-        // Language detection and auto-redirect with toast
-        document.addEventListener('DOMContentLoaded', function () {
+        function changeLanguage() {
+            // Language detection and redirect
             const userLang = navigator.language || navigator.userLanguage;
-            const langCode = userLang.split('-')[0];
+            const lang = userLang.split('-')[0];
 
-            // Language mapping
-            const languageMap = {
-                'en': {
-                    url: '/amp/top/index-en.html',
-                    name: 'English',
-                    toastTitle: 'Language Detected',
-                    toastMessage: 'Redirecting to your language page...'
-                },
-                'zh': {
-                    url: '/amp/top/index-zh.html',
-                    name: '中文',
-                    toastTitle: '检测到语言',
-                    toastMessage: '正在跳转到您的语言页面...'
-                },
-                'ko': {
-                    url: '/amp/top/index-ko.html',
-                    name: '한국어',
-                    toastTitle: '언어가 감지되었습니다',
-                    toastMessage: '귀하의 언어 페이지로 이동합니다...'
-                },
-                'es': {
-                    url: '/amp/top/index-es.html',
-                    name: 'Español',
-                    toastTitle: 'Idioma Detectado',
-                    toastMessage: 'Redirigiendo a su página de idioma...'
-                }
-            };
-
-            // If user language is not Japanese, show toast and redirect
-            if (langCode !== 'ja' && languageMap[langCode]) {
-                const toast = document.getElementById('languageToast');
-                const toastTitle = toast.querySelector('.toast-title');
-                const toastMessage = toast.querySelector('.toast-message');
-                const lang = languageMap[langCode];
-
-                // Update toast content
-                toastTitle.textContent = lang.toastTitle;
-                toastMessage.textContent = lang.toastMessage;
-
-                // Show toast
-                toast.classList.add('show');
-
-                // Redirect after 2 seconds
-                setTimeout(() => {
-                    window.location.href = lang.url;
-                }, 2000);
+            switch (lang) {
+                case 'en':
+                    window.location.href = '/amp/top/index-en.html';
+                    break;
+                case 'zh':
+                    window.location.href = '/amp/top/index-zh.html';
+                    break;
+                case 'ko':
+                    window.location.href = '/amp/top/index-ko.html';
+                    break;
+                case 'es':
+                    window.location.href = '/amp/top/index-es.html';
+                    break;
+                default:
+                    // Show language selection menu
+                    showLanguageMenu();
             }
-        });
+        }
+
+        function showLanguageMenu() {
+            const languages = [
+                { code: 'ja', name: '日本語', url: '/amp/top/index-ja.html' },
+                { code: 'en', name: 'English', url: '/amp/top/index-en.html' },
+                { code: 'zh', name: '中文', url: '/amp/top/index-zh.html' },
+                { code: 'ko', name: '한국어', url: '/amp/top/index-ko.html' },
+                { code: 'es', name: 'Español', url: '/amp/top/index-es.html' }
+            ];
+
+            const menu = languages.map(lang =>
+                `<a href="${lang.url}" style="display: block; padding: 8px; text-decoration: none; color: #333;">${lang.name}</a>`
+            ).join('');
+
+            const popup = document.createElement('div');
+            popup.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px;">
+                        <h3 style="margin: 0 0 15px 0;">言語を選択 / Select Language</h3>
+                        ${menu}
+                        <button onclick="this.parentElement.parentElement.remove()" style="margin-top: 15px; padding: 8px 16px; border: none; background: #ccc; border-radius: 5px; cursor: pointer;">閉じる / Close</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
     </script>
 </body>
 
