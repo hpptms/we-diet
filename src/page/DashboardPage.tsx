@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Snackbar, Alert } from "@mui/material";
 import DashboardPageButtons from "../component/DashboardPageButtons";
+import { useTranslation } from "../hooks/useTranslation";
 import ProfileSettings from "./MainContent/ProfileSettings";
 import ExerciseRecord from "./MainContent/ExerciseRecord";
 import WeightManagement from "./MainContent/WeightManagement";
@@ -21,8 +22,8 @@ import ToastProvider from "../component/ToastProvider";
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter' | 'debug';
 
-const getAccountName = () => {
-    return localStorage.getItem("accountName") || "ユーザー";
+const getAccountName = (t: ReturnType<typeof useTranslation>['t']) => {
+    return localStorage.getItem("accountName") || t('common', 'user', {}, 'ユーザー');
 };
 
 interface DashboardPageProps {
@@ -31,7 +32,8 @@ interface DashboardPageProps {
 }
 
 const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) => {
-    const accountName = getAccountName();
+    const { t } = useTranslation();
+    const accountName = getAccountName(t);
     const navigate = useNavigate();
     const location = useLocation();
     const isDarkMode = useRecoilValue(darkModeState);
@@ -171,7 +173,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
 
         if (error) {
             console.error('Google login error:', error);
-            alert('Googleログインでエラーが発生しました: ' + error);
+            alert(t('errors', 'loginError', { error }, 'Googleログインでエラーが発生しました: ' + error));
             navigate('/login');
             return;
         }

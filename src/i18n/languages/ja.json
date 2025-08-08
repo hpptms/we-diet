@@ -16,7 +16,8 @@
         "next": "次へ",
         "previous": "前へ",
         "more": "もっと見る",
-        "less": "閉じる"
+        "less": "閉じる",
+        "user": "ユーザー"
     },
     "auth": {
         "login": "ログイン",
@@ -215,6 +216,7 @@
         "validationError": "入力内容を確認してください",
         "unexpectedError": "予期しないエラーが発生しました",
         "tryAgain": "もう一度試してください",
+        "loginError": "ログインでエラーが発生しました: {error}",
         "contactSupport": "サポートに連絡する"
     },
     "time": {
