@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 interface UserInfo {
     id: number;
@@ -20,28 +21,35 @@ export const useAdminPermission = () => {
                 return;
             }
 
-            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}user/${userId}`);
+            // axios + protobuf APIを使用
+            const response = await axios.get(
+                `${import.meta.env.VITE_API_BASE_URL}/api/proto/user/${userId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/x-protobuf',
+                        'Accept': 'application/json'
+                    }
+                }
+            );
 
-            if (!response.ok) {
-                console.error('Failed to fetch user info:', response.status);
+            if (response.status === 200 && response.data) {
+                const userInfo: UserInfo = response.data;
+
+                // Permission が 555 の場合は管理者
+                const adminPermission = userInfo.permission === 555;
+                setIsAdmin(adminPermission);
+                setUserPermission(userInfo.permission);
+
+                console.log('User permission check (protobuf):', {
+                    userId: userInfo.id,
+                    userName: userInfo.user_name,
+                    permission: userInfo.permission,
+                    isAdmin: adminPermission
+                });
+            } else {
+                console.error('Invalid response from user API:', response.status);
                 setIsAdmin(false);
-                setLoading(false);
-                return;
             }
-
-            const userInfo: UserInfo = await response.json();
-
-            // Permission が 555 の場合は管理者
-            const adminPermission = userInfo.permission === 555;
-            setIsAdmin(adminPermission);
-            setUserPermission(userInfo.permission);
-
-            console.log('User permission check:', {
-                userId: userInfo.id,
-                userName: userInfo.user_name,
-                permission: userInfo.permission,
-                isAdmin: adminPermission
-            });
 
         } catch (error) {
             console.error('Error checking admin permission:', error);
