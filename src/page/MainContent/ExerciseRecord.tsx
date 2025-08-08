@@ -17,7 +17,8 @@ import {
   syncWithDevice, 
   convertDeviceDataToExerciseRecord,
   getSettingsInstructions,
-  openSettingsUrl
+  openSettingsUrl,
+  getDeviceInfo
 } from '../../utils/deviceSync';
 import '../../styles/mobile-responsive-fix.css';
 
@@ -1006,7 +1007,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
                 >
                   閉じる
                 </Button>
-                {settings.settingsUrl && (
+                {settings.settingsUrl && !getDeviceInfo().isIOS && (
                   <Button 
                     onClick={() => {
                       openSettingsUrl(settings.settingsUrl);

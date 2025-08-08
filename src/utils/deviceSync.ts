@@ -87,7 +87,6 @@ export const getSettingsInstructions = (): {
                 '',
                 '⚠️ 権限を求めるポップアップが表示されたら「許可」を選択してください'
             ],
-            settingsUrl: 'prefs:root=PRIVACY&path=MOTION',
             alternativeMethod: 'ヘルスケアアプリで今日の歩数を確認し、手動で入力してください'
         };
     } else if (deviceInfo.isAndroid) {
