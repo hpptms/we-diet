@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../component/Header';
 import Footer from '../component/Footer';
 import { HeroSection, FeatureSection, ProductSection } from '../component/TopPage';
@@ -36,6 +37,46 @@ export const TopPage = () => {
 
         {/* 製品詳細セクション */}
         <ProductSection />
+        
+        {/* 法的リンクセクション */}
+        <div style={{
+          padding: "40px 0",
+          backgroundColor: "#f8f9fa",
+          textAlign: "center"
+        }}>
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "20px",
+            flexWrap: "wrap"
+          }}>
+            <Link 
+              to="/privacy-policy" 
+              style={{
+                color: "#6c757d",
+                textDecoration: "none",
+                fontSize: "14px",
+                padding: "8px 15px",
+                borderRadius: "4px"
+              }}
+            >
+              プライバシーポリシー
+            </Link>
+            <Link 
+              to="/terms-of-service" 
+              style={{
+                color: "#6c757d",
+                textDecoration: "none",
+                fontSize: "14px",
+                padding: "8px 15px",
+                borderRadius: "4px"
+              }}
+            >
+              利用規約
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* フッターセクション */}

@@ -1,70 +1,70 @@
 import React from 'react';
+import { getCurrentLanguage, getTranslation } from '../i18n';
 
 const PrivacyPolicy: React.FC = () => {
+  const currentLanguage = getCurrentLanguage();
+  
+  const t = (key: string) => getTranslation(currentLanguage, 'pages', key, key);
+  
+  const getDateFormat = () => {
+    switch (currentLanguage) {
+      case 'ja': return 'ja-JP';
+      case 'en': return 'en-US';
+      case 'zh-CN': return 'zh-CN';
+      case 'ko': return 'ko-KR';
+      case 'es': return 'es-ES';
+      default: return 'en-US';
+    }
+  };
+
   return (
     <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
-      <h1>プライバシーポリシー</h1>
-      <p>最終更新日: {new Date().toLocaleDateString('ja-JP')}</p>
+      <h1>{t('privacyPolicy.title')}</h1>
+      <p>{t('privacyPolicy.lastUpdated')} {new Date().toLocaleDateString(getDateFormat())}</p>
       
-      <h2>1. 個人情報の収集</h2>
-      <p>
-        We diet（以下「当サービス」）では、以下の個人情報を収集することがあります：
-      </p>
+      <h2>1. {t('privacyPolicy.collectionTitle')}</h2>
+      <p>{t('privacyPolicy.collectionContent')}</p>
       <ul>
-        <li>氏名、メールアドレス</li>
-        <li>プロフィール情報（身長、体重、年齢等）</li>
-        <li>食事記録、運動記録</li>
-        <li>FacebookやGoogleなどの外部サービスから提供される情報</li>
+        <li>{t('privacyPolicy.collectionItem1')}</li>
+        <li>{t('privacyPolicy.collectionItem2')}</li>
+        <li>{t('privacyPolicy.collectionItem3')}</li>
+        <li>{t('privacyPolicy.collectionItem4')}</li>
       </ul>
 
-      <h2>2. 個人情報の利用目的</h2>
-      <p>収集した個人情報は以下の目的で利用します：</p>
+      <h2>2. {t('privacyPolicy.usageTitle')}</h2>
+      <p>{t('privacyPolicy.usageContent')}</p>
       <ul>
-        <li>サービスの提供、運営、改善</li>
-        <li>ユーザーサポート</li>
-        <li>統計データの作成（個人を特定できない形で）</li>
+        <li>{t('privacyPolicy.usageItem1')}</li>
+        <li>{t('privacyPolicy.usageItem2')}</li>
+        <li>{t('privacyPolicy.usageItem3')}</li>
       </ul>
 
-      <h2>3. 個人情報の第三者提供</h2>
-      <p>
-        法令に基づく場合を除き、ご本人の同意なく個人情報を第三者に提供することはありません。
-      </p>
+      <h2>3. {t('privacyPolicy.thirdPartyTitle')}</h2>
+      <p>{t('privacyPolicy.thirdPartyContent')}</p>
 
-      <h2>4. 個人情報の管理</h2>
-      <p>
-        個人情報の漏洩、滅失、毀損を防止するため、適切な安全管理措置を講じています。
-      </p>
+      <h2>4. {t('privacyPolicy.managementTitle')}</h2>
+      <p>{t('privacyPolicy.managementContent')}</p>
 
-      <h2>5. Cookieについて</h2>
-      <p>
-        当サービスでは、サービス向上のためCookieを使用する場合があります。
-        Cookieの使用を希望されない場合は、ブラウザの設定で無効にすることができます。
-      </p>
+      <h2>5. {t('privacyPolicy.cookiesTitle')}</h2>
+      <p>{t('privacyPolicy.cookiesContent')}</p>
 
-      <h2>6. 外部サービス連携</h2>
-      <p>
-        当サービスでは、以下の外部サービスと連携しています：
-      </p>
+      <h2>6. {t('privacyPolicy.externalServicesTitle')}</h2>
+      <p>{t('privacyPolicy.externalServicesContent')}</p>
       <ul>
-        <li>Facebook Login</li>
-        <li>Google OAuth</li>
-        <li>TikTok Login</li>
+        <li>{t('privacyPolicy.externalServicesItem1')}</li>
+        <li>{t('privacyPolicy.externalServicesItem2')}</li>
+        <li>{t('privacyPolicy.externalServicesItem3')}</li>
       </ul>
+      <p>{t('privacyPolicy.externalServicesNote')}</p>
+
+      <h2>7. {t('privacyPolicy.contactTitle')}</h2>
       <p>
-        これらのサービスのプライバシーポリシーについては、各サービスの公式サイトをご確認ください。
+        {t('privacyPolicy.contactContent')}<br/>
+        {t('privacyPolicy.contactEmail')}
       </p>
 
-      <h2>7. お問い合わせ</h2>
-      <p>
-        個人情報の取り扱いに関するお問い合わせは、以下までご連絡ください：<br/>
-        メールアドレス: privacy@we-diat.com
-      </p>
-
-      <h2>8. プライバシーポリシーの変更</h2>
-      <p>
-        本プライバシーポリシーは、法令の変更やサービスの改善等により変更することがあります。
-        変更した場合は、当サイトに掲載してお知らせします。
-      </p>
+      <h2>8. {t('privacyPolicy.changesTitle')}</h2>
+      <p>{t('privacyPolicy.changesContent')}</p>
     </div>
   );
 };
