@@ -49,6 +49,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [syncPermissionOpen, setSyncPermissionOpen] = useState(false);
   const [syncLoading, setSyncLoading] = useState(false);
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
+  const [healthAppSelectionOpen, setHealthAppSelectionOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setWeightRecordedDate = useSetRecoilState(weightRecordedDateAtom);
   const isDarkMode = useRecoilValue(darkModeState);
@@ -437,26 +438,15 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     // 注意: setLoading(false)はここでは呼び出さない（呼び出し元で処理される）
   };
 
-  // デバイス同期の処理（Android端末でGoogle Fit API必須）
+  // デバイス同期の処理（Android端末でヘルスアプリ連携）
   const handleDeviceSync = async () => {
     if (!isDeviceSyncSupported()) {
       showWarning('お使いのデバイスは同期機能をサポートしていません。');
       return;
     }
 
-    // Google Fit認証状態をチェック
-    const authStatus = getGoogleFitAuthStatus();
-    if (!authStatus.isAuthenticated) {
-      // Google Fit認証が必要
-      showInfo('Google Fitとの連携が必要です。認証画面に移動します...');
-      setTimeout(() => {
-        initiateGoogleFitAuth();
-      }, 1000);
-      return;
-    }
-
-    // 認証済みの場合は同期実行
-    await performDeviceSync();
+    // Android端末でのヘルスアプリ選択ダイアログを表示
+    setHealthAppSelectionOpen(true);
   };
 
   const performDeviceSync = async () => {
@@ -518,6 +508,39 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     setSyncPermissionStatus(false);
     setSyncPermissionOpen(false);
     showInfo('デバイス同期が無効になりました。手動で入力してください。');
+  };
+
+  // Google Fit連携処理
+  const handleGoogleFitConnect = async () => {
+    setHealthAppSelectionOpen(false);
+    
+    // Google Fit認証状態をチェック
+    const authStatus = getGoogleFitAuthStatus();
+    if (!authStatus.isAuthenticated) {
+      showInfo('Google Fitとの連携が必要です。認証画面に移動します...');
+      try {
+        initiateGoogleFitAuth();
+      } catch (error) {
+        console.error('Google Fit認証エラー:', error);
+        showError(`認証の開始に失敗しました: ${error}`);
+      }
+      return;
+    }
+
+    // 認証済みの場合は同期実行
+    await performDeviceSync();
+  };
+
+  // Samsung Health連携処理（将来実装）
+  const handleSamsungHealthConnect = () => {
+    setHealthAppSelectionOpen(false);
+    showWarning('Samsung Healthとの連携は今後実装予定です。\n現在はGoogle Fitをご利用ください。');
+  };
+
+  // Huawei Health連携処理（将来実装）
+  const handleHuaweiHealthConnect = () => {
+    setHealthAppSelectionOpen(false);
+    showWarning('Huawei Healthとの連携は今後実装予定です。\n現在はGoogle Fitをご利用ください。');
   };
 
   // レスポンシブスタイル設定
@@ -943,6 +966,124 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
             }}
           >
             はい、同期する
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* ヘルスアプリ選択ダイアログ */}
+      <Dialog
+        open={healthAppSelectionOpen}
+        onClose={() => setHealthAppSelectionOpen(false)}
+        disableScrollLock
+        sx={{
+          position: 'fixed',
+          zIndex: 1300,
+          '& .MuiDialog-container': {
+            height: '100vh',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          },
+          '& .MuiDialog-paper': {
+            backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+            color: isDarkMode ? '#ffffff' : 'inherit',
+            border: isDarkMode ? '1px solid #444' : 'none',
+            margin: 0,
+            maxHeight: '90vh',
+            maxWidth: '90vw',
+            minWidth: '320px',
+            width: 'auto'
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: isDarkMode ? '#ffffff' : 'inherit', textAlign: 'center' }}>
+          🏃‍♂️ ヘルスアプリを選択
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit', textAlign: 'center', mb: 3 }}>
+            お使いのAndroid端末のヘルスアプリと連携して
+            <br />
+            フィットネスデータを取得します。
+          </DialogContentText>
+          
+          {/* Google Fit */}
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={handleGoogleFitConnect}
+            sx={{
+              mb: 2,
+              py: 2,
+              borderColor: isDarkMode ? '#4285f4' : '#4285f4',
+              color: isDarkMode ? '#4285f4' : '#4285f4',
+              '&:hover': {
+                borderColor: isDarkMode ? '#3367d6' : '#3367d6',
+                backgroundColor: isDarkMode ? 'rgba(66, 133, 244, 0.1)' : 'rgba(66, 133, 244, 0.1)'
+              }
+            }}
+            startIcon={<span style={{ fontSize: '20px' }}>🟦</span>}
+          >
+            Google Fit と連携
+          </Button>
+
+          {/* Samsung Health */}
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={handleSamsungHealthConnect}
+            sx={{
+              mb: 2,
+              py: 2,
+              borderColor: isDarkMode ? '#1f7ed6' : '#1f7ed6',
+              color: isDarkMode ? '#1f7ed6' : '#1f7ed6',
+              '&:hover': {
+                borderColor: isDarkMode ? '#1565c0' : '#1565c0',
+                backgroundColor: isDarkMode ? 'rgba(31, 126, 214, 0.1)' : 'rgba(31, 126, 214, 0.1)'
+              }
+            }}
+            startIcon={<span style={{ fontSize: '20px' }}>💙</span>}
+          >
+            <div style={{ textAlign: 'center' }}>
+              Samsung Health と連携
+              <br />
+              <small style={{ fontSize: '12px', opacity: 0.7 }}>（今後実装予定）</small>
+            </div>
+          </Button>
+
+          {/* Huawei Health */}
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={handleHuaweiHealthConnect}
+            sx={{
+              mb: 2,
+              py: 2,
+              borderColor: isDarkMode ? '#ff6b35' : '#ff6b35',
+              color: isDarkMode ? '#ff6b35' : '#ff6b35',
+              '&:hover': {
+                borderColor: isDarkMode ? '#e55a2b' : '#e55a2b',
+                backgroundColor: isDarkMode ? 'rgba(255, 107, 53, 0.1)' : 'rgba(255, 107, 53, 0.1)'
+              }
+            }}
+            startIcon={<span style={{ fontSize: '20px' }}>🧡</span>}
+          >
+            <div style={{ textAlign: 'center' }}>
+              Huawei Health と連携
+              <br />
+              <small style={{ fontSize: '12px', opacity: 0.7 }}>（今後実装予定）</small>
+            </div>
+          </Button>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', pb: 3 }}>
+          <Button 
+            onClick={() => setHealthAppSelectionOpen(false)}
+            sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
+          >
+            キャンセル
           </Button>
         </DialogActions>
       </Dialog>
