@@ -54,6 +54,27 @@
             background-color: #3498db;
             color: white;
         }
+
+        .back-button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+        }
+
+        .back-button::before {
+            content: "← ";
+            margin-right: 5px;
+        }
     </style>
 </head>
 
@@ -67,6 +88,7 @@
     </div>
 
     <div class="container">
+        <a href="/" class="back-button">返回首页</a>
         <h1>服务条款</h1>
         <p>最后更新日期: 2025年8月8日</p>
 

@@ -54,6 +54,27 @@
             background-color: #3498db;
             color: white;
         }
+
+        .back-button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+        }
+
+        .back-button::before {
+            content: "← ";
+            margin-right: 5px;
+        }
     </style>
 </head>
 
@@ -67,6 +88,7 @@
     </div>
 
     <div class="container">
+        <a href="/" class="back-button">Back to Home</a>
         <h1>Terms of Service</h1>
         <p>Last updated: August 8, 2025</p>
 

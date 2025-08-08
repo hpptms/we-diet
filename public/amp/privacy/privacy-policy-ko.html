@@ -54,6 +54,27 @@
             background-color: #3498db;
             color: white;
         }
+
+        .back-button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+        }
+
+        .back-button::before {
+            content: "← ";
+            margin-right: 5px;
+        }
     </style>
 </head>
 
@@ -67,6 +88,7 @@
     </div>
 
     <div class="container">
+        <a href="/" class="back-button">홈으로 돌아가기</a>
         <h1>개인정보 보호정책</h1>
         <p>최종 업데이트일: 2025년 8월 8일</p>
 
