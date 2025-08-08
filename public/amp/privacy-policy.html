@@ -266,6 +266,33 @@
             text-decoration: underline;
         }
 
+        /* Back Button */
+        .back-button {
+            display: inline-block;
+            background: #29b6f6;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(41, 182, 246, 0.3);
+        }
+
+        .back-button:hover {
+            background: #1e88e5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(41, 182, 246, 0.4);
+            text-decoration: none;
+        }
+
+        .back-button::before {
+            content: "← ";
+            margin-right: 8px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .main-content {
@@ -299,6 +326,7 @@
 
     <!-- Main Content -->
     <main class="main-content">
+        <a href="/" class="back-button">トップページに戻る</a>
         <h1>プライバシーポリシー</h1>
         <p class="last-updated">最終更新日: 2025年8月8日</p>
 
