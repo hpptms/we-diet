@@ -43,15 +43,17 @@ const GOOGLE_FIT_CONFIG = {
     ]
 };
 
-// デバッグ用設定ログ出力（開発環境のみ）
-if (import.meta.env.DEV) {
-    console.log('=== Google Fit設定 (GAPI) ===');
-    console.log('Client ID source:', import.meta.env.VITE_GOOGLE_FIT_CLIENT_ID ? 'Environment' : 'Default');
-    console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId);
-    console.log('API Key source:', import.meta.env.VITE_GOOGLE_API_KEY ? 'Environment' : 'Default');
-    console.log('Scopes:', GOOGLE_FIT_CONFIG.scopes.join(', '));
-    console.log('================================');
-}
+// デバッグ用設定ログ出力（本番環境でも確認のため常時出力）
+console.log('=== Google Fit設定 (GAPI) ===');
+console.log('Environment mode:', import.meta.env.DEV ? 'Development' : 'Production');
+console.log('Client ID source:', import.meta.env.VITE_GOOGLE_FIT_CLIENT_ID ? 'Environment Variable' : 'Default/Empty');
+console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId || '(未設定)');
+console.log('Client ID length:', GOOGLE_FIT_CONFIG.clientId?.length || 0);
+console.log('API Key source:', import.meta.env.VITE_GOOGLE_API_KEY ? 'Environment Variable' : 'Default/Empty');
+console.log('API Key length:', GOOGLE_FIT_CONFIG.apiKey?.length || 0);
+console.log('Scopes:', GOOGLE_FIT_CONFIG.scopes.join(', '));
+console.log('Current domain:', window.location.origin);
+console.log('================================');
 
 // GAPI初期化状態
 let gapiInitialized = false;
@@ -201,8 +203,26 @@ export const initiateGoogleFitAuth = async (): Promise<void> => {
         alert('Google Fitとの連携が完了しました！\n再度「スマホと同期」ボタンを押してデータを取得してください。');
 
     } catch (error) {
-        console.error('Google Fit認証エラー:', error);
-        alert(`認証に失敗しました: ${error}`);
+        console.error('Google Fit認証エラー詳細:', error);
+        console.error('エラータイプ:', typeof error);
+        console.error('エラー内容:', JSON.stringify(error, null, 2));
+
+        let errorMessage = '認証に失敗しました';
+        if (error && typeof error === 'object') {
+            if ('error' in error) {
+                errorMessage += `: ${error.error}`;
+            } else if ('message' in error) {
+                errorMessage += `: ${error.message}`;
+            } else if ('details' in error) {
+                errorMessage += `: ${error.details}`;
+            } else {
+                errorMessage += `: ${JSON.stringify(error)}`;
+            }
+        } else {
+            errorMessage += `: ${error}`;
+        }
+
+        alert(errorMessage);
     }
 };
 
