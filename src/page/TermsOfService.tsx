@@ -66,7 +66,7 @@ const TermsOfService: React.FC = () => {
       <p>当社は、これらの条項の違反があった場合、いつでもお客様のアカウントを解約または停止することができます。</p>
 
       <h2>11. お問い合わせ情報</h2>
-      <p>本利用規約についてご質問がございましたら、以下までお問い合わせください：<br/>メール: terms@we-diat.com</p>
+      <p>本利用規約についてご質問がございましたら、以下までお問い合わせください：<br/>メール: we.diet.dev@gmail.com</p>
 
       <h2>12. 準拠法</h2>
       <p>本条項は日本法に準拠します。</p>
@@ -135,7 +135,7 @@ const TermsOfService: React.FC = () => {
       <p>We may terminate or suspend your account at any time for violations of these terms.</p>
 
       <h2>11. Contact Information</h2>
-      <p>If you have any questions about these Terms of Service, please contact us at:<br/>Email: terms@we-diat.com</p>
+      <p>If you have any questions about these Terms of Service, please contact us at:<br/>Email: we.diet.dev@gmail.com</p>
 
       <h2>12. Governing Law</h2>
       <p>These terms are governed by the laws of Japan.</p>

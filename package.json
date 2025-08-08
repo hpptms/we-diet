@@ -40,7 +40,9 @@
     "preview": "vite preview",
     "analyze": "vite build --mode analyze",
     "build:prod": "NODE_ENV=production vite build",
-    "proto:generate": "protoc --ts_out frontend/src/proto --ts_opt target=ts --proto_path backend/proto backend/proto/*.proto"
+    "proto:generate": "protoc --ts_out frontend/src/proto --ts_opt target=ts --proto_path backend/proto backend/proto/*.proto",
+    "minify-html": "node scripts/minify-html.js",
+    "build:minify": "npm run build && npm run minify-html"
   },
   "eslintConfig": {
     "extends": [
@@ -63,9 +65,13 @@
   "proxy": "http://localhost:8080",
   "devDependencies": {
     "@protobuf-ts/plugin": "^2.11.1",
+    "@types/html-minifier-terser": "^7.0.2",
     "@types/react-slick": "^0.23.13",
     "@vitejs/plugin-react": "^4.5.2",
+    "glob": "^11.0.3",
+    "html-minifier-terser": "^7.2.0",
     "protobufjs-cli": "^1.1.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-plugin-html": "^3.2.2"
   }
 }

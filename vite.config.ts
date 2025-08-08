@@ -1,9 +1,24 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { createHtmlPlugin } from 'vite-plugin-html';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react(),
+        createHtmlPlugin({
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                useShortDoctype: true,
+                minifyCSS: true,
+                minifyJS: true
+            }
+        })
+    ],
     server: {
         host: '0.0.0.0',
         port: 3000,

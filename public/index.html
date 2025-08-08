@@ -562,9 +562,22 @@
     // 言語切り替え
     function switchLanguage() {
       if (detectedLanguage && supportedLanguages[detectedLanguage]) {
-        // 各言語の専用ページへリダイレクト
-        let targetLang = detectedLanguage === 'zh-CN' || detectedLanguage === 'zh' ? 'zh' : detectedLanguage;
-        window.location.href = `/amp/privacy/privacy-policy-${targetLang}.html`;
+        // ローカルストレージに言語設定を保存
+        localStorage.setItem('preferredLanguage', detectedLanguage);
+
+        // 各言語のトップページへリダイレクト
+        const languageUrls = {
+          'en': '/amp/top/index-en.html',
+          'zh': '/amp/top/index-zh.html',
+          'zh-CN': '/amp/top/index-zh.html',
+          'ko': '/amp/top/index-ko.html',
+          'es': '/amp/top/index-es.html'
+        };
+
+        const targetUrl = languageUrls[detectedLanguage] || languageUrls[detectedLanguage.split('-')[0]];
+        if (targetUrl) {
+          window.location.href = targetUrl;
+        }
       }
     }
 
@@ -579,8 +592,38 @@
       alert('言語選択機能は開発中です。現在は日本語のみ対応しています。');
     }
 
+    // 保存された言語設定をチェックして自動リダイレクト
+    function checkStoredLanguageAndRedirect() {
+      try {
+        const storedLang = localStorage.getItem('preferredLanguage');
+        if (storedLang && supportedLanguages[storedLang]) {
+          const languageUrls = {
+            'en': '/amp/top/index-en.html',
+            'zh': '/amp/top/index-zh.html',
+            'zh-CN': '/amp/top/index-zh.html',
+            'ko': '/amp/top/index-ko.html',
+            'es': '/amp/top/index-es.html'
+          };
+
+          const targetUrl = languageUrls[storedLang] || languageUrls[storedLang.split('-')[0]];
+          if (targetUrl) {
+            window.location.href = targetUrl;
+            return true; // リダイレクトが実行された
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to check stored language:', error);
+      }
+      return false; // リダイレクトされなかった
+    }
+
     // ページロード時に言語検出
     window.addEventListener('load', function () {
+      // まず保存された言語設定をチェック
+      if (checkStoredLanguageAndRedirect()) {
+        return; // 既にリダイレクトされた場合は処理終了
+      }
+
       // セッションで一度却下された場合は表示しない
       if (sessionStorage.getItem('languageModalDismissed') === 'true') {
         return;
