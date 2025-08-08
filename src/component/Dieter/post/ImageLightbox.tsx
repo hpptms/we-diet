@@ -59,37 +59,15 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
           modalElement.style.setProperty('margin', '0', 'important');
           modalElement.style.setProperty('padding', '0', 'important');
           
-          // 詳細なデバッグ情報を出力
-          const rect = modalElement.getBoundingClientRect();
-          const computedStyles = window.getComputedStyle(modalElement);
-          
-          console.log('🖼️ モーダル表示位置の詳細情報:', {
-            boundingRect: rect,
-            position: computedStyles.position,
-            top: computedStyles.top,
-            left: computedStyles.left,
-            width: computedStyles.width,
-            height: computedStyles.height,
-            zIndex: computedStyles.zIndex,
-            transform: computedStyles.transform,
-            viewport: {
-              width: window.innerWidth,
-              height: window.innerHeight
-            },
-            scroll: {
-              x: window.scrollX,
-              y: window.scrollY
-            },
-            modalVisible: rect.top >= 0 && rect.left >= 0
-          });
+          // モーダル表示位置情報を取得（サイレント処理）
         }
       }, 50);
       
-      console.log('モーダル表示: スクロール無効化 & 位置固定');
+      // モーダル表示: スクロール無効化 & 位置固定（サイレント処理）
     } else {
       // モーダル非表示時の処理
       document.body.style.overflow = '';
-      console.log('モーダル非表示: スクロール復元');
+      // モーダル非表示: スクロール復元（サイレント処理）
     }
 
     return () => {
@@ -166,8 +144,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
     };
 
     if (clickPosition) {
-      // クリック位置を中心にモーダルを表示
-      console.log('📍 クリック位置を中心にモーダル表示:', clickPosition);
+      // クリック位置を中心にモーダルを表示（サイレント処理）
       return {
         ...baseStyles,
         // 画像コンテナの位置をクリック位置中心に調整
