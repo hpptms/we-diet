@@ -48,7 +48,6 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [loading, setLoading] = useState(false);
   const [confirmOverwriteOpen, setConfirmOverwriteOpen] = useState(false);
   const [pendingSaveData, setPendingSaveData] = useState<any>(null);
-  const [overwriteResult, setOverwriteResult] = useState<{calories: number, message: string} | null>(null);
   const [syncPermissionOpen, setSyncPermissionOpen] = useState(false);
   const [syncLoading, setSyncLoading] = useState(false);
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
@@ -912,50 +911,19 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
-            {overwriteResult ? (
-              <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
-                  🎉 {overwriteResult.calories}カロリー消費しました！
-                </div>
-                <div style={{ whiteSpace: 'pre-line' }}>
-                  {overwriteResult.message}
-                </div>
-              </div>
-            ) : (
-              t('exercise', 'overwriteMessage')
-            )}
+            {t('exercise', 'overwriteMessage')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          {overwriteResult ? (
-            <Button 
-              onClick={() => {
-                setConfirmOverwriteOpen(false);
-                setPendingSaveData(null);
-                setOverwriteResult(null);
-              }}
-              variant="contained"
-              sx={{ 
-                backgroundColor: isDarkMode ? '#ffffff' : '#4caf50',
-                color: isDarkMode ? '#000000' : '#ffffff',
-                '&:hover': {
-                  backgroundColor: isDarkMode ? '#f0f0f0' : '#45a049'
-                }
-              }}
-            >
-              OK
-            </Button>
-          ) : (
-            <>
-              <Button 
-                onClick={() => {
-                  setConfirmOverwriteOpen(false);
-                  setPendingSaveData(null);
-                }}
-                sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
-              >
-                キャンセル
-              </Button>
+          <Button 
+            onClick={() => {
+              setConfirmOverwriteOpen(false);
+              setPendingSaveData(null);
+            }}
+            sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
+          >
+            キャンセル
+          </Button>
           <Button 
             onClick={async () => {
               if (pendingSaveData) {
@@ -983,8 +951,6 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
 
                   if (response.success) {
                     const caloriesBurned = response.calories_burned || 0;
-                    const successMessage = `上書き保存が完了しました！\n今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
-                    setOverwriteResult({ calories: caloriesBurned, message: successMessage });
                     
                     // 保存後は入力をクリアしない - データを保持する
                     // 画像のみクリア（アップロード済みなので）
@@ -992,6 +958,13 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
                       ...exerciseData,
                       todayImages: [],
                     });
+
+                    // ダイアログを閉じて、初回保存と同じトーストで表示
+                    setConfirmOverwriteOpen(false);
+                    setPendingSaveData(null);
+                    
+                    const message = `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
+                    showSuccess(message);
                   } else {
                     showError(response.message || '上書き保存に失敗しました');
                     setConfirmOverwriteOpen(false);
@@ -1020,11 +993,9 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
                 backgroundColor: isDarkMode ? '#f0f0f0' : '#1565c0'
               }
             }}
-            >
-              上書きする
-            </Button>
-            </>
-          )}
+          >
+            上書きする
+          </Button>
         </DialogActions>
       </Dialog>
       
