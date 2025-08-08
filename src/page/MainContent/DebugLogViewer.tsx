@@ -322,24 +322,37 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
                       </TableCell>
                       <TableCell>
                         <Typography variant="body2" sx={{ 
-                          maxWidth: 200,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap'
+                          maxWidth: 400,
+                          wordBreak: 'break-word',
+                          whiteSpace: 'pre-wrap',
+                          lineHeight: 1.4
                         }}>
                           {log.message}
                         </Typography>
                       </TableCell>
                       <TableCell>
                         <Typography variant="body2" sx={{ 
-                          maxWidth: 300,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
+                          maxWidth: 600,
+                          wordBreak: 'break-word',
+                          whiteSpace: 'pre-wrap',
                           fontFamily: 'monospace',
-                          fontSize: '0.8rem'
+                          fontSize: '0.75rem',
+                          lineHeight: 1.3,
+                          backgroundColor: isDarkMode ? '#0a0a0a' : '#f8f8f8',
+                          padding: '8px',
+                          borderRadius: '4px',
+                          border: isDarkMode ? '1px solid #333' : '1px solid #e0e0e0'
                         }}>
-                          {log.details || '-'}
+                          {log.details ? (() => {
+                            try {
+                              // JSONとして整形して表示を試みる
+                              const parsed = JSON.parse(log.details);
+                              return JSON.stringify(parsed, null, 2);
+                            } catch (e) {
+                              // JSONでない場合はそのまま表示
+                              return log.details;
+                            }
+                          })() : '-'}
                         </Typography>
                       </TableCell>
                     </TableRow>
