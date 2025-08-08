@@ -131,19 +131,40 @@ export const clearGoogleFitAuth = (): void => {
     localStorage.removeItem(GOOGLE_FIT_AUTH_KEY);
 };
 
-// GAPI ライブラリを動的にロード
-const loadGapiScript = (): Promise<void> => {
+// GAPI と GIS ライブラリを動的にロード
+const loadGoogleScripts = (): Promise<void> => {
     return new Promise((resolve, reject) => {
-        if ((window as any).gapi) {
-            resolve();
-            return;
+        let scriptsLoaded = 0;
+        const totalScripts = 2;
+
+        const checkComplete = () => {
+            scriptsLoaded++;
+            if (scriptsLoaded === totalScripts) {
+                resolve();
+            }
+        };
+
+        // GAPI Script (Fitness API用)
+        if (!(window as any).gapi) {
+            const gapiScript = document.createElement('script');
+            gapiScript.src = 'https://apis.google.com/js/api.js';
+            gapiScript.onload = checkComplete;
+            gapiScript.onerror = () => reject(new Error('Failed to load Google API script'));
+            document.head.appendChild(gapiScript);
+        } else {
+            checkComplete();
         }
 
-        const script = document.createElement('script');
-        script.src = 'https://apis.google.com/js/api.js';
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error('Failed to load Google API script'));
-        document.head.appendChild(script);
+        // GIS Script (認証用)
+        if (!(window as any).google) {
+            const gisScript = document.createElement('script');
+            gisScript.src = 'https://accounts.google.com/gsi/client';
+            gisScript.onload = checkComplete;
+            gisScript.onerror = () => reject(new Error('Failed to load Google Identity Services script'));
+            document.head.appendChild(gisScript);
+        } else {
+            checkComplete();
+        }
     });
 };
 
@@ -156,19 +177,30 @@ const initializeGapi = async (): Promise<void> => {
     try {
         console.log('=== GAPI初期化開始 ===');
 
-        // GAPIスクリプトをロード
-        await loadGapiScript();
+        // Google Scripts (GAPI + GIS) をロード
+        await loadGoogleScripts();
 
-        // GAPI初期化 - より安全な方法
+        // GAPI初期化 - GIS対応
         await new Promise<void>((resolve, reject) => {
-            (window as any).gapi.load('auth2', {
-                callback: () => {
-                    console.log('gapi.auth2 loaded successfully');
-                    resolve();
+            (window as any).gapi.load('client', {
+                callback: async () => {
+                    console.log('gapi.client loaded successfully');
+                    try {
+                        // GAPIクライアント初期化
+                        await (window as any).gapi.client.init({
+                            apiKey: GOOGLE_FIT_CONFIG.apiKey,
+                            discoveryDocs: [GOOGLE_FIT_CONFIG.discoveryDoc]
+                        });
+                        console.log('GAPI client initialized');
+                        resolve();
+                    } catch (initError) {
+                        console.error('GAPI client init failed:', initError);
+                        reject(initError);
+                    }
                 },
                 onerror: (error: any) => {
-                    console.error('Failed to load gapi.auth2:', error);
-                    reject(new Error('Failed to load GAPI auth2'));
+                    console.error('Failed to load gapi.client:', error);
+                    reject(new Error('Failed to load GAPI client'));
                 }
             });
         });
@@ -198,15 +230,20 @@ const initializeGapi = async (): Promise<void> => {
             initStartTime: new Date().toISOString()
         });
 
-        await (window as any).gapi.auth2.init({
+        // GIS (Google Identity Services) 初期化
+        gapiAuthInstance = (window as any).google.accounts.oauth2.initTokenClient({
             client_id: GOOGLE_FIT_CONFIG.clientId,
-            scope: GOOGLE_FIT_CONFIG.scopes.join(' ')
+            scope: GOOGLE_FIT_CONFIG.scopes.join(' '),
+            callback: (response: any) => {
+                if (response.access_token) {
+                    console.log('GIS認証成功:', response);
+                    setGoogleFitAuthStatus(response.access_token, response.expires_in || 3600);
+                }
+            }
         });
 
-        gapiAuthInstance = (window as any).gapi.auth2.getAuthInstance();
-
         if (!gapiAuthInstance) {
-            throw new Error('Failed to get auth instance');
+            throw new Error('Failed to initialize GIS token client');
         }
 
         gapiInitialized = true;
@@ -255,20 +292,12 @@ export const initiateGoogleFitAuth = async (): Promise<void> => {
         // GAPI初期化
         await initializeGapi();
 
-        // 認証実行
+        // GIS認証実行
         console.log('Google認証を実行中...');
-        const authResult = await gapiAuthInstance.signIn({
-            scope: GOOGLE_FIT_CONFIG.scopes.join(' ')
-        });
+        gapiAuthInstance.requestAccessToken();
 
-        const accessToken = authResult.getAuthResponse().access_token;
-        const expiresIn = authResult.getAuthResponse().expires_in;
-
-        // 認証情報をlocalStorageに保存
-        setGoogleFitAuthStatus(accessToken, expiresIn);
-
-        console.log('Google Fit認証成功');
-        alert('Google Fitとの連携が完了しました！\n再度「スマホと同期」ボタンを押してデータを取得してください。');
+        console.log('Google Fit認証要求送信済み');
+        alert('Google認証画面が表示されます。\n認証完了後、再度「スマホと同期」ボタンを押してデータを取得してください。');
 
     } catch (error) {
         // デバッグログにエラー詳細を記録
@@ -303,30 +332,10 @@ export const initiateGoogleFitAuth = async (): Promise<void> => {
     }
 };
 
-// GAPI認証状態をチェック
+// GIS認証状態をチェック
 export const handleGoogleFitAuthCallback = (): GoogleFitAuthStatus => {
-    // GAPI実装では、URLフラグメント処理は不要
-    // 認証はinitializeGapi()とsignIn()で完結している
-
-    try {
-        if (gapiInitialized && gapiAuthInstance && gapiAuthInstance.isSignedIn.get()) {
-            const user = gapiAuthInstance.currentUser.get();
-            const authResponse = user.getAuthResponse();
-
-            if (authResponse && authResponse.access_token) {
-                console.log('GAPI認証状態: 認証済み');
-                return {
-                    isAuthenticated: true,
-                    accessToken: authResponse.access_token,
-                    expiresAt: authResponse.expires_at
-                };
-            }
-        }
-    } catch (error) {
-        console.error('GAPI認証状態チェックエラー:', error);
-    }
-
-    return { isAuthenticated: false };
+    // GIS実装では、localStorage経由で認証状態を管理
+    return getGoogleFitAuthStatus();
 };
 
 // Google Fit APIからデータを取得（GAPI使用）
@@ -339,10 +348,20 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
             await initializeGapi();
         }
 
-        // 認証状態を確認
-        if (!gapiAuthInstance.isSignedIn.get()) {
+        // 認証状態を確認（accessTokenパラメータまたはlocalStorage認証を使用）
+        const authStatus = getGoogleFitAuthStatus();
+        if (!authStatus.isAuthenticated && !accessToken) {
             console.log('Google認証が必要です');
             return null;
+        }
+
+        // アクセストークンを設定
+        if (accessToken || authStatus.accessToken) {
+            const token = accessToken || authStatus.accessToken;
+            // GAPI認証ヘッダーを設定
+            (window as any).gapi.client.setToken({
+                access_token: token
+            });
         }
 
         const now = new Date();
@@ -536,22 +555,13 @@ export const syncWithDevice = async (): Promise<DeviceExerciseData | null> => {
 
         // Android端末でGoogle Fit認証済みの場合はGAPI使用
         if (deviceInfo.isAndroid) {
-            if (gapiInitialized && gapiAuthInstance && gapiAuthInstance.isSignedIn.get()) {
-                console.log('Google Fit GAPI を使用してデータを取得...');
-                const fitData = await fetchGoogleFitData();
+            const authStatus = getGoogleFitAuthStatus();
+            if (authStatus.isAuthenticated) {
+                console.log('LocalStorage認証情報でGoogle Fit APIを使用...');
+                const fitData = await fetchGoogleFitData(authStatus.accessToken);
                 if (fitData) {
-                    console.log('Google Fit GAPI からデータを取得:', fitData);
+                    console.log('Google Fit API からデータを取得:', fitData);
                     return fitData;
-                }
-            } else {
-                const authStatus = getGoogleFitAuthStatus();
-                if (authStatus.isAuthenticated) {
-                    console.log('LocalStorage認証情報でGoogle Fit APIを使用...');
-                    const fitData = await fetchGoogleFitData(authStatus.accessToken);
-                    if (fitData) {
-                        console.log('Google Fit API からデータを取得:', fitData);
-                        return fitData;
-                    }
                 }
             }
         }
