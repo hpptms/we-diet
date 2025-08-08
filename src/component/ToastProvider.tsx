@@ -7,12 +7,48 @@ import { ToastState } from '../hooks/useToast';
 interface ToastProviderProps {
     toast: ToastState;
     onClose: () => void;
+    position?: 'center' | 'bottom' | 'top';
 }
 
-const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose }) => {
+const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose, position = 'center' }) => {
     const isDarkMode = useRecoilValue(darkModeState);
 
-    // 現在表示されている画面の中央にトーストを表示
+    // 位置に応じてスタイルを調整
+    const getPositionStyles = () => {
+        switch (position) {
+            case 'bottom':
+                return {
+                    position: 'fixed' as const,
+                    bottom: '120px', // 保存・戻るボタンの上に表示
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 10000,
+                    width: 'auto',
+                    maxWidth: '90vw',
+                };
+            case 'top':
+                return {
+                    position: 'fixed' as const,
+                    top: '80px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 10000,
+                    width: 'auto',
+                    maxWidth: '90vw',
+                };
+            default: // center
+                return {
+                    position: 'fixed' as const,
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 10000,
+                    width: 'auto',
+                    maxWidth: '90vw',
+                };
+        }
+    };
+
     return (
         <Snackbar
             open={toast.open}
@@ -20,13 +56,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose }) => {
             onClose={onClose}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             sx={{
-                position: 'fixed',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                zIndex: 10000, // より高いz-indexを設定
-                width: 'auto',
-                maxWidth: '90vw',
+                ...getPositionStyles(),
                 '& .MuiSnackbarContent-root': {
                     minWidth: '300px',
                     maxWidth: '90vw'

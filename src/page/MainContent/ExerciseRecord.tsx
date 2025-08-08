@@ -1308,7 +1308,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       </Dialog>
 
       {/* 共通トースト */}
-      <ToastProvider toast={toast} onClose={hideToast} />
+      <ToastProvider toast={toast} onClose={hideToast} position="bottom" />
     </Box>
   );
 };
