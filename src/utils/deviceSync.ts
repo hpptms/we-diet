@@ -34,12 +34,8 @@ const GOOGLE_FIT_AUTH_KEY = 'google_fit_auth';
 
 // Google Fit API設定（GAPI使用）
 const GOOGLE_FIT_CONFIG = {
-    clientId: process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID ||
-        // テスト用のダミーClient ID（実際の運用では環境変数を使用）
-        '123456789-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com',
-    apiKey: process.env.REACT_APP_GOOGLE_API_KEY ||
-        // テスト用のダミーAPI Key（実際の運用では環境変数を使用）
-        'AIzaSyDummyApiKey1234567890abcdefghijk',
+    clientId: process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID || '',
+    apiKey: process.env.REACT_APP_GOOGLE_API_KEY || '',
     discoveryDoc: 'https://www.googleapis.com/discovery/v1/apis/fitness/v1/rest',
     scopes: [
         'https://www.googleapis.com/auth/fitness.activity.read',
@@ -176,9 +172,9 @@ const initializeGapi = async (): Promise<void> => {
 export const initiateGoogleFitAuth = async (): Promise<void> => {
     console.log('=== Google Fit認証開始 (GAPI) ===');
 
-    if (!GOOGLE_FIT_CONFIG.clientId || GOOGLE_FIT_CONFIG.clientId.includes('dummy')) {
-        console.error('Google Fit Client ID is not configured');
-        alert('Google Fit Client IDが設定されていません。開発者に連絡してください。');
+    if (!GOOGLE_FIT_CONFIG.clientId || !GOOGLE_FIT_CONFIG.apiKey) {
+        console.error('Google Fit credentials are not configured');
+        alert('Google Fit認証情報が設定されていません。環境変数を確認してください。');
         return;
     }
 
