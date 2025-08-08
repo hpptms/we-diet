@@ -577,7 +577,6 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       
       // 4. すべて失敗した場合
       console.log('=== 全ヘルスアプリで同期失敗 ===');
-      showWarning('フィットネスデータを取得できませんでした。\\n端末のフィットネス機能を有効にしてください。');
       // 設定案内ダイアログを表示
       setSettingsDialogOpen(true);
       
