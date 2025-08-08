@@ -194,6 +194,15 @@ function App() {
             </DashboardLayout>
           </PrivateRoute>
         } />
+        <Route path="/DebugLog" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyDashboardPage initialView="debug" />
+              </Suspense>
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
         <Route path="/register/complete" element={
           <Suspense fallback={<LoadingComponent />}>
             <LazyRegisterCompletePage />

@@ -156,6 +156,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             navigate("/FoodLog");
         } else if (view === "dieter") {
             navigate("/Dieter");
+        } else if (view === "debug") {
+            navigate("/DebugLog");
         }
     };
 
@@ -213,6 +215,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             setCurrentView("dieter");
         } else if (location.pathname === "/Exercise") {
             setCurrentView("exercise");
+        } else if (location.pathname === "/DebugLog") {
+            setCurrentView("debug");
         }
     }, [location.pathname, setCurrentView]);
 
