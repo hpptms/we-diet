@@ -34,11 +34,21 @@ const GOOGLE_FIT_AUTH_KEY = 'google_fit_auth';
 
 // Google Fit API設定
 const GOOGLE_FIT_CONFIG = {
-    clientId: process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID || '',
+    clientId: process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID ||
+        // テスト用のダミーClient ID（実際の運用では環境変数を使用）
+        '123456789-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com',
     redirectUri: window.location.origin,
     scope: 'https://www.googleapis.com/auth/fitness.activity.read https://www.googleapis.com/auth/fitness.body.read',
     responseType: 'token'
 };
+
+// デバッグ用設定ログ出力
+console.log('=== Google Fit設定 ===');
+console.log('Client ID source:', process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID ? 'Environment' : 'Default');
+console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId);
+console.log('Redirect URI:', GOOGLE_FIT_CONFIG.redirectUri);
+console.log('Scope:', GOOGLE_FIT_CONFIG.scope);
+console.log('========================');
 
 export const getSyncPermissionStatus = (): SyncPermissionStatus => {
     const stored = localStorage.getItem(SYNC_PERMISSION_KEY);
@@ -102,8 +112,13 @@ export const clearGoogleFitAuth = (): void => {
 
 // Google OAuth認証を開始
 export const initiateGoogleFitAuth = (): void => {
+    console.log('=== Google Fit認証開始 ===');
+    console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId ? '[設定済み]' : '[未設定]');
+    console.log('Redirect URI:', GOOGLE_FIT_CONFIG.redirectUri);
+
     if (!GOOGLE_FIT_CONFIG.clientId) {
         console.error('Google Fit Client ID is not configured');
+        alert('Google Fit Client IDが設定されていません。開発者に連絡してください。');
         return;
     }
 
@@ -115,8 +130,16 @@ export const initiateGoogleFitAuth = (): void => {
     authUrl.searchParams.append('include_granted_scopes', 'true');
     authUrl.searchParams.append('state', 'google_fit_auth');
 
-    console.log('Redirecting to Google OAuth:', authUrl.toString());
-    window.location.href = authUrl.toString();
+    console.log('OAuth URL:', authUrl.toString());
+    console.log('Attempting redirect...');
+
+    try {
+        window.location.href = authUrl.toString();
+        console.log('Redirect initiated');
+    } catch (error) {
+        console.error('Redirect failed:', error);
+        alert(`認証画面への移動に失敗しました: ${error}`);
+    }
 };
 
 // URLフラグメントからOAuth結果を解析
