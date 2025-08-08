@@ -48,6 +48,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   const [loading, setLoading] = useState(false);
   const [confirmOverwriteOpen, setConfirmOverwriteOpen] = useState(false);
   const [pendingSaveData, setPendingSaveData] = useState<any>(null);
+  const [saveResultOpen, setSaveResultOpen] = useState(false);
+  const [saveResult, setSaveResult] = useState<{calories: number, message: string} | null>(null);
   const [syncPermissionOpen, setSyncPermissionOpen] = useState(false);
   const [syncLoading, setSyncLoading] = useState(false);
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
@@ -413,11 +415,10 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         todayImages: [],
       });
 
-      const message = `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
-      console.log('成功メッセージ:', message);
-      console.log('showSuccess呼び出し前のtoast状態:', toast);
-      showSuccess(message);
-      console.log('showSuccess呼び出し後のtoast状態:', toast);
+      // 初回保存でも成功結果をダイアログで表示
+      const message = `保存が完了しました！\n今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
+      setSaveResult({ calories: caloriesBurned, message });
+      setSaveResultOpen(true);
     } catch (error: any) {
       // console.error('=== 保存エラー詳細 ===');
       // console.error('Error object:', error);
@@ -959,12 +960,13 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
                       todayImages: [],
                     });
 
-                    // ダイアログを閉じて、初回保存と同じトーストで表示
+                    // ダイアログを閉じて、初回保存と同じダイアログで表示
                     setConfirmOverwriteOpen(false);
                     setPendingSaveData(null);
                     
-                    const message = `今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
-                    showSuccess(message);
+                    const message = `上書き保存が完了しました！\n今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
+                    setSaveResult({ calories: caloriesBurned, message });
+                    setSaveResultOpen(true);
                   } else {
                     showError(response.message || '上書き保存に失敗しました');
                     setConfirmOverwriteOpen(false);
@@ -1276,6 +1278,83 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
             </>
           );
         })()}
+      </Dialog>
+
+      {/* 保存結果ダイアログ */}
+      <Dialog
+        open={saveResultOpen}
+        onClose={() => setSaveResultOpen(false)}
+        disableScrollLock
+        sx={{
+          position: 'fixed',
+          zIndex: 1300,
+          '& .MuiDialog-container': {
+            height: '100vh',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          },
+          '& .MuiDialog-paper': {
+            backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+            color: isDarkMode ? '#ffffff' : 'inherit',
+            border: isDarkMode ? '1px solid #444' : 'none',
+            margin: 0,
+            maxHeight: '90vh',
+            maxWidth: '90vw',
+            minWidth: '300px',
+            width: 'auto'
+          }
+        }}
+        BackdropProps={{
+          sx: {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: -1
+          }
+        }}
+        PaperProps={{
+          sx: {
+            position: 'relative'
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: isDarkMode ? '#ffffff' : 'inherit', textAlign: 'center' }}>
+          🎉 保存完了！
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit', textAlign: 'center', fontSize: '16px', lineHeight: 1.6 }}>
+            {saveResult && (
+              <div style={{ whiteSpace: 'pre-line' }}>
+                {saveResult.message}
+              </div>
+            )}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', pb: 3 }}>
+          <Button 
+            onClick={() => {
+              setSaveResultOpen(false);
+              setSaveResult(null);
+            }}
+            variant="contained"
+            sx={{ 
+              backgroundColor: isDarkMode ? '#ffffff' : '#4caf50',
+              color: isDarkMode ? '#000000' : '#ffffff',
+              '&:hover': {
+                backgroundColor: isDarkMode ? '#f0f0f0' : '#45a049'
+              }
+            }}
+          >
+            OK
+          </Button>
+        </DialogActions>
       </Dialog>
 
       {/* 共通トースト */}
