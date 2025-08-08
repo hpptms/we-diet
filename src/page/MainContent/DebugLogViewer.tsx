@@ -74,7 +74,14 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
       const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}debug_logs?${params}`);
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // レスポンス本文を取得してエラー詳細を確認
+        const errorText = await response.text();
+        console.error('Debug logs API error response:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: errorText
+        });
+        throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
       }
 
       const data: DebugLogResponse = await response.json();
