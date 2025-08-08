@@ -482,16 +482,16 @@ export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceEx
 
         console.log('取得データ - 歩数:', totalSteps, '距離:', totalDistance);
 
-        if (totalSteps > 0) {
-            // 歩数からアクティブ時間を推定（80歩/分として計算）
-            activeMinutes = Math.round(totalSteps / 80);
+        if (totalSteps > 0 || totalDistance > 0 || activeMinutes > 0) {
+            // アクティブ時間の優先度設定: Google Fitからの実データ > 歩数からの推定値
+            const finalActiveMinutes = activeMinutes > 0 ? activeMinutes : Math.round(totalSteps / 80);
 
             return {
                 steps: totalSteps,
                 distance: totalDistance > 0 ? Math.round((totalDistance / 1000) * 100) / 100 : undefined, // km変換
-                duration: activeMinutes,
+                duration: finalActiveMinutes, // 徒歩の時間として使用
                 calories: Math.round(totalSteps * 0.04), // 歩数からカロリー推定
-                activeMinutes: activeMinutes
+                activeMinutes: finalActiveMinutes
             };
         }
 
