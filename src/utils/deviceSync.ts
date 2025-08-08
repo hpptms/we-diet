@@ -177,8 +177,27 @@ const initializeGapi = async (): Promise<void> => {
         console.log('Current domain:', window.location.origin);
         console.log('Expected domain:', 'https://we-diat.com');
 
+        // ドメイン確認情報をDBに保存
+        debugLogger.googleFitConfig({
+            initializationStep: 'Domain Check',
+            currentDomain: window.location.origin,
+            expectedDomain: 'https://we-diat.com',
+            domainMatch: window.location.origin === 'https://we-diat.com',
+            timestamp: new Date().toISOString()
+        });
+
         // Auth2初期化
         console.log('Initializing gapi.auth2...');
+
+        // GAPI初期化詳細ログをDBに保存
+        debugLogger.googleFitConfig({
+            initializationStep: 'GAPI Client Init',
+            apiKey: GOOGLE_FIT_CONFIG.apiKey ? `${GOOGLE_FIT_CONFIG.apiKey.substring(0, 10)}...` : 'not configured',
+            clientId: GOOGLE_FIT_CONFIG.clientId,
+            scope: GOOGLE_FIT_CONFIG.scopes.join(' '),
+            initStartTime: new Date().toISOString()
+        });
+
         await (window as any).gapi.auth2.init({
             client_id: GOOGLE_FIT_CONFIG.clientId,
             scope: GOOGLE_FIT_CONFIG.scopes.join(' ')
@@ -192,6 +211,14 @@ const initializeGapi = async (): Promise<void> => {
 
         gapiInitialized = true;
         console.log('GAPI初期化完了');
+
+        // GAPI初期化成功ログをDBに保存
+        debugLogger.googleFitConfig({
+            initializationStep: 'GAPI Init Success',
+            authInstanceCreated: !!gapiAuthInstance,
+            initCompleteTime: new Date().toISOString(),
+            gapiVersion: (window as any).gapi?.version || 'unknown'
+        });
     } catch (error) {
         console.error('GAPI初期化エラー:', error);
 
