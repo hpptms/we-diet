@@ -616,6 +616,52 @@ export const convertDeviceDataToExerciseRecord = (deviceData: DeviceExerciseData
     };
 };
 
+// Samsung Health同期試行（将来実装用）
+export const syncWithSamsungHealth = async (): Promise<DeviceExerciseData | null> => {
+    try {
+        console.log('Samsung Health同期を試行中...');
+
+        // 演出として少し待機
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        // Samsung Health Web APIは存在しないため、現在は未実装
+        // 将来的には以下のような実装が考えられる：
+        // 1. Chrome拡張機能経由でのデータ取得
+        // 2. Samsung Health APIの公開（現在未提供）
+        // 3. 専用Androidアプリとの連携
+
+        console.log('Samsung Health: Web APIは未対応');
+        // 現在はnullを返す（実装されていない）
+        return null;
+    } catch (error) {
+        console.error('Samsung Health sync error:', error);
+        return null;
+    }
+};
+
+// Huawei Health同期試行（将来実装用）
+export const syncWithHuaweiHealth = async (): Promise<DeviceExerciseData | null> => {
+    try {
+        console.log('Huawei Health同期を試行中...');
+
+        // 演出として少し待機
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        // Huawei Health Kit Web APIは限定的なため、現在は未実装
+        // 将来的には以下のような実装が考えられる：
+        // 1. HMS Core Health Kit
+        // 2. Huawei Health APIの拡張
+        // 3. 専用Huaweiアプリとの連携
+
+        console.log('Huawei Health: Web APIは未対応');
+        // 現在はnullを返す（実装されていない）
+        return null;
+    } catch (error) {
+        console.error('Huawei Health sync error:', error);
+        return null;
+    }
+};
+
 // 設定案内URLを開く
 export const openSettingsUrl = (url?: string) => {
     if (url) {

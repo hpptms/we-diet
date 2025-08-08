@@ -15,6 +15,8 @@ import {
   getSyncPermissionStatus, 
   setSyncPermissionStatus, 
   syncWithDevice, 
+  syncWithSamsungHealth,
+  syncWithHuaweiHealth,
   convertDeviceDataToExerciseRecord,
   getSettingsInstructions,
   openSettingsUrl,
@@ -445,8 +447,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       return;
     }
 
-    // Android端末でのヘルスアプリ選択ダイアログを表示
-    setHealthAppSelectionOpen(true);
+    // Android端末で順次ヘルスアプリを試行
+    await performSequentialHealthAppSync();
   };
 
   const performDeviceSync = async () => {
@@ -540,7 +542,130 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   // Huawei Health連携処理（将来実装）
   const handleHuaweiHealthConnect = () => {
     setHealthAppSelectionOpen(false);
-    showWarning('Huawei Healthとの連携は今後実装予定です。\n現在はGoogle Fitをご利用ください。');
+    showWarning('Huawei Healthとの連携は今後実装予定です。\\n現在はGoogle Fitをご利用ください。');
+  };
+
+  // 段階的ヘルスアプリ連携処理（Google Fit → Samsung Health → Huawei Health）
+  const performSequentialHealthAppSync = async () => {
+    setSyncLoading(true);
+    try {
+      showInfo('フィットネスデータを取得中です...');
+      
+      // 1. Google Fit から試行
+      console.log('=== Google Fit連携を試行 ===');
+      const googleFitData = await tryGoogleFitSync();
+      if (googleFitData) {
+        await handleSyncSuccess(googleFitData, 'Google Fit');
+        return;
+      }
+      
+      // 2. Samsung Health から試行  
+      console.log('=== Samsung Health連携を試行 ===');
+      const samsungHealthData = await trySamsungHealthSync();
+      if (samsungHealthData) {
+        await handleSyncSuccess(samsungHealthData, 'Samsung Health');
+        return;
+      }
+      
+      // 3. Huawei Health から試行
+      console.log('=== Huawei Health連携を試行 ===');
+      const huaweiHealthData = await tryHuaweiHealthSync();
+      if (huaweiHealthData) {
+        await handleSyncSuccess(huaweiHealthData, 'Huawei Health');
+        return;
+      }
+      
+      // 4. すべて失敗した場合
+      console.log('=== 全ヘルスアプリで同期失敗 ===');
+      showWarning('フィットネスデータを取得できませんでした。\\n端末のフィットネス機能を有効にしてください。');
+      // 設定案内ダイアログを表示
+      setSettingsDialogOpen(true);
+      
+    } catch (error) {
+      console.error('Sequential health app sync error:', error);
+      showError('フィットネス同期中にエラーが発生しました。');
+    } finally {
+      setSyncLoading(false);
+    }
+  };
+
+  // 同期成功時の処理
+  const handleSyncSuccess = async (deviceData: any, appName: string) => {
+    // デバイスデータをExerciseRecord形式に変換
+    const convertedData = convertDeviceDataToExerciseRecord(deviceData);
+    
+    // 既存データと統合（既存の値を上書きしないように注意）
+    const newExerciseData = {
+      ...exerciseData,
+      walkingSteps: convertedData.walkingSteps || exerciseData.walkingSteps,
+      walkingDistance: convertedData.walkingDistance || exerciseData.walkingDistance,  
+      walkingTime: convertedData.walkingTime || exerciseData.walkingTime,
+      otherExerciseTime: convertedData.otherExerciseTime || exerciseData.otherExerciseTime,
+    };
+
+    setExerciseData(newExerciseData);
+
+    // 同期結果をユーザーに通知
+    const syncedItems = [];
+    if (convertedData.walkingSteps) syncedItems.push(`歩数: ${convertedData.walkingSteps}歩`);
+    if (convertedData.walkingDistance) syncedItems.push(`距離: ${convertedData.walkingDistance}km`);
+    if (convertedData.walkingTime) syncedItems.push(`時間: ${convertedData.walkingTime}分`);
+    if (convertedData.otherExerciseTime) syncedItems.push(`その他運動: ${convertedData.otherExerciseTime}分`);
+
+    if (syncedItems.length > 0) {
+      showSuccess(`${appName}から同期完了！\\n${syncedItems.join('\\n')}`);
+    }
+  };
+
+  // Google Fit同期試行
+  const tryGoogleFitSync = async () => {
+    try {
+      // Google Fit認証状態をチェック
+      const authStatus = getGoogleFitAuthStatus();
+      if (!authStatus.isAuthenticated) {
+        console.log('Google Fit認証が必要 - 自動認証を試行');
+        try {
+          await initiateGoogleFitAuth();
+          // 認証後にデータ取得を試行
+          const deviceData = await syncWithDevice();
+          return deviceData;
+        } catch (authError) {
+          console.log('Google Fit認証失敗:', authError);
+          return null;
+        }
+      }
+
+      // 認証済みの場合は直接同期実行
+      const deviceData = await syncWithDevice();
+      return deviceData;
+    } catch (error) {
+      console.log('Google Fit同期エラー:', error);
+      return null;
+    }
+  };
+
+  // Samsung Health同期試行
+  const trySamsungHealthSync = async () => {
+    try {
+      console.log('Samsung Health API呼び出しを試行...');
+      const deviceData = await syncWithSamsungHealth();
+      return deviceData;
+    } catch (error) {
+      console.log('Samsung Health同期エラー:', error);
+      return null;
+    }
+  };
+
+  // Huawei Health同期試行
+  const tryHuaweiHealthSync = async () => {
+    try {
+      console.log('Huawei Health API呼び出しを試行...');
+      const deviceData = await syncWithHuaweiHealth();
+      return deviceData;
+    } catch (error) {
+      console.log('Huawei Health同期エラー:', error);
+      return null;
+    }
   };
 
   // レスポンシブスタイル設定
