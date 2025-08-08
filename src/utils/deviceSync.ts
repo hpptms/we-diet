@@ -1,4 +1,5 @@
 // デバイス同期用ユーティリティ
+import debugLogger from './debugLogger';
 
 export interface DeviceExerciseData {
     steps?: number;
@@ -44,6 +45,18 @@ const GOOGLE_FIT_CONFIG = {
 };
 
 // デバッグ用設定ログ出力（本番環境でも確認のため常時出力）
+debugLogger.googleFitConfig({
+    environment: import.meta.env.DEV ? 'Development' : 'Production',
+    clientIdSource: import.meta.env.VITE_GOOGLE_FIT_CLIENT_ID ? 'Environment Variable' : 'Default/Empty',
+    clientId: GOOGLE_FIT_CONFIG.clientId || '(未設定)',
+    clientIdLength: GOOGLE_FIT_CONFIG.clientId?.length || 0,
+    apiKeySource: import.meta.env.VITE_GOOGLE_API_KEY ? 'Environment Variable' : 'Default/Empty',
+    apiKeyLength: GOOGLE_FIT_CONFIG.apiKey?.length || 0,
+    scopes: GOOGLE_FIT_CONFIG.scopes.join(', '),
+    currentDomain: window.location.origin
+});
+
+// コンソールにも出力（即座に確認するため）
 console.log('=== Google Fit設定 (GAPI) ===');
 console.log('Environment mode:', import.meta.env.DEV ? 'Development' : 'Production');
 console.log('Client ID source:', import.meta.env.VITE_GOOGLE_FIT_CLIENT_ID ? 'Environment Variable' : 'Default/Empty');
@@ -203,6 +216,15 @@ export const initiateGoogleFitAuth = async (): Promise<void> => {
         alert('Google Fitとの連携が完了しました！\n再度「スマホと同期」ボタンを押してデータを取得してください。');
 
     } catch (error) {
+        // デバッグログにエラー詳細を記録
+        debugLogger.googleFitError('Google Fit Authentication Failed', error, {
+            clientIdConfigured: !!GOOGLE_FIT_CONFIG.clientId,
+            apiKeyConfigured: !!GOOGLE_FIT_CONFIG.apiKey,
+            gapiInitialized: gapiInitialized,
+            currentUrl: window.location.href,
+            userAgent: navigator.userAgent
+        });
+
         console.error('Google Fit認証エラー詳細:', error);
         console.error('エラータイプ:', typeof error);
         console.error('エラー内容:', JSON.stringify(error, null, 2));
