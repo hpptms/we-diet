@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
+type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter' | 'debug';
 
 /**
  * ダッシュボードのビュー切り替えアニメーション機能を管理するカスタムフック

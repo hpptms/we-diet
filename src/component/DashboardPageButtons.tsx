@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../recoil/darkModeAtom';
 
-type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
+type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter' | 'debug';
 
 interface DashboardPageButtonsProps {
   onViewChange: (view: CurrentView) => void;
   hasWeightInput?: boolean;
   showInstallButton?: boolean;
   onInstallClick?: () => void;
+  isAdmin?: boolean;
+  adminLoading?: boolean;
 }
 
-const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChange, hasWeightInput, showInstallButton, onInstallClick }) => {
+const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChange, hasWeightInput, showInstallButton, onInstallClick, isAdmin, adminLoading }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const isDarkMode = useRecoilValue(darkModeState);
 
@@ -322,6 +324,62 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
         💬 dieter
       </button>
       
+      {/* 管理者専用デバッグボタン */}
+      {!adminLoading && isAdmin && (
+        <button
+          style={{
+            padding: "20px 25px",
+            fontSize: "18px",
+            fontWeight: "bold",
+            background: isDarkMode ? "#000000" : "linear-gradient(135deg, #FF5722, #E64A19, #BF360C)",
+            color: "white",
+            border: isDarkMode ? "2px solid #ffffff" : "none",
+            borderRadius: "15px",
+            cursor: "pointer",
+            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+            boxShadow: "0 6px 20px rgba(255, 87, 34, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)",
+            position: "relative",
+            overflow: "hidden",
+            textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+            transform: "translateY(0)",
+          }}
+          onMouseOver={(e) => {
+            if (!isDarkMode) {
+              e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 12px 30px rgba(255, 87, 34, 0.6), inset 0 1px 0 rgba(255,255,255,0.3)";
+              e.currentTarget.style.background = "linear-gradient(135deg, #FF7043, #FF5722, #E64A19)";
+            }
+          }}
+          onMouseOut={(e) => {
+            if (!isDarkMode) {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.boxShadow = "0 6px 20px rgba(255, 87, 34, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)";
+              e.currentTarget.style.background = "linear-gradient(135deg, #FF5722, #E64A19, #BF360C)";
+            }
+          }}
+          onFocus={(e) => {
+            if (isDarkMode) {
+              e.currentTarget.style.background = "#000000";
+              e.currentTarget.style.border = "2px solid #ffffff";
+              e.currentTarget.style.color = "white";
+            }
+          }}
+          onBlur={(e) => {
+            if (isDarkMode) {
+              e.currentTarget.style.background = "#000000";
+              e.currentTarget.style.border = "2px solid #ffffff";
+              e.currentTarget.style.color = "white";
+            }
+          }}
+          onClick={() => {
+            console.log("管理者デバッグページがクリックされました");
+            onViewChange('debug');
+          }}
+        >
+          🔧 デバッグ
+        </button>
+      )}
+
       {/* PWAインストールボタン */}
       {showInstallButton && (
         <button

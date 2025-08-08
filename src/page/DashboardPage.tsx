@@ -7,6 +7,7 @@ import ExerciseRecord from "./MainContent/ExerciseRecord";
 import WeightManagement from "./MainContent/WeightManagement";
 import FoodLog from "./MainContent/FoodLog";
 import Dieter from "./MainContent/Dieter";
+import DebugLogViewer from "./MainContent/DebugLogViewer";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { darkModeState } from "../recoil/darkModeAtom";
 import { weightRecordedDateAtom } from "../recoil/weightRecordedDateAtom";
@@ -15,9 +16,10 @@ import { profileSettingsState, convertServerProfileToLocalProfile } from "../rec
 import { useToast } from "../hooks/useToast";
 import { usePWAInstall } from "../hooks/usePWAInstall";
 import { useDashboardAnimation } from "../hooks/useDashboardAnimation";
+import { useAdminPermission } from "../hooks/useAdminPermission";
 import ToastProvider from "../component/ToastProvider";
 
-type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
+type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter' | 'debug';
 
 const getAccountName = () => {
     return localStorage.getItem("accountName") || "ユーザー";
@@ -56,6 +58,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         getAnimationClass,
         getAnimationStyles,
     } = useDashboardAnimation(initialView || 'dashboard');
+
+    // 管理者権限チェック
+    const { isAdmin, loading: adminLoading } = useAdminPermission();
 
     // Recoil atomからweightRecordedDateを取得
     const weightRecordedDate = useRecoilValue(weightRecordedDateAtom);
@@ -248,6 +253,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
                         onViewChange={handleViewChange}
                         subView={subView}
                     />;
+                case 'debug':
+                    return <DebugLogViewer onBack={handleBackToDashboard} />;
                 default:
                     return (
                         <DashboardPageButtons 
@@ -255,6 +262,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
                             hasWeightInput={hasWeightInput} 
                             showInstallButton={showInstallButton}
                             onInstallClick={handleInstallClick}
+                            isAdmin={isAdmin}
+                            adminLoading={adminLoading}
                         />
                     );
             }
