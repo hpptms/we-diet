@@ -49,11 +49,18 @@ class DebugLogger {
             // コンソールにも出力（開発時の確認用）
             console.log(`[${entry.log_level}] ${entry.message}`, entry.details ? entry.details : '');
 
+            const token = localStorage.getItem('jwt_token');
+            const headers: Record<string, string> = {
+                'Content-Type': 'application/json',
+            };
+
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
             const response = await fetch(`${this.apiEndpoint}debug_log`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers,
                 body: JSON.stringify(logData),
             });
 

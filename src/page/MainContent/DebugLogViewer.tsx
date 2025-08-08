@@ -71,7 +71,16 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
       params.append('limit', limit.toString());
       params.append('offset', ((page - 1) * limit).toString());
 
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}debug_logs?${params}`);
+      const token = localStorage.getItem('jwt_token');
+      const headers: HeadersInit = {};
+      
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}debug_logs?${params}`, {
+        headers
+      });
       
       if (!response.ok) {
         // レスポンス本文を取得してエラー詳細を確認
