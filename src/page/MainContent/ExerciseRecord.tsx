@@ -545,8 +545,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         isDarkMode={isDarkMode}
       />
 
-      {/* スマホ同期ボタン（モバイル表示時のみ） */}
-      {isDeviceSyncSupported() && (isTabletOrMobile || isPortraitMode || isSmallScreen) && (
+      {/* スマホ同期ボタン（Android端末のみ） */}
+      {isDeviceSyncSupported() && (
         <Box sx={{ mb: 3, textAlign: 'center', px: 2 }}>
           <Button
             variant="contained"

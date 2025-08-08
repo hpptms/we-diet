@@ -63,7 +63,9 @@ export const getDeviceInfo = (): DeviceInfo => {
 // デバイスがフィットネス機能をサポートしているかチェック
 export const isDeviceSyncSupported = (): boolean => {
     const deviceInfo = getDeviceInfo();
-    return deviceInfo.isIOS || deviceInfo.isAndroid;
+    // iOSはWebブラウザから実質的にフィットネスデータにアクセス不可能のため除外
+    // AndroidのみでWeb APIによる同期をサポート
+    return deviceInfo.isAndroid;
 };
 
 // デバイス別の設定案内を取得
