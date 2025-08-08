@@ -8,13 +8,33 @@
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://we-diat.com/zh/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diat.com/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diat.com/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diat.com/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://we-diat.com/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diat.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diat.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diat.com/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diat.com/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diat.com/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diat.com/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diat.com/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diat.com/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
-    <lastmod>2025-01-08</lastmod>
+    <lastmod>2025-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+
+  <!-- AMP Japanese -->
+  <url>
+    <loc>https://we-diat.com/amp/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/amp/index.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/amp/index.html" />
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
 
   <!-- English -->
@@ -23,26 +43,49 @@
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://we-diat.com/zh/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diat.com/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diat.com/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diat.com/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://we-diat.com/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diat.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diat.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diat.com/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diat.com/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diat.com/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diat.com/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diat.com/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diat.com/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
-    <lastmod>2025-01-08</lastmod>
+    <lastmod>2025-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Chinese -->
+  <!-- Chinese Simplified -->
   <url>
-    <loc>https://we-diat.com/zh/</loc>
+    <loc>https://we-diat.com/zh-cn/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diat.com/zh/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diat.com/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diat.com/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://we-diat.com/de/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://we-diat.com/es/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
-    <lastmod>2025-01-08</lastmod>
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Chinese Traditional -->
+  <url>
+    <loc>https://we-diat.com/zh-tw/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diat.com/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diat.com/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
+    <lastmod>2025-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
@@ -52,12 +95,10 @@
     <loc>https://we-diat.com/ko/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diat.com/zh/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diat.com/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://we-diat.com/de/" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://we-diat.com/es/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
-    <lastmod>2025-01-08</lastmod>
+    <lastmod>2025-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
@@ -67,13 +108,12 @@
     <loc>https://we-diat.com/de/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diat.com/zh/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diat.com/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://we-diat.com/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diat.com/fr/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
-    <lastmod>2025-01-08</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
@@ -82,20 +122,73 @@
     <loc>https://we-diat.com/es/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diat.com/zh/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diat.com/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://we-diat.com/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diat.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diat.com/pt/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
-    <lastmod>2025-01-08</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <!-- French -->
+  <url>
+    <loc>https://we-diat.com/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diat.com/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diat.com/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diat.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Portuguese -->
+  <url>
+    <loc>https://we-diat.com/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diat.com/es/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diat.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Thai -->
+  <url>
+    <loc>https://we-diat.com/th/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diat.com/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diat.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Vietnamese -->
+  <url>
+    <loc>https://we-diat.com/vi/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diat.com/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diat.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
 
   <!-- Login Page -->
   <url>
     <loc>https://we-diat.com/login</loc>
-    <lastmod>2025-01-08</lastmod>
+    <lastmod>2025-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -103,25 +196,67 @@
   <!-- Privacy Policy -->
   <url>
     <loc>https://we-diat.com/privacy-policy</loc>
-    <lastmod>2025-01-08</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>quarterly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- AMP Privacy Policy -->
+  <url>
+    <loc>https://we-diat.com/amp/privacy-policy.html</loc>
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>quarterly</changefreq>
     <priority>0.4</priority>
   </url>
 
   <!-- Terms of Service -->
   <url>
     <loc>https://we-diat.com/terms-of-service</loc>
-    <lastmod>2025-01-08</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>quarterly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- AMP Terms of Service -->
+  <url>
+    <loc>https://we-diat.com/amp/terms-of-service.html</loc>
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>quarterly</changefreq>
     <priority>0.4</priority>
   </url>
 
   <!-- Data Deletion -->
   <url>
     <loc>https://we-diat.com/data-deletion</loc>
-    <lastmod>2025-01-08</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+
+  <!-- Help & Support (Multilingual) -->
+  <url>
+    <loc>https://we-diat.com/help</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/help" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/help" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diat.com/zh-cn/help" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/help" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/help" />
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Contact (Multilingual) -->
+  <url>
+    <loc>https://we-diat.com/contact</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diat.com/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diat.com/en/contact" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diat.com/zh-cn/contact" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diat.com/contact" />
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
 
 </urlset>

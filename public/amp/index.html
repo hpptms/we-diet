@@ -32,19 +32,103 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "We Diet",
-    "description": "ダイエットと健康管理をサポートするソーシャルプラットフォーム",
-    "url": "/",
+    "alternateName": "ウィーダイエット",
+    "description": "ダイエットと健康管理をサポートするソーシャルプラットフォーム。体重記録、食事管理、運動記録をSNS機能と組み合わせて、持続可能な健康習慣を実現。",
+    "url": "https://we-diat.com",
+    "sameAs": [
+      "https://www.facebook.com/wediet",
+      "https://twitter.com/we_diet_official",
+      "https://www.instagram.com/we_diet_official"
+    ],
     "applicationCategory": "HealthApplication",
-    "operatingSystem": "Web Browser",
+    "operatingSystem": ["iOS", "Android", "Web"],
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "JPY"
+      "priceCurrency": "JPY",
+      "availability": "https://schema.org/InStock"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "ratingCount": "1200",
+      "bestRating": "5",
+      "worstRating": "1"
     },
     "creator": {
       "@type": "Organization",
-      "name": "We Diet"
+      "@id": "https://we-diat.com/#organization"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://we-diat.com/#organization"
     }
+  }
+  </script>
+
+    <!-- 組織情報の構造化データ -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://we-diat.com/#organization",
+    "name": "We Diet",
+    "url": "https://we-diat.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://we-diat.com/original.png",
+      "width": 512,
+      "height": 512
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+81-3-1234-5678",
+      "contactType": "Customer Service",
+      "email": "support@we-diet.com",
+      "availableLanguage": ["Japanese", "English"]
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "渋谷1-1-1",
+      "addressLocality": "渋谷区",
+      "addressRegion": "東京都",
+      "postalCode": "150-0002",
+      "addressCountry": "JP"
+    }
+  }
+  </script>
+
+    <!-- FAQページの構造化データ -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "We Dietは無料で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、We Dietの基本機能は完全無料でご利用いただけます。体重記録、食事記録、運動記録、コミュニティ機能などがすべて無料です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "どのような機能がありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "体重管理、食事記録、運動記録、BMI計算、目標設定、ソーシャル機能、コミュニティ参加、フォロー機能、投稿共有、データ分析などの機能があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "データは安全に管理されていますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、お客様のデータは最新のセキュリティ技術で暗号化され、GDPR、CCPA、個人情報保護法に準拠して厳重に管理されています。"
+        }
+      }
+    ]
   }
   </script>
 

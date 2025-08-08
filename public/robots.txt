@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# プライベートページは除外
+# プライベート・認証が必要なページは除外
 Disallow: /dashboard
 Disallow: /Dashboard
 Disallow: /ProfileSettings
@@ -9,38 +9,132 @@ Disallow: /Exercise
 Disallow: /WeightManagement
 Disallow: /FoodLog
 Disallow: /Dieter
+Disallow: /Settings
+Disallow: /Analytics
 Disallow: /admin/
 Disallow: /api/
+Disallow: /auth/
+Disallow: /oauth/
+Disallow: /callback/
+Disallow: /reset-password*
+Disallow: /verify-email*
 
 # パブリックページは許可
 Allow: /login
 Allow: /privacy-policy
 Allow: /terms-of-service
 Allow: /data-deletion
+Allow: /help
+Allow: /faq
+Allow: /contact
+Allow: /about
+Allow: /blog
+Allow: /amp/
 
-# 不要なファイルはクローリング対象外
+# 多言語ページは許可
+Allow: /en/
+Allow: /zh/
+Allow: /zh-cn/
+Allow: /zh-tw/
+Allow: /ko/
+Allow: /de/
+Allow: /es/
+Allow: /fr/
+Allow: /pt/
+Allow: /it/
+Allow: /ru/
+Allow: /ar/
+Allow: /hi/
+Allow: /th/
+Allow: /vi/
+
+# 開発・システムファイルは除外
 Disallow: /build/
 Disallow: /src/
+Disallow: /node_modules/
 Disallow: /*.js$
 Disallow: /*.css$
 Disallow: /*.json$
+Disallow: /*.map$
+Disallow: /*.ts$
+Disallow: /*.tsx$
+Disallow: /.*
+
+# 一時的・テストページは除外
+Disallow: /test/
+Disallow: /temp/
+Disallow: /staging/
+Disallow: /dev/
+
+# 重複URLパターンの除外
+Disallow: /*?*
+Disallow: /*#*
+Disallow: /*utm_*
+Disallow: /*ref=*
+Disallow: /*fbclid=*
 
 # 検索エンジン固有の設定
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
+Request-rate: 1/10s
 
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
+Crawl-delay: 2
+Request-rate: 1/15s
 
 User-agent: Slurp
 Allow: /
+Crawl-delay: 3
+Request-rate: 1/20s
+
+User-agent: Yandex
+Allow: /
 Crawl-delay: 2
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 3
+
+# ソーシャルメディアクローラー
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# 悪意のあるボット・スクレーパーをブロック
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
 
 # サイトマップの指定
 Sitemap: https://we-diat.com/sitemap.xml
 Sitemap: https://we-diat.com/sitemap_multilang.xml
 
-# クローリング頻度の推奨（任意）
-Crawl-delay: 1
+# デフォルトクローリング頻度の推奨
+Crawl-delay: 2
+
+# ホストの指定（推奨）
+Host: https://we-diat.com

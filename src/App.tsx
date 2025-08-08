@@ -5,6 +5,7 @@ import DashboardLayout from './component/DashboardLayout';
 import { initGA, trackPageView } from './utils/googleAnalytics';
 import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 import { LanguageProvider } from './context/LanguageContext';
+import { useTranslation } from './hooks/useTranslation';
 
 // Lazy load heavy components for better performance
 import { 
@@ -26,27 +27,31 @@ const LazyDataDeletion = React.lazy(() => import('./page/DataDeletion'));
 const LazyTermsOfService = React.lazy(() => import('./page/TermsOfService'));
 
 // Loading component for suspense
-const LoadingComponent = () => (
-  <Box 
-    sx={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      minHeight: '60vh',
-      flexDirection: 'column',
-      gap: 2
-    }}
-  >
-    <CircularProgress size={40} sx={{ color: '#29b6f6' }} />
-    <Box sx={{ 
-      color: '#666', 
-      fontSize: '0.9rem',
-      textAlign: 'center' 
-    }}>
-      読み込み中...
+const LoadingComponent = () => {
+  const { t } = useTranslation();
+  
+  return (
+    <Box 
+      sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '60vh',
+        flexDirection: 'column',
+        gap: 2
+      }}
+    >
+      <CircularProgress size={40} sx={{ color: '#29b6f6' }} />
+      <Box sx={{ 
+        color: '#666', 
+        fontSize: '0.9rem',
+        textAlign: 'center' 
+      }}>
+        {t('common', 'loading')}
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 // 認証判定用のラップコンポーネント
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {

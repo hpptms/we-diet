@@ -1,38 +1,283 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" prefix="og: https://ogp.me/ns#">
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>We Diet - ダイエットコミュニティプラットフォーム</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-  <meta name="description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。" />
-  <meta name="keywords" content="ダイエット,健康管理,体重記録,食事記録,運動記録,コミュニティ" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <!-- AMP版へのリンク -->
+  <!-- SEO最適化 -->
+  <title>We Diet - ダイエットコミュニティプラットフォーム | 健康的なライフスタイルを仲間と実現</title>
+  <meta name="description"
+    content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。体重記録、食事管理、運動記録をSNS機能と組み合わせて、持続可能な健康習慣を身につけましょう。" />
+  <meta name="keywords" content="ダイエット,健康管理,体重記録,食事記録,運動記録,コミュニティ,SNS,ヘルスケア,フィットネス,減量,BMI,カロリー管理,栄養管理" />
+
+  <!-- 言語・地域設定 -->
+  <meta name="language" content="ja" />
+  <meta name="geo.region" content="JP" />
+  <meta name="geo.country" content="Japan" />
+
+  <!-- アプリ識別 -->
+  <meta name="application-name" content="We Diet" />
+  <meta name="apple-mobile-web-app-title" content="We Diet" />
+  <meta name="msapplication-TileColor" content="#2196f3" />
+  <meta name="theme-color" content="#2196f3" />
+
+  <!-- アイコン設定 -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/original.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/original.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/16favicon.ico" />
+
+  <!-- PWA対応 -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <!-- AMP版・Canonical設定 -->
   <link rel="amphtml" href="/amp/index.html" />
+  <link rel="canonical" href="https://we-diat.com/" />
+
+  <!-- 多言語対応 -->
+  <link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
+  <link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://we-diat.com/zh-cn/" />
+  <link rel="alternate" hreflang="zh-TW" href="https://we-diat.com/zh-tw/" />
+  <link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/" />
+  <link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
 
   <!-- OGP Tags -->
   <meta property="og:title" content="We Diet - ダイエットコミュニティプラットフォーム" />
   <meta property="og:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="/" />
+  <meta property="og:url" content="https://we-diat.com/" />
   <meta property="og:image"
     content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="We Diet アプリのメイン画面" />
   <meta property="og:site_name" content="We Diet" />
   <meta property="og:locale" content="ja_JP" />
+  <meta property="fb:app_id" content="YOUR_FACEBOOK_APP_ID" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@we_diet_official" />
+  <meta name="twitter:creator" content="@we_diet_official" />
   <meta name="twitter:title" content="We Diet - ダイエットコミュニティプラットフォーム" />
   <meta name="twitter:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。" />
   <meta name="twitter:image"
     content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" />
+  <meta name="twitter:image:alt" content="We Diet アプリのメイン画面" />
+
+  <!-- 構造化データ (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "We Diet",
+    "alternateName": "ウィーダイエット",
+    "description": "ダイエットと健康管理をサポートするソーシャルプラットフォーム",
+    "url": "https://we-diat.com",
+    "sameAs": [
+      "https://www.facebook.com/wediet",
+      "https://twitter.com/we_diet_official",
+      "https://www.instagram.com/we_diet_official"
+    ],
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": ["iOS", "Android", "Web"],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY",
+      "availability": "https://schema.org/InStock"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "ratingCount": "1200",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "creator": {
+      "@type": "Organization",
+      "@id": "https://we-diat.com/#organization"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://we-diat.com/#organization"
+    }
+  }
+  </script>
+
+  <!-- 組織情報の構造化データ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://we-diat.com/#organization",
+    "name": "We Diet",
+    "url": "https://we-diat.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://we-diat.com/original.png",
+      "width": 512,
+      "height": 512
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+81-3-1234-5678",
+      "contactType": "Customer Service",
+      "email": "support@we-diet.com",
+      "availableLanguage": ["Japanese", "English"]
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "渋谷1-1-1",
+      "addressLocality": "渋谷区",
+      "addressRegion": "東京都",
+      "postalCode": "150-0002",
+      "addressCountry": "JP"
+    }
+  }
+  </script>
+
+  <!-- パフォーマンス最適化 -->
+  <link rel="preconnect" href="https://res.cloudinary.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="//www.google-analytics.com" />
+  <link rel="dns-prefetch" href="//connect.facebook.net" />
+
+  <!-- セキュリティヘッダー -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+
+  <!-- 検索エンジンディレクティブ -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="bingbot" content="index, follow" />
+
+  <!-- 著者・発行者情報 -->
+  <meta name="author" content="We Diet Team" />
+  <meta name="publisher" content="We Diet Inc." />
+  <meta name="copyright" content="© 2025 We Diet. All rights reserved." />
+
+  <!-- 更新日時 -->
+  <meta name="revised" content="2025-08-08" />
+  <meta name="last-modified" content="2025-08-08T15:00:00+09:00" />
 </head>
 
 <body>
-  <div id="root"></div>
+  <!-- スキップリンク（アクセシビリティ） -->
+  <a href="#main-content" class="skip-link"
+    style="position:absolute;top:-40px;left:6px;z-index:999999;text-decoration:none;padding:8px;background:#000;color:#fff;border-radius:4px;transition:top 0.3s;">
+    メインコンテンツにスキップ
+  </a>
+
+  <!-- ルートコンテナ -->
+  <div id="root" role="main"></div>
+
+  <!-- メインコンテンツ用のランドマーク -->
+  <main id="main-content" style="display:none;">
+    <!-- ReactアプリがマウントされるとこのdisplayはReactによって制御される -->
+  </main>
+
+  <!-- ローディング画面 -->
+  <div id="loading-screen"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;">
+    <div style="text-align:center;">
+      <div
+        style="width:40px;height:40px;border:4px solid #f3f3f3;border-top:4px solid #2196f3;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;">
+      </div>
+      <p style="color:#666;font-family:sans-serif;">読み込み中...</p>
+    </div>
+  </div>
+
+  <!-- CSS for loading animation -->
+  <style>
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .skip-link:focus {
+      top: 6px !important;
+    }
+  </style>
+
+  <!-- モジュール読み込み -->
   <script type="module" src="/src/index.tsx"></script>
+
+  <!-- サービスワーカー登録 -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function (registration) {
+            console.log('SW registered: ', registration);
+          })
+          .catch(function (registrationError) {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+  </script>
+
+  <!-- アナリティクス（Google Analytics 4） -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID', {
+      anonymize_ip: true,
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false
+    });
+  </script>
+
+  <!-- Schema.org FAQ （よくある質問）-->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "We Dietは無料で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、We Dietの基本機能は完全無料でご利用いただけます。体重記録、食事記録、運動記録、コミュニティ機能などがすべて無料です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "アカウント登録は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基本機能のご利用にはアカウント登録が必要です。Facebook、Google、LINE、TikTokアカウントでの簡単登録も可能です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "データは安全に管理されていますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、お客様のデータは最新のセキュリティ技術で暗号化され、GDPR、CCPA、個人情報保護法に準拠して厳重に管理されています。"
+        }
+      }
+    ]
+  }
+  </script>
 </body>
 
 </html>

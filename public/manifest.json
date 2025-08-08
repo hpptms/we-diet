@@ -1,17 +1,24 @@
 {
   "name": "We Diet - ダイエット記録＆コミュニティアプリ",
   "short_name": "We Diet",
-  "description": "体重管理、食事記録、運動記録を通してダイエットをサポートするSNSコミュニティアプリ",
+  "description": "体重管理、食事記録、運動記録を通してダイエットをサポートするSNSコミュニティアプリ。健康的なライフスタイルを仲間と一緒に実現しましょう。",
   "start_url": "/",
   "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
   "background_color": "#ffffff",
   "theme_color": "#2196f3",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
   "categories": [
     "health",
     "fitness",
     "lifestyle",
-    "social"
+    "social",
+    "medical",
+    "productivity"
   ],
   "lang": "ja",
   "icons": [
@@ -33,6 +40,18 @@
     },
     {
       "src": "original.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "original.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "original.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
@@ -41,13 +60,115 @@
   "scope": "/",
   "id": "we-diet-app",
   "dir": "ltr",
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+wediet",
+      "url": "/?protocol=%s"
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "image",
+          "accept": [
+            "image/*"
+          ]
+        }
+      ]
+    }
+  },
+  "shortcuts": [
+    {
+      "name": "食事記録",
+      "short_name": "食事",
+      "description": "今日の食事を記録する",
+      "url": "/FoodLog",
+      "icons": [
+        {
+          "src": "original.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "運動記録",
+      "short_name": "運動",
+      "description": "運動・エクササイズを記録する",
+      "url": "/Exercise",
+      "icons": [
+        {
+          "src": "original.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "体重記録",
+      "short_name": "体重",
+      "description": "体重・体脂肪を記録する",
+      "url": "/WeightManagement",
+      "icons": [
+        {
+          "src": "original.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "コミュニティ",
+      "short_name": "SNS",
+      "description": "ダイエット仲間と交流する",
+      "url": "/Dieter",
+      "icons": [
+        {
+          "src": "original.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
   "screenshots": [
     {
       "src": "original.png",
-      "sizes": "512x512",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "We Diet モバイル版のスクリーンショット"
+    },
+    {
+      "src": "original.png",
+      "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "We Diet アプリのスクリーンショット"
+      "label": "We Diet デスクトップ版のスクリーンショット"
     }
-  ]
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.wediet.app",
+      "id": "com.wediet.app"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/we-diet/id123456789"
+    }
+  ],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  "handle_links": "preferred",
+  "capture_links": "existing-client-navigate"
 }
