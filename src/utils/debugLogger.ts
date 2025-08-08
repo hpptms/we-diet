@@ -46,8 +46,8 @@ class DebugLogger {
                 url: window.location.href,
             };
 
-            // コンソールにも出力（開発時の確認用）
-            console.log(`[${entry.log_level}] ${entry.message}`, entry.details ? entry.details : '');
+            // コンソール出力を無効化（サイレント処理）
+            // Details are still preserved in DB logs
 
             const token = localStorage.getItem('jwt_token');
             const headers: Record<string, string> = {
@@ -65,10 +65,10 @@ class DebugLogger {
             });
 
             if (!response.ok) {
-                console.error('Failed to send debug log:', response.statusText);
+                // Debug log send failed - silent handling
             }
         } catch (error) {
-            console.error('Error sending debug log:', error);
+            // Debug log send error - silent handling
             // ログ送信に失敗してもアプリケーションの動作は継続
         }
     }
