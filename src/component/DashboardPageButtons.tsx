@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../recoil/darkModeAtom';
+import { useTranslation } from '../hooks/useTranslation';
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter' | 'debug';
 
@@ -16,6 +17,7 @@ interface DashboardPageButtonsProps {
 const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChange, hasWeightInput, showInstallButton, onInstallClick, isAdmin, adminLoading }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -102,7 +104,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           onViewChange('profile');
         }}
       >
-        👤 プロフィール変更
+        👤 {t('profile', 'editProfile')}
       </button>
       
       <button
@@ -161,8 +163,8 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
             "🤸", "🧘", "🤾", "🏋️", "🤺", "🏇", "⛷️", "🏂", "🤸‍♀️", "🧗"
           ];
           const icon = icons[Math.floor(Math.random() * icons.length)];
-          return `✨ 運動記録済 ${icon}`;
-        })() : "💪 運動を記録"}
+          return `✨ ${t('exercise', 'recordExercise')} ${icon}`;
+        })() : `💪 ${t('exercise', 'recordExercise')}`}
       </button>
       
       <button
@@ -215,7 +217,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           onViewChange('weight');
         }}
       >
-        ⚖️ 体重を管理
+        ⚖️ {t('weight', 'weight')}
       </button>
       
       <button
@@ -268,7 +270,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           onViewChange('FoodLog');
         }}
       >
-        🍽️ 食事を記録
+        🍽️ {t('food', 'recordMeal')}
       </button>
       
       <button
