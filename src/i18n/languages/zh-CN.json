@@ -16,7 +16,8 @@
         "next": "下一页",
         "previous": "上一页",
         "more": "更多",
-        "less": "收起"
+        "less": "收起",
+        "user": "用户"
     },
     "auth": {
         "login": "登录",
@@ -215,6 +216,7 @@
         "validationError": "请检查输入内容",
         "unexpectedError": "发生意外错误",
         "tryAgain": "重试",
+        "loginError": "登录出错: {error}",
         "contactSupport": "联系客服"
     },
     "time": {

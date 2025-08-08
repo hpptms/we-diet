@@ -16,7 +16,8 @@
         "next": "Siguiente",
         "previous": "Anterior",
         "more": "Ver más",
-        "less": "Ver menos"
+        "less": "Ver menos",
+        "user": "Usuario"
     },
     "auth": {
         "login": "Iniciar sesión",
@@ -215,6 +216,7 @@
         "validationError": "Por favor revisa tu entrada",
         "unexpectedError": "Ha ocurrido un error inesperado",
         "tryAgain": "Intentar de nuevo",
+        "loginError": "Error de inicio de sesión: {error}",
         "contactSupport": "Contactar soporte"
     },
     "time": {

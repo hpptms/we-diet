@@ -16,7 +16,8 @@
         "next": "Next",
         "previous": "Previous",
         "more": "More",
-        "less": "Less"
+        "less": "Less",
+        "user": "User"
     },
     "auth": {
         "login": "Login",
@@ -215,6 +216,7 @@
         "validationError": "Please check your input",
         "unexpectedError": "An unexpected error occurred",
         "tryAgain": "Try again",
+        "loginError": "Login error occurred: {error}",
         "contactSupport": "Contact Support"
     },
     "time": {

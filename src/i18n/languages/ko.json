@@ -16,7 +16,8 @@
         "next": "다음",
         "previous": "이전",
         "more": "더 보기",
-        "less": "접기"
+        "less": "접기",
+        "user": "사용자"
     },
     "auth": {
         "login": "로그인",
@@ -215,6 +216,7 @@
         "validationError": "입력 내용을 확인해주세요",
         "unexpectedError": "예기치 않은 오류가 발생했습니다",
         "tryAgain": "다시 시도",
+        "loginError": "로그인 오류 발생: {error}",
         "contactSupport": "고객지원 문의"
     },
     "time": {
