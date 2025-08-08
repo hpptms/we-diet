@@ -32,23 +32,32 @@ export interface GoogleFitAuthStatus {
 const SYNC_PERMISSION_KEY = 'device_sync_permission';
 const GOOGLE_FIT_AUTH_KEY = 'google_fit_auth';
 
-// Google Fit API設定
+// Google Fit API設定（GAPI使用）
 const GOOGLE_FIT_CONFIG = {
     clientId: process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID ||
         // テスト用のダミーClient ID（実際の運用では環境変数を使用）
         '123456789-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com',
-    redirectUri: window.location.origin,
-    scope: 'https://www.googleapis.com/auth/fitness.activity.read https://www.googleapis.com/auth/fitness.body.read',
-    responseType: 'token'
+    apiKey: process.env.REACT_APP_GOOGLE_API_KEY ||
+        // テスト用のダミーAPI Key（実際の運用では環境変数を使用）
+        'AIzaSyDummyApiKey1234567890abcdefghijk',
+    discoveryDoc: 'https://www.googleapis.com/discovery/v1/apis/fitness/v1/rest',
+    scopes: [
+        'https://www.googleapis.com/auth/fitness.activity.read',
+        'https://www.googleapis.com/auth/fitness.body.read'
+    ]
 };
 
 // デバッグ用設定ログ出力
-console.log('=== Google Fit設定 ===');
+console.log('=== Google Fit設定 (GAPI) ===');
 console.log('Client ID source:', process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID ? 'Environment' : 'Default');
 console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId);
-console.log('Redirect URI:', GOOGLE_FIT_CONFIG.redirectUri);
-console.log('Scope:', GOOGLE_FIT_CONFIG.scope);
-console.log('========================');
+console.log('API Key source:', process.env.REACT_APP_GOOGLE_API_KEY ? 'Environment' : 'Default');
+console.log('Scopes:', GOOGLE_FIT_CONFIG.scopes.join(', '));
+console.log('================================');
+
+// GAPI初期化状態
+let gapiInitialized = false;
+let gapiAuthInstance: any = null;
 
 export const getSyncPermissionStatus = (): SyncPermissionStatus => {
     const stored = localStorage.getItem(SYNC_PERMISSION_KEY);
@@ -110,118 +119,173 @@ export const clearGoogleFitAuth = (): void => {
     localStorage.removeItem(GOOGLE_FIT_AUTH_KEY);
 };
 
-// Google OAuth認証を開始
-export const initiateGoogleFitAuth = (): void => {
-    console.log('=== Google Fit認証開始 ===');
-    console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId ? '[設定済み]' : '[未設定]');
-    console.log('Redirect URI:', GOOGLE_FIT_CONFIG.redirectUri);
+// GAPI ライブラリを動的にロード
+const loadGapiScript = (): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        if ((window as any).gapi) {
+            resolve();
+            return;
+        }
 
-    if (!GOOGLE_FIT_CONFIG.clientId) {
+        const script = document.createElement('script');
+        script.src = 'https://apis.google.com/js/api.js';
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('Failed to load Google API script'));
+        document.head.appendChild(script);
+    });
+};
+
+// GAPI初期化
+const initializeGapi = async (): Promise<void> => {
+    if (gapiInitialized) {
+        return;
+    }
+
+    try {
+        console.log('=== GAPI初期化開始 ===');
+
+        // GAPIスクリプトをロード
+        await loadGapiScript();
+
+        // GAPI初期化
+        await new Promise<void>((resolve, reject) => {
+            (window as any).gapi.load('client:auth2', {
+                callback: resolve,
+                onerror: () => reject(new Error('Failed to load GAPI client'))
+            });
+        });
+
+        // クライアント初期化
+        await (window as any).gapi.client.init({
+            apiKey: GOOGLE_FIT_CONFIG.apiKey,
+            clientId: GOOGLE_FIT_CONFIG.clientId,
+            discoveryDocs: [GOOGLE_FIT_CONFIG.discoveryDoc],
+            scope: GOOGLE_FIT_CONFIG.scopes.join(' ')
+        });
+
+        gapiAuthInstance = (window as any).gapi.auth2.getAuthInstance();
+        gapiInitialized = true;
+        console.log('GAPI初期化完了');
+    } catch (error) {
+        console.error('GAPI初期化エラー:', error);
+        throw error;
+    }
+};
+
+// Google Fit認証を開始（GAPI使用）
+export const initiateGoogleFitAuth = async (): Promise<void> => {
+    console.log('=== Google Fit認証開始 (GAPI) ===');
+
+    if (!GOOGLE_FIT_CONFIG.clientId || GOOGLE_FIT_CONFIG.clientId.includes('dummy')) {
         console.error('Google Fit Client ID is not configured');
         alert('Google Fit Client IDが設定されていません。開発者に連絡してください。');
         return;
     }
 
-    const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
-    authUrl.searchParams.append('client_id', GOOGLE_FIT_CONFIG.clientId);
-    authUrl.searchParams.append('redirect_uri', GOOGLE_FIT_CONFIG.redirectUri);
-    authUrl.searchParams.append('scope', GOOGLE_FIT_CONFIG.scope);
-    authUrl.searchParams.append('response_type', GOOGLE_FIT_CONFIG.responseType);
-    authUrl.searchParams.append('include_granted_scopes', 'true');
-    authUrl.searchParams.append('state', 'google_fit_auth');
-
-    console.log('OAuth URL:', authUrl.toString());
-    console.log('Attempting redirect...');
-
     try {
-        window.location.href = authUrl.toString();
-        console.log('Redirect initiated');
+        // GAPI初期化
+        await initializeGapi();
+
+        // 認証実行
+        console.log('Google認証を実行中...');
+        const authResult = await gapiAuthInstance.signIn({
+            scope: GOOGLE_FIT_CONFIG.scopes.join(' ')
+        });
+
+        const accessToken = authResult.getAuthResponse().access_token;
+        const expiresIn = authResult.getAuthResponse().expires_in;
+
+        // 認証情報をlocalStorageに保存
+        setGoogleFitAuthStatus(accessToken, expiresIn);
+
+        console.log('Google Fit認証成功');
+        alert('Google Fitとの連携が完了しました！\n再度「スマホと同期」ボタンを押してデータを取得してください。');
+
     } catch (error) {
-        console.error('Redirect failed:', error);
-        alert(`認証画面への移動に失敗しました: ${error}`);
+        console.error('Google Fit認証エラー:', error);
+        alert(`認証に失敗しました: ${error}`);
     }
 };
 
-// URLフラグメントからOAuth結果を解析
+// GAPI認証状態をチェック
 export const handleGoogleFitAuthCallback = (): GoogleFitAuthStatus => {
-    const fragment = window.location.hash.substring(1);
-    const params = new URLSearchParams(fragment);
+    // GAPI実装では、URLフラグメント処理は不要
+    // 認証はinitializeGapi()とsignIn()で完結している
 
-    const accessToken = params.get('access_token');
-    const expiresIn = params.get('expires_in');
-    const error = params.get('error');
-    const state = params.get('state');
+    try {
+        if (gapiInitialized && gapiAuthInstance && gapiAuthInstance.isSignedIn.get()) {
+            const user = gapiAuthInstance.currentUser.get();
+            const authResponse = user.getAuthResponse();
 
-    // stateパラメータで認証の種類を確認
-    if (state !== 'google_fit_auth') {
-        return { isAuthenticated: false };
-    }
-
-    // URLフラグメントをクリア
-    window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
-
-    if (error) {
-        console.error('Google Fit auth error:', error);
-        return { isAuthenticated: false, error };
-    }
-
-    if (accessToken && expiresIn) {
-        const expiresInSeconds = parseInt(expiresIn, 10);
-        setGoogleFitAuthStatus(accessToken, expiresInSeconds);
-        console.log('Google Fit authentication successful');
-        return {
-            isAuthenticated: true,
-            accessToken,
-            expiresAt: Date.now() + (expiresInSeconds * 1000)
-        };
+            if (authResponse && authResponse.access_token) {
+                console.log('GAPI認証状態: 認証済み');
+                return {
+                    isAuthenticated: true,
+                    accessToken: authResponse.access_token,
+                    expiresAt: authResponse.expires_at
+                };
+            }
+        }
+    } catch (error) {
+        console.error('GAPI認証状態チェックエラー:', error);
     }
 
     return { isAuthenticated: false };
 };
 
-// Google Fit APIからデータを取得
-export const fetchGoogleFitData = async (accessToken: string): Promise<DeviceExerciseData | null> => {
+// Google Fit APIからデータを取得（GAPI使用）
+export const fetchGoogleFitData = async (accessToken?: string): Promise<DeviceExerciseData | null> => {
     try {
-        const endTime = Date.now();
-        const startTime = endTime - (24 * 60 * 60 * 1000); // 過去24時間
+        console.log('=== Google Fit データ取得開始 ===');
 
-        // 歩数データを取得
-        const stepsResponse = await fetch(`https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                aggregateBy: [
-                    {
-                        dataTypeName: 'com.google.step_count.delta',
-                        dataSourceId: 'derived:com.google.step_count.delta:com.google.android.gms:estimated_steps'
-                    }
-                ],
-                bucketByTime: {
-                    durationMillis: 24 * 60 * 60 * 1000 // 1日
-                },
-                startTimeMillis: startTime.toString(),
-                endTimeMillis: endTime.toString()
-            })
-        });
-
-        if (!stepsResponse.ok) {
-            throw new Error(`Google Fit API error: ${stepsResponse.status}`);
+        // GAPI初期化を確認
+        if (!gapiInitialized) {
+            await initializeGapi();
         }
 
-        const stepsData = await stepsResponse.json();
-        console.log('Google Fit steps data:', stepsData);
+        // 認証状態を確認
+        if (!gapiAuthInstance.isSignedIn.get()) {
+            console.log('Google認証が必要です');
+            return null;
+        }
+
+        const now = new Date();
+        const startTimeMillis = now.setHours(0, 0, 0, 0); // 今日の0時
+        const endTimeMillis = Date.now();
+
+        console.log('データ取得期間:', new Date(startTimeMillis), '～', new Date(endTimeMillis));
+
+        // 歩数データを集計取得
+        const requestBody = {
+            aggregateBy: [
+                { dataTypeName: 'com.google.step_count.delta' }
+            ],
+            bucketByTime: { durationMillis: 86400000 }, // 1日単位 (24 * 60 * 60 * 1000)
+            startTimeMillis: startTimeMillis,
+            endTimeMillis: endTimeMillis
+        };
+
+        console.log('Request body:', JSON.stringify(requestBody, null, 2));
+
+        const response = await (window as any).gapi.client.fitness.users.dataset.aggregate({
+            userId: 'me',
+            resource: requestBody
+        });
+
+        console.log('Google Fit API レスポンス:', response);
 
         let totalSteps = 0;
-        if (stepsData.bucket && stepsData.bucket.length > 0) {
-            for (const bucket of stepsData.bucket) {
+        let totalDistance = 0;
+        let activeMinutes = 0;
+
+        if (response.result && response.result.bucket) {
+            for (const bucket of response.result.bucket) {
                 if (bucket.dataset && bucket.dataset.length > 0) {
                     for (const dataset of bucket.dataset) {
-                        if (dataset.point) {
+                        if (dataset.point && dataset.point.length > 0) {
                             for (const point of dataset.point) {
                                 if (point.value && point.value.length > 0) {
+                                    // 歩数データを集計
                                     totalSteps += point.value[0].intVal || 0;
                                 }
                             }
@@ -231,38 +295,30 @@ export const fetchGoogleFitData = async (accessToken: string): Promise<DeviceExe
             }
         }
 
-        // 距離データを取得（オプション）
-        const distanceResponse = await fetch(`https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+        // 距離データも取得（別リクエスト）
+        try {
+            const distanceRequest = {
                 aggregateBy: [
-                    {
-                        dataTypeName: 'com.google.distance.delta'
-                    }
+                    { dataTypeName: 'com.google.distance.delta' }
                 ],
-                bucketByTime: {
-                    durationMillis: 24 * 60 * 60 * 1000
-                },
-                startTimeMillis: startTime.toString(),
-                endTimeMillis: endTime.toString()
-            })
-        });
+                bucketByTime: { durationMillis: 86400000 },
+                startTimeMillis: startTimeMillis,
+                endTimeMillis: endTimeMillis
+            };
 
-        let totalDistance = 0;
-        if (distanceResponse.ok) {
-            const distanceData = await distanceResponse.json();
-            if (distanceData.bucket && distanceData.bucket.length > 0) {
-                for (const bucket of distanceData.bucket) {
+            const distanceResponse = await (window as any).gapi.client.fitness.users.dataset.aggregate({
+                userId: 'me',
+                resource: distanceRequest
+            });
+
+            if (distanceResponse.result && distanceResponse.result.bucket) {
+                for (const bucket of distanceResponse.result.bucket) {
                     if (bucket.dataset && bucket.dataset.length > 0) {
                         for (const dataset of bucket.dataset) {
-                            if (dataset.point) {
+                            if (dataset.point && dataset.point.length > 0) {
                                 for (const point of dataset.point) {
                                     if (point.value && point.value.length > 0) {
-                                        totalDistance += point.value[0].fpVal || 0;
+                                        totalDistance += point.value[0].fpVal || 0; // メートル単位
                                     }
                                 }
                             }
@@ -270,20 +326,30 @@ export const fetchGoogleFitData = async (accessToken: string): Promise<DeviceExe
                     }
                 }
             }
+        } catch (distanceError) {
+            console.log('Distance data not available:', distanceError);
         }
 
+        console.log('取得データ - 歩数:', totalSteps, '距離:', totalDistance);
+
         if (totalSteps > 0) {
+            // 歩数からアクティブ時間を推定（80歩/分として計算）
+            activeMinutes = Math.round(totalSteps / 80);
+
             return {
                 steps: totalSteps,
                 distance: totalDistance > 0 ? Math.round((totalDistance / 1000) * 100) / 100 : undefined, // km変換
-                duration: totalSteps > 0 ? Math.round(totalSteps / 80) : undefined, // 推定時間（分）
-                calories: Math.round(totalSteps * 0.04)
+                duration: activeMinutes,
+                calories: Math.round(totalSteps * 0.04), // 歩数からカロリー推定
+                activeMinutes: activeMinutes
             };
         }
 
+        console.log('歩数データが見つかりませんでした');
         return null;
+
     } catch (error) {
-        console.error('Error fetching Google Fit data:', error);
+        console.error('Google Fit データ取得エラー:', error);
         return null;
     }
 };
@@ -369,15 +435,24 @@ export const syncWithDevice = async (): Promise<DeviceExerciseData | null> => {
 
         const deviceInfo = getDeviceInfo();
 
-        // Android端末でGoogle Fit認証済みの場合はAPI使用
+        // Android端末でGoogle Fit認証済みの場合はGAPI使用
         if (deviceInfo.isAndroid) {
-            const authStatus = getGoogleFitAuthStatus();
-            if (authStatus.isAuthenticated && authStatus.accessToken) {
-                console.log('Google Fit APIを使用してデータを取得...');
-                const fitData = await fetchGoogleFitData(authStatus.accessToken);
+            if (gapiInitialized && gapiAuthInstance && gapiAuthInstance.isSignedIn.get()) {
+                console.log('Google Fit GAPI を使用してデータを取得...');
+                const fitData = await fetchGoogleFitData();
                 if (fitData) {
-                    console.log('Google Fit APIからデータを取得:', fitData);
+                    console.log('Google Fit GAPI からデータを取得:', fitData);
                     return fitData;
+                }
+            } else {
+                const authStatus = getGoogleFitAuthStatus();
+                if (authStatus.isAuthenticated) {
+                    console.log('LocalStorage認証情報でGoogle Fit APIを使用...');
+                    const fitData = await fetchGoogleFitData(authStatus.accessToken);
+                    if (fitData) {
+                        console.log('Google Fit API からデータを取得:', fitData);
+                        return fitData;
+                    }
                 }
             }
         }
