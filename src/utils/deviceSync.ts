@@ -43,13 +43,15 @@ const GOOGLE_FIT_CONFIG = {
     ]
 };
 
-// デバッグ用設定ログ出力
-console.log('=== Google Fit設定 (GAPI) ===');
-console.log('Client ID source:', process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID ? 'Environment' : 'Default');
-console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId);
-console.log('API Key source:', process.env.REACT_APP_GOOGLE_API_KEY ? 'Environment' : 'Default');
-console.log('Scopes:', GOOGLE_FIT_CONFIG.scopes.join(', '));
-console.log('================================');
+// デバッグ用設定ログ出力（開発環境のみ）
+if (process.env.NODE_ENV === 'development') {
+    console.log('=== Google Fit設定 (GAPI) ===');
+    console.log('Client ID source:', process.env.REACT_APP_GOOGLE_FIT_CLIENT_ID ? 'Environment' : 'Default');
+    console.log('Client ID:', GOOGLE_FIT_CONFIG.clientId);
+    console.log('API Key source:', process.env.REACT_APP_GOOGLE_API_KEY ? 'Environment' : 'Default');
+    console.log('Scopes:', GOOGLE_FIT_CONFIG.scopes.join(', '));
+    console.log('================================');
+}
 
 // GAPI初期化状態
 let gapiInitialized = false;
@@ -174,7 +176,8 @@ export const initiateGoogleFitAuth = async (): Promise<void> => {
 
     if (!GOOGLE_FIT_CONFIG.clientId || !GOOGLE_FIT_CONFIG.apiKey) {
         console.error('Google Fit credentials are not configured');
-        alert('Google Fit認証情報が設定されていません。環境変数を確認してください。');
+        // ユーザーには技術的な詳細を表示せず、一般的なエラーメッセージを表示
+        alert('現在Google Fitとの連携に問題が発生しています。\nしばらく時間をおいて再度お試しください。');
         return;
     }
 
