@@ -39,8 +39,7 @@ const GOOGLE_FIT_CONFIG = {
     apiKey: import.meta.env.VITE_GOOGLE_API_KEY || '',
     discoveryDoc: 'https://www.googleapis.com/discovery/v1/apis/fitness/v1/rest',
     scopes: [
-        'https://www.googleapis.com/auth/fitness.activity.read',
-        'https://www.googleapis.com/auth/fitness.body.read'
+        'https://www.googleapis.com/auth/fitness.activity.read'
     ]
 };
 
@@ -160,27 +159,47 @@ const initializeGapi = async (): Promise<void> => {
         // GAPIスクリプトをロード
         await loadGapiScript();
 
-        // GAPI初期化
+        // GAPI初期化 - より安全な方法
         await new Promise<void>((resolve, reject) => {
-            (window as any).gapi.load('client:auth2', {
-                callback: resolve,
-                onerror: () => reject(new Error('Failed to load GAPI client'))
+            (window as any).gapi.load('auth2', {
+                callback: () => {
+                    console.log('gapi.auth2 loaded successfully');
+                    resolve();
+                },
+                onerror: (error: any) => {
+                    console.error('Failed to load gapi.auth2:', error);
+                    reject(new Error('Failed to load GAPI auth2'));
+                }
             });
         });
 
-        // クライアント初期化
-        await (window as any).gapi.client.init({
-            apiKey: GOOGLE_FIT_CONFIG.apiKey,
-            clientId: GOOGLE_FIT_CONFIG.clientId,
-            discoveryDocs: [GOOGLE_FIT_CONFIG.discoveryDoc],
+        // Auth2初期化
+        console.log('Initializing gapi.auth2...');
+        await (window as any).gapi.auth2.init({
+            client_id: GOOGLE_FIT_CONFIG.clientId,
             scope: GOOGLE_FIT_CONFIG.scopes.join(' ')
         });
 
         gapiAuthInstance = (window as any).gapi.auth2.getAuthInstance();
+
+        if (!gapiAuthInstance) {
+            throw new Error('Failed to get auth instance');
+        }
+
         gapiInitialized = true;
         console.log('GAPI初期化完了');
     } catch (error) {
         console.error('GAPI初期化エラー:', error);
+
+        // デバッグ情報を追加
+        debugLogger.googleFitError('GAPI Initialization Failed', error, {
+            gapiAvailable: !!(window as any).gapi,
+            auth2Available: !!(window as any).gapi?.auth2,
+            clientId: GOOGLE_FIT_CONFIG.clientId,
+            currentDomain: window.location.origin,
+            userAgent: navigator.userAgent
+        });
+
         throw error;
     }
 };
