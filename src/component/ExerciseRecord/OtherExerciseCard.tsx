@@ -9,6 +9,7 @@ import {
   Chip,
 } from '@mui/material';
 import SportsIcon from '@mui/icons-material/Sports';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface OtherExerciseCardProps {
   otherExerciseTime: string;
@@ -21,6 +22,8 @@ const OtherExerciseCard: React.FC<OtherExerciseCardProps> = ({
   onOtherExerciseTimeChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Card sx={{ borderRadius: 3, overflow: 'hidden', height: '100%', border: isDarkMode ? '1px solid white' : 'none' }}>
       <Box sx={{ 
@@ -29,18 +32,18 @@ const OtherExerciseCard: React.FC<OtherExerciseCardProps> = ({
         border: isDarkMode ? '1px solid white' : 'none',
       }}>
         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
-          <SportsIcon /> その他運動
+          <SportsIcon /> {t('exercise', 'otherExercise.title')}
         </Typography>
       </Box>
       <CardContent sx={{ background: isDarkMode ? '#000000' : '#faf5ff' }}>
         <TextField
-          label="時間"
+          label={t('exercise', 'otherExercise.timePlaceholder')}
           value={otherExerciseTime}
           onChange={(e) => onOtherExerciseTimeChange(e.target.value)}
           type="number"
           fullWidth
           InputProps={{
-            endAdornment: <InputAdornment position="end">分</InputAdornment>,
+            endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.minutes')}</InputAdornment>,
           }}
           variant="outlined"
           sx={{
@@ -66,7 +69,7 @@ const OtherExerciseCard: React.FC<OtherExerciseCardProps> = ({
         />
         {otherExerciseTime && (
           <Chip 
-            label={`${otherExerciseTime}分間頑張りました！`} 
+            label={t('exercise', 'otherExercise.congratulationMessage', { time: otherExerciseTime })} 
             color="secondary" 
             sx={{ mt: 2 }} 
           />

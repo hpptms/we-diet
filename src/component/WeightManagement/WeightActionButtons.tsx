@@ -1,6 +1,7 @@
 import React from 'react';
 import { Stack, Button, ButtonGroup, Box, Typography, IconButton } from '@mui/material';
 import { Today, History, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface WeightActionButtonsProps {
   viewPeriod: 'month' | 'year';
@@ -23,6 +24,8 @@ const WeightActionButtons: React.FC<WeightActionButtonsProps> = ({
   onNavigatePrevious,
   onNavigateNext,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Stack direction="row" spacing={2} sx={{ mb: 4, flexWrap: 'wrap', gap: 2 }}>
       {/* 体重記録ボタン */}
@@ -34,7 +37,7 @@ const WeightActionButtons: React.FC<WeightActionButtonsProps> = ({
           startIcon={<Today />}
           sx={{ px: 3 }}
         >
-          今日の体重を記録
+          {t('weight', 'addTodayWeight', {}, '今日の体重を記録')}
         </Button>
         <Button
           onClick={onAddPastWeight}
@@ -43,7 +46,7 @@ const WeightActionButtons: React.FC<WeightActionButtonsProps> = ({
           startIcon={<History />}
           sx={{ px: 3 }}
         >
-          過去の体重を記録
+          {t('weight', 'addPastWeight', {}, '過去の体重を記録')}
         </Button>
       </Stack>
 
@@ -53,13 +56,13 @@ const WeightActionButtons: React.FC<WeightActionButtonsProps> = ({
           onClick={() => onViewPeriodChange('month')}
           variant={viewPeriod === 'month' ? 'contained' : 'outlined'}
         >
-          1か月
+          {t('weight', 'monthView', {}, '1か月')}
         </Button>
         <Button
           onClick={() => onViewPeriodChange('year')}
           variant={viewPeriod === 'year' ? 'contained' : 'outlined'}
         >
-          1年
+          {t('weight', 'yearView', {}, '1年')}
         </Button>
       </ButtonGroup>
 

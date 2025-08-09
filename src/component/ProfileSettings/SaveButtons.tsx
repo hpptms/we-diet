@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button, CircularProgress } from '@mui/material';
 import { useResponsive } from '../../hooks/useResponsive';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface SaveButtonsProps {
     loading: boolean;
@@ -14,6 +15,7 @@ const SaveButtons: React.FC<SaveButtonsProps> = ({
     onBack,
 }) => {
     const { isMobile, isTablet } = useResponsive();
+    const { t } = useTranslation();
 
     return (
         <Box sx={{
@@ -41,7 +43,7 @@ const SaveButtons: React.FC<SaveButtonsProps> = ({
                     maxWidth: isMobile ? '100%' : 'none'
                 }}
             >
-                {loading ? <CircularProgress size={20} color="inherit" /> : 'プロフィールを保存'}
+                {loading ? <CircularProgress size={20} color="inherit" /> : t('profile', 'saveProfile')}
             </Button>
             <Button
                 variant="outlined"
@@ -58,7 +60,7 @@ const SaveButtons: React.FC<SaveButtonsProps> = ({
                     maxWidth: isMobile ? '100%' : 'none'
                 }}
             >
-                戻る
+                {t('profile', 'back')}
             </Button>
         </Box>
     );

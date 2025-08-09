@@ -3,6 +3,7 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import { PostForm, PostCard } from '../post';
 import { Messages } from '../message';
 import NotificationsPage from '../notifications/NotificationsPage';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface MainContentProps {
   isDarkMode: boolean;
@@ -45,6 +46,8 @@ const MainContent: React.FC<MainContentProps> = ({
   onPostDelete,
   filterSensitivePosts,
 }) => {
+  const { t } = useTranslation();
+  
   if (showMessages) {
     return <Messages onBack={onBackFromMessages} />;
   }
@@ -78,7 +81,7 @@ const MainContent: React.FC<MainContentProps> = ({
               fontWeight: 600 
             }}
           >
-            {showFollowingPosts ? 'フォローTL' : 'ホームTL'}
+            {showFollowingPosts ? t('dieter', 'timeline.following', {}, 'フォローTL') : t('dieter', 'timeline.home', {}, 'ホームTL')}
           </Typography>
           {showFollowingPosts && (
             <Typography 
@@ -89,7 +92,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 mt: 0.5
               }}
             >
-              フォロー中のユーザーの投稿のみ表示
+              {t('dieter', 'timeline.followingDescription', {}, 'フォロー中のユーザーの投稿のみ表示')}
             </Typography>
           )}
         </Box>
@@ -117,7 +120,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 fontWeight: 600 
               }}
             >
-              "{searchQuery}" の検索結果
+              {t('dieter', 'search.resultsFor', {}, '"{searchQuery}" の検索結果').replace('{searchQuery}', searchQuery)}
             </Typography>
           </Box>
 
@@ -144,7 +147,7 @@ const MainContent: React.FC<MainContentProps> = ({
                   fontSize: '1rem'
                 }}
               >
-                検索中...
+                {t('dieter', 'timeline.searching', {}, '検索中...')}
               </Typography>
             </Box>
           ) : searchResults.length === 0 ? (
@@ -162,8 +165,7 @@ const MainContent: React.FC<MainContentProps> = ({
                   textAlign: 'center'
                 }}
               >
-                "{searchQuery}" に一致する投稿が見つかりませんでした。<br />
-                別のキーワードで検索してみてください。
+                {t('dieter', 'search.noResults', {}, '"{searchQuery}" に一致する投稿が見つかりませんでした。<br />別のキーワードで検索してみてください。').replace('{searchQuery}', searchQuery)}
               </Typography>
             </Box>
           ) : (
@@ -203,7 +205,7 @@ const MainContent: React.FC<MainContentProps> = ({
                   fontSize: '1rem'
                 }}
               >
-                投稿を読み込み中...
+                {t('dieter', 'timeline.loading', {}, '投稿を読み込み中...')}
               </Typography>
             </Box>
           ) : posts.length === 0 ? (
@@ -222,8 +224,8 @@ const MainContent: React.FC<MainContentProps> = ({
                 }}
               >
                 {showFollowingPosts 
-                  ? 'フォロー中のユーザーの投稿がありません。<br />ユーザーをフォローしてタイムラインを充実させましょう！'
-                  : 'まだ投稿がありません。<br />最初の投稿をしてみましょう！'
+                  ? t('dieter', 'timeline.noFollowingPosts', {}, 'フォロー中のユーザーの投稿がありません。<br />ユーザーをフォローしてタイムラインを充実させましょう！')
+                  : t('dieter', 'timeline.noPosts', {}, 'まだ投稿がありません。<br />最初の投稿をしてみましょう！')
                 }
               </Typography>
             </Box>

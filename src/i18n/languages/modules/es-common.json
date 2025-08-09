@@ -1,0 +1,50 @@
+{
+    "common": {
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "submit": "Enviar",
+        "loading": "Cargando...",
+        "error": "Ha ocurrido un error",
+        "success": "Éxito",
+        "confirm": "Confirmar",
+        "yes": "Sí",
+        "no": "No",
+        "close": "Cerrar",
+        "search": "Buscar",
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "more": "Ver más",
+        "less": "Ver menos",
+        "user": "Usuario",
+        "recorded": "Registrado"
+    },
+    "time": {
+        "now": "Ahora",
+        "justNow": "Justo ahora",
+        "minutesAgo": "hace {count} minutos",
+        "hoursAgo": "hace {count} horas",
+        "daysAgo": "hace {count} días",
+        "weeksAgo": "hace {count} semanas",
+        "monthsAgo": "hace {count} meses",
+        "yearsAgo": "hace {count} años",
+        "today": "Hoy",
+        "yesterday": "Ayer",
+        "thisWeek": "Esta semana",
+        "thisMonth": "Este mes",
+        "thisYear": "Este año"
+    },
+    "errors": {
+        "networkError": "Error de red",
+        "serverError": "Error del servidor",
+        "unauthorizedError": "Autenticación requerida",
+        "forbiddenError": "Acceso denegado",
+        "notFoundError": "Página no encontrada",
+        "validationError": "Por favor revisa tu entrada",
+        "unexpectedError": "Ha ocurrido un error inesperado",
+        "tryAgain": "Intentar de nuevo",
+        "loginError": "Error de inicio de sesión: {error}",
+        "contactSupport": "Contactar soporte"
+    }
+}

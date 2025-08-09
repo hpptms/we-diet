@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { Upload, AccountCircle } from '@mui/icons-material';
 import { DEFAULT_IMAGES, DefaultImage } from '../../image/DefaultImage';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface IconSelectorProps {
   iconType: 'preset' | 'upload';
@@ -33,10 +34,12 @@ const IconSelector: React.FC<IconSelectorProps> = ({
   onShowPresetToggle,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Box sx={{ mb: 3 }}>
       <Typography variant="h6" gutterBottom sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
-        アイコン設定
+        {t('profile', 'iconSettings')}
       </Typography>
       
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -62,7 +65,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
             }}
             sx={{ mr: 1, mb: 1 }}
           >
-            プリセット
+            {t('profile', 'presetIcon')}
           </Button>
           <Button
             variant={iconType === 'upload' ? 'contained' : 'outlined'}
@@ -71,7 +74,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
             sx={{ mb: 1 }}
             onClick={() => onIconTypeChange('upload')}
           >
-            アップロード
+            {t('profile', 'uploadIcon')}
             <input
               type="file"
               hidden
@@ -86,7 +89,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
       {iconType === 'preset' && showPreset && (
         <Box sx={{ mt: 2 }}>
           <Typography variant="subtitle2" gutterBottom sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
-            プリセットアイコンを選択:
+            {t('profile', 'selectPresetIcon')}
           </Typography>
           <Grid container spacing={1}>
             {DEFAULT_IMAGES.map((img: DefaultImage) => (

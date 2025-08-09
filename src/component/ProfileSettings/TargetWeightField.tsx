@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, TextField, Typography, FormControlLabel, Checkbox } from '@mui/material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface TargetWeightFieldProps {
   targetWeight: string;
@@ -16,11 +17,14 @@ const TargetWeightField: React.FC<TargetWeightFieldProps> = ({
   onPrivacyChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Box sx={{ mb: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <TextField
-          label="目標体重"
+          label={t('profile', 'targetWeight')}
+          placeholder={t('profile', 'targetWeightPlaceholder')}
           type="number"
           value={targetWeight}
           onChange={(e) => onTargetWeightChange(e.target.value)}
@@ -62,7 +66,7 @@ const TargetWeightField: React.FC<TargetWeightFieldProps> = ({
               }}
             />
           }
-          label="非公開"
+          label={t('profile', 'private')}
           sx={{
             '& .MuiFormControlLabel-label': {
               color: isDarkMode ? '#ffffff' : 'inherit',

@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PhotoUploadCard from '../common/PhotoUploadCard';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface PhotoUploadFieldProps {
     photos: string[];
@@ -8,6 +9,7 @@ interface PhotoUploadFieldProps {
 }
 
 const PhotoUploadField: React.FC<PhotoUploadFieldProps> = ({ photos, onChange, isDarkMode = false }) => {
+    const { t } = useTranslation();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [fileObjects, setFileObjects] = useState<File[]>([]);
 
@@ -78,7 +80,7 @@ const PhotoUploadField: React.FC<PhotoUploadFieldProps> = ({ photos, onChange, i
 
     return (
         <PhotoUploadCard
-            title="今日の食事の写真"
+            title={t('food', 'photoUpload.title')}
             todayImages={fileObjects}
             fileInputRef={fileInputRef}
             onImageUpload={handleImageUpload}

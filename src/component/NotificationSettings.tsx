@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Card, CardHeader, CardContent, Typography, Switch, FormControlLabel, Divider, Alert, Button } from '@mui/material';
 import { notificationManager, NotificationSettings as NotificationSettingsType } from '../utils/notificationManager';
+import { useTranslation } from '../hooks/useTranslation';
 
 export const NotificationSettings: React.FC = () => {
+    const { t } = useTranslation();
     const [settings, setSettings] = useState<NotificationSettingsType>(notificationManager.getSettings());
     const [permission, setPermission] = useState<NotificationPermission>('default');
     const [testNotificationSent, setTestNotificationSent] = useState(false);
@@ -54,8 +56,8 @@ export const NotificationSettings: React.FC = () => {
 
     const handleTestNotification = async () => {
         await notificationManager.showGeneralNotification(
-            'テスト通知',
-            'これはテスト通知です。通知設定が正常に動作しています。'
+            t('profile', 'testNotificationTitle'),
+            t('profile', 'testNotificationBody')
         );
         setTestNotificationSent(true);
         setTimeout(() => setTestNotificationSent(false), 3000);
@@ -63,16 +65,16 @@ export const NotificationSettings: React.FC = () => {
 
     const getPermissionMessage = () => {
         if (!isNotificationSupported) {
-            return { type: 'warning' as const, message: 'このブラウザでは通知機能がサポートされていません（iOS Safariなど）' };
+            return { type: 'warning' as const, message: t('profile', 'notificationNotSupported') };
         }
         
         switch (permission) {
             case 'granted':
-                return { type: 'success' as const, message: '通知の権限が許可されています' };
+                return { type: 'success' as const, message: t('profile', 'notificationPermissionGranted') };
             case 'denied':
-                return { type: 'error' as const, message: '通知がブロックされています。ブラウザの設定から許可してください。' };
+                return { type: 'error' as const, message: t('profile', 'notificationPermissionDenied') };
             default:
-                return { type: 'info' as const, message: '通知を有効にするには権限の許可が必要です' };
+                return { type: 'info' as const, message: t('profile', 'notificationPermissionDefault') };
         }
     };
 
@@ -80,7 +82,7 @@ export const NotificationSettings: React.FC = () => {
 
     return (
         <Card>
-            <CardHeader title="通知設定" />
+            <CardHeader title={t('profile', 'notificationTitle')} />
             <CardContent>
                 <Alert severity={permissionInfo.type} sx={{ mb: 2 }}>
                     {permissionInfo.message}
@@ -95,7 +97,7 @@ export const NotificationSettings: React.FC = () => {
                                 disabled={permission === 'denied' || !isNotificationSupported}
                             />
                         }
-                        label="通知を有効にする"
+                        label={t('profile', 'enableNotifications')}
                     />
 
                     {settings.enabled && permission === 'granted' && (
@@ -109,7 +111,7 @@ export const NotificationSettings: React.FC = () => {
                                         onChange={(e) => handleSoundChange(e.target.checked)}
                                     />
                                 }
-                                label="通知音を有効にする"
+                                label={t('profile', 'enableSound')}
                             />
 
                             <FormControlLabel
@@ -119,14 +121,14 @@ export const NotificationSettings: React.FC = () => {
                                         onChange={(e) => handleImmediateChange(e.target.checked)}
                                     />
                                 }
-                                label="即座に通知する（10分制限を無効）"
+                                label={t('profile', 'immediateNotifications')}
                             />
 
                             <Box sx={{ mt: 2 }}>
                                 <Typography variant="body2" color="text.secondary" gutterBottom>
                                     {settings.immediate 
-                                        ? '即座通知が有効です。新しい通知がすぐに表示されます。'
-                                        : '10分制限が有効です。同じタイプの通知は10分間隔で表示されます。'
+                                        ? t('profile', 'immediateEnabled')
+                                        : t('profile', 'tenMinuteLimit')
                                     }
                                 </Typography>
                             </Box>
@@ -139,10 +141,10 @@ export const NotificationSettings: React.FC = () => {
                                     onClick={handleTestNotification}
                                     disabled={testNotificationSent}
                                 >
-                                    {testNotificationSent ? 'テスト通知を送信しました' : 'テスト通知を送信'}
+                                    {testNotificationSent ? t('profile', 'testNotificationSent') : t('profile', 'sendTestNotification')}
                                 </Button>
                                 <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-                                    通知設定をテストできます
+                                    {t('profile', 'testNotificationDescription')}
                                 </Typography>
                             </Box>
                         </>
@@ -152,13 +154,10 @@ export const NotificationSettings: React.FC = () => {
 
                     <Box>
                         <Typography variant="h6" gutterBottom>
-                            通知について
+                            {t('profile', 'aboutNotifications')}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            • 新しいメッセージが届いた時<br />
-                            • 重要なお知らせがある時<br />
-                            • 音は設定により有効/無効にできます<br />
-                            • 通知頻度は即座通知または10分制限から選択可能
+                        <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-line' }}>
+                            {t('profile', 'notificationDescriptions')}
                         </Typography>
                     </Box>
                 </Box>

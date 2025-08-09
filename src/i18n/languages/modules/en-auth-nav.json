@@ -1,0 +1,70 @@
+{
+    "auth": {
+        "login": "Login",
+        "logout": "Logout",
+        "register": "Register",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "forgotPassword": "Forgot Password",
+        "loginWithGoogle": "Login with Google",
+        "loginWithFacebook": "Login with Facebook",
+        "loginWithLine": "Login with LINE",
+        "loginWithTiktok": "Login with TikTok",
+        "signUp": "Sign Up",
+        "signIn": "Sign In"
+    },
+    "navigation": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "profile": "Profile",
+        "settings": "Settings",
+        "notifications": "Notifications",
+        "messages": "Messages",
+        "trending": "Trending",
+        "search": "Search",
+        "menu": "Menu"
+    },
+    "dashboard": {
+        "welcome": "Welcome",
+        "todaysWeight": "Today's Weight",
+        "weightRecord": "Weight Record",
+        "exerciseRecord": "Exercise Record",
+        "foodRecord": "Food Record",
+        "posts": "Posts",
+        "followers": "Followers",
+        "following": "Following",
+        "recentActivities": "Recent Activities",
+        "quickActions": "Quick Actions",
+        "statistics": "Statistics",
+        "goals": "Goals",
+        "achievements": "Achievements",
+        "addToHome": "Add to Home"
+    },
+    "search": {
+        "searchPlaceholder": "Search...",
+        "searchResults": "Search Results",
+        "noResults": "No results found",
+        "searchUsers": "Search Users",
+        "searchPosts": "Search Posts",
+        "searchHashtags": "Search Hashtags",
+        "recentSearches": "Recent Searches",
+        "clearSearchHistory": "Clear Search History"
+    },
+    "settings": {
+        "settings": "Settings",
+        "account": "Account",
+        "privacy": "Privacy",
+        "notifications": "Notifications",
+        "language": "Language",
+        "theme": "Theme",
+        "changePassword": "Change Password",
+        "deactivateAccount": "Deactivate Account",
+        "dataExport": "Export Data",
+        "help": "Help",
+        "about": "About",
+        "termsOfService": "Terms of Service",
+        "privacyPolicy": "Privacy Policy",
+        "cookiePolicy": "Cookie Policy"
+    }
+}

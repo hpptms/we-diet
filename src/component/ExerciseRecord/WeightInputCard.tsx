@@ -9,6 +9,7 @@ import {
   Chip,
 } from '@mui/material';
 import MonitorWeightIcon from '@mui/icons-material/MonitorWeight';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface WeightInputCardProps {
   todayWeight: string;
@@ -23,6 +24,8 @@ const WeightInputCard: React.FC<WeightInputCardProps> = ({
   onTodayWeightChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Card sx={{ borderRadius: 3, overflow: 'hidden', height: '100%', border: isDarkMode ? '1px solid white' : 'none' }}>
       <Box sx={{ 
@@ -31,18 +34,18 @@ const WeightInputCard: React.FC<WeightInputCardProps> = ({
         border: isDarkMode ? '1px solid white' : 'none',
       }}>
         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
-          <MonitorWeightIcon /> 本日の体重
+          <MonitorWeightIcon /> {t('exercise', 'weightInput.title')}
         </Typography>
       </Box>
       <CardContent sx={{ background: isDarkMode ? '#000000' : '#fff8f0' }}>
         <TextField
-          label="体重"
+          label={t('exercise', 'weightInput.weightPlaceholder')}
           value={todayWeight}
           onChange={(e) => onTodayWeightChange(e.target.value)}
           type="number"
           fullWidth
           InputProps={{
-            endAdornment: <InputAdornment position="end">kg</InputAdornment>,
+            endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.kg')}</InputAdornment>,
           }}
           variant="outlined"
           sx={{
@@ -68,7 +71,7 @@ const WeightInputCard: React.FC<WeightInputCardProps> = ({
         />
         {hasWeightInput && (
           <Chip 
-            label="体重記録済み ✅" 
+            label={t('exercise', 'weightInput.recordedMessage')} 
             color="warning" 
             sx={{ mt: 2 }} 
           />

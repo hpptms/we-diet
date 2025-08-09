@@ -13,6 +13,7 @@ import {
   UserAvatar,
   PostFormActions,
 } from './PostForm/index';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface PostFormProps {
   onPost?: (content: string, images?: File[], isSensitive?: boolean) => Promise<void>;
@@ -23,6 +24,7 @@ interface PostFormProps {
 }
 
 const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユーザー', avatar: '' } }) => {
+  const { t } = useTranslation();
   const [postContent, setPostContent] = useState('');
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -158,7 +160,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
             multiline
             rows={3}
             fullWidth
-            placeholder="今どうしてる？"
+            placeholder={t('dieter', 'postModal.placeholder', {}, '今どうしてる？')}
             value={postContent}
             onChange={handleContentChange}
             onKeyDown={handleKeyDown}
@@ -272,7 +274,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
                     }}
                   />
                 }
-                label="センシティブ"
+                label={t('dieter', 'postModal.sensitive', {}, 'センシティブ')}
                 sx={{
                   '& .MuiFormControlLabel-label': {
                     color: isDarkMode ? '#ffffff' : '#333333',

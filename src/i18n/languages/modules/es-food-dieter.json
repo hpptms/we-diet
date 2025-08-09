@@ -1,0 +1,217 @@
+{
+    "food": {
+        "food": "Comida",
+        "meal": "Comida",
+        "breakfast": "Desayuno",
+        "lunch": "Almuerzo",
+        "dinner": "Cena",
+        "snack": "Merienda",
+        "calories": "Calorías",
+        "protein": "Proteína",
+        "carbs": "Carbohidratos",
+        "fat": "Grasa",
+        "fiber": "Fibra",
+        "sugar": "Azúcar",
+        "sodium": "Sodio",
+        "recordMeal": "Registrar Comida",
+        "mealHistory": "Historial de Comidas",
+        "nutritionFacts": "Información Nutricional",
+        "foodDiary": "Diario de Comida",
+        "dailyCalories": "Calorías Diarias",
+        "remainingCalories": "Calorías Restantes",
+        "saveRecord": "Guardar",
+        "saving": "Guardando...",
+        "back": "← Atrás",
+        "saveConfirmTitle": "Confirmar Guardar Registro de Comida",
+        "saveConfirmUpdate": "Actualizar registro existente. ¿Está seguro?",
+        "saveConfirmNew": "Guardar nuevo registro de comida. ¿Está seguro?",
+        "recordSaved": "¡Registro de comida guardado exitosamente!",
+        "recordUpdated": "¡Registro de comida actualizado exitosamente!",
+        "saveFailed": "Error al guardar el registro de comida",
+        "saveFailedBadRequest": "Solicitud inválida. Por favor revise su entrada",
+        "saveFailedAuth": "Error de autenticación. Por favor inicie sesión de nuevo",
+        "saveFailedServer": "Error del servidor. Por favor intente de nuevo más tarde",
+        "saveFailedNetwork": "Error de red. Por favor revise su conexión",
+        "yesterdayRecord": "Registro de Ayer",
+        "viewPastRecords": "Ver Registros Pasados",
+        "noYesterdayRecord": "No se encontró el registro de ayer",
+        "noSelectedDateRecord": "No se encontró registro para la fecha seleccionada",
+        "loadRecordFailed": "Error al cargar el registro",
+        "loadRecordDatesFailed": "Error al cargar las fechas de registro",
+        "postContent": "Registro de comida de hoy 🍽️",
+        "hashtag": "#ComidaDeHoy",
+        "dieterPostFailed": "El registro de comida fue guardado, pero falló la creación del post en Dieter.",
+        "header": {
+            "title": "Registro de Comida",
+            "subtitle": "¡Registremos las comidas de hoy!"
+        },
+        "dailyProgress": {
+            "title": "Progreso de Hoy",
+            "recordedDays": "Días Registrados",
+            "totalDays": "Días Totales"
+        },
+        "actionButtons": {
+            "yesterdayRecord": "Registro de ayer",
+            "viewPastRecords": "Ver registros anteriores"
+        },
+        "mealCard": {
+            "title": "Comidas de Hoy",
+            "placeholder": "¡Escribe libremente sobre lo que comiste hoy y tus pensamientos!",
+            "example": "Ejemplo: Desayuno fue yogur y fruta / Almuerzo fue pasta deliciosa con amigos🍝 / Cena fue curry casero🍛 / ¡Solo registrar también está bien!"
+        },
+        "photoUpload": {
+            "title": "Fotos de la comida de hoy"
+        },
+        "saveConfirm": {
+            "title": "Confirmar guardado del registro de alimentos",
+            "saveButton": "Guardar"
+        },
+        "motivationalMessages": [
+            "¡Vamos a registrar las deliciosas comidas de hoy! 🍽️",
+            "¡Este es el primer paso hacia una dieta saludable! 💪",
+            "¿Qué tal si registras y reflexionas sobre las comidas de hoy? 📝",
+            "¡Deliciosos registros te esperan! ✨",
+            "¡Haz que el control de la salud sea divertido con registros de comida! 🌟"
+        ],
+        "unifiedMealCard": {
+            "title": "Registro de Alimentos de Hoy",
+            "placeholder": "Registra libremente los alimentos y bebidas que tuviste hoy.\n\nEjemplo:\nDesayuno: Tostada, Café\nAlmuerzo: 2 onigiri, Té\nCena: Arroz al curry, Ensalada\nMerienda: 2 galletas",
+            "description": "Registra libremente desayuno, almuerzo, cena y meriendas",
+            "characterCount": "{current}/{max} caracteres",
+            "characterLimitExceeded": "Límite de caracteres excedido. Por favor, elimina {count} caracteres."
+        },
+        "dailyProgressCard": {
+            "title": "Estado de Racha de Registros",
+            "consecutiveDays": "Días Consecutivos de Registro",
+            "totalRecords": "Total de Registros {count} días",
+            "streakMessages": {
+                "0": "🌱 ¡Empecemos a registrar hoy! ¡Crecimiento de un nuevo brote!",
+                "1": "🔥 ¡Registro iniciado! ¡Ardiendo como fuego!",
+                "3": "🚩 ¡3 días seguidos! ¡Bandera plantada!",
+                "6": "💫 ¡6 días logrados! ¡Hermoso como una estrella fugaz!",
+                "9": "🔮 ¡9 días continuados! ¡Puedo sentir el poder mágico!",
+                "12": "🌸 ¡12 días logrados! ¡Persistencia hermosa como las flores de cerezo!",
+                "15": "☀️ ¡15 días continuados! ¡Brillando como el sol!",
+                "18": "🌙 ¡18 días logrados! ¡Poder lunar!",
+                "21": "🎊 ¡3 semanas continuadas! ¡Celebremos!",
+                "24": "✨ ¡24 días logrados! ¡Brillando intensamente!",
+                "27": "🌈 ¡27 días continuados! ¡Brillantez arcoíris!",
+                "30": "💪 ¡1 mes logrado! ¡Has subido de nivel!",
+                "45": "⚡ ¡45 días logrados! ¡Persistencia como un rayo!",
+                "60": "🔱 ¡2 meses continuados! ¡Poder de tridente!",
+                "75": "🥇 ¡75 días superados! ¡Nivel oro!",
+                "90": "🏅 ¡3 meses logrados! ¡Hábito maravilloso!",
+                "120": "🎖️ ¡4 meses continuados! ¡Eres un medallista!",
+                "150": "🏆 ¡150 días logrados! ¡Nivel campeón!",
+                "180": "🎯 ¡Medio año logrado! ¡Persistencia perfecta!",
+                "210": "⭐ ¡210 días logrados! ¡Estás en nivel estrella!",
+                "240": "🚀 ¡240 días continuados! ¡Persistencia de nivel cósmico!",
+                "270": "💎 ¡270 días logrados! ¡Nivel diamante!",
+                "300": "🌟 ¡300 días superados! ¡Eres un maestro de los hábitos!",
+                "365": "🎉 ¡1 año consecutivo logrado! ¡Estás en nivel legendario! 🎉"
+            },
+            "consecutiveCount": "{count} días seguidos"
+        },
+        "calendar": {
+            "selectPastRecord": "Seleccionar registro pasado",
+            "close": "Cerrar",
+            "yearMonthFormat": "{month}/{year}",
+            "weekdays": [
+                "Dom",
+                "Lun",
+                "Mar",
+                "Mié",
+                "Jue",
+                "Vie",
+                "Sáb"
+            ],
+            "locale": "es-ES"
+        }
+    },
+    "dieter": {
+        "backToDashboard": "Volver al Panel",
+        "createPost": "Crear Publicación",
+        "searchPlaceholder": "Buscar en Dieter",
+        "recommendedUsers": "Usuarios Recomendados",
+        "trendingTopics": "Temas Trending",
+        "followManagement": "Gestión de Seguimiento",
+        "homeTimeline": "Timeline Inicio",
+        "followingPosts": "Publicaciones Seguidas",
+        "publicPosts": "Publicaciones Públicas",
+        "dieter": "Dieter",
+        "navigation": {
+            "home": "Inicio",
+            "followTL": "Seguidos TL",
+            "notifications": "Notificaciones",
+            "messages": "Mensajes",
+            "profile": "Perfil",
+            "todaysExercise": "Ejercicio de Hoy",
+            "recordMeal": "Registrar Comida"
+        },
+        "userCard": {
+            "followers": "Seguidores",
+            "following": "Siguiendo",
+            "posts": "Publicaciones"
+        },
+        "postModal": {
+            "title": "Nueva Publicación",
+            "placeholder": "¿Qué está pasando?",
+            "post": "Publicar",
+            "cancel": "Cancelar",
+            "sensitive": "Contenido Sensible"
+        },
+        "timeline": {
+            "home": "Inicio TL",
+            "following": "Siguiendo TL",
+            "followingDescription": "Solo publicaciones de usuarios seguidos",
+            "searching": "Buscando...",
+            "loading": "Cargando publicaciones...",
+            "noPostsYet": "Aún no hay publicaciones.<br />¡Haz tu primera publicación!",
+            "loadingPosts": "Cargando publicaciones...",
+            "noMorePosts": "No hay más publicaciones"
+        },
+        "search": {
+            "placeholder": "Buscar",
+            "title": "Buscar"
+        },
+        "recommendations": {
+            "title": "Usuarios Recomendados"
+        }
+    },
+    "pages": {
+        "topPage": {
+            "hero": {
+                "subtitle": "Puede ser difícil continuar solo, pero con compañeros se vuelve divertido",
+                "loginButton": "Página de Inicio de Sesión",
+                "punchLines": [
+                    "Ejercicio⇒Registro⇒Compartir",
+                    "😊",
+                    "Comida⇒Registro⇒Compartir",
+                    "🙄"
+                ]
+            },
+            "features": {
+                "exercise": {
+                    "title": "Ejercicio",
+                    "description": "¿Cuántos kilómetros caminaste hoy? Vamos a presumir tu distancia"
+                },
+                "indulgence": {
+                    "title": "Banquete",
+                    "description": "¡Hoy es día trampa! Vamos a hacer terror gastronómico con tu banquete"
+                },
+                "sns": {
+                    "title": "Integración SNS",
+                    "description": "Este es un lugar para compartir tus registros de salud en SNS y compartir con alguien."
+                }
+            },
+            "product": {
+                "title": "Apoyo Dietético",
+                "description": "Esta es una aplicación tipo SNS centrada en registros de ejercicio, salud y comida."
+            },
+            "footer": {
+                "privacyPolicy": "Política de Privacidad",
+                "termsOfService": "Términos de Servicio"
+            }
+        }
+    }
+}

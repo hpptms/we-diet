@@ -1,0 +1,50 @@
+{
+    "common": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "submit": "Submit",
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success",
+        "confirm": "Confirm",
+        "yes": "Yes",
+        "no": "No",
+        "close": "Close",
+        "search": "Search",
+        "next": "Next",
+        "previous": "Previous",
+        "more": "See more",
+        "less": "See less",
+        "user": "User",
+        "recorded": "Recorded"
+    },
+    "time": {
+        "now": "Now",
+        "justNow": "Just now",
+        "minutesAgo": "{count} minutes ago",
+        "hoursAgo": "{count} hours ago",
+        "daysAgo": "{count} days ago",
+        "weeksAgo": "{count} weeks ago",
+        "monthsAgo": "{count} months ago",
+        "yearsAgo": "{count} years ago",
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "thisWeek": "This week",
+        "thisMonth": "This month",
+        "thisYear": "This year"
+    },
+    "errors": {
+        "networkError": "Network error occurred",
+        "serverError": "Server error occurred",
+        "unauthorizedError": "Authentication required",
+        "forbiddenError": "Access denied",
+        "notFoundError": "Page not found",
+        "validationError": "Please check your input",
+        "unexpectedError": "An unexpected error occurred",
+        "tryAgain": "Try again",
+        "loginError": "Login error occurred: {error}",
+        "contactSupport": "Contact Support"
+    }
+}

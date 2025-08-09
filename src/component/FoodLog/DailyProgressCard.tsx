@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Box, Chip } from '@mui/material';
 import { Whatshot, CalendarToday } from '@mui/icons-material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface DailyProgressCardProps {
     recordedDates: string[];
@@ -11,6 +12,7 @@ const DailyProgressCard: React.FC<DailyProgressCardProps> = ({
     recordedDates,
     isDarkMode = false
 }) => {
+    const { t } = useTranslation();
     const [consecutiveDays, setConsecutiveDays] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
 
@@ -78,30 +80,30 @@ const DailyProgressCard: React.FC<DailyProgressCardProps> = ({
     };
 
     const getStreakMessage = () => {
-        if (consecutiveDays >= 365) return '🎉 1年連続達成！伝説のレベルです！ 🎉';
-        if (consecutiveDays >= 300) return '🌟 300日突破！もう習慣の達人ですね！';
-        if (consecutiveDays >= 270) return '💎 270日達成！ダイヤモンドレベル！';
-        if (consecutiveDays >= 240) return '🚀 240日継続！宇宙レベルの継続力！';
-        if (consecutiveDays >= 210) return '⭐ 210日達成！スターレベルです！';
-        if (consecutiveDays >= 180) return '🎯 半年達成！完璧な継続力！';
-        if (consecutiveDays >= 150) return '🏆 150日達成！チャンピオンレベル！';
-        if (consecutiveDays >= 120) return '🎖️ 4ヶ月継続！メダリストです！';
-        if (consecutiveDays >= 90) return '🏅 3ヶ月達成！素晴らしい習慣！';
-        if (consecutiveDays >= 75) return '🥇 75日突破！ゴールドレベル！';
-        if (consecutiveDays >= 60) return '🔱 2ヶ月継続！トライデントパワー！';
-        if (consecutiveDays >= 45) return '⚡ 45日達成！電光石火の継続力！';
-        if (consecutiveDays >= 30) return '💪 1ヶ月達成！パワーアップしました！';
-        if (consecutiveDays >= 27) return '🌈 27日継続！虹色の輝き！';
-        if (consecutiveDays >= 24) return '✨ 24日達成！キラキラ輝いてます！';
-        if (consecutiveDays >= 21) return '🎊 3週間継続！お祝いしましょう！';
-        if (consecutiveDays >= 18) return '🌙 18日達成！月のパワー！';
-        if (consecutiveDays >= 15) return '☀️ 15日継続！太陽のように輝いてます！';
-        if (consecutiveDays >= 12) return '🌸 12日達成！桜のように美しい継続！';
-        if (consecutiveDays >= 9) return '🔮 9日継続！魔法の力を感じます！';
-        if (consecutiveDays >= 6) return '💫 6日達成！流れ星のように素敵！';
-        if (consecutiveDays >= 3) return '🚩 3日連続！フラッグが立ちました！';
-        if (consecutiveDays >= 1) return '🔥 記録開始！炎のように燃えてます！';
-        return '🌱 今日から記録を始めよう！新芽の成長を！';
+        if (consecutiveDays >= 365) return t('food', 'dailyProgressCard.streakMessages.365');
+        if (consecutiveDays >= 300) return t('food', 'dailyProgressCard.streakMessages.300');
+        if (consecutiveDays >= 270) return t('food', 'dailyProgressCard.streakMessages.270');
+        if (consecutiveDays >= 240) return t('food', 'dailyProgressCard.streakMessages.240');
+        if (consecutiveDays >= 210) return t('food', 'dailyProgressCard.streakMessages.210');
+        if (consecutiveDays >= 180) return t('food', 'dailyProgressCard.streakMessages.180');
+        if (consecutiveDays >= 150) return t('food', 'dailyProgressCard.streakMessages.150');
+        if (consecutiveDays >= 120) return t('food', 'dailyProgressCard.streakMessages.120');
+        if (consecutiveDays >= 90) return t('food', 'dailyProgressCard.streakMessages.90');
+        if (consecutiveDays >= 75) return t('food', 'dailyProgressCard.streakMessages.75');
+        if (consecutiveDays >= 60) return t('food', 'dailyProgressCard.streakMessages.60');
+        if (consecutiveDays >= 45) return t('food', 'dailyProgressCard.streakMessages.45');
+        if (consecutiveDays >= 30) return t('food', 'dailyProgressCard.streakMessages.30');
+        if (consecutiveDays >= 27) return t('food', 'dailyProgressCard.streakMessages.27');
+        if (consecutiveDays >= 24) return t('food', 'dailyProgressCard.streakMessages.24');
+        if (consecutiveDays >= 21) return t('food', 'dailyProgressCard.streakMessages.21');
+        if (consecutiveDays >= 18) return t('food', 'dailyProgressCard.streakMessages.18');
+        if (consecutiveDays >= 15) return t('food', 'dailyProgressCard.streakMessages.15');
+        if (consecutiveDays >= 12) return t('food', 'dailyProgressCard.streakMessages.12');
+        if (consecutiveDays >= 9) return t('food', 'dailyProgressCard.streakMessages.9');
+        if (consecutiveDays >= 6) return t('food', 'dailyProgressCard.streakMessages.6');
+        if (consecutiveDays >= 3) return t('food', 'dailyProgressCard.streakMessages.3');
+        if (consecutiveDays >= 1) return t('food', 'dailyProgressCard.streakMessages.1');
+        return t('food', 'dailyProgressCard.streakMessages.0');
     };
 
     return (
@@ -131,7 +133,7 @@ const DailyProgressCard: React.FC<DailyProgressCardProps> = ({
             
             <CardContent sx={{ position: 'relative', zIndex: 1 }}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    📊 記録継続状況
+                    📊 {t('food', 'dailyProgressCard.title')}
                 </Typography>
                 
                 <Box sx={{ mb: 2, textAlign: 'center' }}>
@@ -139,7 +141,7 @@ const DailyProgressCard: React.FC<DailyProgressCardProps> = ({
                         {getStreakIcon()} {consecutiveDays}
                     </Typography>
                     <Typography variant="h6" sx={{ fontWeight: 'medium', mb: 1 }}>
-                        連続記録日数
+                        {t('food', 'dailyProgressCard.consecutiveDays')}
                     </Typography>
                     <Typography variant="body1" sx={{ opacity: 0.9 }}>
                         {getStreakMessage()}
@@ -149,7 +151,7 @@ const DailyProgressCard: React.FC<DailyProgressCardProps> = ({
                 <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
                     <Chip
                         icon={<Whatshot />}
-                        label={`${consecutiveDays}日連続`}
+                        label={t('food', 'dailyProgressCard.consecutiveCount', { count: consecutiveDays })}
                         sx={{
                             color: '#ff6b6b',
                             backgroundColor: 'white',
@@ -158,7 +160,7 @@ const DailyProgressCard: React.FC<DailyProgressCardProps> = ({
                     />
                     <Chip
                         icon={<CalendarToday />}
-                        label={`総記録 ${totalRecords}日`}
+                        label={t('food', 'dailyProgressCard.totalRecords', { count: totalRecords })}
                         sx={{
                             color: '#74b9ff',
                             backgroundColor: 'white',

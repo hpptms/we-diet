@@ -1,12 +1,15 @@
 import React from 'react';
 import { Paper, Box, Typography } from '@mui/material';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface ExerciseHeaderProps {
   isDarkMode?: boolean;
 }
 
 const ExerciseHeader: React.FC<ExerciseHeaderProps> = ({ isDarkMode = false }) => {
+  const { t } = useTranslation();
+  
   return (
     <Paper 
       elevation={3} 
@@ -21,11 +24,11 @@ const ExerciseHeader: React.FC<ExerciseHeaderProps> = ({ isDarkMode = false }) =
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
         <FitnessCenterIcon sx={{ fontSize: 40, color: 'white' }} />
         <Typography variant="h4" component="h1" sx={{ color: 'white', fontWeight: 'bold' }}>
-          今日の運動記録 💪
+          {t('exercise', 'header.title')}
         </Typography>
       </Box>
       <Typography variant="subtitle1" sx={{ color: 'white', opacity: 0.9 }}>
-        毎日の積み重ねが大きな変化を生みます！今日も一緒に頑張りましょう✨
+        {t('exercise', 'header.subtitle')}
       </Typography>
     </Paper>
   );

@@ -3,6 +3,7 @@ import { Box, Typography, Button } from '@mui/material';
 import { ArrowBackIos, Scale } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface WeightManagementHeaderProps {
   onBack?: () => void;
@@ -10,12 +11,13 @@ interface WeightManagementHeaderProps {
 
 const WeightManagementHeader: React.FC<WeightManagementHeaderProps> = ({ onBack }) => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
       <Typography variant="h4" component="h1" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <Scale color="primary" />
-        体重の管理
+        {t('weight', 'title', {}, '体重の管理')}
       </Typography>
       {onBack && (
         <Button
@@ -34,7 +36,7 @@ const WeightManagementHeader: React.FC<WeightManagementHeaderProps> = ({ onBack 
             })
           }}
         >
-          戻る
+          {t('weight', 'backButton', {}, '戻る')}
         </Button>
       )}
     </Box>

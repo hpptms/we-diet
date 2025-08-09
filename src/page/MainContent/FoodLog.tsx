@@ -339,11 +339,11 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 setViewingRecord(response.data.record);
                 setRecordViewOpen(true);
             } else {
-                setError('選択した日の記録が見つかりませんでした');
+                setError(t('food', 'noSelectedDateRecord'));
             }
         } catch (error: any) {
-            console.error('記録の取得に失敗しました:', error);
-            setError('記録の取得に失敗しました');
+            console.error(t('food', 'loadRecordFailed'), error);
+            setError(t('food', 'loadRecordFailed'));
         }
     };
 
@@ -475,11 +475,11 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                     {loading ? (
                         <>
                             <CircularProgress size={20} color="inherit" />
-                            保存中...
+                            {t('food', 'saving')}
                         </>
                     ) : (
                         <>
-                            💾 保存
+                            💾 {t('food', 'saveRecord')}
                         </>
                     )}
                 </Box>
@@ -514,7 +514,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         },
                     }}
                 >
-                    ← 戻る
+                    {t('food', 'back')}
                 </Box>
             </Box>
 
@@ -620,13 +620,13 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 }}
             >
                 <DialogTitle sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
-                    食事記録の保存確認
+                    {t('food', 'saveConfirmTitle')}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
                         {pendingSaveData?.isUpdate 
-                            ? '既存の記録を更新します。よろしいですか？'
-                            : '新しい食事記録を保存します。よろしいですか？'
+                            ? t('food', 'saveConfirmUpdate')
+                            : t('food', 'saveConfirmNew')
                         }
                     </DialogContentText>
                 </DialogContent>
@@ -638,7 +638,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                         }}
                         sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
                     >
-                        キャンセル
+                        {t('common', 'cancel')}
                     </Button>
                     <Button 
                         onClick={async () => {
@@ -657,7 +657,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                             }
                         }}
                     >
-                        保存する
+                        {t('common', 'save')}
                     </Button>
                 </DialogActions>
             </Dialog>

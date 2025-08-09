@@ -1,0 +1,280 @@
+{
+    "food": {
+        "food": "食事",
+        "meal": "食事",
+        "breakfast": "朝食",
+        "lunch": "昼食",
+        "dinner": "夕食",
+        "snack": "間食",
+        "calories": "カロリー",
+        "protein": "タンパク質",
+        "carbs": "炭水化物",
+        "fat": "脂肪",
+        "fiber": "食物繊維",
+        "sugar": "糖分",
+        "sodium": "塩分",
+        "recordMeal": "食事を記録",
+        "mealHistory": "食事履歴",
+        "nutritionFacts": "栄養成分",
+        "foodDiary": "食事日記",
+        "dailyCalories": "1日のカロリー",
+        "remainingCalories": "残りカロリー",
+        "saveRecord": "保存",
+        "saving": "保存中...",
+        "back": "← 戻る",
+        "saveConfirmTitle": "食事記録の保存確認",
+        "saveConfirmUpdate": "既存の記録を更新します。よろしいですか？",
+        "saveConfirmNew": "新しい食事記録を保存します。よろしいですか？",
+        "recordSaved": "食事記録を保存しました！",
+        "recordUpdated": "食事記録を更新しました！",
+        "saveFailed": "食事記録の保存に失敗しました",
+        "saveFailedBadRequest": "リクエストが不正です。入力内容を確認してください",
+        "saveFailedAuth": "認証エラーです。再度ログインしてください",
+        "saveFailedServer": "サーバーエラーが発生しました。しばらく時間をおいて再試行してください",
+        "saveFailedNetwork": "ネットワークエラーが発生しました。接続を確認してください",
+        "yesterdayRecord": "昨日の記録",
+        "viewPastRecords": "過去の記録を見る",
+        "noYesterdayRecord": "昨日の記録が見つかりませんでした",
+        "noSelectedDateRecord": "選択した日の記録が見つかりませんでした",
+        "loadRecordFailed": "記録の取得に失敗しました",
+        "loadRecordDatesFailed": "記録日の取得に失敗しました",
+        "postContent": "今日の食事記録 🍽️",
+        "hashtag": "#今日の食事",
+        "dieterPostFailed": "食事記録は保存されましたが、Dieter投稿の作成に失敗しました。",
+        "header": {
+            "title": "食事記録",
+            "subtitle": "今日の食事を記録しましょう！"
+        },
+        "dailyProgress": {
+            "title": "今日の進捗",
+            "recordedDays": "記録済み日数",
+            "totalDays": "合計日数"
+        },
+        "actionButtons": {
+            "yesterdayRecord": "昨日の記録",
+            "viewPastRecords": "過去の記録を見る"
+        },
+        "mealCard": {
+            "title": "今日の食事",
+            "placeholder": "今日食べたものや感想を自由に書いてね！",
+            "example": "例：朝食はヨーグルトとフルーツ / ランチは友達と美味しいパスタ🍝 / 夕食は手作りカレー🍛 / 記録だけでもOK！"
+        },
+        "photoUpload": {
+            "title": "今日の一枚"
+        },
+        "saveConfirm": {
+            "title": "食事記録の保存確認",
+            "saveButton": "保存する"
+        },
+        "motivationalMessages": [
+            "今日も美味しい食事を記録しましょう！🍽️",
+            "健康的な食生活への第一歩です！💪",
+            "今日の食事を記録して振り返りませんか？📝",
+            "美味しい記録が待っています！✨",
+            "食事の記録で健康管理を楽しく！🌟"
+        ],
+        "unifiedMealCard": {
+            "title": "今日の食事記録",
+            "placeholder": "今日食べた食事や飲み物を自由に記録してください。\\n\\n例：\\n朝食：トースト、コーヒー\\n昼食：おにぎり2個、お茶\\n夕食：カレーライス、サラダ\\n間食：クッキー2枚",
+            "description": "朝食・昼食・夕食・間食を自由に記録",
+            "characterCount": "{current}/{max}文字",
+            "characterLimitExceeded": "文字数制限を超えています。{count}文字削除してください。"
+        },
+        "dailyProgressCard": {
+            "title": "記録継続状況",
+            "consecutiveDays": "連続記録日数",
+            "totalRecords": "総記録{count}日",
+            "streakMessages": {
+                "365": "🎉 1年連続達成！伝説のレベルです！🎉",
+                "300": "🌟 300日突破！もう習慣の達人ですね！",
+                "270": "💎 270日達成！ダイヤモンドレベル！",
+                "240": "🚀 240日継続！宇宙レベルの継続力！",
+                "210": "⭐ 210日達成！スターレベルです！",
+                "180": "🎯 半年達成！完璧な継続力！",
+                "150": "🏆 150日達成！チャンピオンレベル！",
+                "120": "🎖️ 4ヶ月継続！メダリストです！",
+                "90": "🏅 3ヶ月達成！素晴らしい習慣！",
+                "75": "🥇 75日突破！ゴールドレベル！",
+                "60": "🔱 2ヶ月継続！トライデントパワー！",
+                "45": "⚡ 45日達成！電光石火の継続力！",
+                "30": "💪 1ヶ月達成！パワーアップしました！",
+                "27": "🌈 27日継続！虹色の輝き！",
+                "24": "✨ 24日達成！キラキラ輝いてます！",
+                "21": "🎊 3週間継続！お祝いしましょう！",
+                "18": "🌙 18日達成！月のパワー！",
+                "15": "☀️ 15日継続！太陽のように輝いてます！",
+                "12": "🌸 12日達成！桜のように美しい継続！",
+                "9": "🔮 9日継続！魔法の力を感じます！",
+                "6": "💫 6日達成！流れ星のように素敵！",
+                "3": "🚩 3日連続！フラッグが立ちました！",
+                "1": "🔥 記録開始！炎のように燃えてます！",
+                "0": "🌱 今日から記録を始めよう！新芽の成長を！"
+            },
+            "consecutiveCount": "連続{count}日"
+        },
+        "calendar": {
+            "selectPastRecord": "過去の記録を選択",
+            "close": "閉じる",
+            "yearMonthFormat": "{year}年{month}月",
+            "weekdays": [
+                "日",
+                "月",
+                "火",
+                "水",
+                "木",
+                "金",
+                "土"
+            ],
+            "locale": "ja-JP"
+        },
+        "recordViewDialog": {
+            "title": "美味しい記録",
+            "public": "公開中",
+            "private": "プライベート",
+            "todaysRecord": "今日の記録",
+            "photoGallery": "フォトギャラリー",
+            "photosCount": "{count}枚",
+            "foodPhoto": "美味しい料理 {number}",
+            "expandView": "拡大表示",
+            "close": "閉じる"
+        }
+    },
+    "dieter": {
+        "backToDashboard": "ダッシュボードに戻る",
+        "createPost": "ポストする",
+        "searchPlaceholder": "Dieterを検索",
+        "recommendedUsers": "おすすめユーザー",
+        "trendingTopics": "トレンドトピック",
+        "followManagement": "フォロー管理",
+        "homeTimeline": "ホームタイムライン",
+        "followingPosts": "フォロー中の投稿",
+        "publicPosts": "公開投稿",
+        "dieter": "Dieter",
+        "navigation": {
+            "home": "ホーム",
+            "followTL": "フォローTL",
+            "notifications": "通知",
+            "messages": "メッセージ",
+            "profile": "プロフィール",
+            "todaysExercise": "今日の運動",
+            "recordMeal": "食事を記録"
+        },
+        "userCard": {
+            "followers": "フォロワー",
+            "following": "フォロー",
+            "posts": "投稿"
+        },
+        "postModal": {
+            "title": "新しい投稿",
+            "placeholder": "今どうしてる？",
+            "post": "投稿する",
+            "cancel": "キャンセル",
+            "sensitive": "センシティブ"
+        },
+        "timeline": {
+            "home": "ホームTL",
+            "following": "フォローTL",
+            "followingDescription": "フォロー中のユーザーの投稿のみ表示",
+            "searching": "検索中...",
+            "loading": "投稿を読み込み中...",
+            "noPostsYet": "まだ投稿がありません。<br />最初の投稿をしてみましょう！",
+            "loadingPosts": "投稿を読み込み中...",
+            "noMorePosts": "これ以上の投稿はありません",
+            "noFollowingPosts": "フォロー中のユーザーの投稿がありません。<br />ユーザーをフォローしてタイムラインを充実させましょう！",
+            "noPosts": "まだ投稿がありません。<br />最初の投稿をしてみましょう！"
+        },
+        "search": {
+            "resultsFor": "\"{searchQuery}\" の検索結果",
+            "noResults": "\"{searchQuery}\" に一致する投稿が見つかりませんでした。<br />別のキーワードで検索してみてください。"
+        },
+        "recommendations": {
+            "title": "おすすめユーザー"
+        }
+    },
+    "pages": {
+        "registerComplete": {
+            "title": "登録が完了しました",
+            "redirectMessage": "ダッシュボードへリダイレクトします..."
+        },
+        "termsOfService": {
+            "title": "利用規約",
+            "lastUpdated": "最終更新日:",
+            "acceptanceTitle": "利用規約の同意",
+            "acceptanceContent": "We Diet（「本サービス」）にアクセス・利用することにより、お客様は本契約の条項に同意し、これに拘束されることに同意したものとみなします。",
+            "serviceDescriptionTitle": "サービスの説明",
+            "serviceDescriptionContent": "We Dietは、ユーザーが以下のことを行えるソーシャルウェルネスプラットフォームです：",
+            "serviceFeature1": "日々の食事、運動、体重管理の記録",
+            "serviceFeature2": "フィットネス旅路の進捗記録と共有",
+            "serviceFeature3": "サポートコミュニティとの交流",
+            "serviceFeature4": "健康・ウェルネスリソースへのアクセス",
+            "userAccountsTitle": "ユーザーアカウント",
+            "userAccountsContent": "本サービスの特定の機能を利用するには、アカウント登録が必要です。お客様は以下に同意するものとします：",
+            "userAccountsItem1": "正確で完全な情報を提供すること",
+            "userAccountsItem2": "アカウント認証情報のセキュリティを維持すること",
+            "userAccountsItem3": "お客様のアカウントでのすべての活動に責任を負うこと",
+            "userAccountsItem4": "不正使用があった場合に当社に通知すること",
+            "userConductTitle": "ユーザーコンテンツと行動",
+            "userConductContent": "お客様は以下のことを行わないことに同意します：",
+            "userConductItem1": "有害、攻撃的、または不適切なコンテンツの投稿",
+            "userConductItem2": "適用される法律や規制の違反",
+            "userConductItem3": "知的財産権の侵害",
+            "userConductItem4": "他のユーザーへのスパムやハラスメント",
+            "userConductItem5": "虚偽または誤解を招く健康情報の共有",
+            "privacyTitle": "プライバシー",
+            "privacyContent": "お客様のプライバシーは当社にとって重要です。本サービスのご利用を規定するプライバシーポリシーもご確認いただき、当社の慣行をご理解ください。",
+            "thirdPartyTitle": "サードパーティサービス",
+            "thirdPartyContent": "本サービスは以下のサードパーティプラットフォームと統合されています：",
+            "thirdPartyItem1": "Facebookログイン",
+            "thirdPartyItem2": "Google OAuth",
+            "thirdPartyItem3": "TikTokログイン",
+            "thirdPartyNote": "これらのサービスのご利用は、それぞれの利用規約とプライバシーポリシーに従うものとします。",
+            "disclaimersTitle": "免責事項",
+            "disclaimersContent": "本サービスは「現状のまま」で提供され、いかなる種類の保証もありません。当社は医学的助言を提供しておらず、医学的懸念については医療専門家にご相談することをお勧めします。",
+            "limitationTitle": "責任の制限",
+            "limitationContent": "当社は、お客様の本サービスのご利用から生じる間接的、偶発的、特殊、結果的、または懲罰的な損害について責任を負いません。",
+            "modificationsTitle": "修正",
+            "modificationsContent": "当社はいつでもこれらの条項を修正する権利を留保します。変更は本ページへの投稿により効力を生じます。",
+            "terminationTitle": "解約",
+            "terminationContent": "当社は、これらの条項の違反があった場合、いつでもお客様のアカウントを解約または停止することができます。",
+            "contactTitle": "お問い合わせ情報",
+            "contactContent": "本利用規約についてご質問がございましたら、以下までお問い合わせください：",
+            "contactEmail": "メール: we.diet.dev@gmail.com",
+            "governingLawTitle": "準拠法",
+            "governingLawContent": "本条項は日本法に準拠します。"
+        },
+        "topPage": {
+            "hero": {
+                "subtitle": "一人では続けるのが難しくても、仲間がいれば楽しくなる",
+                "loginButton": "ログインページ",
+                "punchLines": [
+                    "運動⇒記録⇒共有",
+                    "😊",
+                    "食事⇒記録⇒共有",
+                    "🙄"
+                ]
+            },
+            "features": {
+                "exercise": {
+                    "title": "エクササイズ",
+                    "description": "今日は何キロ歩きましたか？距離を自慢しちゃいましょう"
+                },
+                "indulgence": {
+                    "title": "爆食い",
+                    "description": "今日はチートデイ！あなたの爆食いで飯テロしましょう"
+                },
+                "sns": {
+                    "title": "SNS連携",
+                    "description": "あなたの健康記録をSNSで共有して、誰かと共有する、そんな場所です。"
+                }
+            },
+            "product": {
+                "title": "ダイエットサポート",
+                "description": "運動の記録、健康、食べ物を中心にしたSNS型アプリです。"
+            },
+            "footer": {
+                "privacyPolicy": "プライバシーポリシー",
+                "termsOfService": "利用規約"
+            }
+        }
+    }
+}

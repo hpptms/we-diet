@@ -30,6 +30,7 @@ import {
     CalendarToday
 } from '@mui/icons-material';
 import { type FoodLog as FoodLogType } from '../../proto/food_log_pb';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface RecordViewDialogProps {
     open: boolean;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Box, IconButton, Paper, Chip, useTheme, useMediaQuery } from '@mui/material';
 import { ArrowBack, Restaurant, LocalDining, Cake } from '@mui/icons-material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface FoodLogHeaderProps {
     onBack?: () => void;
@@ -11,9 +12,11 @@ interface FoodLogHeaderProps {
 const FoodLogHeader: React.FC<FoodLogHeaderProps> = ({ onBack, selectedDate, isDarkMode = false }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const { t, tArray } = useTranslation();
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('ja-JP', {
+        const locale = t('food', 'calendar.locale');
+        return date.toLocaleDateString(locale, {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
@@ -22,13 +25,13 @@ const FoodLogHeader: React.FC<FoodLogHeaderProps> = ({ onBack, selectedDate, isD
     };
 
     const getMotivationalMessage = () => {
-        const messages = [
-            "今日も美味しい食事を記録しましょう！🍽️",
-            "健康的な食生活への第一歩です！💪",
-            "今日の食事を記録して振り返りませんか？📝",
-            "美味しい記録が待っています！✨",
-            "食事の記録で健康管理を楽しく！🌟"
-        ];
+        const messages = tArray('food', 'motivationalMessages');
+        // 配列が空でないことを確認
+        if (!messages || messages.length === 0) {
+            console.warn('motivationalMessages array is empty or undefined:', messages);
+            // フォールバック用の基本メッセージ
+            return t('food', 'header.subtitle');
+        }
         const today = new Date().getDate();
         return messages[today % messages.length];
     };
@@ -73,7 +76,7 @@ const FoodLogHeader: React.FC<FoodLogHeaderProps> = ({ onBack, selectedDate, isD
                             textShadow: '0 2px 4px rgba(0,0,0,0.1)'
                         }}
                     >
-                        🍽️ 食事記録
+                        🍽️ {t('food', 'header.title')}
                     </Typography>
                 </Box>
             </Box>

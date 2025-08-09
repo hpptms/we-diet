@@ -15,6 +15,7 @@ import {
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { DistanceButtons, TimeButtons, StepsButtons } from './CommonButtons';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface AerobicExerciseCardProps {
   walkingDistance: string;
@@ -45,6 +46,8 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { t } = useTranslation();
+  
   return (
     <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden', border: isDarkMode ? '1px solid white' : 'none' }}>
       <Box sx={{ 
@@ -53,7 +56,7 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
         border: isDarkMode ? '1px solid white' : 'none',
       }}>
         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
-          🏃‍♂️ 有酸素運動
+          🏃‍♂️ {t('exercise', 'aerobicExercise.title')}
         </Typography>
       </Box>
       <CardContent sx={{ background: isDarkMode ? '#000000' : '#f8f9ff' }}>
@@ -62,10 +65,10 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
               <DirectionsWalkIcon sx={{ color: '#4CAF50' }} />
               <Typography variant="h6" sx={{ color: isDarkMode ? 'white' : '#4CAF50', fontWeight: 'bold' }}>
-                徒歩
+                {t('exercise', 'walking')}
               </Typography>
               {walkingDistance && (
-                <Chip label="記録済み" color="success" size="small" />
+                <Chip label={t('common', 'recorded')} color="success" size="small" />
               )}
             </Box>
             {isMobile ? (
@@ -73,14 +76,14 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
               <Box>
                 {/* 歩数フィールド（上段） */}
                 <Box sx={{ mb: 2 }}>
-                  <TextField
-                    label="歩数"
-                    value={walkingSteps}
-                    onChange={(e) => onWalkingStepsChange(e.target.value)}
-                    type="number"
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">歩</InputAdornment>,
-                    }}
+                    <TextField
+                      label={t('exercise', 'aerobicExercise.walkingSteps')}
+                      value={walkingSteps}
+                      onChange={(e) => onWalkingStepsChange(e.target.value)}
+                      type="number"
+                      InputProps={{
+                        endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.steps')}</InputAdornment>,
+                      }}
                     InputLabelProps={{
                       shrink: walkingSteps !== '',
                     }}
@@ -120,12 +123,12 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                   <Box sx={{ flex: 1 }}>
                     <TextField
-                      label="距離"
+                      label={t('exercise', 'aerobicExercise.walkingDistance')}
                       value={walkingDistance}
                       onChange={(e) => onWalkingDistanceChange(e.target.value)}
                       type="number"
                       InputProps={{
-                        endAdornment: <InputAdornment position="end">km</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.km')}</InputAdornment>,
                       }}
                       fullWidth
                       variant="outlined"
@@ -160,12 +163,12 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                   </Box>
                   <Box sx={{ flex: 1 }}>
                     <TextField
-                      label="時間"
+                      label={t('exercise', 'aerobicExercise.walkingTime')}
                       value={walkingTime}
                       onChange={(e) => onWalkingTimeChange(e.target.value)}
                       type="number"
                       InputProps={{
-                        endAdornment: <InputAdornment position="end">分</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.minutes')}</InputAdornment>,
                       }}
                       fullWidth
                       variant="outlined"
@@ -205,12 +208,12 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
               <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                 <Box sx={{ flex: 1 }}>
                   <TextField
-                    label="距離"
+                    label={t('exercise', 'aerobicExercise.walkingDistance')}
                     value={walkingDistance}
                     onChange={(e) => onWalkingDistanceChange(e.target.value)}
                     type="number"
                     InputProps={{
-                      endAdornment: <InputAdornment position="end">km</InputAdornment>,
+                      endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.km')}</InputAdornment>,
                     }}
                     fullWidth
                     variant="outlined"
@@ -245,12 +248,12 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <TextField
-                    label="時間"
+                    label={t('exercise', 'aerobicExercise.walkingTime')}
                     value={walkingTime}
                     onChange={(e) => onWalkingTimeChange(e.target.value)}
                     type="number"
                     InputProps={{
-                      endAdornment: <InputAdornment position="end">分</InputAdornment>,
+                      endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.minutes')}</InputAdornment>,
                     }}
                     fullWidth
                     variant="outlined"
@@ -285,12 +288,12 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <TextField
-                    label="歩数"
+                    label={t('exercise', 'aerobicExercise.walkingSteps')}
                     value={walkingSteps}
                     onChange={(e) => onWalkingStepsChange(e.target.value)}
                     type="number"
                     InputProps={{
-                      endAdornment: <InputAdornment position="end">歩</InputAdornment>,
+                      endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.steps')}</InputAdornment>,
                     }}
                     InputLabelProps={{
                       shrink: walkingSteps !== '',
@@ -336,21 +339,21 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
               <DirectionsRunIcon sx={{ color: '#FF5722' }} />
               <Typography variant="h6" sx={{ color: isDarkMode ? 'white' : '#FF5722', fontWeight: 'bold' }}>
-                ランニング
+                {t('exercise', 'running')}
               </Typography>
               {runningDistance && (
-                <Chip label="記録済み" color="warning" size="small" />
+                <Chip label={t('common', 'recorded')} color="warning" size="small" />
               )}
             </Box>
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
               <Box sx={{ flex: 1 }}>
                 <TextField
-                  label="距離"
+                  label={t('exercise', 'aerobicExercise.runningDistance')}
                   value={runningDistance}
                   onChange={(e) => onRunningDistanceChange(e.target.value)}
                   type="number"
                   InputProps={{
-                    endAdornment: <InputAdornment position="end">km</InputAdornment>,
+                    endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.km')}</InputAdornment>,
                   }}
                   fullWidth
                   variant="outlined"
@@ -385,12 +388,12 @@ const AerobicExerciseCard: React.FC<AerobicExerciseCardProps> = ({
               </Box>
               <Box sx={{ flex: 1 }}>
                 <TextField
-                  label="時間"
+                  label={t('exercise', 'aerobicExercise.runningTime')}
                   value={runningTime}
                   onChange={(e) => onRunningTimeChange(e.target.value)}
                   type="number"
                   InputProps={{
-                    endAdornment: <InputAdornment position="end">分</InputAdornment>,
+                    endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.minutes')}</InputAdornment>,
                   }}
                   fullWidth
                   variant="outlined"

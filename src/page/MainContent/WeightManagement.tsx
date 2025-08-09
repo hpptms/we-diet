@@ -322,7 +322,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         } finally {
             setLoading(false);
         }
-    }, [currentDate, viewPeriod, userId]);
+    }, [currentDate, viewPeriod, userId, t]);
 
     useEffect(() => {
         fetchWeightRecords();
@@ -656,9 +656,14 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
     const formatCurrentPeriod = () => {
         if (viewPeriod === 'month') {
-            return `${currentDate.getFullYear()}年${currentDate.getMonth() + 1}月`;
+            return t('weight', 'monthFormat', { 
+                year: currentDate.getFullYear(), 
+                month: currentDate.getMonth() + 1 
+            }, `${currentDate.getFullYear()}年${currentDate.getMonth() + 1}月`);
         } else {
-            return `${currentDate.getFullYear()}年`;
+            return t('weight', 'yearFormat', { 
+                year: currentDate.getFullYear() 
+            }, `${currentDate.getFullYear()}年`);
         }
     };
 
@@ -759,7 +764,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 labels,
                 datasets: [
                     {
-                        label: '体重 (kg)',
+                        label: t('weight', 'weightLabel', {}, '体重 (kg)'),
                         data: weights,
                         borderColor: 'rgb(75, 192, 192)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -767,7 +772,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                         tension: 0.1,
                     },
                     {
-                        label: '体脂肪率 (%)',
+                        label: t('weight', 'bodyFatLabel', {}, '体脂肪率 (%)'),
                         data: bodyFats,
                         borderColor: 'rgb(255, 99, 132)',
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -789,7 +794,10 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             const sortedRecords = [...validRecords].sort((a, b) => a.year_month.localeCompare(b.year_month));
             const labels = sortedRecords.map(record => {
                 const [year, month] = record.year_month.split('-');
-                return `${year}年${parseInt(month)}月`;
+                return t('weight', 'monthFormat', {
+                    year: parseInt(year),
+                    month: parseInt(month)
+                }, `${year}年${parseInt(month)}月`);
             });
             const weights = sortedRecords.map(record => record.average_weight);
             
@@ -818,7 +826,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
             const datasets = [
                 {
-                    label: '月平均体重 (kg)',
+                    label: t('weight', 'monthlyAverageWeightLabel', {}, '月平均体重 (kg)'),
                     data: weights,
                     borderColor: 'rgb(75, 192, 192)',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -833,7 +841,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             
             if (hasBodyFatData) {
                 datasets.push({
-                    label: '月平均体脂肪率 (%)',
+                    label: t('weight', 'monthlyAverageBodyFatLabel', {}, '月平均体脂肪率 (%)'),
                     data: bodyFats,
                     borderColor: 'rgb(255, 99, 132)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -861,7 +869,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         plugins: {
             title: {
                 display: true,
-                text: `体重推移 (${formatCurrentPeriod()})`,
+                text: t('weight', 'chartTitle', { period: formatCurrentPeriod() }, `体重推移 (${formatCurrentPeriod()})`),
                 ...(isDarkMode && {
                     color: '#ccc'
                 })
@@ -884,7 +892,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                                     );
                                     const record = sortedRecords[dataIndex];
                                     if (record && (record.note || record.Note)) {
-                                        return [`メモ: ${record.note || record.Note}`];
+                                        return [t('weight', 'noteLabel', { note: record.note || record.Note }, `メモ: ${record.note || record.Note}`)];
                                     }
                                 }
                                 return [];
@@ -897,7 +905,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 display: true,
                 title: {
                     display: true,
-                    text: '日付',
+                    text: t('weight', 'dateAxisLabel', {}, '日付'),
                     ...(isDarkMode && {
                         color: '#ccc'
                     })
@@ -919,7 +927,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 position: 'left' as const,
                 title: {
                     display: true,
-                    text: '体重 (kg)',
+                    text: t('weight', 'weightAxisLabel', {}, '体重 (kg)'),
                     ...(isDarkMode && {
                         color: '#ccc'
                     })
@@ -942,7 +950,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     position: 'right' as const,
                     title: {
                         display: true,
-                        text: viewPeriod === 'month' ? '体脂肪率 (%)' : '月平均体脂肪率 (%)',
+                        text: viewPeriod === 'month' ? t('weight', 'bodyFatAxisLabel', {}, '体脂肪率 (%)') : t('weight', 'monthlyBodyFatAxisLabel', {}, '月平均体脂肪率 (%)'),
                         ...(isDarkMode && {
                             color: '#ccc'
                         })
@@ -1008,7 +1016,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             {/* Today's Weight Record Modal */}
             <WeightRecordModal
                 open={isAddModalOpen}
-                title="今日の体重を記録"
+                title={t('weight', 'recordTodayWeight', {}, '今日の体重を記録')}
                 dateValue={formData.date}
                 weightValue={formData.weight}
                 noteValue={formData.note}
@@ -1018,14 +1026,14 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 onWeightChange={(value: string) => setFormData({...formData, weight: value})}
                 onNoteChange={(value: string) => setFormData({...formData, note: value})}
                 onSubmit={handleAddWeight}
-                submitButtonText="記録する"
+                submitButtonText={t('weight', 'record', {}, '記録する')}
                 submitButtonColor="success"
             />
 
             {/* Past Weight Record Modal */}
             <WeightRecordModal
                 open={isPastRecordModalOpen}
-                title="過去の体重を記録"
+                title={t('weight', 'recordPastWeight', {}, '過去の体重を記録')}
                 dateValue={pastFormData.date}
                 weightValue={pastFormData.weight}
                 noteValue={pastFormData.note}
@@ -1035,7 +1043,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 onWeightChange={(value: string) => setPastFormData({...pastFormData, weight: value})}
                 onNoteChange={(value: string) => setPastFormData({...pastFormData, note: value})}
                 onSubmit={handleAddPastWeight}
-                submitButtonText="記録する"
+                submitButtonText={t('weight', 'record', {}, '記録する')}
                 submitButtonColor="info"
             />
 

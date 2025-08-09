@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, Box, List, ListItem, ListItemText } from
 import { TrendingUp } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface WeightRecordsListProps {
   weightRecords: any[];
@@ -16,6 +17,7 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
   currentDate,
 }) => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
 
   return (
     <Card sx={{
@@ -36,7 +38,7 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
           })
         }}>
           <TrendingUp color="primary" />
-          記録一覧
+          {t('weight', 'recordsListTitle', {}, '記録一覧')}
         </Typography>
         {weightRecords.length > 0 ? (
           <Box sx={{ width: '100%', overflowX: 'hidden' }}>
@@ -75,7 +77,7 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
                                 color: '#fff'
                               })
                             }}>
-                              体重: {record.weight || record.Weight}kg
+                              {t('weight', 'weight', {}, '体重')}: {record.weight || record.Weight}kg
                             </Typography>
                             {(record.body_fat || record.BodyFat) && (
                               <Typography component="span" sx={{ 
@@ -84,7 +86,7 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
                                   color: '#fff'
                                 })
                               }}>
-                                体脂肪率: {record.body_fat || record.BodyFat}%
+                                {t('weight', 'bodyFatLabel', {}, '体脂肪率').replace(' (%)', '')}: {record.body_fat || record.BodyFat}%
                               </Typography>
                             )}
                           </Typography>
@@ -94,7 +96,7 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
                             mt: 0.5,
                             color: isDarkMode ? '#ccc' : 'text.secondary'
                           }}>
-                            メモ: {record.note || record.Note}
+                            {t('weight', 'notes', {}, 'メモ')}: {record.note || record.Note}
                           </Typography>
                         )}
                       />
@@ -119,7 +121,7 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
                                 color: '#fff'
                               })
                             }}>
-                              平均体重: {record.average_weight.toFixed(1)}kg
+                              {t('weight', 'monthlyAverages', {}, '平均体重')}: {record.average_weight.toFixed(1)}kg
                             </Typography>
                           </Typography>
                         }
@@ -135,7 +137,7 @@ const WeightRecordsList: React.FC<WeightRecordsListProps> = ({
             py: 3, 
             color: isDarkMode ? '#ccc' : 'text.secondary'
           }}>
-            記録がありません
+            {t('weight', 'noRecordsFound', {}, '記録がありません')}
           </Typography>
         )}
       </CardContent>

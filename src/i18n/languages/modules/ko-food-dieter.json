@@ -1,0 +1,217 @@
+{
+    "food": {
+        "food": "음식",
+        "meal": "식사",
+        "breakfast": "아침식사",
+        "lunch": "점심식사",
+        "dinner": "저녁식사",
+        "snack": "간식",
+        "calories": "칼로리",
+        "protein": "단백질",
+        "carbs": "탄수화물",
+        "fat": "지방",
+        "fiber": "섬유질",
+        "sugar": "당분",
+        "sodium": "나트륨",
+        "recordMeal": "식사 기록",
+        "mealHistory": "식사 기록",
+        "nutritionFacts": "영양 성분",
+        "foodDiary": "식단 일기",
+        "dailyCalories": "하루 칼로리",
+        "remainingCalories": "남은 칼로리",
+        "saveRecord": "저장",
+        "saving": "저장 중...",
+        "back": "← 뒤로",
+        "saveConfirmTitle": "음식 기록 저장 확인",
+        "saveConfirmUpdate": "기존 기록을 업데이트합니다. 확실한가요?",
+        "saveConfirmNew": "새로운 음식 기록을 저장합니다. 확실한가요?",
+        "recordSaved": "음식 기록이 성공적으로 저장되었습니다!",
+        "recordUpdated": "음식 기록이 성공적으로 업데이트되었습니다!",
+        "saveFailed": "음식 기록 저장에 실패했습니다",
+        "saveFailedBadRequest": "잘못된 요청입니다. 입력을 확인해주세요",
+        "saveFailedAuth": "인증 오류입니다. 다시 로그인해주세요",
+        "saveFailedServer": "서버 오류가 발생했습니다. 나중에 다시 시도해주세요",
+        "saveFailedNetwork": "네트워크 오류가 발생했습니다. 연결을 확인해주세요",
+        "yesterdayRecord": "어제 기록",
+        "viewPastRecords": "과거 기록 보기",
+        "noYesterdayRecord": "어제 기록을 찾을 수 없습니다",
+        "noSelectedDateRecord": "선택한 날짜의 기록을 찾을 수 없습니다",
+        "loadRecordFailed": "기록 로드에 실패했습니다",
+        "loadRecordDatesFailed": "기록 날짜 로드에 실패했습니다",
+        "postContent": "오늘의 음식 기록 🍽️",
+        "hashtag": "#오늘의음식",
+        "dieterPostFailed": "음식 기록은 저장되었지만 Dieter 게시물 생성에 실패했습니다.",
+        "header": {
+            "title": "음식 기록",
+            "subtitle": "오늘의 식사를 기록해보세요!"
+        },
+        "dailyProgress": {
+            "title": "오늘의 진행상황",
+            "recordedDays": "기록된 일수",
+            "totalDays": "총 일수"
+        },
+        "actionButtons": {
+            "yesterdayRecord": "어제의 기록",
+            "viewPastRecords": "과거 기록 보기"
+        },
+        "mealCard": {
+            "title": "오늘의 식사",
+            "placeholder": "오늘 먹은 것이나 느낀 점을 자유롭게 적어보세요!",
+            "example": "예: 아침은 요거트와 과일 / 점심은 친구와 맛있는 파스타🍝 / 저녁은 집에서 만든 카레🍛 / 기록만 해도 OK!"
+        },
+        "photoUpload": {
+            "title": "오늘의 식사 사진"
+        },
+        "saveConfirm": {
+            "title": "음식 기록 저장 확인",
+            "saveButton": "저장"
+        },
+        "motivationalMessages": [
+            "오늘도 맛있는 음식을 기록해봐요! 🍽️",
+            "건강한 식생활의 첫 걸음입니다! 💪",
+            "오늘의 식사를 기록하고 되돌아볼까요? 📝",
+            "맛있는 기록이 기다리고 있어요! ✨",
+            "식사 기록으로 건강 관리를 즐겁게 해봐요! 🌟"
+        ],
+        "unifiedMealCard": {
+            "title": "오늘의 식사 기록",
+            "placeholder": "오늘 먹은 음식과 음료를 자유롭게 기록해보세요.\n\n예시:\n아침: 토스트, 커피\n점심: 주먹밥 2개, 차\n저녁: 카레라이스, 샐러드\n간식: 쿠키 2개",
+            "description": "아침, 점심, 저녁, 간식을 자유롭게 기록하세요",
+            "characterCount": "{current}/{max}자",
+            "characterLimitExceeded": "글자 수 제한을 초과했습니다. {count}자 삭제해주세요."
+        },
+        "dailyProgressCard": {
+            "title": "기록 연속 현황",
+            "consecutiveDays": "연속 기록 일수",
+            "totalRecords": "총 기록 {count}일",
+            "streakMessages": {
+                "0": "🌱 오늘부터 기록을 시작해봐요! 새싹의 성장을!",
+                "1": "🔥 기록 시작! 불꽃처럼 타오르고 있어요!",
+                "3": "🚩 3일 연속! 깃발이 세워졌어요!",
+                "6": "💫 6일 달성! 유성처럼 멋져요!",
+                "9": "🔮 9일 계속! 마법의 힘을 느낍니다!",
+                "12": "🌸 12일 달성! 벚꽃처럼 아름다운 지속!",
+                "15": "☀️ 15일 계속! 태양처럼 빛나고 있어요!",
+                "18": "🌙 18일 달성! 달의 파워!",
+                "21": "🎊 3주 계속! 축하해요!",
+                "24": "✨ 24일 달성! 반짝반짝 빛나고 있어요!",
+                "27": "🌈 27일 계속! 무지개 빛깔!",
+                "30": "💪 1개월 달성! 파워업했습니다!",
+                "45": "⚡ 45일 달성! 번개같은 지속력!",
+                "60": "🔱 2개월 계속! 삼지창 파워!",
+                "75": "🥇 75일 돌파! 골드 레벨!",
+                "90": "🏅 3개월 달성! 훌륭한 습관!",
+                "120": "🎖️ 4개월 계속! 메달리스트입니다!",
+                "150": "🏆 150일 달성! 챔피언 레벨!",
+                "180": "🎯 반년 달성! 완벽한 지속력!",
+                "210": "⭐ 210일 달성! 스타 레벨입니다!",
+                "240": "🚀 240일 계속! 우주급 지속력!",
+                "270": "💎 270일 달성! 다이아몬드 레벨!",
+                "300": "🌟 300일 돌파! 이제 습관의 달인이군요!",
+                "365": "🎉 1년 연속 달성! 전설적인 레벨입니다! 🎉"
+            },
+            "consecutiveCount": "{count}일 연속"
+        },
+        "calendar": {
+            "selectPastRecord": "과거 기록 선택",
+            "close": "닫기",
+            "yearMonthFormat": "{year}년 {month}월",
+            "weekdays": [
+                "일",
+                "월",
+                "화",
+                "수",
+                "목",
+                "금",
+                "토"
+            ],
+            "locale": "ko-KR"
+        }
+    },
+    "dieter": {
+        "backToDashboard": "대시보드로 돌아가기",
+        "createPost": "포스트 작성",
+        "searchPlaceholder": "Dieter 검색",
+        "recommendedUsers": "추천 사용자",
+        "trendingTopics": "인기 주제",
+        "followManagement": "팔로우 관리",
+        "homeTimeline": "홈 타임라인",
+        "followingPosts": "팔로잉 게시물",
+        "publicPosts": "공개 게시물",
+        "dieter": "Dieter",
+        "navigation": {
+            "home": "홈",
+            "followTL": "팔로우 TL",
+            "notifications": "알림",
+            "messages": "메시지",
+            "profile": "프로필",
+            "todaysExercise": "오늘의 운동",
+            "recordMeal": "식사 기록"
+        },
+        "userCard": {
+            "followers": "팔로워",
+            "following": "팔로잉",
+            "posts": "게시물"
+        },
+        "postModal": {
+            "title": "새 게시물",
+            "placeholder": "무슨 일이 일어나고 있나요?",
+            "post": "게시",
+            "cancel": "취소",
+            "sensitive": "민감한 내용"
+        },
+        "timeline": {
+            "home": "홈TL",
+            "following": "팔로우TL",
+            "followingDescription": "팔로우한 사용자의 게시글만 표시",
+            "searching": "검색 중...",
+            "loading": "게시글 로딩 중...",
+            "noPostsYet": "아직 게시글이 없습니다.<br />첫 번째 게시글을 작성해보세요!",
+            "loadingPosts": "게시글 로딩 중...",
+            "noMorePosts": "더 이상 게시글이 없습니다"
+        },
+        "search": {
+            "placeholder": "검색",
+            "title": "검색"
+        },
+        "recommendations": {
+            "title": "추천 사용자"
+        }
+    },
+    "pages": {
+        "topPage": {
+            "hero": {
+                "subtitle": "혼자서는 지속하기 어려워도, 동료가 있으면 즐거워집니다",
+                "loginButton": "로그인 페이지",
+                "punchLines": [
+                    "운동⇒기록⇒공유",
+                    "😊",
+                    "식사⇒기록⇒공유",
+                    "🙄"
+                ]
+            },
+            "features": {
+                "exercise": {
+                    "title": "운동",
+                    "description": "오늘은 몇 킬로미터를 걸었나요? 거리를 자랑해 봅시다"
+                },
+                "indulgence": {
+                    "title": "폭식",
+                    "description": "오늘은 치트데이! 당신의 폭식으로 밥테러를 합시다"
+                },
+                "sns": {
+                    "title": "SNS 연동",
+                    "description": "당신의 건강 기록을 SNS에서 공유하고, 누군가와 공유하는 그런 장소입니다."
+                }
+            },
+            "product": {
+                "title": "다이어트 지원",
+                "description": "운동 기록, 건강, 음식을 중심으로 한 SNS형 앱입니다."
+            },
+            "footer": {
+                "privacyPolicy": "개인정보처리방침",
+                "termsOfService": "서비스 약관"
+            }
+        }
+    }
+}

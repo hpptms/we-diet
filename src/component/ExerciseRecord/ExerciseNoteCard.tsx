@@ -7,6 +7,7 @@ import {
   TextField,
   Chip,
 } from '@mui/material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface ExerciseNoteCardProps {
   exerciseNote: string;
@@ -19,6 +20,8 @@ const ExerciseNoteCard: React.FC<ExerciseNoteCardProps> = ({
   onExerciseNoteChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden', border: isDarkMode ? '1px solid white' : 'none' }}>
       <Box sx={{ 
@@ -27,12 +30,12 @@ const ExerciseNoteCard: React.FC<ExerciseNoteCardProps> = ({
         border: isDarkMode ? '1px solid white' : 'none',
       }}>
         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
-          📝 どんな運動したの？（任意）
+          📝 {t('exercise', 'exerciseNote.title')}
         </Typography>
       </Box>
       <CardContent sx={{ background: isDarkMode ? '#000000' : '#fffaf0' }}>
         <TextField
-          label="今日頑張った運動や感想を自由に書いてね！（任意）"
+          label={t('exercise', 'exerciseNote.placeholder')}
           value={exerciseNote}
           onChange={(e) => {
             if (e.target.value.length <= 300) onExerciseNoteChange(e.target.value);
@@ -41,7 +44,7 @@ const ExerciseNoteCard: React.FC<ExerciseNoteCardProps> = ({
           rows={4}
           fullWidth
           variant="outlined"
-          placeholder="例：朝のランニングで桜が綺麗だった🌸 / 新しいヨガポーズにチャレンジ！ / 友達と一緒にテニスを楽しんだ♪ / 記録だけでもOK！"
+          placeholder={t('exercise', 'exerciseNote.example')}
           inputProps={{ maxLength: 300 }}
           sx={{
             '& .MuiOutlinedInput-root': {
@@ -66,11 +69,11 @@ const ExerciseNoteCard: React.FC<ExerciseNoteCardProps> = ({
         />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1 }}>
           <Typography variant="body2" sx={{ color: isDarkMode ? 'white' : '#666', fontSize: '0.75rem' }}>
-            {exerciseNote.length}/300文字
+            {t('exercise', 'exerciseNote.characterCount', { current: exerciseNote.length, max: 300 })}
           </Typography>
           {exerciseNote && (
             <Chip 
-              label="記録完了 📖" 
+              label={t('exercise', 'exerciseNote.completedMessage')} 
               color="warning" 
               size="small"
               sx={{ 
@@ -90,7 +93,7 @@ const ExerciseNoteCard: React.FC<ExerciseNoteCardProps> = ({
             border: isDarkMode ? '1px solid white' : '1px solid rgba(255, 107, 107, 0.3)'
           }}>
             <Typography variant="body2" sx={{ color: isDarkMode ? 'white' : '#d32f2f', fontWeight: 'bold' }}>
-              ✨ 素敵な記録ですね！継続することで必ず成果が出ますよ 💪
+              {t('exercise', 'exerciseNote.encouragementMessage')}
             </Typography>
           </Box>
         )}

@@ -1,0 +1,70 @@
+{
+    "auth": {
+        "login": "ログイン",
+        "logout": "ログアウト",
+        "register": "新規登録",
+        "email": "メールアドレス",
+        "password": "パスワード",
+        "confirmPassword": "パスワード確認",
+        "forgotPassword": "パスワードを忘れた場合",
+        "loginWithGoogle": "Googleでログイン",
+        "loginWithFacebook": "Facebookでログイン",
+        "loginWithLine": "LINEでログイン",
+        "loginWithTiktok": "TikTokでログイン",
+        "signUp": "アカウント作成",
+        "signIn": "サインイン"
+    },
+    "navigation": {
+        "home": "ホーム",
+        "dashboard": "ダッシュボード",
+        "profile": "プロフィール",
+        "settings": "設定",
+        "notifications": "通知",
+        "messages": "メッセージ",
+        "trending": "トレンド",
+        "search": "検索",
+        "menu": "メニュー"
+    },
+    "dashboard": {
+        "welcome": "ようこそ",
+        "todaysWeight": "今日の体重",
+        "weightRecord": "体重記録",
+        "exerciseRecord": "運動記録",
+        "foodRecord": "食事記録",
+        "posts": "投稿",
+        "followers": "フォロワー",
+        "following": "フォロー中",
+        "recentActivities": "最近のアクティビティ",
+        "quickActions": "クイックアクション",
+        "statistics": "統計",
+        "goals": "目標",
+        "achievements": "実績",
+        "addToHome": "ホームに追加"
+    },
+    "search": {
+        "searchPlaceholder": "検索...",
+        "searchResults": "検索結果",
+        "noResults": "結果が見つかりませんでした",
+        "searchUsers": "ユーザーを検索",
+        "searchPosts": "投稿を検索",
+        "searchHashtags": "ハッシュタグを検索",
+        "recentSearches": "最近の検索",
+        "clearSearchHistory": "検索履歴をクリア"
+    },
+    "settings": {
+        "settings": "設定",
+        "account": "アカウント",
+        "privacy": "プライバシー",
+        "notifications": "通知設定",
+        "language": "言語",
+        "theme": "テーマ",
+        "changePassword": "パスワードを変更",
+        "deactivateAccount": "アカウントを無効にする",
+        "dataExport": "データをエクスポート",
+        "help": "ヘルプ",
+        "about": "このアプリについて",
+        "termsOfService": "利用規約",
+        "privacyPolicy": "プライバシーポリシー",
+        "cookiePolicy": "クッキーポリシー"
+    }
+}

@@ -9,6 +9,7 @@ import {
 import { AccountCircle } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { FollowCounts } from '../types';
+import { useTranslation } from '../../../../../hooks/useTranslation';
 
 interface UserCardProps {
     getIconSrc: () => string | undefined;
@@ -26,6 +27,7 @@ const UserCard: React.FC<UserCardProps> = ({
     onNavigateToFollowManagement
 }) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     return (
         <Card sx={{ 
@@ -103,7 +105,7 @@ const UserCard: React.FC<UserCardProps> = ({
                                     display: 'block',
                                     fontSize: '0.7rem'
                                 }}>
-                                    フォロー
+                                    {t('dieter', 'userCard.following', {}, 'フォロー')}
                                 </Typography>
                                 <Typography variant="h6" sx={{ 
                                     color: '#29b6f6',
@@ -133,7 +135,7 @@ const UserCard: React.FC<UserCardProps> = ({
                                     display: 'block',
                                     fontSize: '0.7rem'
                                 }}>
-                                    フォロワー
+                                    {t('dieter', 'userCard.followers', {}, 'フォロワー')}
                                 </Typography>
                                 <Typography variant="h6" sx={{ 
                                     color: '#4CAF50',

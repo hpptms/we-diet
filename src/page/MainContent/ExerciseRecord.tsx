@@ -97,7 +97,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         // console.log('本日の運動記録データを読み込みました');
       }
     } catch (error: any) {
-      console.error('運動記録データの取得に失敗しました:', error);
+      console.error(t('exercise', 'errors.loadFailed'), error);
     }
   };
 
@@ -157,58 +157,58 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
 
   // 運動記録投稿のコンテンツを作成する関数
   const createExercisePostContent = (caloriesBurned: number) => {
-    let content = `今日は大体${caloriesBurned}カロリー消費しました！🔥\n\n`;
+    let content = t('exercise', 'postMessages.todayCalories', { calories: caloriesBurned });
     
     // 有酸素運動
     if (exerciseData.walkingDistance || exerciseData.walkingTime) {
-      content += "🚶 ウォーキング: ";
+      content += t('exercise', 'postMessages.walkingActivity');
       if (exerciseData.walkingDistance) {
-        content += exerciseData.walkingDistance + "km ";
+        content += exerciseData.walkingDistance + t('exercise', 'postMessages.units.km') + " ";
       }
       if (exerciseData.walkingTime) {
-        content += exerciseData.walkingTime + "分";
+        content += exerciseData.walkingTime + t('exercise', 'postMessages.units.minutes');
       }
-      content += "\n";
+      content += "\\n";
     }
     
     if (exerciseData.runningDistance || exerciseData.runningTime) {
-      content += "🏃 ランニング: ";
+      content += t('exercise', 'postMessages.runningActivity');
       if (exerciseData.runningDistance) {
-        content += exerciseData.runningDistance + "km ";
+        content += exerciseData.runningDistance + t('exercise', 'postMessages.units.km') + " ";
       }
       if (exerciseData.runningTime) {
-        content += exerciseData.runningTime + "分";
+        content += exerciseData.runningTime + t('exercise', 'postMessages.units.minutes');
       }
-      content += "\n";
+      content += "\\n";
     }
     
     // 筋力トレーニング
     if (exerciseData.pushUps) {
-      content += "💪 腕立て伏せ: " + exerciseData.pushUps + "回\n";
+      content += t('exercise', 'postMessages.pushUpsActivity') + exerciseData.pushUps + t('exercise', 'postMessages.units.times') + "\\n";
     }
     if (exerciseData.sitUps) {
-      content += "🏋️ 腹筋: " + exerciseData.sitUps + "回\n";
+      content += t('exercise', 'postMessages.sitUpsActivity') + exerciseData.sitUps + t('exercise', 'postMessages.units.times') + "\\n";
     }
     if (exerciseData.squats) {
-      content += "🏋️ スクワット: " + exerciseData.squats + "回\n";
+      content += t('exercise', 'postMessages.squatsActivity') + exerciseData.squats + t('exercise', 'postMessages.units.times') + "\\n";
     }
     
     // その他運動
     if (exerciseData.otherExerciseTime) {
-      content += "🔥 その他運動: " + exerciseData.otherExerciseTime + "分\n";
+      content += t('exercise', 'postMessages.otherActivity') + exerciseData.otherExerciseTime + t('exercise', 'postMessages.units.minutes') + "\\n";
     }
     
     // 体重記録
     if (exerciseData.todayWeight) {
-      content += "⚖️ 今日の体重: " + exerciseData.todayWeight + "kg\n";
+      content += t('exercise', 'postMessages.weightRecord') + exerciseData.todayWeight + t('exercise', 'postMessages.units.kg') + "\\n";
     }
     
     // 運動メモ
     if (exerciseData.exerciseNote) {
-      content += "\n📝 " + exerciseData.exerciseNote;
+      content += t('exercise', 'postMessages.notePrefix') + exerciseData.exerciseNote;
     }
     
-    content += "\n\n#今日の運動";
+    content += t('exercise', 'postMessages.hashtag');
     
     return content;
   };
@@ -248,11 +248,11 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       // 実際の保存処理を実行
       await performSave(userId, today);
     } catch (error: any) {
-      let errorMessage = '保存に失敗しました。もう一度お試しください。';
+      let errorMessage = t('exercise', 'errors.saveFailed');
       if (error.response && error.response.data && error.response.data.message) {
-        errorMessage = `保存に失敗しました: ${error.response.data.message}`;
+        errorMessage = t('exercise', 'errors.saveFailedWithError', { error: error.response.data.message });
       } else if (error.message) {
-        errorMessage = `保存に失敗しました: ${error.message}`;
+        errorMessage = t('exercise', 'errors.saveFailedWithError', { error: error.message });
       }
       showError(errorMessage);
     } finally {
@@ -285,7 +285,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
 
       console.log('サーバーレスポンス:', response);
 
-      if (!response.success) throw new Error(response.message || '保存に失敗しました');
+      if (!response.success) throw new Error(response.message || t('exercise', 'errors.saveFailed'));
       const caloriesBurned = response.calories_burned || 0;
 
       console.log('カロリー消費量:', caloriesBurned);
@@ -416,7 +416,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       });
 
       // 初回保存でも成功結果をダイアログで表示
-      const message = `保存が完了しました！\n今日は大体${caloriesBurned}カロリー消費しました！\nおつかれさま！`;
+      const message = t('exercise', 'dialogs.saveMessage', { calories: caloriesBurned });
       setSaveResult({ calories: caloriesBurned, message });
       setSaveResultOpen(true);
     } catch (error: any) {
@@ -923,7 +923,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
             }}
             sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}
           >
-            キャンセル
+            {t('exercise', 'dialogs.cancel')}
           </Button>
           <Button 
             onClick={async () => {
@@ -996,7 +996,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
               }
             }}
           >
-            上書きする
+            {t('exercise', 'overwrite')}
           </Button>
         </DialogActions>
       </Dialog>
@@ -1326,7 +1326,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
         }}
       >
         <DialogTitle sx={{ color: isDarkMode ? '#ffffff' : 'inherit', textAlign: 'center' }}>
-          🎉 保存完了！
+          {t('exercise', 'dialogs.saveComplete')}
         </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ color: isDarkMode ? '#ffffff' : 'inherit', textAlign: 'center', fontSize: '16px', lineHeight: 1.6 }}>
@@ -1352,7 +1352,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
               }
             }}
           >
-            OK
+            {t('exercise', 'dialogs.ok')}
           </Button>
         </DialogActions>
       </Dialog>

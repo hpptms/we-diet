@@ -1,8 +1,17 @@
-import jaTranslations from './languages/ja.json';
-import enTranslations from './languages/en.json';
-import zhCNTranslations from './languages/zh-CN.json';
-import koTranslations from './languages/ko.json';
-import esTranslations from './languages/es.json';
+import {
+    loadJapaneseTranslations,
+    loadEnglishTranslations,
+    loadChineseTranslations,
+    loadKoreanTranslations,
+    loadSpanishTranslations
+} from './moduleLoader';
+
+// 分割されたモジュールからすべての言語翻訳を読み込み
+const jaTranslations = loadJapaneseTranslations();
+const enTranslations = loadEnglishTranslations();
+const zhCNTranslations = loadChineseTranslations();
+const koTranslations = loadKoreanTranslations();
+const esTranslations = loadSpanishTranslations();
 
 export type SupportedLanguage = 'ja' | 'en' | 'zh-CN' | 'ko' | 'es';
 
@@ -30,22 +39,23 @@ const translations = {
 
 export type TranslationKey = keyof typeof jaTranslations;
 export type TranslationNestedKey =
-    | `${keyof typeof jaTranslations.common}`
-    | `${keyof typeof jaTranslations.auth}`
-    | `${keyof typeof jaTranslations.navigation}`
-    | `${keyof typeof jaTranslations.dashboard}`
-    | `${keyof typeof jaTranslations.posts}`
-    | `${keyof typeof jaTranslations.profile}`
-    | `${keyof typeof jaTranslations.weight}`
-    | `${keyof typeof jaTranslations.exercise}`
-    | `${keyof typeof jaTranslations.food}`
-    | `${keyof typeof jaTranslations.notifications}`
-    | `${keyof typeof jaTranslations.messages}`
-    | `${keyof typeof jaTranslations.settings}`
-    | `${keyof typeof jaTranslations.search}`
-    | `${keyof typeof jaTranslations.errors}`
-    | `${keyof typeof jaTranslations.time}`
-    | `${keyof typeof jaTranslations.pages}`;
+    | `${string & keyof typeof jaTranslations.common}`
+    | `${string & keyof typeof jaTranslations.auth}`
+    | `${string & keyof typeof jaTranslations.navigation}`
+    | `${string & keyof typeof jaTranslations.dashboard}`
+    | `${string & keyof typeof jaTranslations.posts}`
+    | `${string & keyof typeof jaTranslations.profile}`
+    | `${string & keyof typeof jaTranslations.weight}`
+    | `${string & keyof typeof jaTranslations.exercise}`
+    | `${string & keyof typeof jaTranslations.food}`
+    | `${string & keyof typeof jaTranslations.notifications}`
+    | `${string & keyof typeof jaTranslations.messages}`
+    | `${string & keyof typeof jaTranslations.settings}`
+    | `${string & keyof typeof jaTranslations.search}`
+    | `${string & keyof typeof jaTranslations.dieter}`
+    | `${string & keyof typeof jaTranslations.errors}`
+    | `${string & keyof typeof jaTranslations.time}`
+    | `${string & keyof typeof jaTranslations.pages}`;
 
 /**
  * ブラウザの言語設定から対応言語を検出
@@ -164,7 +174,7 @@ export const getTranslation = (
     fallback?: string
 ): string => {
     try {
-        const categoryTranslations = translations[language][category];
+        const categoryTranslations = (translations[language] as any)[category as string];
 
         // ネストされたキーを処理
         const translation = getNestedValue(categoryTranslations, key);
@@ -175,7 +185,7 @@ export const getTranslation = (
 
         // フォールバック: 日本語の翻訳を試す
         if (language !== 'ja') {
-            const jaFallback = getNestedValue(translations.ja[category], key);
+            const jaFallback = getNestedValue((translations.ja as any)[category as string], key);
             if (jaFallback && typeof jaFallback === 'string') {
                 return jaFallback;
             }
@@ -183,7 +193,7 @@ export const getTranslation = (
 
         // フォールバック: 英語の翻訳を試す
         if (language !== 'en') {
-            const enFallback = getNestedValue(translations.en[category], key);
+            const enFallback = getNestedValue((translations.en as any)[category as string], key);
             if (enFallback && typeof enFallback === 'string') {
                 return enFallback;
             }
@@ -206,7 +216,7 @@ export const getTranslationArray = (
     fallback?: string[]
 ): string[] => {
     try {
-        const categoryTranslations = translations[language][category];
+        const categoryTranslations = (translations[language] as any)[category as string];
 
         // ネストされたキーを処理
         const translation = getNestedValue(categoryTranslations, key);
@@ -217,7 +227,7 @@ export const getTranslationArray = (
 
         // フォールバック: 日本語の翻訳を試す
         if (language !== 'ja') {
-            const jaFallback = getNestedValue(translations.ja[category], key);
+            const jaFallback = getNestedValue((translations.ja as any)[category as string], key);
             if (Array.isArray(jaFallback)) {
                 return jaFallback;
             }
@@ -225,7 +235,7 @@ export const getTranslationArray = (
 
         // フォールバック: 英語の翻訳を試す
         if (language !== 'en') {
-            const enFallback = getNestedValue(translations.en[category], key);
+            const enFallback = getNestedValue((translations.en as any)[category as string], key);
             if (Array.isArray(enFallback)) {
                 return enFallback;
             }

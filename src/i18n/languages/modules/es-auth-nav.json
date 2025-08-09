@@ -1,0 +1,70 @@
+{
+    "auth": {
+        "login": "Iniciar sesión",
+        "logout": "Cerrar sesión",
+        "register": "Registrarse",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "confirmPassword": "Confirmar contraseña",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "loginWithGoogle": "Iniciar sesión con Google",
+        "loginWithFacebook": "Iniciar sesión con Facebook",
+        "loginWithLine": "Iniciar sesión con LINE",
+        "loginWithTiktok": "Iniciar sesión con TikTok",
+        "signUp": "Crear cuenta",
+        "signIn": "Iniciar sesión"
+    },
+    "navigation": {
+        "home": "Inicio",
+        "dashboard": "Panel",
+        "profile": "Perfil",
+        "settings": "Configuración",
+        "notifications": "Notificaciones",
+        "messages": "Mensajes",
+        "trending": "Tendencias",
+        "search": "Buscar",
+        "menu": "Menú"
+    },
+    "dashboard": {
+        "welcome": "Bienvenido",
+        "todaysWeight": "Peso de hoy",
+        "weightRecord": "Registro de peso",
+        "exerciseRecord": "Registro de ejercicio",
+        "foodRecord": "Registro de comida",
+        "posts": "Publicaciones",
+        "followers": "Seguidores",
+        "following": "Siguiendo",
+        "recentActivities": "Actividades recientes",
+        "quickActions": "Acciones rápidas",
+        "statistics": "Estadísticas",
+        "goals": "Objetivos",
+        "achievements": "Logros",
+        "addToHome": "Añadir al inicio"
+    },
+    "search": {
+        "searchPlaceholder": "Buscar...",
+        "searchResults": "Resultados de búsqueda",
+        "noResults": "No se encontraron resultados",
+        "searchUsers": "Buscar usuarios",
+        "searchPosts": "Buscar publicaciones",
+        "searchHashtags": "Buscar hashtags",
+        "recentSearches": "Búsquedas recientes",
+        "clearSearchHistory": "Limpiar historial de búsqueda"
+    },
+    "settings": {
+        "settings": "Configuración",
+        "account": "Cuenta",
+        "privacy": "Privacidad",
+        "notifications": "Notificaciones",
+        "language": "Idioma",
+        "theme": "Tema",
+        "changePassword": "Cambiar contraseña",
+        "deactivateAccount": "Desactivar cuenta",
+        "dataExport": "Exportar datos",
+        "help": "Ayuda",
+        "about": "Acerca de",
+        "termsOfService": "Términos de servicio",
+        "privacyPolicy": "Política de privacidad",
+        "cookiePolicy": "Política de cookies"
+    }
+}

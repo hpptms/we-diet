@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, TextField, FormControlLabel, Checkbox } from '@mui/material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface ActivityLevelFieldProps {
   activityLevel: string;
@@ -16,11 +17,14 @@ const ActivityLevelField: React.FC<ActivityLevelFieldProps> = ({
   onPrivacyChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Box sx={{ mb: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <TextField
-          label="活動範囲"
+          label={t('profile', 'activityLevel')}
+          placeholder={t('profile', 'activityLevelPlaceholder')}
           type="text"
           value={activityLevel}
           onChange={(e) => {
@@ -66,7 +70,7 @@ const ActivityLevelField: React.FC<ActivityLevelFieldProps> = ({
               }}
             />
           }
-          label="非公開"
+          label={t('profile', 'private')}
           sx={{
             '& .MuiFormControlLabel-label': {
               color: isDarkMode ? '#ffffff' : 'inherit',

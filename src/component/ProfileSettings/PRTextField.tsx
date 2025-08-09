@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, TextField } from '@mui/material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface PRTextFieldProps {
   prText: string;
@@ -12,10 +13,13 @@ const PRTextField: React.FC<PRTextFieldProps> = ({
   onPRTextChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Box sx={{ mb: 3 }}>
       <TextField
-        label="自己PR"
+        label={t('profile', 'prText')}
+        placeholder={t('profile', 'prTextPlaceholder')}
         type="text"
         value={prText}
         onChange={(e) => {

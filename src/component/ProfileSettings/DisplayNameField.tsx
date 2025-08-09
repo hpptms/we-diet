@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, TextField } from '@mui/material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface DisplayNameFieldProps {
   displayName: string;
@@ -12,11 +13,14 @@ const DisplayNameField: React.FC<DisplayNameFieldProps> = ({
   onChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Box sx={{ mb: 3 }}>
       <TextField
         fullWidth
-        label="表示名"
+        label={t('profile', 'displayName')}
+        placeholder={t('profile', 'displayNamePlaceholder')}
         value={displayName}
         onChange={(e) => onChange(e.target.value)}
         variant="outlined"

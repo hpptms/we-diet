@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, TextField, Typography, FormControlLabel, Checkbox } from '@mui/material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface AgeFieldProps {
   age: string;
@@ -16,11 +17,14 @@ const AgeField: React.FC<AgeFieldProps> = ({
   onPrivacyChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Box sx={{ mb: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <TextField
-          label="年齢"
+          label={t('profile', 'age')}
+          placeholder={t('profile', 'agePlaceholder')}
           type="number"
           value={age}
           onChange={(e) => onAgeChange(e.target.value)}
@@ -45,9 +49,6 @@ const AgeField: React.FC<AgeFieldProps> = ({
               },
             },
           }}
-          InputProps={{
-            endAdornment: <Typography variant="body2" sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>歳</Typography>
-          }}
         />
         <FormControlLabel
           control={
@@ -62,7 +63,7 @@ const AgeField: React.FC<AgeFieldProps> = ({
               }}
             />
           }
-          label="非公開"
+          label={t('profile', 'private')}
           sx={{
             '& .MuiFormControlLabel-label': {
               color: isDarkMode ? '#ffffff' : 'inherit',

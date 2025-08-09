@@ -12,6 +12,7 @@ import {
 import { RecommendedUser } from '../types';
 import { postsApi, UserProfile } from '../../../api/postsApi';
 import UserProfileModal from '../profile/UserProfileModal';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface RecommendedUsersProps {
   users: RecommendedUser[];
@@ -19,6 +20,7 @@ interface RecommendedUsersProps {
 }
 
 const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) => {
+  const { t } = useTranslation();
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
@@ -58,7 +60,7 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent'
       }}>
-        ⭐ おすすめユーザー
+        ⭐ {t('dieter', 'recommendations.title', {}, 'おすすめユーザー')}
       </Typography>
       {users.map((user, index) => (
         <Box key={`recommended-user-${user.username}-${index}`} sx={{
@@ -142,7 +144,7 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
               }}
               onClick={() => onFollow?.(user.id)}
             >
-              {user.isFollowing ? 'フォロー中' : 'フォロー'}
+              {user.isFollowing ? t('profile', 'following', {}, 'フォロー中') : t('profile', 'follow', {}, 'フォロー')}
             </Button>
           </Box>
         </Box>

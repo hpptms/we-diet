@@ -1,0 +1,217 @@
+{
+    "food": {
+        "food": "食物",
+        "meal": "餐食",
+        "breakfast": "早餐",
+        "lunch": "午餐",
+        "dinner": "晚餐",
+        "snack": "零食",
+        "calories": "卡路里",
+        "protein": "蛋白质",
+        "carbs": "碳水化合物",
+        "fat": "脂肪",
+        "fiber": "纤维",
+        "sugar": "糖",
+        "sodium": "钠",
+        "recordMeal": "记录餐食",
+        "mealHistory": "餐食历史",
+        "nutritionFacts": "营养成分",
+        "foodDiary": "饮食日记",
+        "dailyCalories": "每日卡路里",
+        "remainingCalories": "剩余卡路里",
+        "saveRecord": "保存",
+        "saving": "保存中...",
+        "back": "← 返回",
+        "saveConfirmTitle": "确认保存饮食记录",
+        "saveConfirmUpdate": "更新现有记录，确定吗？",
+        "saveConfirmNew": "保存新的饮食记录，确定吗？",
+        "recordSaved": "饮食记录保存成功！",
+        "recordUpdated": "饮食记录更新成功！",
+        "saveFailed": "保存饮食记录失败",
+        "saveFailedBadRequest": "请求无效，请检查输入内容",
+        "saveFailedAuth": "认证错误，请重新登录",
+        "saveFailedServer": "服务器错误，请稍后重试",
+        "saveFailedNetwork": "网络错误，请检查连接",
+        "yesterdayRecord": "昨天的记录",
+        "viewPastRecords": "查看过去的记录",
+        "noYesterdayRecord": "未找到昨天的记录",
+        "noSelectedDateRecord": "所选日期未找到记录",
+        "loadRecordFailed": "加载记录失败",
+        "loadRecordDatesFailed": "加载记录日期失败",
+        "postContent": "今日饮食记录 🍽️",
+        "hashtag": "#今日饮食",
+        "dieterPostFailed": "饮食记录已保存，但创建Dieter帖子失败。",
+        "header": {
+            "title": "饮食记录",
+            "subtitle": "记录今天的饮食吧！"
+        },
+        "dailyProgress": {
+            "title": "今日进度",
+            "recordedDays": "已记录天数",
+            "totalDays": "总天数"
+        },
+        "actionButtons": {
+            "yesterdayRecord": "昨日记录",
+            "viewPastRecords": "查看过往记录"
+        },
+        "mealCard": {
+            "title": "今日饮食",
+            "placeholder": "随意写下今天吃的食物和感想吧！",
+            "example": "例如：早餐是酸奶和水果 / 午餐和朋友一起吃了美味的意大利面🍝 / 晚餐是自制咖喱🍛 / 只记录也可以！"
+        },
+        "photoUpload": {
+            "title": "今日饮食照片"
+        },
+        "saveConfirm": {
+            "title": "确认保存饮食记录",
+            "saveButton": "保存"
+        },
+        "motivationalMessages": [
+            "让我们记录今天的美味食物吧！🍽️",
+            "这是健康饮食的第一步！💪",
+            "要不要记录并回顾今天的饮食呢？📝",
+            "美味的记录在等待着！✨",
+            "用饮食记录让健康管理变得有趣！🌟"
+        ],
+        "unifiedMealCard": {
+            "title": "今日饮食记录",
+            "placeholder": "随意记录今天的食物和饮品吧。\n\n例子：\n早餐：吐司、咖啡\n午餐：2个饭团、茶\n晚餐：咖喱饭、沙拉\n零食：2块饼干",
+            "description": "自由记录早餐、午餐、晚餐、零食",
+            "characterCount": "{current}/{max}字符",
+            "characterLimitExceeded": "字符数超出限制。请删除{count}个字符。"
+        },
+        "dailyProgressCard": {
+            "title": "记录连续状况",
+            "consecutiveDays": "连续记录天数",
+            "totalRecords": "总记录{count}天",
+            "streakMessages": {
+                "0": "🌱 今天开始记录吧！新芽的成长！",
+                "1": "🔥 开始记录！像火焰一样燃烧！",
+                "3": "🚩 连续3天！插上了旗帜！",
+                "6": "💫 6天达成！像流星一样美好！",
+                "9": "🔮 9天持续！能感受到魔法的力量！",
+                "12": "🌸 12天达成！像樱花一样美丽的坚持！",
+                "15": "☀️ 15天持续！像太阳一样闪耀！",
+                "18": "🌙 18天达成！月亮的力量！",
+                "21": "🎊 3周持续！让我们庆祝一下！",
+                "24": "✨ 24天达成！闪闪发光！",
+                "27": "🌈 27天持续！彩虹的光辉！",
+                "30": "💪 1个月达成！升级了！",
+                "45": "⚡ 45天达成！闪电般的坚持力！",
+                "60": "🔱 2个月持续！三叉戟力量！",
+                "75": "🥇 75天突破！金牌级别！",
+                "90": "🏅 3个月达成！优秀的习惯！",
+                "120": "🎖️ 4个月持续！你是奖牌获得者！",
+                "150": "🏆 150天达成！冠军级别！",
+                "180": "🎯 半年达成！完美的坚持力！",
+                "210": "⭐ 210天达成！星级水平！",
+                "240": "🚀 240天持续！宇宙级的坚持力！",
+                "270": "💎 270天达成！钻石级别！",
+                "300": "🌟 突破300天！已经是习惯大师了！",
+                "365": "🎉 连续1年达成！传说级别！🎉"
+            },
+            "consecutiveCount": "连续{count}天"
+        },
+        "calendar": {
+            "selectPastRecord": "选择过去的记录",
+            "close": "关闭",
+            "yearMonthFormat": "{year}年{month}月",
+            "weekdays": [
+                "日",
+                "一",
+                "二",
+                "三",
+                "四",
+                "五",
+                "六"
+            ],
+            "locale": "zh-CN"
+        }
+    },
+    "dieter": {
+        "backToDashboard": "返回仪表板",
+        "createPost": "发布动态",
+        "searchPlaceholder": "搜索Dieter",
+        "recommendedUsers": "推荐用户",
+        "trendingTopics": "热门话题",
+        "followManagement": "关注管理",
+        "homeTimeline": "首页时间轴",
+        "followingPosts": "关注的动态",
+        "publicPosts": "公开动态",
+        "dieter": "Dieter",
+        "navigation": {
+            "home": "首页",
+            "followTL": "关注动态",
+            "notifications": "通知",
+            "messages": "消息",
+            "profile": "个人资料",
+            "todaysExercise": "今日运动",
+            "recordMeal": "记录饮食"
+        },
+        "userCard": {
+            "followers": "粉丝",
+            "following": "关注",
+            "posts": "动态"
+        },
+        "postModal": {
+            "title": "新帖子",
+            "placeholder": "你在想什么？",
+            "post": "发布",
+            "cancel": "取消",
+            "sensitive": "敏感内容"
+        },
+        "timeline": {
+            "home": "首页TL",
+            "following": "关注TL",
+            "followingDescription": "仅显示关注用户的帖子",
+            "searching": "搜索中...",
+            "loading": "正在加载帖子...",
+            "noPostsYet": "还没有帖子。<br />让我们发布第一篇帖子！",
+            "loadingPosts": "正在加载帖子...",
+            "noMorePosts": "没有更多帖子了"
+        },
+        "search": {
+            "placeholder": "搜索",
+            "title": "搜索"
+        },
+        "recommendations": {
+            "title": "推荐用户"
+        }
+    },
+    "pages": {
+        "topPage": {
+            "hero": {
+                "subtitle": "一个人很难坚持，但有伙伴就会变得有趣",
+                "loginButton": "登录页面",
+                "punchLines": [
+                    "运动⇒记录⇒分享",
+                    "😊",
+                    "饮食⇒记录⇒分享",
+                    "🙄"
+                ]
+            },
+            "features": {
+                "exercise": {
+                    "title": "运动",
+                    "description": "今天走了多少公里？来炫耀一下你的距离吧"
+                },
+                "indulgence": {
+                    "title": "大吃特吃",
+                    "description": "今天是放纵日！用你的大餐来进行美食恐袭吧"
+                },
+                "sns": {
+                    "title": "社交网络连接",
+                    "description": "这是一个在社交网络上分享您的健康记录，与他人分享的地方。"
+                }
+            },
+            "product": {
+                "title": "减肥支持",
+                "description": "这是一个以运动记录、健康和食物为中心的社交应用。"
+            },
+            "footer": {
+                "privacyPolicy": "隐私政策",
+                "termsOfService": "服务条款"
+            }
+        }
+    }
+}

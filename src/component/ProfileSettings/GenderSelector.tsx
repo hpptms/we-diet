@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Button, FormControlLabel, Checkbox, useTheme, useMediaQuery } from '@mui/material';
 import { GenderType } from '../../recoil/profileSettingsAtom';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface GenderSelectorProps {
   gender: GenderType;
@@ -19,11 +20,12 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
 }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // 600px以下
+  const { t } = useTranslation();
 
   return (
     <Box sx={{ mb: 3 }}>
       <Typography variant="h6" sx={{ mb: 2, color: isDarkMode ? '#ffffff' : 'inherit' }}>
-        性別
+        {t('profile', 'gender')}
       </Typography>
       <Box sx={{ 
         display: 'flex', 
@@ -48,7 +50,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
                 }
               }}
             >
-              女性
+              {t('profile', 'female')}
             </Button>
             <Button
               variant={gender === 'male' ? 'contained' : 'outlined'}
@@ -65,7 +67,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
                 }
               }}
             >
-              男性
+              {t('profile', 'male')}
             </Button>
             <Button
               variant={gender === 'secret' ? 'contained' : 'outlined'}
@@ -84,7 +86,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
                 }
               }}
             >
-              秘密☆
+              {t('profile', 'other')}
             </Button>
         </Box>
         <FormControlLabel
@@ -100,7 +102,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
               }}
             />
           }
-          label="非公開"
+          label={t('profile', 'private')}
           sx={{ 
             ml: isSmallScreen ? 0 : 2,
             '& .MuiFormControlLabel-label': {

@@ -1,0 +1,50 @@
+{
+    "common": {
+        "save": "保存",
+        "cancel": "取消",
+        "delete": "删除",
+        "edit": "编辑",
+        "submit": "提交",
+        "loading": "加载中...",
+        "error": "发生错误",
+        "success": "成功",
+        "confirm": "确认",
+        "yes": "是",
+        "no": "否",
+        "close": "关闭",
+        "search": "搜索",
+        "next": "下一步",
+        "previous": "上一步",
+        "more": "查看更多",
+        "less": "查看更少",
+        "user": "用户",
+        "recorded": "已记录"
+    },
+    "time": {
+        "now": "现在",
+        "justNow": "刚刚",
+        "minutesAgo": "{count}分钟前",
+        "hoursAgo": "{count}小时前",
+        "daysAgo": "{count}天前",
+        "weeksAgo": "{count}周前",
+        "monthsAgo": "{count}个月前",
+        "yearsAgo": "{count}年前",
+        "today": "今天",
+        "yesterday": "昨天",
+        "thisWeek": "本周",
+        "thisMonth": "本月",
+        "thisYear": "今年"
+    },
+    "errors": {
+        "networkError": "网络错误",
+        "serverError": "服务器错误",
+        "unauthorizedError": "需要身份验证",
+        "forbiddenError": "访问被拒绝",
+        "notFoundError": "页面未找到",
+        "validationError": "请检查输入内容",
+        "unexpectedError": "发生意外错误",
+        "tryAgain": "重试",
+        "loginError": "登录出错: {error}",
+        "contactSupport": "联系客服"
+    }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
 import { SkipPrevious, CalendarMonth, Timeline, Insights } from '@mui/icons-material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface FoodActionButtonsProps {
     onYesterdayRecord: () => void;
@@ -13,6 +14,8 @@ const FoodActionButtons: React.FC<FoodActionButtonsProps> = ({
     onViewPastRecords,
     isDarkMode = false
 }) => {
+    const { t } = useTranslation();
+    
     return (
         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap', mb: 3 }}>
             <Button
@@ -39,7 +42,7 @@ const FoodActionButtons: React.FC<FoodActionButtonsProps> = ({
                     },
                 }}
             >
-                🗓️ 昨日の記録
+                🗓️ {t('food', 'actionButtons.yesterdayRecord')}
             </Button>
             <Button
                 variant="contained"
@@ -65,7 +68,7 @@ const FoodActionButtons: React.FC<FoodActionButtonsProps> = ({
                     },
                 }}
             >
-                📊 過去の記録
+                📊 {t('food', 'actionButtons.viewPastRecords')}
             </Button>
         </Box>
     );

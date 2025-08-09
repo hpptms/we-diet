@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface PhotoUploadCardProps {
   title?: string;
@@ -28,7 +29,7 @@ interface PhotoUploadCardProps {
 }
 
 const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
-  title = "今日の一枚",
+  title,
   todayImages,
   fileInputRef,
   onImageUpload,
@@ -40,6 +41,9 @@ const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
   borderColor = "#4CAF50",
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  const displayTitle = title || t('exercise', 'photoUpload.title');
+  
   return (
     <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden', border: isDarkMode ? '1px solid white' : 'none' }}>
       <Box sx={{ 
@@ -48,7 +52,7 @@ const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
         border: isDarkMode ? '1px solid white' : 'none',
       }}>
         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
-          {emoji} {title}
+          {emoji} {displayTitle}
         </Typography>
       </Box>
       <CardContent sx={{ background: isDarkMode ? '#000000' : backgroundColor }}>
@@ -75,7 +79,7 @@ const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
               },
             }}
           >
-            写真を追加 ({todayImages.length}/{maxPhotos})
+            {t('exercise', 'photoUpload.addPhoto', { current: todayImages.length, max: maxPhotos })}
           </Button>
         </Box>
 
@@ -85,7 +89,7 @@ const PhotoUploadCard: React.FC<PhotoUploadCardProps> = ({
               <ImageListItem key={`photo-upload-${index}-${image.name || image.size}`}>
                 <img
                   src={URL.createObjectURL(image)}
-                  alt={`今日の写真 ${index + 1}`}
+                  alt={t('exercise', 'photoUpload.imageAlt', { number: index + 1 })}
                   loading="lazy"
                   style={{
                     width: '100%',

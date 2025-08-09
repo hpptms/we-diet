@@ -226,7 +226,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
       // プロトバフリクエストデータを準備
       const userIdFromStorage = localStorage.getItem('user_id');
       if (!userIdFromStorage) {
-        showError('ユーザーIDが見つかりません。再ログインしてください。');
+        showError(t('profile', 'userIdNotFound'));
         return;
       }
       
@@ -265,7 +265,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
       });
       
       // console.log('プロフィール保存成功:', response.data);
-      showSuccess('プロフィールが保存されました！');
+      showSuccess(t('profile', 'profileSaved'));
       
     } catch (error: any) {
       console.error('プロフィール保存エラー:', error);
@@ -274,7 +274,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
         console.error('Response status:', error.response.status);
         console.error('Response headers:', error.response.headers);
       }
-      showError(`プロフィールの保存に失敗しました。詳細: ${error.response?.data?.error || error.message}`);
+      showError(t('profile', 'profileSaveFailed', { error: error.response?.data?.error || error.message }));
     } finally {
       setLoading(false);
     }
@@ -318,7 +318,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
   return (
     <Box sx={containerStyles}>
       <Typography variant="h4" component="h1" gutterBottom sx={titleStyles}>
-        プロフィール設定
+        {t('profile', 'profileSettings')}
       </Typography>
 
       <Card sx={cardStyles}>
@@ -411,7 +411,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
           {profile.age && parseInt(profile.age) >= 18 && (
             <Box sx={{ mb: 3 }}>
               <Typography variant="h6" gutterBottom sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
-                センシティブコンテンツ設定
+                {t('profile', 'sensitiveContentSettings')}
               </Typography>
               <FormGroup>
                 <FormControlLabel
@@ -427,7 +427,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
                       }}
                     />
                   }
-                  label="センシティブフィルター"
+                  label={t('profile', 'sensitiveFilter')}
                   sx={{
                     '& .MuiFormControlLabel-label': {
                       color: isDarkMode ? '#ffffff' : 'inherit',
@@ -439,7 +439,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
                 mt: 1,
                 color: isDarkMode ? '#ffffff' : 'text.secondary'
               }}>
-                センシティブな内容を含む投稿を表示します。18歳以上の方のみ利用できます。
+                {t('profile', 'sensitiveFilterDescription')}
               </Typography>
             </Box>
           )}
@@ -447,7 +447,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
           {/* グローバルフィルター設定 */}
           <Box sx={{ mb: 3 }}>
             <Typography variant="h6" gutterBottom sx={{ color: isDarkMode ? '#ffffff' : 'inherit' }}>
-              表示言語設定
+              {t('profile', 'displayLanguageSettings')}
             </Typography>
             <FormGroup>
               <FormControlLabel
@@ -463,7 +463,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
                     }}
                   />
                 }
-                label="グローバルフィルター"
+                label={t('profile', 'globalFilter')}
                 sx={{
                   '& .MuiFormControlLabel-label': {
                     color: isDarkMode ? '#ffffff' : 'inherit',
@@ -475,7 +475,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
               mt: 1,
               color: isDarkMode ? '#ffffff' : 'text.secondary'
             }}>
-              オンの場合、すべての言語の投稿を表示します。オフの場合、あなたの表示言語の投稿のみを表示します。
+              {t('profile', 'globalFilterDescription')}
             </Typography>
           </Box>
 

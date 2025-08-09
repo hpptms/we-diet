@@ -1,0 +1,70 @@
+{
+    "auth": {
+        "login": "登录",
+        "logout": "退出登录",
+        "register": "注册",
+        "email": "邮箱",
+        "password": "密码",
+        "confirmPassword": "确认密码",
+        "forgotPassword": "忘记密码",
+        "loginWithGoogle": "使用Google登录",
+        "loginWithFacebook": "使用Facebook登录",
+        "loginWithLine": "使用LINE登录",
+        "loginWithTiktok": "使用TikTok登录",
+        "signUp": "注册账户",
+        "signIn": "登录"
+    },
+    "navigation": {
+        "home": "首页",
+        "dashboard": "仪表板",
+        "profile": "个人资料",
+        "settings": "设置",
+        "notifications": "通知",
+        "messages": "消息",
+        "trending": "热门",
+        "search": "搜索",
+        "menu": "菜单"
+    },
+    "dashboard": {
+        "welcome": "欢迎",
+        "todaysWeight": "今日体重",
+        "weightRecord": "体重记录",
+        "exerciseRecord": "运动记录",
+        "foodRecord": "饮食记录",
+        "posts": "帖子",
+        "followers": "粉丝",
+        "following": "关注中",
+        "recentActivities": "最近活动",
+        "quickActions": "快速操作",
+        "statistics": "统计",
+        "goals": "目标",
+        "achievements": "成就",
+        "addToHome": "添加到主屏幕"
+    },
+    "search": {
+        "searchPlaceholder": "搜索...",
+        "searchResults": "搜索结果",
+        "noResults": "未找到结果",
+        "searchUsers": "搜索用户",
+        "searchPosts": "搜索帖子",
+        "searchHashtags": "搜索话题标签",
+        "recentSearches": "最近搜索",
+        "clearSearchHistory": "清除搜索历史"
+    },
+    "settings": {
+        "settings": "设置",
+        "account": "账户",
+        "privacy": "隐私",
+        "notifications": "通知设置",
+        "language": "语言",
+        "theme": "主题",
+        "changePassword": "修改密码",
+        "deactivateAccount": "停用账户",
+        "dataExport": "导出数据",
+        "help": "帮助",
+        "about": "关于",
+        "termsOfService": "服务条款",
+        "privacyPolicy": "隐私政策",
+        "cookiePolicy": "Cookie政策"
+    }
+}

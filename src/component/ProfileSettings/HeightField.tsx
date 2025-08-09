@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, TextField, Typography, FormControlLabel, Checkbox } from '@mui/material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface HeightFieldProps {
   height: string;
@@ -16,11 +17,14 @@ const HeightField: React.FC<HeightFieldProps> = ({
   onPrivacyChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Box sx={{ mb: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <TextField
-          label="身長"
+          label={t('profile', 'height')}
+          placeholder={t('profile', 'heightPlaceholder')}
           type="number"
           value={height}
           onChange={(e) => onHeightChange(e.target.value)}
@@ -62,7 +66,7 @@ const HeightField: React.FC<HeightFieldProps> = ({
               }}
             />
           }
-          label="非公開"
+          label={t('profile', 'private')}
           sx={{
             '& .MuiFormControlLabel-label': {
               color: isDarkMode ? '#ffffff' : 'inherit',

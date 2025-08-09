@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../../recoil/darkModeAtom';
+import { useTranslation } from '../../../../hooks/useTranslation';
 import { emojiCategories, getRecentEmojis, addRecentEmoji } from '../../emoji';
 
 interface EmojiPickerProps {
@@ -28,6 +29,7 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({
   onCategoryChange,
 }) => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
   const isOpen = Boolean(anchorEl);
 
   const handleEmojiClick = (emoji: string) => {
@@ -62,8 +64,9 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({
       }}
     >
       <Box sx={{ 
-        width: 480,
-        maxHeight: 400,
+        width: { xs: 320, sm: 420, md: 480 },
+        maxWidth: '90vw',
+        maxHeight: { xs: 350, sm: 400 },
         backgroundColor: isDarkMode ? '#000000' : 'white',
         border: isDarkMode ? '1px solid #29b6f6' : '1px solid #e0e0e0',
         borderRadius: 2,
@@ -136,7 +139,7 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({
                 color: isDarkMode ? '#666666' : '#999999'
               }}>
                 <Typography variant="body2">
-                  まだ絵文字を使用していません
+                  {t('dieter', 'emoji.noRecentEmojis', {}, 'まだ絵文字を使用していません')}
                 </Typography>
               </Box>
             ) : (
@@ -177,10 +180,13 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({
             sx={{
               color: isDarkMode ? '#29b6f6' : '#666666',
               fontWeight: 500,
-              fontSize: '0.75rem'
+              fontSize: { xs: '0.7rem', sm: '0.75rem' },
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
             }}
           >
-            {getDynamicEmojiCategories()[selectedCategory].name} ({getDynamicEmojiCategories()[selectedCategory].emojis.length}個)
+            {getDynamicEmojiCategories()[selectedCategory].name} ({getDynamicEmojiCategories()[selectedCategory].emojis.length}{t('dieter', 'emoji.count', {}, '個')})
           </Typography>
         </Box>
       </Box>

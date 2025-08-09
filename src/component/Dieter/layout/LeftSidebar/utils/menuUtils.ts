@@ -7,6 +7,7 @@ import {
     People,
 } from '@mui/icons-material';
 import { MenuItem } from '../types';
+import { TranslationKey } from '../../../../../i18n';
 
 export const createMenuItems = (
     showNotifications: boolean,
@@ -18,12 +19,13 @@ export const createMenuItems = (
     onNavigateToHome?: () => void,
     onToggleFollowingPosts?: () => void,
     showFollowingPosts?: boolean,
-    resetNotificationCount?: () => void
+    resetNotificationCount?: () => void,
+    t?: (category: TranslationKey, key: string, placeholders?: Record<string, string | number>, fallback?: string) => string
 ): { leftMenuItems: MenuItem[], additionalMenuItems: MenuItem[] } => {
     const leftMenuItems: MenuItem[] = [
         {
             icon: React.createElement(Home),
-            label: 'ホーム',
+            label: t ? t('dieter', 'navigation.home', {}, 'ホーム') : 'ホーム',
             active: !showNotifications && !(showFollowingPosts || false),
             onClick: () => {
                 // ホームに戻る処理（メッセージ画面、フォローTLから戻る）
@@ -36,7 +38,7 @@ export const createMenuItems = (
         },
         {
             icon: React.createElement(People),
-            label: 'フォローTL',
+            label: t ? t('dieter', 'navigation.followTL', {}, 'フォローTL') : 'フォローTL',
             active: !showNotifications && (showFollowingPosts || false),
             onClick: () => {
                 if (!(showFollowingPosts || false) && onToggleFollowingPosts) {
@@ -46,7 +48,7 @@ export const createMenuItems = (
         },
         {
             icon: React.createElement(Notifications),
-            label: '通知',
+            label: t ? t('dieter', 'navigation.notifications', {}, '通知') : '通知',
             active: showNotifications,
             onClick: () => {
                 // 通知タブを開く前にカウントをリセット
@@ -60,14 +62,14 @@ export const createMenuItems = (
             },
             hasNotification: true // We'll use this to show the notification bell component
         },
-        { icon: React.createElement(Message), label: 'メッセージ', active: false, onClick: onNavigateToMessages },
-        { icon: React.createElement(Person), label: 'プロフィール', active: false, onClick: onNavigateToProfile },
+        { icon: React.createElement(Message), label: t ? t('dieter', 'navigation.messages', {}, 'メッセージ') : 'メッセージ', active: false, onClick: onNavigateToMessages },
+        { icon: React.createElement(Person), label: t ? t('dieter', 'navigation.profile', {}, 'プロフィール') : 'プロフィール', active: false, onClick: onNavigateToProfile },
     ];
 
     // 新しく追加するメニューアイテム
     const additionalMenuItems: MenuItem[] = [
-        { icon: React.createElement('span', { style: { fontSize: '24px' } }, '💪'), label: '今日の運動', active: false, onClick: onNavigateToExercise },
-        { icon: React.createElement('span', { style: { fontSize: '24px' } }, '🍽️'), label: '食事を記録', active: false, onClick: onNavigateToFoodLog },
+        { icon: React.createElement('span', { style: { fontSize: '24px' } }, '💪'), label: t ? t('dieter', 'navigation.todaysExercise', {}, '今日の運動') : '今日の運動', active: false, onClick: onNavigateToExercise },
+        { icon: React.createElement('span', { style: { fontSize: '24px' } }, '🍽️'), label: t ? t('dieter', 'navigation.recordMeal', {}, '食事を記録') : '食事を記録', active: false, onClick: onNavigateToFoodLog },
     ];
 
     return { leftMenuItems, additionalMenuItems };

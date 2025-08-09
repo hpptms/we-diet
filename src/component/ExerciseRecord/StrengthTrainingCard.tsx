@@ -9,6 +9,7 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { RepsButtons } from './CommonButtons';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface StrengthTrainingCardProps {
   pushUps: string;
@@ -29,6 +30,8 @@ const StrengthTrainingCard: React.FC<StrengthTrainingCardProps> = ({
   onSquatsChange,
   isDarkMode = false,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Card sx={{ mb: 3, borderRadius: 3, overflow: 'hidden', border: isDarkMode ? '1px solid white' : 'none' }}>
       <Box sx={{ 
@@ -37,7 +40,7 @@ const StrengthTrainingCard: React.FC<StrengthTrainingCardProps> = ({
         border: isDarkMode ? '1px solid white' : 'none',
       }}>
         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
-          💪 筋力トレーニング
+          💪 {t('exercise', 'strengthTraining.title')}
         </Typography>
       </Box>
       <CardContent sx={{ background: isDarkMode ? '#000000' : '#fff5f8' }}>
@@ -45,17 +48,17 @@ const StrengthTrainingCard: React.FC<StrengthTrainingCardProps> = ({
           <Grid item xs={12} sm={4}>
             <Box sx={{ textAlign: 'center', mb: 2 }}>
               <Typography variant="body2" sx={{ color: isDarkMode ? 'white' : '#E91E63', fontWeight: 'bold' }}>
-                腕立て伏せ 🔥
+                {t('exercise', 'strengthTraining.pushUps')} 🔥
               </Typography>
             </Box>
             <TextField
-              label="回数"
+              label={t('exercise', 'strengthTraining.pushUpsPlaceholder')}
               value={pushUps}
               onChange={(e) => onPushUpsChange(e.target.value)}
               type="number"
               fullWidth
               InputProps={{
-                endAdornment: <InputAdornment position="end">回</InputAdornment>,
+                endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.times')}</InputAdornment>,
               }}
               variant="outlined"
               sx={{
@@ -90,17 +93,17 @@ const StrengthTrainingCard: React.FC<StrengthTrainingCardProps> = ({
           <Grid item xs={12} sm={4}>
             <Box sx={{ textAlign: 'center', mb: 2 }}>
               <Typography variant="body2" sx={{ color: isDarkMode ? 'white' : '#E91E63', fontWeight: 'bold' }}>
-                腹筋 ⚡
+                {t('exercise', 'strengthTraining.sitUps')} ⚡
               </Typography>
             </Box>
             <TextField
-              label="回数"
+              label={t('exercise', 'strengthTraining.sitUpsPlaceholder')}
               value={sitUps}
               onChange={(e) => onSitUpsChange(e.target.value)}
               type="number"
               fullWidth
               InputProps={{
-                endAdornment: <InputAdornment position="end">回</InputAdornment>,
+                endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.times')}</InputAdornment>,
               }}
               variant="outlined"
               sx={{
@@ -135,17 +138,17 @@ const StrengthTrainingCard: React.FC<StrengthTrainingCardProps> = ({
           <Grid item xs={12} sm={4}>
             <Box sx={{ textAlign: 'center', mb: 2 }}>
               <Typography variant="body2" sx={{ color: isDarkMode ? 'white' : '#E91E63', fontWeight: 'bold' }}>
-                スクワット 🦵
+                {t('exercise', 'strengthTraining.squats')} 🦵
               </Typography>
             </Box>
             <TextField
-              label="回数"
+              label={t('exercise', 'strengthTraining.squatsPlaceholder')}
               value={squats}
               onChange={(e) => onSquatsChange(e.target.value)}
               type="number"
               fullWidth
               InputProps={{
-                endAdornment: <InputAdornment position="end">回</InputAdornment>,
+                endAdornment: <InputAdornment position="end">{t('exercise', 'postMessages.units.times')}</InputAdornment>,
               }}
               variant="outlined"
               sx={{

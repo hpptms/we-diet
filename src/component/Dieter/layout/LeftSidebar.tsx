@@ -24,6 +24,7 @@ import {
     LeftSidebarProps
 } from './LeftSidebar/index';
 import { useFollowContextOptional } from '../../../context/FollowContext';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ 
     onBack, 
@@ -41,6 +42,9 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     notificationManager,
     messageManager
 }) => {
+    // 翻訳フックを使用
+    const { t } = useTranslation();
+    
     // Recoilからプロフィール情報を取得
     const profileSettings = useRecoilValue(profileSettingsState);
     const serverProfile = useRecoilValue(serverProfileState);
@@ -88,7 +92,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
         onNavigateToHome,
         onToggleFollowingPosts,
         showFollowingPosts,
-        resetNotificationCount
+        resetNotificationCount,
+        t
     );
 
 
@@ -114,7 +119,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
                         }
                     }}
                 >
-                    ダッシュボードに戻る
+                    {t('dieter', 'backToDashboard')}
                 </Button>
             )}
 
@@ -148,7 +153,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
                     }
                 }}
             >
-                ポストする
+                {t('dieter', 'createPost')}
             </Button>
             
             {/* ユーザーカード */}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Stack } from '@mui/material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface WeightRecordModalProps {
   open: boolean;
@@ -32,13 +33,15 @@ const WeightRecordModal: React.FC<WeightRecordModalProps> = ({
   submitButtonText,
   submitButtonColor = 'success',
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ mt: 1 }}>
           <TextField
-            label="日付"
+            label={t('weight', 'dateLabel', {}, '日付')}
             type="date"
             value={dateValue}
             onChange={(e) => onDateChange(e.target.value)}
@@ -49,7 +52,7 @@ const WeightRecordModal: React.FC<WeightRecordModalProps> = ({
           />
           
           <TextField
-            label="体重 (kg)"
+            label={t('weight', 'weight', {}, '体重')}
             type="number"
             inputProps={{ step: 0.1 }}
             value={weightValue}
@@ -57,23 +60,25 @@ const WeightRecordModal: React.FC<WeightRecordModalProps> = ({
             required
             fullWidth
             variant="outlined"
-            helperText="体脂肪率は自動計算されます"
+            placeholder={t('weight', 'weightPlaceholder', {}, '体重を入力してください (kg)')}
+            helperText={t('weight', 'bodyFatAutoCalculation', {}, '体脂肪率は自動計算されます')}
           />
           
           <TextField
-            label="メモ"
+            label={t('weight', 'notes', {}, 'メモ')}
             multiline
             rows={3}
             value={noteValue}
             onChange={(e) => onNoteChange(e.target.value)}
             fullWidth
             variant="outlined"
+            placeholder={t('weight', 'notesPlaceholder', {}, 'メモを入力してください（任意）')}
           />
         </Stack>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">
-          キャンセル
+          {t('common', 'cancel', {}, 'キャンセル')}
         </Button>
         <Button onClick={onSubmit} variant="contained" color={submitButtonColor}>
           {submitButtonText}

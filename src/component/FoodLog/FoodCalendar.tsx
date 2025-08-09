@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { ChevronLeft, ChevronRight, Close } from '@mui/icons-material';
 import { GetFoodLogDatesRequest, GetFoodLogDatesResponse } from '../../proto/food_log_dates_pb';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface FoodCalendarProps {
     open: boolean;
@@ -128,12 +129,13 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
         onDateSelect(dateString);
     };
 
-    const weekDays = ['日', '月', '火', '水', '木', '金', '土'];
+    const { t, tArray } = useTranslation();
+    const weekDays = tArray('food', 'calendar.weekdays');
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
             <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                過去の記録を選択
+                {t('food', 'calendar.selectPastRecord')}
                 <IconButton onClick={onClose}>
                     <Close />
                 </IconButton>
@@ -145,7 +147,7 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
                         <ChevronLeft />
                     </IconButton>
                     <Typography variant="h6">
-                        {year}年{month + 1}月
+                        {t('food', 'calendar.yearMonthFormat', { year, month: month + 1 })}
                     </Typography>
                     <IconButton onClick={navigateNext}>
                         <ChevronRight />
@@ -205,7 +207,7 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>
-                    閉じる
+                    {t('food', 'calendar.close')}
                 </Button>
             </DialogActions>
         </Dialog>

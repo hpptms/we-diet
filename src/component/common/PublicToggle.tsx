@@ -2,6 +2,7 @@ import React from 'react';
 import { Paper, FormControlLabel, Checkbox, Box, Typography } from '@mui/material';
 import GroupIcon from '@mui/icons-material/Group';
 import WarningIcon from '@mui/icons-material/Warning';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface PublicToggleProps {
     isPublic: boolean;
@@ -16,12 +17,15 @@ interface PublicToggleProps {
 const PublicToggle: React.FC<PublicToggleProps> = ({ 
     isPublic, 
     onChange, 
-    label = 'dieterに投稿',
+    label,
     isDarkMode = false,
     isSensitive = false,
     onSensitiveChange,
     showSensitiveOption = false
 }) => {
+    const { t } = useTranslation();
+    const displayLabel = label || t('exercise', 'publicToggle.postToDieter');
+    
     return (
         <Paper elevation={2} sx={{ 
             p: 2, 
@@ -50,7 +54,7 @@ const PublicToggle: React.FC<PublicToggleProps> = ({
                     label={
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                             <GroupIcon sx={{ color: isDarkMode ? 'white' : 'inherit' }} />
-                            <Typography sx={{ color: isDarkMode ? 'white' : 'inherit' }}>{label}</Typography>
+                            <Typography sx={{ color: isDarkMode ? 'white' : 'inherit' }}>{displayLabel}</Typography>
                         </Box>
                     }
                 />
@@ -78,7 +82,7 @@ const PublicToggle: React.FC<PublicToggleProps> = ({
                                     color: isDarkMode ? 'white' : 'inherit',
                                     fontSize: '0.9rem'
                                 }}>
-                                    センシティブ
+                                    {t('exercise', 'publicToggle.sensitive')}
                                 </Typography>
                             </Box>
                         }
@@ -95,7 +99,7 @@ const PublicToggle: React.FC<PublicToggleProps> = ({
                     ml: 1,
                     mt: 0.5
                 }}>
-                    センシティブな内容を含む場合にチェックしてください
+                    {t('exercise', 'publicToggle.sensitiveDescription')}
                 </Typography>
             )}
         </Paper>

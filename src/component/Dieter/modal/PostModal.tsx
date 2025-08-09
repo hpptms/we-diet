@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Paper, Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { PostForm } from '../post';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface PostModalProps {
   open: boolean;
@@ -18,6 +19,8 @@ const PostModal: React.FC<PostModalProps> = ({
   onPost,
   currentUser
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Modal
       open={open}
@@ -60,7 +63,7 @@ const PostModal: React.FC<PostModalProps> = ({
             component="h2"
             sx={{ fontWeight: 600 }}
           >
-            新しい投稿
+            {t('dieter', 'postModal.title', {}, '新しい投稿')}
           </Typography>
           <IconButton
             onClick={onClose}

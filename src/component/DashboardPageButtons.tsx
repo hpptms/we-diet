@@ -431,7 +431,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           }}
           onClick={onInstallClick}
         >
-          🏠✨ ホームに追加
+          🏠✨ {t('dashboard', 'addToHome')}
         </button>
       )}
     </div>
