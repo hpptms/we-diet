@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useMemo } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { CircularProgress, Box } from '@mui/material';
 import DashboardLayout from './component/DashboardLayout';
@@ -8,10 +8,10 @@ import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 import { LanguageProvider } from './context/LanguageContext';
 import { useTranslation } from './hooks/useTranslation';
 
-// LazyComponents are loaded through DashboardPage, so we don't need to import them here
-
-// Lazy load page components
-const LazyTopPage = React.lazy(() => import('./page/TopPage').then(module => ({ default: module.TopPage })));
+// Lazy load page components with better optimization
+const LazyTopPage = React.lazy(() => 
+  import('./page/TopPage').then(module => ({ default: module.TopPage }))
+);
 const LazyLoginPage = React.lazy(() => import('./page/LoginPage'));
 const LazyDashboardPage = React.lazy(() => import('./page/DashboardPage'));
 const LazyRegisterCompletePage = React.lazy(() => import('./page/RegisterCompletePage'));
@@ -69,6 +69,20 @@ const PageViewTracker = () => {
   return null;
 };
 
+// 統合されたダッシュボードルートコンポーネント
+const DashboardRoute = React.memo(({ initialView, subView }: { initialView?: string; subView?: string }) => {
+  return (
+    <PrivateRoute>
+      <DashboardLayout>
+        <Suspense fallback={<LoadingComponent />}>
+          <LazyDashboardPage initialView={initialView as any} subView={subView} />
+        </Suspense>
+      </DashboardLayout>
+    </PrivateRoute>
+  );
+});
+DashboardRoute.displayName = 'DashboardRoute';
+
 function App() {
   useEffect(() => {
     // Initialize Google Analytics
@@ -120,88 +134,17 @@ function App() {
             <LazyLoginPage />
           </Suspense>
         } />
-        <Route path="/Dashboard" element={
-          <PrivateRoute>
-            <DashboardLayout>
-              <Suspense fallback={<LoadingComponent />}>
-                <LazyDashboardPage />
-              </Suspense>
-            </DashboardLayout>
-          </PrivateRoute>
-        } />
-        {/* 小文字のダッシュボードルートも追加（Googleログイン対応） */}
-        <Route path="/dashboard" element={
-          <PrivateRoute>
-            <DashboardLayout>
-              <Suspense fallback={<LoadingComponent />}>
-                <LazyDashboardPage />
-              </Suspense>
-            </DashboardLayout>
-          </PrivateRoute>
-        } />
-        <Route path="/ProfileSettings" element={
-          <PrivateRoute>
-            <DashboardLayout>
-              <Suspense fallback={<LoadingComponent />}>
-                <LazyDashboardPage initialView="profile" />
-              </Suspense>
-            </DashboardLayout>
-          </PrivateRoute>
-        } />
-        <Route path="/Exercise" element={
-          <PrivateRoute>
-            <DashboardLayout>
-              <Suspense fallback={<LoadingComponent />}>
-                <LazyDashboardPage initialView="exercise" />
-              </Suspense>
-            </DashboardLayout>
-          </PrivateRoute>
-        } />
-        <Route path="/WeightManagement" element={
-          <PrivateRoute>
-            <DashboardLayout>
-              <Suspense fallback={<LoadingComponent />}>
-                <LazyDashboardPage initialView="weight" />
-              </Suspense>
-            </DashboardLayout>
-          </PrivateRoute>
-        } />
-        <Route path="/FoodLog" element={
-          <PrivateRoute>
-            <DashboardLayout>
-              <Suspense fallback={<LoadingComponent />}>
-                <LazyDashboardPage initialView="FoodLog" />
-              </Suspense>
-            </DashboardLayout>
-          </PrivateRoute>
-        } />
-        <Route path="/Dieter" element={
-          <PrivateRoute>
-            <DashboardLayout>
-              <Suspense fallback={<LoadingComponent />}>
-                <LazyDashboardPage initialView="dieter" />
-              </Suspense>
-            </DashboardLayout>
-          </PrivateRoute>
-        } />
-        <Route path="/Dieter/Follow" element={
-          <PrivateRoute>
-            <DashboardLayout>
-              <Suspense fallback={<LoadingComponent />}>
-                <LazyDashboardPage initialView="dieter" subView="follow" />
-              </Suspense>
-            </DashboardLayout>
-          </PrivateRoute>
-        } />
-        <Route path="/DebugLog" element={
-          <PrivateRoute>
-            <DashboardLayout>
-              <Suspense fallback={<LoadingComponent />}>
-                <LazyDashboardPage initialView="debug" />
-              </Suspense>
-            </DashboardLayout>
-          </PrivateRoute>
-        } />
+        
+        {/* Dashboard Routes - 統合された動的ルーティング */}
+        <Route path="/Dashboard" element={<DashboardRoute />} />
+        <Route path="/dashboard" element={<DashboardRoute />} />
+        <Route path="/ProfileSettings" element={<DashboardRoute initialView="profile" />} />
+        <Route path="/Exercise" element={<DashboardRoute initialView="exercise" />} />
+        <Route path="/WeightManagement" element={<DashboardRoute initialView="weight" />} />
+        <Route path="/FoodLog" element={<DashboardRoute initialView="FoodLog" />} />
+        <Route path="/Dieter" element={<DashboardRoute initialView="dieter" />} />
+        <Route path="/Dieter/Follow" element={<DashboardRoute initialView="dieter" subView="follow" />} />
+        <Route path="/DebugLog" element={<DashboardRoute initialView="debug" />} />
         <Route path="/register/complete" element={
           <Suspense fallback={<LoadingComponent />}>
             <LazyRegisterCompletePage />

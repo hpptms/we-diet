@@ -6,14 +6,14 @@ export default defineConfig({
     plugins: [react()],
     server: {
         host: '0.0.0.0',
-        port: 3001, // Vite開発サーバーを3001に変更（バックエンドは3000を使用）
+        port: 80, // 元の設定に戻す
         open: false,
         watch: {
             usePolling: true,
             interval: 300,
         },
         hmr: {
-            port: 3001,
+            port: 80,
             host: 'localhost'
         },
         proxy: {
@@ -22,22 +22,24 @@ export default defineConfig({
     },
     build: {
         outDir: 'build',
-        // 最も安全な設定：Chart.jsのみ分離
-        minify: false, // 全てのminificationを無効化
+        minify: 'esbuild', // esbuildを使用（より安全）
         sourcemap: false,
+        chunkSizeWarningLimit: 1000,
         rollupOptions: {
             output: {
-                // Chart.jsのみを分離（最もシンプルで安全）
-                manualChunks: (id) => {
-                    // Chart.js関連のみ分離
-                    if (id.includes('chart.js')) {
-                        return 'charts';
-                    }
-                    // その他は全て標準のvendorチャンクに
-                    if (id.includes('node_modules')) {
-                        return 'vendor';
-                    }
-                }
+                manualChunks: {
+                    // 安全な固定チャンク分割
+                    'react-vendor': ['react', 'react-dom'],
+                    'mui': ['@mui/material', '@emotion/react', '@emotion/styled'],
+                    'mui-icons': ['@mui/icons-material'],
+                    'charts': ['chart.js', 'react-chartjs-2'],
+                    'router': ['react-router-dom'],
+                    'utils': ['axios', 'recoil']
+                },
+                // ファイル名の最適化
+                chunkFileNames: 'assets/[name]-[hash:8].js',
+                entryFileNames: 'assets/[name]-[hash:8].js',
+                assetFileNames: 'assets/[name]-[hash:8].[ext]'
             }
         }
     },
