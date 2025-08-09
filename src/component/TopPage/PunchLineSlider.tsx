@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
-
-const punchLines = ['運動⇒記録⇒共有', '😊', '食事⇒記録⇒共有', '🙄'];
+import { useTranslation } from '../../hooks/useTranslation';
 
 export const PunchLineSlider: React.FC = () => {
+  const { tArray } = useTranslation();
   const [punchIndex, setPunchIndex] = useState(0);
+  
+  const punchLines = tArray('pages', 'topPage.hero.punchLines');
   
   useEffect(() => {
     // 0〜2秒のランダムディレイを設けてからインターバル開始
@@ -19,7 +21,7 @@ export const PunchLineSlider: React.FC = () => {
       clearTimeout(timeoutId);
       if (intervalId) clearInterval(intervalId);
     };
-  }, []);
+  }, [punchLines.length]);
 
   return (
     <Typography

@@ -233,5 +233,41 @@
         "thisWeek": "Esta semana",
         "thisMonth": "Este mes",
         "thisYear": "Este año"
+    },
+    "pages": {
+        "topPage": {
+            "hero": {
+                "subtitle": "Puede ser difícil continuar solo, pero con compañeros se vuelve divertido",
+                "loginButton": "Página de Inicio de Sesión",
+                "punchLines": [
+                    "Ejercicio⇒Registro⇒Compartir",
+                    "😊",
+                    "Comida⇒Registro⇒Compartir",
+                    "🙄"
+                ]
+            },
+            "features": {
+                "exercise": {
+                    "title": "Ejercicio",
+                    "description": "¿Cuántos kilómetros caminaste hoy? Vamos a presumir tu distancia"
+                },
+                "indulgence": {
+                    "title": "Banquete",
+                    "description": "¡Hoy es día trampa! Vamos a hacer terror gastronómico con tu banquete"
+                },
+                "sns": {
+                    "title": "Integración SNS",
+                    "description": "Este es un lugar para compartir tus registros de salud en SNS y compartir con alguien."
+                }
+            },
+            "product": {
+                "title": "Apoyo Dietético",
+                "description": "Esta es una aplicación tipo SNS centrada en registros de ejercicio, salud y comida.\nActualmente en desarrollo. Si la encontraste por casualidad, por favor espera un poco más😂"
+            },
+            "footer": {
+                "privacyPolicy": "Política de Privacidad",
+                "termsOfService": "Términos de Servicio"
+            }
+        }
     }
 }

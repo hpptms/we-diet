@@ -1,34 +1,19 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { createHtmlPlugin } from 'vite-plugin-html';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [
-        react(),
-        createHtmlPlugin({
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true,
-                removeRedundantAttributes: true,
-                removeScriptTypeAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                useShortDoctype: true,
-                minifyCSS: true,
-                minifyJS: true
-            }
-        })
-    ],
+    plugins: [react()],
     server: {
         host: '0.0.0.0',
-        port: 3000,
+        port: 3001, // Vite開発サーバーを3001に変更（バックエンドは3000を使用）
         open: false,
         watch: {
             usePolling: true,
-            interval: 100,
+            interval: 300,
         },
         hmr: {
-            port: 3000,
+            port: 3001,
             host: 'localhost'
         },
         proxy: {

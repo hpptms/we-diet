@@ -2,8 +2,10 @@ import React from 'react';
 import { Container, Typography, Grid, Box } from '@mui/material';
 import { useScreenOrientation } from './useScreenOrientation';
 import { optimizeCloudinaryImage } from '../../utils/imageOptimization';
+import { LanguageProps } from '../../types/language';
+import { getTranslation } from '../../i18n';
 
-export const ProductSection: React.FC = () => {
+export const ProductSection: React.FC<LanguageProps> = ({ language }) => {
   const { isPortraitDesktop } = useScreenOrientation();
   
   return (
@@ -63,7 +65,7 @@ export const ProductSection: React.FC = () => {
               textAlign: { xs: 'center', md: 'left' },
             }}
           >
-            ダイエットサポート
+            {getTranslation(language, 'pages', 'topPage.product.title')}
           </Typography>
           <Typography 
             variant="body1" 
@@ -83,8 +85,7 @@ export const ProductSection: React.FC = () => {
               px: { xs: 2, md: 0 },
             }}
           >
-            運動の記録、健康、食べ物を中心にしたSNS型アプリです。
-            現在開発中です。たまたま見つけた方、もう少々お待ちください😂
+            {getTranslation(language, 'pages', 'topPage.product.description')}
           </Typography>
         </Grid>
       </Grid>

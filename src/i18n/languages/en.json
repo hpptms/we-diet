@@ -285,6 +285,40 @@
             "governingLawTitle": "Governing Law",
             "governingLawContent": "These terms are governed by the laws of Japan."
         },
+        "topPage": {
+            "hero": {
+                "subtitle": "It may be difficult to continue alone, but with companions it becomes enjoyable",
+                "loginButton": "Login Page",
+                "punchLines": [
+                    "Exercise⇒Record⇒Share",
+                    "😊",
+                    "Meals⇒Record⇒Share",
+                    "🙄"
+                ]
+            },
+            "features": {
+                "exercise": {
+                    "title": "Exercise",
+                    "description": "How many kilometers did you walk today? Let's show off your distance"
+                },
+                "indulgence": {
+                    "title": "Indulgence",
+                    "description": "Today is cheat day! Let's food terrorize with your indulgence"
+                },
+                "sns": {
+                    "title": "SNS Integration",
+                    "description": "This is a place to share your health records on SNS and share with someone."
+                }
+            },
+            "product": {
+                "title": "Diet Support",
+                "description": "This is an SNS-style app focused on exercise records, health, and food.\nCurrently in development. If you happened to find this, please wait a little longer😂"
+            },
+            "footer": {
+                "privacyPolicy": "Privacy Policy",
+                "termsOfService": "Terms of Service"
+            }
+        },
         "privacyPolicy": {
             "title": "Privacy Policy",
             "lastUpdated": "Last updated:",

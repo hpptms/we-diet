@@ -1,22 +1,20 @@
-# ベースイメージとして Node.js の公式イメージを使用
-FROM node:18
+# Node.jsベースイメージを使用
+FROM node:18-alpine
 
-# コンテナ内の作業ディレクトリを設定
+# 作業ディレクトリを設定
 WORKDIR /app
 
-# package.json と package-lock.json を作業ディレクトリにコピー
-COPY package.json ./
-COPY package-lock.json ./
+# package.jsonとpackage-lock.jsonをコピー
+COPY package*.json ./
 
 # 依存関係をインストール
 RUN npm install
 
-# ソースコードをコンテナにコピー
+# アプリケーションのソースコードをコピー
 COPY . .
 
-
-# ホストと通信するためのポートを指定
+# ポートを公開
 EXPOSE 3000
 
-# アプリケーションを起動
-CMD ["npm", "run", "dev"]
+# 開発サーバーを起動（--hostオプションを追加してホットリロードを有効化）
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

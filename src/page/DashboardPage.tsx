@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Box, Snackbar, Alert } from "@mui/material";
+import { Box, Snackbar, Alert, CircularProgress } from "@mui/material";
 import DashboardPageButtons from "../component/DashboardPageButtons";
 import { useTranslation } from "../hooks/useTranslation";
-import ProfileSettings from "./MainContent/ProfileSettings";
-import ExerciseRecord from "./MainContent/ExerciseRecord";
-import WeightManagement from "./MainContent/WeightManagement";
-import FoodLog from "./MainContent/FoodLog";
-import Dieter from "./MainContent/Dieter";
-import DebugLogViewer from "./MainContent/DebugLogViewer";
+import { setLanguageToEnglish, setLanguageToJapanese, setLanguageToChineseCN, setLanguageToKorean, setLanguageToSpanish } from "../i18n";
+
+// Lazy load heavy components
+const ProfileSettings = React.lazy(() => import("./MainContent/ProfileSettings"));
+const ExerciseRecord = React.lazy(() => import("./MainContent/ExerciseRecord"));
+const WeightManagement = React.lazy(() => import("./MainContent/WeightManagement"));
+const FoodLog = React.lazy(() => import("./MainContent/FoodLog"));
+const Dieter = React.lazy(() => import("./MainContent/Dieter"));
+const DebugLogViewer = React.lazy(() => import("./MainContent/DebugLogViewer"));
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { darkModeState } from "../recoil/darkModeAtom";
 import { weightRecordedDateAtom } from "../recoil/weightRecordedDateAtom";
@@ -32,12 +35,65 @@ interface DashboardPageProps {
 }
 
 const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) => {
-    const { t } = useTranslation();
+    const { t, language, setLanguage } = useTranslation();
     const accountName = getAccountName(t);
     const navigate = useNavigate();
     const location = useLocation();
     const isDarkMode = useRecoilValue(darkModeState);
     const { toast, hideToast } = useToast();
+
+    // デバッグ用: 英語テスト関数
+    const switchToEnglishForTest = () => {
+        setLanguageToEnglish();
+        setLanguage('en');
+        console.log('🔄 言語を英語に切り替えました (テスト用)');
+    };
+
+    // デバッグ用: 日本語に戻す関数
+    const switchToJapaneseForTest = () => {
+        setLanguageToJapanese();
+        setLanguage('ja');
+        console.log('🔄 言語を日本語に戻しました');
+    };
+
+    // デバッグ用: 中国語テスト関数
+    const switchToChineseForTest = () => {
+        setLanguageToChineseCN();
+        setLanguage('zh-CN');
+        console.log('🔄 言語を中国語(簡体字)に切り替えました (テスト用)');
+    };
+
+    // デバッグ用: 韓国語テスト関数
+    const switchToKoreanForTest = () => {
+        setLanguageToKorean();
+        setLanguage('ko');
+        console.log('🔄 言語を韓国語に切り替えました (テスト用)');
+    };
+
+    // デバッグ用: スペイン語テスト関数
+    const switchToSpanishForTest = () => {
+        setLanguageToSpanish();
+        setLanguage('es');
+        console.log('🔄 言語をスペイン語に切り替えました (テスト用)');
+    };
+
+    // デバッグ用: コンソールに関数を公開
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            (window as any).switchToEnglishForTest = switchToEnglishForTest;
+            (window as any).switchToJapaneseForTest = switchToJapaneseForTest;
+            (window as any).switchToChineseForTest = switchToChineseForTest;
+            (window as any).switchToKoreanForTest = switchToKoreanForTest;
+            (window as any).switchToSpanishForTest = switchToSpanishForTest;
+            console.log('🌐 多言語テスト用デバッグ関数が利用可能です:');
+            console.log('  switchToEnglishForTest() - 英語表示に切り替え');
+            console.log('  switchToJapaneseForTest() - 日本語表示に切り替え');
+            console.log('  switchToChineseForTest() - 中国語(簡体字)表示に切り替え');
+            console.log('  switchToKoreanForTest() - 韓国語表示に切り替え');
+            console.log('  switchToSpanishForTest() - スペイン語表示に切り替え');
+            console.log('  現在の言語:', language);
+        }
+    }, [language]);
 
     // 新しいフックを使用
     const {
@@ -234,33 +290,68 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             handleViewChange('dashboard');
         };
 
+        const LoadingSpinner = () => (
+            <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                height: '200px' 
+            }}>
+                <CircularProgress size={40} sx={{ color: '#29b6f6' }} />
+            </Box>
+        );
+
         const contentToRender = (() => {
             switch (currentView) {
                 case 'profile':
-                    return <ProfileSettings onBack={handleBackToDashboard} />;
+                    return (
+                        <Suspense fallback={<LoadingSpinner />}>
+                            <ProfileSettings onBack={handleBackToDashboard} />
+                        </Suspense>
+                    );
                 case 'exercise':
-                    return <ExerciseRecord onBack={handleBackToDashboard} />;
+                    return (
+                        <Suspense fallback={<LoadingSpinner />}>
+                            <ExerciseRecord onBack={handleBackToDashboard} />
+                        </Suspense>
+                    );
                 case 'weight':
-                    return <WeightManagement onBack={() => { 
-                        setClearWeightCache(true);
-                        setWeightCache({
-                            monthlyRecords: {},
-                            yearlyRecords: {},
-                            currentDate: new Date(),
-                            viewPeriod: 'month'
-                        });
-                        handleBackToDashboard();
-                    }} />;
+                    return (
+                        <Suspense fallback={<LoadingSpinner />}>
+                            <WeightManagement onBack={() => { 
+                                setClearWeightCache(true);
+                                setWeightCache({
+                                    monthlyRecords: {},
+                                    yearlyRecords: {},
+                                    currentDate: new Date(),
+                                    viewPeriod: 'month'
+                                });
+                                handleBackToDashboard();
+                            }} />
+                        </Suspense>
+                    );
                 case 'FoodLog':
-                    return <FoodLog onBack={handleBackToDashboard} />;
+                    return (
+                        <Suspense fallback={<LoadingSpinner />}>
+                            <FoodLog onBack={handleBackToDashboard} />
+                        </Suspense>
+                    );
                 case 'dieter':
-                    return <Dieter 
-                        onBack={handleBackToDashboard}
-                        onViewChange={handleViewChange}
-                        subView={subView}
-                    />;
+                    return (
+                        <Suspense fallback={<LoadingSpinner />}>
+                            <Dieter 
+                                onBack={handleBackToDashboard}
+                                onViewChange={handleViewChange}
+                                subView={subView}
+                            />
+                        </Suspense>
+                    );
                 case 'debug':
-                    return <DebugLogViewer onBack={handleBackToDashboard} />;
+                    return (
+                        <Suspense fallback={<LoadingSpinner />}>
+                            <DebugLogViewer onBack={handleBackToDashboard} />
+                        </Suspense>
+                    );
                 default:
                     return (
                         <DashboardPageButtons 
@@ -310,6 +401,104 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         backgroundColor: isDarkMode ? '#000000' : 'inherit'
       }
     }}>
+      {/* デバッグ用: 言語テストボタン */}
+      {window.location.hostname === '192.168.1.22' && (
+        <Box sx={{
+          position: 'fixed',
+          top: 10,
+          right: 10,
+          zIndex: 10000,
+          display: 'flex',
+          gap: 1,
+          flexDirection: 'column'
+        }}>
+          <button
+            onClick={switchToEnglishForTest}
+            style={{
+              backgroundColor: language === 'en' ? '#4caf50' : '#2196f3',
+              color: 'white',
+              border: 'none',
+              padding: '6px 10px',
+              borderRadius: '4px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              opacity: 0.8
+            }}
+          >
+            🇺🇸 EN
+          </button>
+          <button
+            onClick={switchToJapaneseForTest}
+            style={{
+              backgroundColor: language === 'ja' ? '#4caf50' : '#ff9800',
+              color: 'white',
+              border: 'none',
+              padding: '6px 10px',
+              borderRadius: '4px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              opacity: 0.8
+            }}
+          >
+            🇯🇵 JP
+          </button>
+          <button
+            onClick={switchToChineseForTest}
+            style={{
+              backgroundColor: language === 'zh-CN' ? '#4caf50' : '#9c27b0',
+              color: 'white',
+              border: 'none',
+              padding: '6px 10px',
+              borderRadius: '4px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              opacity: 0.8
+            }}
+          >
+            🇨🇳 CN
+          </button>
+          <button
+            onClick={switchToKoreanForTest}
+            style={{
+              backgroundColor: language === 'ko' ? '#4caf50' : '#f44336',
+              color: 'white',
+              border: 'none',
+              padding: '6px 10px',
+              borderRadius: '4px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              opacity: 0.8
+            }}
+          >
+            🇰🇷 KO
+          </button>
+          <button
+            onClick={switchToSpanishForTest}
+            style={{
+              backgroundColor: language === 'es' ? '#4caf50' : '#795548',
+              color: 'white',
+              border: 'none',
+              padding: '6px 10px',
+              borderRadius: '4px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              opacity: 0.8
+            }}
+          >
+            🇪🇸 ES
+          </button>
+          <div style={{
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            color: 'white',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            fontSize: '10px',
+            textAlign: 'center'
+          }}>
+            {language.toUpperCase()}
+          </div>
+        </Box>
+      )}
       {renderContent()}
       
       {/* 共通トースト */}

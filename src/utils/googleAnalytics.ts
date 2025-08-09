@@ -131,10 +131,12 @@ export const trackDietEvent = (
  */
 export const trackLogin = (method: 'google' | 'facebook' | 'tiktok' | 'email') => {
     try {
-        ReactGA.event('login', {
-            event_category: 'user_authentication',
-            method: method,
-        });
+        // 一時的にGoogle Analytics無効化（hook エラー回避）
+        console.log('Login tracked (GA disabled for debugging):', method);
+        // ReactGA.event('login', {
+        //     event_category: 'user_authentication',
+        //     method: method,
+        // });
     } catch (error) {
         console.error('Failed to track login:', error);
     }

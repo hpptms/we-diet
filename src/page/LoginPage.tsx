@@ -181,7 +181,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setError("");
     console.log("ログイン開始:", { email, password: "***" });
-    console.log("API Endpoint:", `${import.meta.env.VITE_API_BASE_URL}api/login`);
+    console.log("API Endpoint:", `${import.meta.env.VITE_API_BASE_URL}/api/login`);
     
     try {
       const response = await axios.post(

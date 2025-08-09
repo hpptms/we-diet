@@ -2,19 +2,13 @@ import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { CircularProgress, Box } from '@mui/material';
 import DashboardLayout from './component/DashboardLayout';
+import AMPRedirect from './component/AMPRedirect';
 import { initGA, trackPageView } from './utils/googleAnalytics';
 import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 import { LanguageProvider } from './context/LanguageContext';
 import { useTranslation } from './hooks/useTranslation';
 
-// Lazy load heavy components for better performance
-import { 
-  LazyDieter, 
-  LazyExerciseRecord, 
-  LazyFoodLog, 
-  LazyWeightManagement, 
-  LazyProfileSettings 
-} from './utils/LazyComponents';
+// LazyComponents are loaded through DashboardPage, so we don't need to import them here
 
 // Lazy load page components
 const LazyTopPage = React.lazy(() => import('./page/TopPage').then(module => ({ default: module.TopPage })));
@@ -219,9 +213,7 @@ function App() {
           </Suspense>
         } />
         <Route path="/privacy-policy" element={
-          <Suspense fallback={<LoadingComponent />}>
-            <LazyPrivacyPolicy />
-          </Suspense>
+          <AMPRedirect ampPath="/amp/privacy-policy.html" />
         } />
         <Route path="/data-deletion" element={
           <Suspense fallback={<LoadingComponent />}>
@@ -229,9 +221,7 @@ function App() {
           </Suspense>
         } />
         <Route path="/terms-of-service" element={
-          <Suspense fallback={<LoadingComponent />}>
-            <LazyTermsOfService />
-          </Suspense>
+          <AMPRedirect ampPath="/amp/terms-of-service.html" />
         } />
         <Route path="/" element={
           <Suspense fallback={<LoadingComponent />}>

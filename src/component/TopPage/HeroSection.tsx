@@ -5,8 +5,11 @@ import { DotOverlay } from './DotOverlay';
 import { PunchLineSlider } from './PunchLineSlider';
 import { useScreenOrientation } from './useScreenOrientation';
 import { optimizeCloudinaryImage } from '../../utils/imageOptimization';
+import { LanguageProps } from '../../types/language';
+import { useTranslation } from '../../hooks/useTranslation';
 
-export const HeroSection: React.FC = () => {
+export const HeroSection: React.FC<LanguageProps> = ({ language }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { isPortraitDesktop, isLandscapeDesktop, aspectRatio } = useScreenOrientation();
 
@@ -163,7 +166,7 @@ export const HeroSection: React.FC = () => {
             px: { xs: 1, sm: 2 },
           }}
         >
-          一人では続けるのが難しくても、仲間がいれば楽しくなる
+          {t('pages', 'topPage.hero.subtitle')}
         </Typography>
         
         <Button
@@ -183,7 +186,7 @@ export const HeroSection: React.FC = () => {
             py: { xs: 1, sm: 1.5 },
           }}
         >
-          ログインページ
+          {t('pages', 'topPage.hero.loginButton')}
         </Button>
       </Container>
     </Box>

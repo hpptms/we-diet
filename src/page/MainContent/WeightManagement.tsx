@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
+import { Box } from '@mui/material';
+
+// Static import for Chart.js to ensure proper registration
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -10,7 +13,17 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { Box } from '@mui/material';
+
+// Register Chart.js components
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+);
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { weightRecordCacheAtom, clearWeightCacheAtom } from '../../recoil/weightRecordCacheAtom';
 import { darkModeState } from '../../recoil/darkModeAtom';
@@ -40,16 +53,6 @@ import WeightChart from '../../component/WeightManagement/WeightChart';
 import WeightRecordsList from '../../component/WeightManagement/WeightRecordsList';
 import WeightRecordModal from '../../component/WeightManagement/WeightRecordModal';
 import OverwriteConfirmDialog from '../../component/WeightManagement/OverwriteConfirmDialog';
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
 
 // Protobuf communication utilities
 const sendProtobufRequest = async (endpoint: string, requestData: any): Promise<any> => {

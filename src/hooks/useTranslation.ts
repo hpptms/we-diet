@@ -2,6 +2,7 @@ import { useContext, useMemo } from 'react';
 import { LanguageContext } from '../context/LanguageContext';
 import {
     getTranslation,
+    getTranslationArray,
     replacePlaceholders,
     TranslationKey,
     SupportedLanguage
@@ -9,6 +10,7 @@ import {
 
 export interface UseTranslationReturn {
     t: (category: TranslationKey, key: string, placeholders?: Record<string, string | number>, fallback?: string) => string;
+    tArray: (category: TranslationKey, key: string, fallback?: string[]) => string[];
     language: SupportedLanguage;
     setLanguage: (language: SupportedLanguage) => void;
     availableLanguages: Array<{ code: SupportedLanguage; name: string; nativeName: string }>;
@@ -38,6 +40,7 @@ export const useTranslation = (): UseTranslationReturn => {
             placeholders?: Record<string, string | number>,
             fallback?: string
         ): string => {
+            // LanguageContextの言語設定を使用
             let translation = getTranslation(language, category, key, fallback);
 
             if (placeholders && Object.keys(placeholders).length > 0) {
@@ -48,8 +51,19 @@ export const useTranslation = (): UseTranslationReturn => {
         };
     }, [language]);
 
+    const tArray = useMemo(() => {
+        return (
+            category: TranslationKey,
+            key: string,
+            fallback?: string[]
+        ): string[] => {
+            return getTranslationArray(language, category, key, fallback);
+        };
+    }, [language]);
+
     return {
         t,
+        tArray,
         language,
         setLanguage,
         availableLanguages,

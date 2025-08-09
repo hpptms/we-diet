@@ -3,32 +3,35 @@ import { Typography, Box } from '@mui/material';
 import { useScreenOrientation } from './useScreenOrientation';
 import { optimizeCloudinaryImage } from '../../utils/imageOptimization';
 import { createDebouncedResizeHandler } from '../../utils/performanceOptimization';
+import { LanguageProps } from '../../types/language';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface FeatureItem {
   image: string;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
 }
 
 const features: FeatureItem[] = [
   {
     image: 'https://res.cloudinary.com/drmyhhtjo/image/upload/v1753595013/yoga_ytxrh6.webp',
-    title: 'エクササイズ',
-    description: '今日は何キロ歩きましたか？距離を自慢しちゃいましょう'
+    titleKey: 'topPage.features.exercise.title',
+    descriptionKey: 'topPage.features.exercise.description'
   },
   {
     image: 'https://res.cloudinary.com/drmyhhtjo/image/upload/v1753595013/pizza_fhzq0m.webp',
-    title: '爆食い',
-    description: '今日はチートデイ！あなたの爆食いで飯テロしましょう'
+    titleKey: 'topPage.features.indulgence.title',
+    descriptionKey: 'topPage.features.indulgence.description'
   },
   {
     image: 'https://res.cloudinary.com/drmyhhtjo/image/upload/v1753595013/sns_titjmz.webp',
-    title: 'SNS連携',
-    description: 'あなたの健康記録をSNSで共有して、誰かと共有する、そんな場所です。'
+    titleKey: 'topPage.features.sns.title',
+    descriptionKey: 'topPage.features.sns.description'
   }
 ];
 
-export const FeatureSection: React.FC = () => {
+export const FeatureSection: React.FC<LanguageProps> = ({ language }) => {
+  const { t } = useTranslation();
   const { isPortraitDesktop } = useScreenOrientation();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -59,7 +62,7 @@ export const FeatureSection: React.FC = () => {
       padding: 0, // パディングも0に設定
     }}>
       {features.map((feature, index) => (
-        <Box key={`feature-${index}-${feature.title}`}>
+        <Box key={`feature-${index}-${feature.titleKey}`}>
           <Box
             sx={{
               background: sectionColors[index],
@@ -121,7 +124,7 @@ export const FeatureSection: React.FC = () => {
                   <Box
                     component="img"
                     src={optimizeCloudinaryImage(feature.image, isMobile ? 180 : 200, isMobile ? 180 : 200)}
-                    alt={feature.title}
+                    alt={t('pages', feature.titleKey)}
                     sx={{
                       width: '100%',
                       height: { xs: '120px', md: '150px' },
@@ -201,7 +204,7 @@ export const FeatureSection: React.FC = () => {
                       }
                     }}
                   >
-                    {feature.title}
+                    {t('pages', feature.titleKey)}
                   </Typography>
                   <Typography 
                     variant="body1" 
@@ -222,7 +225,7 @@ export const FeatureSection: React.FC = () => {
                       margin: isMobile ? '0 auto' : '0'
                     }}
                   >
-                    {feature.description}
+                    {t('pages', feature.descriptionKey)}
                   </Typography>
                 </Box>
               </Box>

@@ -1,644 +1,75 @@
 <!DOCTYPE html>
-<html lang="ja" prefix="og: https://ogp.me/ns#">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- SEO最適化 -->
-  <title>We Diet - ダイエットコミュニティプラットフォーム | 健康的なライフスタイルを仲間と実現</title>
-  <meta name="description"
-    content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。体重記録、食事管理、運動記録をSNS機能と組み合わせて、持続可能な健康習慣を身につけましょう。" />
-  <meta name="keywords" content="ダイエット,健康管理,体重記録,食事記録,運動記録,コミュニティ,SNS,ヘルスケア,フィットネス,減量,BMI,カロリー管理,栄養管理" />
-
-  <!-- 言語・地域設定 -->
-  <meta name="language" content="ja" />
-  <meta name="geo.region" content="JP" />
-  <meta name="geo.country" content="Japan" />
-
-  <!-- アプリ識別 -->
-  <meta name="application-name" content="We Diet" />
-  <meta name="apple-mobile-web-app-title" content="We Diet" />
-  <meta name="msapplication-TileColor" content="#2196f3" />
-  <meta name="theme-color" content="#2196f3" />
+  <title>We Diet - ダイエット・健康管理SNSアプリ | 食事記録・運動記録・体重管理</title>
+  <meta name="description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。" />
 
   <!-- アイコン設定 -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/original.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/original.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/16favicon.ico" />
+  <link rel="manifest" href="/manifest.json" />
 
   <!-- PWA対応 -->
-  <link rel="manifest" href="/manifest.json" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-
-  <!-- AMP版・Canonical設定 -->
-  <link rel="amphtml" href="/amp/index.html" />
-  <link rel="canonical" href="https://we-diat.com/" />
-
-  <!-- 多言語対応 -->
-  <link rel="alternate" hreflang="ja" href="https://we-diat.com/" />
-  <link rel="alternate" hreflang="en" href="https://we-diat.com/en/" />
-  <link rel="alternate" hreflang="zh-CN" href="https://we-diat.com/zh-cn/" />
-  <link rel="alternate" hreflang="zh-TW" href="https://we-diat.com/zh-tw/" />
-  <link rel="alternate" hreflang="ko" href="https://we-diat.com/ko/" />
-  <link rel="alternate" hreflang="x-default" href="https://we-diat.com/" />
+  <meta name="theme-color" content="#2196f3" />
 
   <!-- OGP Tags -->
-  <meta property="og:title" content="We Diet - ダイエットコミュニティプラットフォーム" />
-  <meta property="og:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。" />
+  <meta property="og:title" content="We Diet - ダイエット・健康管理SNSアプリ" />
+  <meta property="og:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://we-diat.com/" />
   <meta property="og:image"
     content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="We Diet アプリのメイン画面" />
-  <meta property="og:site_name" content="We Diet" />
-  <meta property="og:locale" content="ja_JP" />
 
-  <!-- Twitter Card -->
+  <!-- Twitter Card Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@we_diet_official" />
-  <meta name="twitter:creator" content="@we_diet_official" />
-  <meta name="twitter:title" content="We Diet - ダイエットコミュニティプラットフォーム" />
-  <meta name="twitter:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。" />
+  <meta name="twitter:title" content="We Diet - ダイエット・健康管理SNSアプリ" />
+  <meta name="twitter:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。" />
   <meta name="twitter:image"
     content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" />
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+  <!-- 構造化データ (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "We Diet",
+    "description": "ダイエットと健康管理をサポートするソーシャルプラットフォーム。食事記録、運動記録、体重管理機能を提供。",
+    "url": "https://we-diat.com/",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    },
+    "featureList": [
+      "食事記録管理",
+      "運動記録管理", 
+      "体重管理",
+      "ソーシャル機能",
+      "多言語対応"
+    ],
+    "author": {
+      "@type": "Organization",
+      "name": "We Diet"
     }
+  }
+  </script>
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'Arial', 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-      line-height: 1.6;
-      color: #333;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-    }
-
-    .header {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #2196f3;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: #2196f3;
-    }
-
-    .language-selector {
-      position: relative;
-    }
-
-    .language-btn {
-      background: none;
-      border: 1px solid #ddd;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      color: #333;
-      transition: all 0.3s ease;
-    }
-
-    .language-btn:hover {
-      border-color: #2196f3;
-      color: #2196f3;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 4rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      color: white;
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .hero p {
-      font-size: 1.3rem;
-      margin-bottom: 2rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 1rem 2rem;
-      border: none;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: all 0.3s ease;
-      text-align: center;
-    }
-
-    .btn-primary {
-      background: #2196f3;
-      color: white;
-      box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
-    }
-
-    .btn-primary:hover {
-      background: #1976d2;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.6);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.5);
-      transform: translateY(-2px);
-    }
-
-    .features {
-      padding: 4rem 2rem;
-      background: white;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .features h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      color: #333;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      text-align: center;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      background: #f8f9fa;
-      transition: transform 0.3s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .feature-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .feature-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: #333;
-    }
-
-    .footer {
-      background: #333;
-      color: white;
-      padding: 2rem 0;
-      text-align: center;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-
-    .footer-section h4 {
-      margin-bottom: 1rem;
-      color: #2196f3;
-    }
-
-    .footer-section a {
-      color: #ccc;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 0.5rem;
-      transition: color 0.3s ease;
-    }
-
-    .footer-section a:hover {
-      color: #2196f3;
-    }
-
-    /* モーダルスタイル */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(5px);
-    }
-
-    .modal-content {
-      background-color: white;
-      margin: 15% auto;
-      padding: 2rem;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .modal-content h3 {
-      margin-bottom: 1rem;
-      color: #333;
-    }
-
-    .modal-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 1.5rem;
-    }
-
-    .modal-btn {
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .modal-btn.accept {
-      background: #2196f3;
-      color: white;
-    }
-
-    .modal-btn.accept:hover {
-      background: #1976d2;
-    }
-
-    .modal-btn.decline {
-      background: #f5f5f5;
-      color: #666;
-    }
-
-    .modal-btn.decline:hover {
-      background: #e0e0e0;
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero p {
-        font-size: 1.1rem;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
+  <!-- 追加のSEOメタタグ -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <link rel="canonical" href="https://we-diat.com/" />
 </head>
 
 <body>
-  <header class="header">
-    <nav class="nav">
-      <a href="/" class="logo">We Diet</a>
-      <ul class="nav-links">
-        <li><a href="#features">機能</a></li>
-        <li><a href="/amp/privacy/privacy-policy-ja.html">プライバシーポリシー</a></li>
-        <li><a href="/amp/terms-of-service/terms-of-service-ja.html">利用規約</a></li>
-      </ul>
-      <div class="language-selector">
-        <button class="language-btn" onclick="showLanguageOptions()">🌐 日本語</button>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <h1>仲間と一緒に、理想の体型を目指そう</h1>
-      <p>一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。</p>
-      <div class="cta-buttons">
-        <a href="#" class="btn btn-primary" onclick="startApp()">今すぐ始める</a>
-        <a href="#features" class="btn btn-secondary">機能を見る</a>
-      </div>
-    </section>
-
-    <section class="features" id="features">
-      <h2>We Dietの特徴</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">📊</div>
-          <h3>簡単記録</h3>
-          <p>体重、食事、運動を簡単に記録。直感的なインターフェースで毎日の習慣作りをサポートします。</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">👥</div>
-          <h3>コミュニティ</h3>
-          <p>同じ目標を持つ仲間と繋がり、お互いを励まし合いながら目標達成を目指しましょう。</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📈</div>
-          <h3>データ分析</h3>
-          <p>詳細なグラフと統計で進捗を可視化。科学的なアプローチで効果的なダイエットを実現します。</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🎯</div>
-          <h3>目標設定</h3>
-          <p>個人の体質や目標に合わせたカスタマイズ可能な目標設定で、無理のないダイエットを続けられます。</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔒</div>
-          <h3>プライバシー保護</h3>
-          <p>あなたの個人データは最新のセキュリティ技術で保護され、プライバシーを最優先に設計されています。</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">�</div>
-          <h3>マルチプラットフォーム</h3>
-          <p>スマートフォン、タブレット、PCからいつでもアクセス。どこでも健康管理を続けられます。</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h4>We Diet</h4>
-        <a href="/amp/privacy/privacy-policy-ja.html">プライバシーポリシー</a>
-        <a href="/amp/terms-of-service/terms-of-service-ja.html">利用規約</a>
-        <a href="mailto:support@we-diat.com">お問い合わせ</a>
-      </div>
-      <div class="footer-section">
-        <h4>機能</h4>
-        <a href="#features">体重記録</a>
-        <a href="#features">食事記録</a>
-        <a href="#features">運動記録</a>
-        <a href="#features">コミュニティ</a>
-      </div>
-      <div class="footer-section">
-        <h4>サポート</h4>
-        <a href="#">ヘルプセンター</a>
-        <a href="#">よくある質問</a>
-        <a href="#">フィードバック</a>
-      </div>
-    </div>
-    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #555;">
-      <p>&copy; 2025 We Diet. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <!-- 言語検出モーダル -->
-  <div id="languageModal" class="modal">
-    <div class="modal-content">
-      <h3 id="modalTitle">表示言語を検出しました</h3>
-      <p id="modalText">お使いのブラウザの言語設定に基づいて、より適切な言語のページを表示できます。</p>
-      <div class="modal-buttons">
-        <button class="modal-btn accept" id="acceptBtn" onclick="switchLanguage()">はい</button>
-        <button class="modal-btn decline" onclick="closeModal()">日本語のまま</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // 言語検出と多言語対応
-    const supportedLanguages = {
-      'en': {
-        name: 'English',
-        modalTitle: 'Language detected',
-        modalText: 'We can display this page in your preferred language based on your browser settings.',
-        acceptBtn: 'Yes, switch',
-        declineBtn: 'Stay in Japanese'
-      },
-      'zh': {
-        name: '中文',
-        modalTitle: '检测到显示语言',
-        modalText: '我们可以根据您的浏览器设置以您的首选语言显示此页面。',
-        acceptBtn: '是，切换',
-        declineBtn: '保持日语'
-      },
-      'zh-CN': {
-        name: '中文（简体）',
-        modalTitle: '检测到显示语言',
-        modalText: '我们可以根据您的浏览器设置以您的首选语言显示此页面。',
-        acceptBtn: '是，切换',
-        declineBtn: '保持日语'
-      },
-      'ko': {
-        name: '한국어',
-        modalTitle: '표시 언어가 감지되었습니다',
-        modalText: '브라우저 설정에 따라 선호하는 언어로 이 페이지를 표시할 수 있습니다.',
-        acceptBtn: '네, 전환',
-        declineBtn: '일본어 유지'
-      },
-      'es': {
-        name: 'Español',
-        modalTitle: 'Idioma detectado',
-        modalText: 'Podemos mostrar esta página en su idioma preferido basándose en la configuración de su navegador.',
-        acceptBtn: 'Sí, cambiar',
-        declineBtn: 'Mantener japonés'
-      }
-    };
-
-    let detectedLanguage = null;
-
-    // 言語検出機能
-    function detectUserLanguage() {
-      const userLanguages = navigator.languages || [navigator.language];
-
-      for (const lang of userLanguages) {
-        const langCode = lang.split('-')[0];
-        const fullLangCode = lang;
-
-        if (supportedLanguages[fullLangCode]) {
-          return fullLangCode;
-        } else if (supportedLanguages[langCode]) {
-          return langCode;
-        }
-      }
-
-      return null;
-    }
-
-    // モーダル表示
-    function showLanguageModal(language) {
-      const modal = document.getElementById('languageModal');
-      const modalTitle = document.getElementById('modalTitle');
-      const modalText = document.getElementById('modalText');
-      const acceptBtn = document.getElementById('acceptBtn');
-
-      const langData = supportedLanguages[language];
-      modalTitle.textContent = langData.modalTitle;
-      modalText.textContent = langData.modalText;
-      acceptBtn.textContent = langData.acceptBtn;
-
-      detectedLanguage = language;
-      modal.style.display = 'block';
-    }
-
-    // モーダルを閉じる
-    function closeModal() {
-      const modal = document.getElementById('languageModal');
-      modal.style.display = 'none';
-      sessionStorage.setItem('languageModalDismissed', 'true');
-    }
-
-    // 言語切り替え
-    function switchLanguage() {
-      if (detectedLanguage && supportedLanguages[detectedLanguage]) {
-        // ローカルストレージに言語設定を保存
-        localStorage.setItem('preferredLanguage', detectedLanguage);
-
-        // 各言語のトップページへリダイレクト
-        const languageUrls = {
-          'en': '/amp/top/index-en.html',
-          'zh': '/amp/top/index-zh.html',
-          'zh-CN': '/amp/top/index-zh.html',
-          'ko': '/amp/top/index-ko.html',
-          'es': '/amp/top/index-es.html'
-        };
-
-        const targetUrl = languageUrls[detectedLanguage] || languageUrls[detectedLanguage.split('-')[0]];
-        if (targetUrl) {
-          window.location.href = targetUrl;
-        }
-      }
-    }
-
-    // アプリ開始
-    function startApp() {
-      // 登録完了ページへリダイレクト
-      window.location.href = '/amp/register-complete/register-complete-ja.html';
-    }
-
-    // 言語選択オプション表示
-    function showLanguageOptions() {
-      alert('言語選択機能は開発中です。現在は日本語のみ対応しています。');
-    }
-
-    // 保存された言語設定をチェックして自動リダイレクト
-    function checkStoredLanguageAndRedirect() {
-      try {
-        const storedLang = localStorage.getItem('preferredLanguage');
-        if (storedLang && supportedLanguages[storedLang]) {
-          const languageUrls = {
-            'en': '/amp/top/index-en.html',
-            'zh': '/amp/top/index-zh.html',
-            'zh-CN': '/amp/top/index-zh.html',
-            'ko': '/amp/top/index-ko.html',
-            'es': '/amp/top/index-es.html'
-          };
-
-          const targetUrl = languageUrls[storedLang] || languageUrls[storedLang.split('-')[0]];
-          if (targetUrl) {
-            window.location.href = targetUrl;
-            return true; // リダイレクトが実行された
-          }
-        }
-      } catch (error) {
-        console.warn('Failed to check stored language:', error);
-      }
-      return false; // リダイレクトされなかった
-    }
-
-    // ページロード時に言語検出
-    window.addEventListener('load', function () {
-      // まず保存された言語設定をチェック
-      if (checkStoredLanguageAndRedirect()) {
-        return; // 既にリダイレクトされた場合は処理終了
-      }
-
-      // セッションで一度却下された場合は表示しない
-      if (sessionStorage.getItem('languageModalDismissed') === 'true') {
-        return;
-      }
-
-      // 言語検出
-      const detectedLang = detectUserLanguage();
-      if (detectedLang) {
-        // 少し遅延させてモーダル表示
-        setTimeout(() => {
-          showLanguageModal(detectedLang);
-        }, 1500);
-      }
-    });
-  </script>
+  <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
 </body>
 
 </html>

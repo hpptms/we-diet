@@ -4,7 +4,23 @@ import { getCurrentLanguage } from '../i18n';
 
 const TermsOfService: React.FC = () => {
   const navigate = useNavigate();
-  const currentLanguage = getCurrentLanguage();
+  // 開発環境では強制的に日本語を使用
+  const isDev = window.location.hostname === '192.168.1.22' || 
+                window.location.hostname === 'localhost' ||
+                window.location.port === '3000' ||
+                process.env.NODE_ENV === 'development' ||
+                import.meta.env?.DEV === true;
+  
+  // デバッグ用ログ
+  console.log('TermsOfService - Environment check:', {
+    hostname: window.location.hostname,
+    port: window.location.port,
+    NODE_ENV: process.env.NODE_ENV,
+    DEV: import.meta.env?.DEV,
+    isDev
+  });
+  
+  const currentLanguage = 'ja' as const; // 開発環境では常に日本語、本番環境でも現在は日本語で統一
 
   const backButtonStyle = {
     display: 'inline-block',
@@ -26,8 +42,8 @@ const TermsOfService: React.FC = () => {
     navigate('/');
   };
 
-  // 日本語版
-  const renderJapanese = () => (
+  // 現在は日本語で統一のため、日本語版のみを表示
+  return (
     <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
       <button 
         style={backButtonStyle} 
@@ -85,9 +101,8 @@ const TermsOfService: React.FC = () => {
       <h2>6. サードパーティサービス</h2>
       <p>本サービスは以下のサードパーティプラットフォームと統合されています：</p>
       <ul>
-        <li>Facebookログイン</li>
         <li>Google OAuth</li>
-        <li>TikTokログイン</li>
+        <li>Line ログイン</li>
       </ul>
       <p>これらのサービスのご利用は、それぞれの利用規約とプライバシーポリシーに従うものとします。</p>
 
@@ -110,100 +125,6 @@ const TermsOfService: React.FC = () => {
       <p>本条項は日本法に準拠します。</p>
     </div>
   );
-
-  // 英語版
-  const renderEnglish = () => (
-    <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
-      <button 
-        style={backButtonStyle} 
-        onClick={handleBackClick}
-        onMouseOver={(e) => {
-          e.currentTarget.style.background = '#1e88e5';
-          e.currentTarget.style.transform = 'translateY(-1px)';
-          e.currentTarget.style.boxShadow = '0 4px 10px rgba(41, 182, 246, 0.4)';
-        }}
-        onMouseOut={(e) => {
-          e.currentTarget.style.background = '#29b6f6';
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 2px 5px rgba(41, 182, 246, 0.3)';
-        }}
-      >
-        ← Back to Top
-      </button>
-      <h1>Terms of Service</h1>
-      <p>Last updated: {new Date().toLocaleDateString('en-US')}</p>
-      
-      <h2>1. Acceptance of Terms</h2>
-      <p>By accessing and using We Diet ("the Service"), you accept and agree to be bound by the terms and provision of this agreement.</p>
-
-      <h2>2. Description of Service</h2>
-      <p>We Diet is a social wellness platform that allows users to:</p>
-      <ul>
-        <li>Track daily meals, exercise, and weight management</li>
-        <li>Record and share fitness journey progress</li>
-        <li>Connect with a supportive community</li>
-        <li>Access health and wellness resources</li>
-      </ul>
-
-      <h2>3. User Accounts</h2>
-      <p>To use certain features of the Service, you must register for an account. You agree to:</p>
-      <ul>
-        <li>Provide accurate and complete information</li>
-        <li>Maintain the security of your account credentials</li>
-        <li>Be responsible for all activities under your account</li>
-        <li>Notify us of any unauthorized use</li>
-      </ul>
-
-      <h2>4. User Content and Conduct</h2>
-      <p>You agree not to:</p>
-      <ul>
-        <li>Post harmful, offensive, or inappropriate content</li>
-        <li>Violate any applicable laws or regulations</li>
-        <li>Infringe on intellectual property rights</li>
-        <li>Spam or harass other users</li>
-        <li>Share false or misleading health information</li>
-      </ul>
-
-      <h2>5. Privacy</h2>
-      <p>Your privacy is important to us. Please review our Privacy Policy, which also governs your use of the Service, to understand our practices.</p>
-
-      <h2>6. Third-Party Services</h2>
-      <p>Our Service integrates with third-party platforms including:</p>
-      <ul>
-        <li>Facebook Login</li>
-        <li>Google OAuth</li>
-        <li>TikTok Login</li>
-      </ul>
-      <p>Your use of these services is subject to their respective terms and privacy policies.</p>
-
-      <h2>7. Disclaimers</h2>
-      <p>The Service is provided "as is" without warranties of any kind. We do not provide medical advice and recommend consulting healthcare professionals for medical concerns.</p>
-
-      <h2>8. Limitation of Liability</h2>
-      <p>We shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of the Service.</p>
-
-      <h2>9. Modifications</h2>
-      <p>We reserve the right to modify these terms at any time. Changes will be effective upon posting to this page.</p>
-
-      <h2>10. Termination</h2>
-      <p>We may terminate or suspend your account at any time for violations of these terms.</p>
-
-      <h2>11. Contact Information</h2>
-      <p>If you have any questions about these Terms of Service, please contact us at:<br/>Email: we.diet.dev@gmail.com</p>
-
-      <h2>12. Governing Law</h2>
-      <p>These terms are governed by the laws of Japan.</p>
-    </div>
-  );
-
-  // 言語に基づいてコンテンツを選択
-  switch (currentLanguage) {
-    case 'en':
-      return renderEnglish();
-    case 'ja':
-    default:
-      return renderJapanese();
-  }
 };
 
 export default TermsOfService;

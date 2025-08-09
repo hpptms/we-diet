@@ -4,7 +4,23 @@ import { getCurrentLanguage } from '../i18n';
 
 const PrivacyPolicy: React.FC = () => {
   const navigate = useNavigate();
-  const currentLanguage = getCurrentLanguage();
+  // 開発環境では強制的に日本語を使用
+  const isDev = window.location.hostname === '192.168.1.22' || 
+                window.location.hostname === 'localhost' ||
+                window.location.port === '3000' ||
+                process.env.NODE_ENV === 'development' ||
+                import.meta.env?.DEV === true;
+  
+  // デバッグ用ログ
+  console.log('PrivacyPolicy - Environment check:', {
+    hostname: window.location.hostname,
+    port: window.location.port,
+    NODE_ENV: process.env.NODE_ENV,
+    DEV: import.meta.env?.DEV,
+    isDev
+  });
+  
+  const currentLanguage = 'ja' as const; // 開発環境では常に日本語、本番環境でも現在は日本語で統一
 
   const backButtonStyle = {
     display: 'inline-block',
@@ -26,8 +42,8 @@ const PrivacyPolicy: React.FC = () => {
     navigate('/');
   };
 
-  // 日本語版
-  const renderJapanese = () => (
+  // 現在は日本語で統一のため、日本語版のみを表示
+  return (
     <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
       <button 
         style={backButtonStyle} 
@@ -54,7 +70,7 @@ const PrivacyPolicy: React.FC = () => {
         <li>氏名、メールアドレス</li>
         <li>プロフィール情報（身長、体重、年齢等）</li>
         <li>食事記録、運動記録</li>
-        <li>FacebookやGoogleなどの外部サービスから提供される情報</li>
+        <li>Googleなどの外部サービスから提供される情報</li>
       </ul>
 
       <h2>2. 個人情報の利用目的</h2>
@@ -77,93 +93,18 @@ const PrivacyPolicy: React.FC = () => {
       <h2>6. 外部サービス連携</h2>
       <p>当サービスでは、以下の外部サービスと連携しています：</p>
       <ul>
-        <li>Facebook Login</li>
         <li>Google OAuth</li>
-        <li>TikTok Login</li>
+        <li>Line Login</li>
       </ul>
       <p>これらのサービスのプライバシーポリシーについては、各サービスの公式サイトをご確認ください。</p>
 
       <h2>7. お問い合わせ</h2>
-      <p>個人情報の取り扱いに関するお問い合わせは、以下までご連絡ください：<br/>メールアドレス: privacy@we-diat.com</p>
+      <p>個人情報の取り扱いに関するお問い合わせは、以下までご連絡ください：<br/>メールアドレス: we.diet.dev@gmail.com</p>
 
       <h2>8. プライバシーポリシーの変更</h2>
       <p>本プライバシーポリシーは、法令の変更やサービスの改善等により変更することがあります。変更した場合は、当サイトに掲載してお知らせします。</p>
     </div>
   );
-
-  // 英語版
-  const renderEnglish = () => (
-    <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
-      <button 
-        style={backButtonStyle} 
-        onClick={handleBackClick}
-        onMouseOver={(e) => {
-          e.currentTarget.style.background = '#1e88e5';
-          e.currentTarget.style.transform = 'translateY(-1px)';
-          e.currentTarget.style.boxShadow = '0 4px 10px rgba(41, 182, 246, 0.4)';
-        }}
-        onMouseOut={(e) => {
-          e.currentTarget.style.background = '#29b6f6';
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 2px 5px rgba(41, 182, 246, 0.3)';
-        }}
-      >
-        ← Back to Top
-      </button>
-      <h1>Privacy Policy</h1>
-      <p>Last updated: {new Date().toLocaleDateString('en-US')}</p>
-      
-      <h2>1. Information Collection</h2>
-      <p>We Diet ("the Service") may collect the following personal information:</p>
-      <ul>
-        <li>Name, email address</li>
-        <li>Profile information (height, weight, age, etc.)</li>
-        <li>Meal records, exercise records</li>
-        <li>Information provided by external services such as Facebook and Google</li>
-      </ul>
-
-      <h2>2. Use of Personal Information</h2>
-      <p>We use the collected personal information for the following purposes:</p>
-      <ul>
-        <li>Providing, operating, and improving the service</li>
-        <li>User support</li>
-        <li>Creating statistical data (in a form that cannot identify individuals)</li>
-      </ul>
-
-      <h2>3. Third-Party Disclosure</h2>
-      <p>We will not provide personal information to third parties without your consent, except as required by law.</p>
-
-      <h2>4. Information Security</h2>
-      <p>We implement appropriate security measures to prevent leakage, loss, or damage of personal information.</p>
-
-      <h2>5. About Cookies</h2>
-      <p>This service may use cookies to improve the service. If you do not wish to use cookies, you can disable them in your browser settings.</p>
-
-      <h2>6. External Service Integration</h2>
-      <p>This service integrates with the following external services:</p>
-      <ul>
-        <li>Facebook Login</li>
-        <li>Google OAuth</li>
-        <li>TikTok Login</li>
-      </ul>
-      <p>Please check the official websites of each service for their privacy policies.</p>
-
-      <h2>7. Contact Us</h2>
-      <p>For inquiries about the handling of personal information, please contact us at:<br/>Email: privacy@we-diat.com</p>
-
-      <h2>8. Changes to Privacy Policy</h2>
-      <p>This privacy policy may be changed due to changes in laws or service improvements. When changes are made, we will notify you by posting them on this site.</p>
-    </div>
-  );
-
-  // 言語に基づいてコンテンツを選択
-  switch (currentLanguage) {
-    case 'en':
-      return renderEnglish();
-    case 'ja':
-    default:
-      return renderJapanese();
-  }
 };
 
 export default PrivacyPolicy;

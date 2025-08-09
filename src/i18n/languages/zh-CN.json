@@ -233,5 +233,41 @@
         "thisWeek": "本周",
         "thisMonth": "本月",
         "thisYear": "今年"
+    },
+    "pages": {
+        "topPage": {
+            "hero": {
+                "subtitle": "一个人很难坚持，但有伙伴就会变得有趣",
+                "loginButton": "登录页面",
+                "punchLines": [
+                    "运动⇒记录⇒分享",
+                    "😊",
+                    "饮食⇒记录⇒分享",
+                    "🙄"
+                ]
+            },
+            "features": {
+                "exercise": {
+                    "title": "运动",
+                    "description": "今天走了多少公里？来炫耀一下你的距离吧"
+                },
+                "indulgence": {
+                    "title": "大吃特吃",
+                    "description": "今天是放纵日！用你的大餐来进行美食恐袭吧"
+                },
+                "sns": {
+                    "title": "社交网络连接",
+                    "description": "这是一个在社交网络上分享您的健康记录，与他人分享的地方。"
+                }
+            },
+            "product": {
+                "title": "减肥支持",
+                "description": "这是一个以运动记录、健康和食物为中心的社交应用。\n目前正在开发中。如果你碰巧发现了这个，请再等一等😂"
+            },
+            "footer": {
+                "privacyPolicy": "隐私政策",
+                "termsOfService": "服务条款"
+            }
+        }
     }
 }

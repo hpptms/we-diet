@@ -5,6 +5,11 @@ import {
     SUPPORTED_LANGUAGES,
     getCurrentLanguage,
     setStoredLanguage,
+    setLanguageToEnglish,
+    setLanguageToJapanese,
+    setLanguageToChineseCN,
+    setLanguageToKorean,
+    setLanguageToSpanish,
 } from '../i18n';
 
 export interface LanguageContextType {
@@ -31,6 +36,25 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
         return defaultLanguage || getCurrentLanguage();
     });
 
+    // 言語設定の再評価（forceEnglishForTestフラグの変更を検出）
+    useEffect(() => {
+        const currentLang = getCurrentLanguage();
+        if (currentLang !== language) {
+            setCurrentLanguage(currentLang);
+        }
+    }, []);
+
+    // ローカルストレージの変更を監視
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const newLang = getCurrentLanguage();
+            setCurrentLanguage(newLang);
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        return () => window.removeEventListener('storage', handleStorageChange);
+    }, []);
+
     const setLanguage = (newLanguage: SupportedLanguage) => {
         setCurrentLanguage(newLanguage);
         setStoredLanguage(newLanguage);
@@ -44,10 +68,34 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
         // updatePageTitle(newLanguage);
     };
 
-    // 初期化時にHTML lang属性を設定
+    // 初期化時にHTML lang属性を設定とグローバル関数を公開
     useEffect(() => {
         if (typeof document !== 'undefined') {
             document.documentElement.lang = language;
+        }
+
+        // 開発用：コンソールから言語を変更できるようにグローバルに公開
+        if (typeof window !== 'undefined') {
+            (window as any).setLanguageToEnglish = () => {
+                setLanguageToEnglish();
+                window.location.reload(); // ページをリロードして変更を反映
+            };
+            (window as any).setLanguageToJapanese = () => {
+                setLanguageToJapanese();
+                window.location.reload();
+            };
+            (window as any).setLanguageToChineseCN = () => {
+                setLanguageToChineseCN();
+                window.location.reload();
+            };
+            (window as any).setLanguageToKorean = () => {
+                setLanguageToKorean();
+                window.location.reload();
+            };
+            (window as any).setLanguageToSpanish = () => {
+                setLanguageToSpanish();
+                window.location.reload();
+            };
         }
     }, []);
 

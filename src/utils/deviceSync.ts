@@ -1,5 +1,4 @@
 // デバイス同期用ユーティリティ
-import debugLogger from './debugLogger';
 
 export interface DeviceExerciseData {
     steps?: number;
@@ -43,19 +42,7 @@ const GOOGLE_FIT_CONFIG = {
     ]
 };
 
-// デバッグ用設定ログ出力（本番環境でも確認のため常時出力）
-debugLogger.googleFitConfig({
-    environment: import.meta.env.DEV ? 'Development' : 'Production',
-    clientIdSource: import.meta.env.VITE_GOOGLE_FIT_CLIENT_ID ? 'Environment Variable' : 'Default/Empty',
-    clientId: GOOGLE_FIT_CONFIG.clientId || '(未設定)',
-    clientIdLength: GOOGLE_FIT_CONFIG.clientId?.length || 0,
-    apiKeySource: import.meta.env.VITE_GOOGLE_API_KEY ? 'Environment Variable' : 'Default/Empty',
-    apiKeyLength: GOOGLE_FIT_CONFIG.apiKey?.length || 0,
-    scopes: GOOGLE_FIT_CONFIG.scopes.join(', '),
-    currentDomain: window.location.origin
-});
-
-// Debug information stored in debugLogger only (no console output)
+// Google Fit configuration - debug info removed for optimization
 
 // GAPI初期化状態
 let gapiInitialized = false;
@@ -189,23 +176,7 @@ const initializeGapi = async (): Promise<void> => {
             });
         });
 
-        // ドメイン確認情報をDBに保存
-        debugLogger.googleFitConfig({
-            initializationStep: 'Domain Check',
-            currentDomain: window.location.origin,
-            expectedDomain: 'https://we-diat.com',
-            domainMatch: window.location.origin === 'https://we-diat.com',
-            timestamp: new Date().toISOString()
-        });
-
-        // GAPI初期化詳細ログをDBに保存
-        debugLogger.googleFitConfig({
-            initializationStep: 'GAPI Client Init',
-            apiKey: GOOGLE_FIT_CONFIG.apiKey ? `${GOOGLE_FIT_CONFIG.apiKey.substring(0, 10)}...` : 'not configured',
-            clientId: GOOGLE_FIT_CONFIG.clientId,
-            scope: GOOGLE_FIT_CONFIG.scopes.join(' '),
-            initStartTime: new Date().toISOString()
-        });
+        // GAPI initialization completed
 
         // GIS (Google Identity Services) 初期化
         gapiAuthInstance = (window as any).google.accounts.oauth2.initTokenClient({
@@ -223,30 +194,7 @@ const initializeGapi = async (): Promise<void> => {
         }
 
         gapiInitialized = true;
-
-        // GAPI初期化成功ログをDBに保存
-        debugLogger.googleFitConfig({
-            initializationStep: 'GAPI Init Success',
-            authInstanceCreated: !!gapiAuthInstance,
-            initCompleteTime: new Date().toISOString(),
-            gapiVersion: (window as any).gapi?.version || 'unknown'
-        });
     } catch (error) {
-
-        // 詳細デバッグ情報をDBに保存
-        debugLogger.googleFitError('GAPI Initialization Failed', error, {
-            gapiAvailable: !!(window as any).gapi,
-            auth2Available: !!(window as any).gapi?.auth2,
-            clientId: GOOGLE_FIT_CONFIG.clientId,
-            currentDomain: window.location.origin,
-            expectedDomain: 'https://we-diat.com',
-            domainMatch: window.location.origin === 'https://we-diat.com',
-            apiKey: GOOGLE_FIT_CONFIG.apiKey ? `${GOOGLE_FIT_CONFIG.apiKey.substring(0, 10)}...` : 'not configured',
-            scopes: GOOGLE_FIT_CONFIG.scopes.join(', '),
-            userAgent: navigator.userAgent,
-            timestamp: new Date().toISOString()
-        });
-
         throw error;
     }
 };
@@ -269,15 +217,6 @@ export const initiateGoogleFitAuth = async (): Promise<void> => {
         alert('Google認証画面が表示されます。\n認証完了後、再度「スマホと同期」ボタンを押してデータを取得してください。');
 
     } catch (error) {
-        // デバッグログにエラー詳細を記録
-        debugLogger.googleFitError('Google Fit Authentication Failed', error, {
-            clientIdConfigured: !!GOOGLE_FIT_CONFIG.clientId,
-            apiKeyConfigured: !!GOOGLE_FIT_CONFIG.apiKey,
-            gapiInitialized: gapiInitialized,
-            currentUrl: window.location.href,
-            userAgent: navigator.userAgent
-        });
-
         let errorMessage = '認証に失敗しました';
         if (error && typeof error === 'object') {
             if ('error' in error) {
