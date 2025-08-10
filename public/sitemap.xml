@@ -173,16 +173,16 @@
 
   <!-- プライバシーポリシー -->
   <url>
-    <loc>https://we-diat.com/privacy-policy</loc>
-    <lastmod>2025-08-09</lastmod>
+    <loc>https://we-diat.com/privacy-policy.html</loc>
+    <lastmod>2025-01-08</lastmod>
     <changefreq>quarterly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.7</priority>
   </url>
 
   <!-- AMP版プライバシーポリシー -->
   <url>
     <loc>https://we-diat.com/amp/privacy-policy.html</loc>
-    <lastmod>2025-08-09</lastmod>
+    <lastmod>2025-08-10</lastmod>
     <changefreq>quarterly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -205,10 +205,18 @@
 
   <!-- データ削除について -->
   <url>
-    <loc>https://we-diat.com/data-deletion</loc>
-    <lastmod>2025-08-09</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <loc>https://we-diat.com/data-deletion.html</loc>
+    <lastmod>2025-01-08</lastmod>
+    <changefreq>quarterly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- AMP版データ削除について -->
+  <url>
+    <loc>https://we-diat.com/amp/data-deletion.html</loc>
+    <lastmod>2025-01-08</lastmod>
+    <changefreq>quarterly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <!-- クッキーポリシー -->

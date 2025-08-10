@@ -7,9 +7,11 @@ import { useTranslation } from '../hooks/useTranslation';
 import { setLanguageToEnglish, setLanguageToJapanese, setLanguageToChineseCN, setLanguageToKorean, setLanguageToSpanish } from '../i18n';
 
 // 言語に対応したAMPリンクを生成
-const getAMPLink = (type: 'privacy' | 'terms', language: string): string => {
+const getAMPLink = (type: 'privacy' | 'terms' | 'dataDeletion', language: string): string => {
   if (language === 'ja') {
-    return type === 'privacy' ? '/amp/privacy-policy.html' : '/amp/terms-of-service.html';
+    return type === 'privacy' ? '/amp/privacy-policy.html' : 
+           type === 'terms' ? '/amp/terms-of-service.html' : 
+           '/amp/data-deletion.html';
   }
   
   // 各言語コードのマッピング
@@ -24,7 +26,9 @@ const getAMPLink = (type: 'privacy' | 'terms', language: string): string => {
   
   return type === 'privacy' 
     ? `/amp/privacy-policy/${langCode}.html` 
-    : `/amp/terms-of-service/${langCode}.html`;
+    : type === 'terms'
+    ? `/amp/terms-of-service/${langCode}.html`
+    : `/amp/data-deletion/${langCode}.html`;
 };
 
 export const TopPage = () => {
@@ -254,6 +258,18 @@ export const TopPage = () => {
               }}
             >
               {t('pages', 'topPage.footer.termsOfService')}
+            </a>
+            <a 
+              href={getAMPLink('dataDeletion', language)}
+              style={{
+                color: "#6c757d",
+                textDecoration: "none",
+                fontSize: "14px",
+                padding: "8px 15px",
+                borderRadius: "4px"
+              }}
+            >
+              データ削除手順
             </a>
           </div>
         </div>

@@ -159,9 +159,7 @@ function App() {
           <AMPRedirect ampPath="/amp/privacy-policy.html" />
         } />
         <Route path="/data-deletion" element={
-          <Suspense fallback={<LoadingComponent />}>
-            <LazyDataDeletion />
-          </Suspense>
+          <AMPRedirect ampPath="/amp/data-deletion.html" />
         } />
         <Route path="/terms-of-service" element={
           <AMPRedirect ampPath="/amp/terms-of-service.html" />
