@@ -408,7 +408,7 @@ const LoginPage: React.FC = () => {
               }}>
                 <GoogleLoginButton />
                 <LineLoginButton />
-                <FacebookLoginButton />
+                {/* <FacebookLoginButton /> */}
                 {/* <TiktokLoginButton /> */}
               </Box>
             </>
