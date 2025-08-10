@@ -227,7 +227,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         }
     };
 
-    // Googleログインのコールバック処理
+    // ソーシャルログイン（Google・Facebook等）のコールバック処理
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);
         const token = urlParams.get('token');
@@ -236,8 +236,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         const error = urlParams.get('error');
 
         if (error) {
-            console.error('Google login error:', error);
-            alert(t('errors', 'loginError', { error }, 'Googleログインでエラーが発生しました: ' + error));
+            console.error('Social login error:', error);
+            alert(t('errors', 'loginError', { error }, 'ソーシャルログインでエラーが発生しました: ' + error));
             navigate('/login');
             return;
         }
@@ -262,7 +262,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         const token = localStorage.getItem('jwt_token');
         
         if (userId && token && !location.search.includes('token=')) {
-            // Googleログインのコールバックでない場合のみ実行
+            // ソーシャルログインのコールバックでない場合のみ実行
             fetchUserProfile(userId);
         }
     }, []); // 初回のみ実行
