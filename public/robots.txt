@@ -16,8 +16,6 @@ Disallow: /api/
 Disallow: /auth/
 Disallow: /oauth/
 Disallow: /callback/
-Disallow: /reset-password*
-Disallow: /verify-email*
 
 # パブリックページは許可
 Allow: /login
