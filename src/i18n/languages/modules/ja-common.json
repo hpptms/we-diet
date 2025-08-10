@@ -47,5 +47,19 @@
         "loginError": "ログインでエラーが発生しました: {error}",
         "maxImagesError": "画像は最大3枚まで選択できます",
         "contactSupport": "サポートに連絡する"
+    },
+    "ui": {
+        "darkMode": "ダークモード",
+        "logoutConfirmation": "ログアウト確認",
+        "logoutConfirmMessage": "ログアウトしますか？"
+    },
+    "pwa": {
+        "installed": "We Dietがホーム画面に追加されました！",
+        "iosInstallInstruction": "Safari で「共有」→「ホーム画面に追加」を選択してください",
+        "browserInstallInstruction": "ブラウザの右上メニュー「アプリをインストール」からPWAとしてインストールできます",
+        "unsupportedBrowser": "このブラウザではPWAインストールがサポートされていません",
+        "installing": "We Dietをインストール中です...",
+        "installCancelled": "インストールがキャンセルされました",
+        "installError": "インストール中にエラーが発生しました"
     }
 }

@@ -9,6 +9,7 @@ import {
 } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../recoil/darkModeAtom';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface SearchBarProps {
   onSearch?: (query: string) => void;
@@ -18,6 +19,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const isDarkMode = useRecoilValue(darkModeState);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const { t } = useTranslation();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -44,7 +46,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     <Box sx={{ p: 2, mb: 2 }}>
       <TextField
         fullWidth
-        placeholder="Dieterを検索"
+        placeholder={t('dieter', 'searchPlaceholder', {}, 'Dieterを検索')}
         value={searchQuery}
         onChange={handleSearchChange}
         InputProps={{

@@ -3,7 +3,15 @@ import { useState, useEffect } from 'react';
 /**
  * PWAインストール機能を管理するカスタムフック
  */
-export const usePWAInstall = () => {
+export const usePWAInstall = (translations?: {
+    installed: string;
+    iosInstallInstruction: string;
+    browserInstallInstruction: string;
+    unsupportedBrowser: string;
+    installing: string;
+    installCancelled: string;
+    installError: string;
+}) => {
     const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
     const [showInstallButton, setShowInstallButton] = useState(false);
     const [installSnackbar, setInstallSnackbar] = useState({
@@ -24,7 +32,7 @@ export const usePWAInstall = () => {
         const handleAppInstalled = () => {
             setInstallSnackbar({
                 open: true,
-                message: 'We Dietがホーム画面に追加されました！',
+                message: translations?.installed || 'We Dietがホーム画面に追加されました！',
                 severity: 'success'
             });
             setShowInstallButton(false);
@@ -84,7 +92,7 @@ export const usePWAInstall = () => {
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
             window.removeEventListener('appinstalled', handleAppInstalled);
         };
-    }, [deferredPrompt]);
+    }, [deferredPrompt, translations]);
 
     // PWAインストールボタンのクリックハンドラー
     const handleInstallClick = async () => {
@@ -93,7 +101,7 @@ export const usePWAInstall = () => {
             if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
                 setInstallSnackbar({
                     open: true,
-                    message: 'Safari で「共有」→「ホーム画面に追加」を選択してください',
+                    message: translations?.iosInstallInstruction || 'Safari で「共有」→「ホーム画面に追加」を選択してください',
                     severity: 'info'
                 });
                 return;
@@ -106,7 +114,7 @@ export const usePWAInstall = () => {
             if (isChrome || isEdge) {
                 setInstallSnackbar({
                     open: true,
-                    message: 'ブラウザの右上メニュー「アプリをインストール」からPWAとしてインストールできます',
+                    message: translations?.browserInstallInstruction || 'ブラウザの右上メニュー「アプリをインストール」からPWAとしてインストールできます',
                     severity: 'info'
                 });
                 return;
@@ -114,7 +122,7 @@ export const usePWAInstall = () => {
 
             setInstallSnackbar({
                 open: true,
-                message: 'このブラウザではPWAインストールがサポートされていません',
+                message: translations?.unsupportedBrowser || 'このブラウザではPWAインストールがサポートされていません',
                 severity: 'warning'
             });
             return;
@@ -130,13 +138,13 @@ export const usePWAInstall = () => {
             if (choiceResult.outcome === 'accepted') {
                 setInstallSnackbar({
                     open: true,
-                    message: 'We Dietをインストール中です...',
+                    message: translations?.installing || 'We Dietをインストール中です...',
                     severity: 'info'
                 });
             } else {
                 setInstallSnackbar({
                     open: true,
-                    message: 'インストールがキャンセルされました',
+                    message: translations?.installCancelled || 'インストールがキャンセルされました',
                     severity: 'warning'
                 });
             }
@@ -147,7 +155,7 @@ export const usePWAInstall = () => {
         } catch (error) {
             setInstallSnackbar({
                 open: true,
-                message: 'インストール中にエラーが発生しました',
+                message: translations?.installError || 'インストール中にエラーが発生しました',
                 severity: 'error'
             });
         }

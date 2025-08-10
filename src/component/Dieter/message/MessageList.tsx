@@ -14,6 +14,7 @@ import {
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../recoil/darkModeAtom';
 import { postsApi, ConversationItem } from '../../../api/postsApi';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface MessageListProps {
   onSelectConversation: (userId: number) => void;
@@ -22,6 +23,7 @@ interface MessageListProps {
 
 const MessageList: React.FC<MessageListProps> = ({ onSelectConversation, onConversationsLoaded }) => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -88,7 +90,7 @@ const MessageList: React.FC<MessageListProps> = ({ onSelectConversation, onConve
             textAlign: 'center'
           }}
         >
-          メッセージはありません
+          {t('dieter', 'messages.noMessages', {}, 'メッセージはありません')}
         </Typography>
       </Box>
     );

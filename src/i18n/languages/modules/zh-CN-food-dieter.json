@@ -167,15 +167,42 @@
             "searching": "搜索中...",
             "loading": "正在加载帖子...",
             "noPostsYet": "还没有帖子。<br />让我们发布第一篇帖子！",
+            "noPosts": "还没有帖子。<br />让我们发布第一篇帖子！",
+            "noFollowingPosts": "关注的用户还没有帖子。<br />关注更多用户来丰富你的时间轴吧！",
             "loadingPosts": "正在加载帖子...",
             "noMorePosts": "没有更多帖子了"
         },
         "search": {
             "placeholder": "搜索",
-            "title": "搜索"
+            "title": "搜索",
+            "resultsFor": "\"{searchQuery}\" 的搜索结果",
+            "noResults": "没有找到与 \"{searchQuery}\" 匹配的帖子。<br />请尝试使用其他关键词搜索。"
         },
         "recommendations": {
             "title": "推荐用户"
+        },
+        "notifications": {
+            "title": "通知",
+            "empty": {
+                "title": "没有通知",
+                "description": "新通知到达时将显示在这里"
+            }
+        },
+        "messages": {
+            "noMessages": "没有消息"
+        },
+        "followManagement": {
+            "title": "关注管理",
+            "back": "返回",
+            "followers": "粉丝",
+            "following": "关注中",
+            "blocked": "已屏蔽",
+            "unfollow": "取消关注",
+            "unblock": "取消屏蔽",
+            "noFollowers": "没有粉丝",
+            "noFollowing": "没有关注用户",
+            "noBlocked": "没有屏蔽用户",
+            "fetchError": "获取关注信息失败"
         }
     },
     "pages": {

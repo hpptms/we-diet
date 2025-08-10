@@ -6,11 +6,13 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { profileSettingsState, serverProfileState, convertServerProfileToLocalProfile, resetServerProfileData } from '../recoil/profileSettingsAtom';
 import { darkModeState } from '../recoil/darkModeAtom';
 import { DEFAULT_IMAGES } from '../image/DefaultImage';
+import { useTranslation } from '../hooks/useTranslation';
 import axios from 'axios';
 
 const Header: React.FC = () => {
   const location = useLocation();
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
   
   // 青系ストライプ色を定義
   const stripes = ['#cceeff', '#b3e5fc', '#e0f7fa', '#b2ebf2', '#80deea', '#4dd0e1', '#26c6da'];
@@ -82,6 +84,7 @@ const ProfileIcon: React.FC = () => {
   const navigate = useNavigate();
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useRecoilState(darkModeState);
+  const { t } = useTranslation();
 
   // サーバーからプロフィール情報を取得
   useEffect(() => {
@@ -242,7 +245,7 @@ const ProfileIcon: React.FC = () => {
                 color: isDarkMode ? '#29b6f6' : '#ffffff',
                 display: { xs: 'none', sm: 'block' }
               }}>
-                ダークモード
+                {t('common', 'ui.darkMode', {}, 'ダークモード')}
               </Typography>
             </Box>
           }
@@ -287,10 +290,10 @@ const ProfileIcon: React.FC = () => {
         }}
       >
         <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>
-          ログアウト確認
+          {t('common', 'ui.logoutConfirmation', {}, 'ログアウト確認')}
         </DialogTitle>
         <DialogContent sx={{ textAlign: 'center', pb: 2 }}>
-          ログアウトしますか？
+          {t('common', 'ui.logoutConfirmMessage', {}, 'ログアウトしますか？')}
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'center', gap: 2, pb: 2 }}>
           <Button
@@ -298,7 +301,7 @@ const ProfileIcon: React.FC = () => {
             variant="outlined"
             sx={{ minWidth: 80 }}
           >
-            NO
+            {t('common', 'no', {}, 'NO')}
           </Button>
           <Button
             onClick={handleLogout}
@@ -306,7 +309,7 @@ const ProfileIcon: React.FC = () => {
             color="error"
             sx={{ minWidth: 80 }}
           >
-            YES
+            {t('common', 'yes', {}, 'YES')}
           </Button>
         </DialogActions>
       </Dialog>

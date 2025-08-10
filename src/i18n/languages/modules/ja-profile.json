@@ -78,7 +78,7 @@
         "testNotificationSent": "テスト通知を送信しました",
         "testNotificationDescription": "通知設定をテストできます",
         "aboutNotifications": "通知について",
-        "notificationDescriptions": "• 新しいメッセージが届いた時\\n• 重要なお知らせがある時\\n• 音は設定により有効/無効にできます\\n• 通知頻度は即座通知または10分制限から選択可能",
+        "notificationDescriptions": "• 新しいメッセージが届いた時\n• 重要なお知らせがある時\n• 音は設定により有効/無効にできます\n• 通知頻度は即座通知または10分制限から選択可能",
         "testNotificationTitle": "テスト通知",
         "testNotificationBody": "これはテスト通知です。通知設定が正常に動作しています。",
         "selectPresetIcon": "プリセットアイコンを選択："

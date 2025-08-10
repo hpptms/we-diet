@@ -46,5 +46,19 @@
         "tryAgain": "Try again",
         "loginError": "Login error occurred: {error}",
         "contactSupport": "Contact Support"
+    },
+    "ui": {
+        "darkMode": "Dark Mode",
+        "logoutConfirmation": "Logout Confirmation",
+        "logoutConfirmMessage": "Are you sure you want to logout?"
+    },
+    "pwa": {
+        "installed": "We Diet has been added to your home screen!",
+        "iosInstallInstruction": "In Safari, tap 'Share' → 'Add to Home Screen'",
+        "browserInstallInstruction": "You can install as a PWA from the browser's top-right menu 'Install App'",
+        "unsupportedBrowser": "PWA installation is not supported in this browser",
+        "installing": "Installing We Diet...",
+        "installCancelled": "Installation was cancelled",
+        "installError": "An error occurred during installation"
     }
 }

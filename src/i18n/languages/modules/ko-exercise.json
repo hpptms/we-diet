@@ -163,7 +163,7 @@
             "dieterPostFailed": "운동 기록은 저장되었지만, Dieter 게시물 생성에 실패했습니다."
         },
         "postMessages": {
-            "todayCalories": "오늘은 대략 {calories}칼로리를 소모했습니다! 🔥\\\\n\\\\n",
+            "todayCalories": "오늘은 대략 {calories}칼로리를 소모했습니다! 🔥\\n\\n",
             "walkingActivity": "🚶 걷기: ",
             "runningActivity": "🏃 러닝: ",
             "pushUpsActivity": "💪 팔굽혀펴기: ",
@@ -171,8 +171,8 @@
             "squatsActivity": "🏋️ 스쿼트: ",
             "otherActivity": "🔥 기타 운동: ",
             "weightRecord": "⚖️ 오늘의 체중: ",
-            "notePrefix": "\\\\n📝 ",
-            "hashtag": "\\\\n\\\\n#오늘의운동",
+            "notePrefix": "\\n📝 ",
+            "hashtag": "\\n\\n#오늘의운동",
             "units": {
                 "km": "km",
                 "minutes": "분",

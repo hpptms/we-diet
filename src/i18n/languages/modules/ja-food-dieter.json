@@ -75,7 +75,7 @@
         ],
         "unifiedMealCard": {
             "title": "今日の食事記録",
-            "placeholder": "今日食べた食事や飲み物を自由に記録してください。\\n\\n例：\\n朝食：トースト、コーヒー\\n昼食：おにぎり2個、お茶\\n夕食：カレーライス、サラダ\\n間食：クッキー2枚",
+            "placeholder": "今日食べた食事や飲み物を自由に記録してください。\n\n例：\n朝食：トースト、コーヒー\n昼食：おにぎり2個、お茶\n夕食：カレーライス、サラダ\n間食：クッキー2枚",
             "description": "朝食・昼食・夕食・間食を自由に記録",
             "characterCount": "{current}/{max}文字",
             "characterLimitExceeded": "文字数制限を超えています。{count}文字削除してください。"
@@ -189,6 +189,29 @@
         },
         "recommendations": {
             "title": "おすすめユーザー"
+        },
+        "notifications": {
+            "title": "通知",
+            "empty": {
+                "title": "通知がありません",
+                "description": "新しい通知が届くとここに表示されます"
+            }
+        },
+        "messages": {
+            "noMessages": "メッセージはありません"
+        },
+        "followManagement": {
+            "title": "フォロー管理",
+            "back": "戻る",
+            "followers": "フォロワー",
+            "following": "フォロー中",
+            "blocked": "NG中",
+            "unfollow": "フォロー解除",
+            "unblock": "ブロック解除",
+            "noFollowers": "フォロワーはいません",
+            "noFollowing": "フォロー中のユーザーはいません",
+            "noBlocked": "NG中のユーザーはいません",
+            "fetchError": "フォロー情報の取得に失敗しました"
         }
     },
     "pages": {

@@ -6,19 +6,17 @@ export default defineConfig({
     plugins: [react()],
     server: {
         host: '0.0.0.0',
-        port: 80, // 元の設定に戻す
+        port: 3000, // Docker環境での正しいポート
         open: false,
         watch: {
             usePolling: true,
             interval: 300,
         },
         hmr: {
-            port: 80,
+            port: 3000,
             host: 'localhost'
-        },
-        proxy: {
-            '/api': 'http://localhost:8080'
         }
+        // プロキシ設定を削除（Nginxでプロキシ処理）
     },
     build: {
         outDir: 'build',

@@ -46,5 +46,19 @@
         "tryAgain": "Intentar de nuevo",
         "loginError": "Error de inicio de sesión: {error}",
         "contactSupport": "Contactar soporte"
+    },
+    "ui": {
+        "darkMode": "Modo Oscuro",
+        "logoutConfirmation": "Confirmación de Cierre de Sesión",
+        "logoutConfirmMessage": "¿Estás seguro de que quieres cerrar sesión?"
+    },
+    "pwa": {
+        "installed": "¡We Diet se ha añadido a tu pantalla de inicio!",
+        "iosInstallInstruction": "En Safari, toca \"Compartir\" → \"Añadir a pantalla de inicio\"",
+        "browserInstallInstruction": "Puedes instalar como PWA desde el menú superior derecho del navegador \"Instalar aplicación\"",
+        "unsupportedBrowser": "Este navegador no soporta la instalación de PWA",
+        "installing": "Instalando We Diet...",
+        "installCancelled": "La instalación fue cancelada",
+        "installError": "Ocurrió un error durante la instalación"
     }
 }

@@ -101,7 +101,15 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         installSnackbar,
         handleInstallClick,
         handleSnackbarClose,
-    } = usePWAInstall();
+    } = usePWAInstall({
+        installed: t('common', 'pwa.installed', {}, 'We Dietがホーム画面に追加されました！'),
+        iosInstallInstruction: t('common', 'pwa.iosInstallInstruction', {}, 'Safari で「共有」→「ホーム画面に追加」を選択してください'),
+        browserInstallInstruction: t('common', 'pwa.browserInstallInstruction', {}, 'ブラウザの右上メニュー「アプリをインストール」からPWAとしてインストールできます'),
+        unsupportedBrowser: t('common', 'pwa.unsupportedBrowser', {}, 'このブラウザではPWAインストールがサポートされていません'),
+        installing: t('common', 'pwa.installing', {}, 'We Dietをインストール中です...'),
+        installCancelled: t('common', 'pwa.installCancelled', {}, 'インストールがキャンセルされました'),
+        installError: t('common', 'pwa.installError', {}, 'インストール中にエラーが発生しました')
+    });
 
     const {
         currentView,

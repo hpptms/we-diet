@@ -167,15 +167,42 @@
             "searching": "검색 중...",
             "loading": "게시글 로딩 중...",
             "noPostsYet": "아직 게시글이 없습니다.<br />첫 번째 게시글을 작성해보세요!",
+            "noPosts": "아직 게시글이 없습니다.<br />첫 번째 게시글을 작성해보세요!",
+            "noFollowingPosts": "팔로우한 사용자의 게시글이 없습니다.<br />사용자를 팔로우하여 타임라인을 풍성하게 만들어보세요!",
             "loadingPosts": "게시글 로딩 중...",
             "noMorePosts": "더 이상 게시글이 없습니다"
         },
         "search": {
             "placeholder": "검색",
-            "title": "검색"
+            "title": "검색",
+            "resultsFor": "\"{searchQuery}\" 의 검색 결과",
+            "noResults": "\"{searchQuery}\" 와 일치하는 게시글을 찾을 수 없습니다.<br />다른 키워드로 검색해보세요."
         },
         "recommendations": {
             "title": "추천 사용자"
+        },
+        "notifications": {
+            "title": "알림",
+            "empty": {
+                "title": "알림이 없습니다",
+                "description": "새로운 알림이 도착하면 여기에 표시됩니다"
+            }
+        },
+        "messages": {
+            "noMessages": "메시지가 없습니다"
+        },
+        "followManagement": {
+            "title": "팔로우 관리",
+            "back": "돌아가기",
+            "followers": "팔로워",
+            "following": "팔로잉",
+            "blocked": "차단됨",
+            "unfollow": "팔로우 해제",
+            "unblock": "차단 해제",
+            "noFollowers": "팔로워가 없습니다",
+            "noFollowing": "팔로우하는 사용자가 없습니다",
+            "noBlocked": "차단된 사용자가 없습니다",
+            "fetchError": "팔로우 정보 로드에 실패했습니다"
         }
     },
     "pages": {

@@ -167,15 +167,42 @@
             "searching": "Buscando...",
             "loading": "Cargando publicaciones...",
             "noPostsYet": "Aún no hay publicaciones.<br />¡Haz tu primera publicación!",
+            "noPosts": "Aún no hay publicaciones.<br />¡Haz tu primera publicación!",
+            "noFollowingPosts": "No hay publicaciones de usuarios seguidos.<br />¡Sigue usuarios para enriquecer tu línea de tiempo!",
             "loadingPosts": "Cargando publicaciones...",
             "noMorePosts": "No hay más publicaciones"
         },
         "search": {
             "placeholder": "Buscar",
-            "title": "Buscar"
+            "title": "Buscar",
+            "resultsFor": "Resultados de búsqueda para \"{searchQuery}\"",
+            "noResults": "No se encontraron publicaciones que coincidan con \"{searchQuery}\".<br />Por favor, intenta buscar con palabras clave diferentes."
         },
         "recommendations": {
             "title": "Usuarios Recomendados"
+        },
+        "notifications": {
+            "title": "Notificaciones",
+            "empty": {
+                "title": "No hay notificaciones",
+                "description": "Las nuevas notificaciones aparecerán aquí cuando lleguen"
+            }
+        },
+        "messages": {
+            "noMessages": "No hay mensajes"
+        },
+        "followManagement": {
+            "title": "Gestión de Seguimiento",
+            "back": "Atrás",
+            "followers": "Seguidores",
+            "following": "Siguiendo",
+            "blocked": "Bloqueados",
+            "unfollow": "Dejar de seguir",
+            "unblock": "Desbloquear",
+            "noFollowers": "No hay seguidores",
+            "noFollowing": "No sigues a ningún usuario",
+            "noBlocked": "No hay usuarios bloqueados",
+            "fetchError": "Error al cargar información de seguimiento"
         }
     },
     "pages": {

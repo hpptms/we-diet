@@ -24,6 +24,7 @@ import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../recoil/darkModeAtom';
 import { postsApi } from '../../../api/postsApi';
 import { Notification, NotificationResponse } from '../types';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface NotificationsPageProps {
   onBack?: () => void;
@@ -32,6 +33,7 @@ interface NotificationsPageProps {
 
 const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotificationClick }) => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -214,7 +216,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
             </IconButton>
           )}
           <Typography variant="h5" sx={{ fontWeight: 'bold', flex: 1 }}>
-            通知
+            {t('dieter', 'notifications.title', {}, '通知')}
           </Typography>
           <IconButton
             onClick={handleRefresh}
@@ -244,13 +246,13 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
               variant="h6"
               sx={{ color: isDarkMode ? '#999999' : '#666666', mb: 1 }}
             >
-              通知がありません
+              {t('dieter', 'notifications.empty.title', {}, '通知がありません')}
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: isDarkMode ? '#777777' : '#999999' }}
             >
-              新しい通知が届くとここに表示されます
+              {t('dieter', 'notifications.empty.description', {}, '新しい通知が届くとここに表示されます')}
             </Typography>
           </Box>
         ) : (

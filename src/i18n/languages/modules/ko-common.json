@@ -46,5 +46,19 @@
         "tryAgain": "다시 시도",
         "loginError": "로그인 오류 발생: {error}",
         "contactSupport": "고객지원 문의"
+    },
+    "ui": {
+        "darkMode": "다크 모드",
+        "logoutConfirmation": "로그아웃 확인",
+        "logoutConfirmMessage": "로그아웃하시겠습니까?"
+    },
+    "pwa": {
+        "installed": "We Diet가 홈 화면에 추가되었습니다!",
+        "iosInstallInstruction": "Safari에서 \"공유\" → \"홈 화면에 추가\"를 선택하세요",
+        "browserInstallInstruction": "브라우저 우상단 메뉴의 \"앱 설치\"에서 PWA로 설치할 수 있습니다",
+        "unsupportedBrowser": "이 브라우저는 PWA 설치를 지원하지 않습니다",
+        "installing": "We Diet를 설치하는 중...",
+        "installCancelled": "설치가 취소되었습니다",
+        "installError": "설치 중 오류가 발생했습니다"
     }
 }

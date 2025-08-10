@@ -20,6 +20,7 @@ import { darkModeState } from '../../../recoil/darkModeAtom';
 import { serverProfileState } from '../../../recoil/profileSettingsAtom';
 import { postsApi } from '../../../api/postsApi';
 import { getBlockedUsers, unblockUser } from '../../../api/blockApi';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -65,6 +66,7 @@ interface FollowManagementProps {
 
 const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
   const serverProfile = useRecoilValue(serverProfileState);
   const [tabValue, setTabValue] = useState(0);
   const [followers, setFollowers] = useState<FollowUser[]>([]);
@@ -105,7 +107,7 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
       );
     } catch (error) {
       console.error('フォロー情報の取得に失敗しました:', error);
-      setError('フォロー情報の取得に失敗しました');
+      setError(t('dieter', 'followManagement.fetchError', {}, 'フォロー情報の取得に失敗しました'));
     } finally {
       setLoading(false);
     }
@@ -145,7 +147,12 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
               color: isDarkMode ? '#ffffff' : '#666666',
             }}
           >
-            {isFollowingTab ? 'フォロー中のユーザーはいません' : isBlockedTab ? 'NG中のユーザーはいません' : 'フォロワーはいません'}
+            {isFollowingTab 
+              ? t('dieter', 'followManagement.noFollowing', {}, 'フォロー中のユーザーはいません') 
+              : isBlockedTab 
+                ? t('dieter', 'followManagement.noBlocked', {}, 'NG中のユーザーはいません')
+                : t('dieter', 'followManagement.noFollowers', {}, 'フォロワーはいません')
+            }
           </Typography>
         </Box>
       );
@@ -198,7 +205,7 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
                   },
                 }}
               >
-                フォロー解除
+                {t('dieter', 'followManagement.unfollow', {}, 'フォロー解除')}
               </Button>
             )}
             {isBlockedTab && (
@@ -215,7 +222,7 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
                   },
                 }}
               >
-                ブロック解除
+                {t('dieter', 'followManagement.unblock', {}, 'ブロック解除')}
               </Button>
             )}
           </ListItem>
@@ -257,7 +264,7 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
                 color: isDarkMode ? '#ffffff' : '#1976d2',
               }}
             >
-              フォロー管理
+              {t('dieter', 'followManagement.title', {}, 'フォロー管理')}
             </Typography>
             {onBack && (
               <Button 
@@ -268,7 +275,7 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
                   color: '#29b6f6',
                 }}
               >
-                戻る
+                {t('dieter', 'followManagement.back', {}, '戻る')}
               </Button>
             )}
           </Box>
@@ -291,17 +298,17 @@ const FollowManagement: React.FC<FollowManagementProps> = ({ onBack }) => {
               }}
             >
               <Tab 
-                label={`フォロワー (${followers ? followers.length : 0})`} 
+                label={`${t('dieter', 'followManagement.followers', {}, 'フォロワー')} (${followers ? followers.length : 0})`} 
                 id="follow-tab-0"
                 aria-controls="follow-tabpanel-0"
               />
               <Tab 
-                label={`フォロー中 (${following ? following.length : 0})`} 
+                label={`${t('dieter', 'followManagement.following', {}, 'フォロー中')} (${following ? following.length : 0})`} 
                 id="follow-tab-1"
                 aria-controls="follow-tabpanel-1"
               />
               <Tab 
-                label={`NG中 (${blockedUsers ? blockedUsers.length : 0})`} 
+                label={`${t('dieter', 'followManagement.blocked', {}, 'NG中')} (${blockedUsers ? blockedUsers.length : 0})`} 
                 id="follow-tab-2"
                 aria-controls="follow-tabpanel-2"
                 sx={{

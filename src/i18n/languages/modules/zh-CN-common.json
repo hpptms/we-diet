@@ -46,5 +46,19 @@
         "tryAgain": "重试",
         "loginError": "登录出错: {error}",
         "contactSupport": "联系客服"
+    },
+    "ui": {
+        "darkMode": "深色模式",
+        "logoutConfirmation": "退出确认",
+        "logoutConfirmMessage": "确定要退出登录吗？"
+    },
+    "pwa": {
+        "installed": "We Diet已添加到主屏幕！",
+        "iosInstallInstruction": "在Safari中，点击\"分享\"→\"添加到主屏幕\"",
+        "browserInstallInstruction": "您可以从浏览器右上角菜单\"安装应用\"安装为PWA",
+        "unsupportedBrowser": "此浏览器不支持PWA安装",
+        "installing": "正在安装We Diet...",
+        "installCancelled": "安装已取消",
+        "installError": "安装过程中发生错误"
     }
 }

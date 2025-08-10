@@ -163,7 +163,7 @@
             "dieterPostFailed": "El registro de ejercicio fue guardado, pero falló la creación de la publicación en Dieter."
         },
         "postMessages": {
-            "todayCalories": "¡Hoy quemé aproximadamente {calories} calorías! 🔥\\\\n\\\\n",
+            "todayCalories": "¡Hoy quemé aproximadamente {calories} calorías! 🔥\\n\\n",
             "walkingActivity": "🚶 Caminar: ",
             "runningActivity": "🏃 Correr: ",
             "pushUpsActivity": "💪 Flexiones: ",
@@ -171,8 +171,8 @@
             "squatsActivity": "🏋️ Sentadillas: ",
             "otherActivity": "🔥 Otro ejercicio: ",
             "weightRecord": "⚖️ Peso de hoy: ",
-            "notePrefix": "\\\\n�� ",
-            "hashtag": "\\\\n\\\\n#EjercicioDeHoy",
+            "notePrefix": "\\n📝 ",
+            "hashtag": "\\n\\n#EjercicioDeHoy",
             "units": {
                 "km": "km",
                 "minutes": "min",

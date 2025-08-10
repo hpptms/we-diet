@@ -164,9 +164,10 @@ const MainContent: React.FC<MainContentProps> = ({
                   fontSize: '1rem',
                   textAlign: 'center'
                 }}
-              >
-                {t('dieter', 'search.noResults', {}, '"{searchQuery}" に一致する投稿が見つかりませんでした。<br />別のキーワードで検索してみてください。').replace('{searchQuery}', searchQuery)}
-              </Typography>
+                dangerouslySetInnerHTML={{
+                  __html: t('dieter', 'search.noResults', {}, '"{searchQuery}" に一致する投稿が見つかりませんでした。<br />別のキーワードで検索してみてください。').replace('{searchQuery}', searchQuery)
+                }}
+              />
             </Box>
           ) : (
             filterSensitivePosts(searchResults)
@@ -222,12 +223,12 @@ const MainContent: React.FC<MainContentProps> = ({
                   fontSize: '1rem',
                   textAlign: 'center'
                 }}
-              >
-                {showFollowingPosts 
-                  ? t('dieter', 'timeline.noFollowingPosts', {}, 'フォロー中のユーザーの投稿がありません。<br />ユーザーをフォローしてタイムラインを充実させましょう！')
-                  : t('dieter', 'timeline.noPosts', {}, 'まだ投稿がありません。<br />最初の投稿をしてみましょう！')
-                }
-              </Typography>
+                dangerouslySetInnerHTML={{
+                  __html: showFollowingPosts 
+                    ? t('dieter', 'timeline.noFollowingPosts', {}, 'フォロー中のユーザーの投稿がありません。<br />ユーザーをフォローしてタイムラインを充実させましょう！')
+                    : t('dieter', 'timeline.noPosts', {}, 'まだ投稿がありません。<br />最初の投稿をしてみましょう！')
+                }}
+              />
             </Box>
           ) : (
             filterSensitivePosts(posts)

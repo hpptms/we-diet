@@ -26,7 +26,7 @@
         "syncSuccess": "设备同步完成！",
         "syncFailed": "设备同步过程中发生错误。请重试。",
         "syncPermissionTitle": "📱 与设备同步？",
-        "syncPermissionMessage": "从您智能手机的健身功能获取运动数据，并自动反映到输入字段中。\n\n可获取的数据：\n• 步数\n• 移动距离\n• 活动时间\n\n需要传感器访问权限。",
+        "syncPermissionMessage": "从您智能手机的健身功能获取运动数据，并自动反映到输入字段中。\\n\\n可获取的数据：\\n• 步数\\n• 移动距离\\n• 活动时间\\n\\n需要传感器访问权限。",
         "syncPermissionYes": "是的，同步",
         "syncPermissionNo": "不",
         "overwriteTitle": "确认覆盖现有数据",
@@ -51,7 +51,7 @@
             "steps": "步",
             "kg": "kg"
         },
-        "googleFitConnectSuccess": "Google Fit连接完成！\\n请再次按下\"与设备同步\"按钮获取数据。",
+        "googleFitConnectSuccess": "Google Fit连接完成！\\nPresiona el botón 'Sincronizar con Dispositivo' de nuevo para obtener datos。",
         "googleFitAuthFailed": "Google Fit认证失败: {error}",
         "healthAppSelection": "🏃‍♂️ 选择健康应用",
         "healthAppMessage": "与您的Android设备的健康应用连接\\n以获取健身数据。",
@@ -163,7 +163,7 @@
             "dieterPostFailed": "运动记录已保存，但无法创建Dieter帖子。"
         },
         "postMessages": {
-            "todayCalories": "今天大约消耗了{calories}卡路里！🔥\\\\n\\\\n",
+            "todayCalories": "今天大约消耗了{calories}卡路里！🔥\\n\\n",
             "walkingActivity": "🚶 步行: ",
             "runningActivity": "🏃 跑步: ",
             "pushUpsActivity": "💪 俯卧撑: ",
@@ -171,8 +171,8 @@
             "squatsActivity": "🏋️ 深蹲: ",
             "otherActivity": "🔥 其他运动: ",
             "weightRecord": "⚖️ 今日体重: ",
-            "notePrefix": "\\\\n📝 ",
-            "hashtag": "\\\\n\\\\n#今日运动",
+            "notePrefix": "\\n📝 ",
+            "hashtag": "\\n\\n#今日运动",
             "units": {
                 "km": "km",
                 "minutes": "分钟",

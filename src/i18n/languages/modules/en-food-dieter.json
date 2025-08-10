@@ -178,15 +178,42 @@
             "searching": "Searching...",
             "loading": "Loading posts...",
             "noPostsYet": "No posts yet.<br />Let's make your first post!",
+            "noPosts": "No posts yet.<br />Let's make your first post!",
+            "noFollowingPosts": "No posts from followed users.<br />Follow users to enrich your timeline!",
             "loadingPosts": "Loading posts...",
             "noMorePosts": "No more posts"
         },
         "search": {
             "placeholder": "Search",
-            "title": "Search"
+            "title": "Search",
+            "resultsFor": "Search results for \"{searchQuery}\"",
+            "noResults": "No posts found matching \"{searchQuery}\".<br />Please try searching with different keywords."
         },
         "recommendations": {
             "title": "Recommended Users"
+        },
+        "notifications": {
+            "title": "Notifications",
+            "empty": {
+                "title": "No notifications",
+                "description": "New notifications will appear here when they arrive"
+            }
+        },
+        "messages": {
+            "noMessages": "No messages"
+        },
+        "followManagement": {
+            "title": "Follow Management",
+            "back": "Back",
+            "followers": "Followers",
+            "following": "Following",
+            "blocked": "Blocked",
+            "unfollow": "Unfollow",
+            "unblock": "Unblock",
+            "noFollowers": "No followers",
+            "noFollowing": "No following users",
+            "noBlocked": "No blocked users",
+            "fetchError": "Failed to load follow information"
         }
     },
     "pages": {
