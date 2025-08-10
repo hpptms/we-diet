@@ -33,6 +33,8 @@ import {
 } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
+import * as adminApi from '../../api/adminApi';
+import { AdminUser, AdminPost, GetUsersResponse, GetPostsResponse } from '../../proto/admin';
 
 interface DebugLogEntry {
   id: number;
@@ -56,53 +58,6 @@ interface DebugLogResponse {
   offset: number;
 }
 
-// ユーザー管理用インターフェース
-interface User {
-  ID: number;
-  UserName: string;
-  Email: string;
-  Picture: string;
-  Permission: number;
-  Subscribe: boolean;
-  EmailVerified: boolean;
-  CreatedAt: string;
-  UpdatedAt: string;
-}
-
-interface UsersResponse {
-  success: boolean;
-  users: User[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-  };
-}
-
-// 投稿管理用インターフェース
-interface Post {
-  ID: number;
-  UserID: number;
-  Content: string;
-  AuthorName: string;
-  AuthorPicture: string;
-  IsPublic: boolean;
-  IsHide: boolean;
-  Karma: number;
-  CreatedAt: string;
-  UpdatedAt: string;
-  User?: User;
-}
-
-interface PostsResponse {
-  success: boolean;
-  posts: Post[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-  };
-}
 
 interface DebugLogViewerProps {
   onBack: () => void;
@@ -125,16 +80,16 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
   const [filterLogLevel, setFilterLogLevel] = useState('');
 
   // ユーザー管理用の状態
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<AdminUser[]>([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const [usersTotalCount, setUsersTotalCount] = useState(0);
   const [usersPage, setUsersPage] = useState(1);
   const [usersLimit, setUsersLimit] = useState(20);
   const [usersSearch, setUsersSearch] = useState('');
-  const [deleteUserDialog, setDeleteUserDialog] = useState<{ open: boolean; user?: User }>({ open: false });
+  const [deleteUserDialog, setDeleteUserDialog] = useState<{ open: boolean; user?: AdminUser }>({ open: false });
 
   // 投稿管理用の状態
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<AdminPost[]>([]);
   const [postsLoading, setPostsLoading] = useState(false);
   const [postsTotalCount, setPostsTotalCount] = useState(0);
   const [postsPage, setPostsPage] = useState(1);
@@ -142,7 +97,7 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
   const [showHiddenPosts, setShowHiddenPosts] = useState(false);
   const [postsUserIdFilter, setPostsUserIdFilter] = useState('');
   const [minKarmaFilter, setMinKarmaFilter] = useState('');
-  const [deletePostDialog, setDeletePostDialog] = useState<{ open: boolean; post?: Post }>({ open: false });
+  const [deletePostDialog, setDeletePostDialog] = useState<{ open: boolean; post?: AdminPost }>({ open: false });
 
   const fetchDebugLogs = async () => {
     setLoading(true);
@@ -219,7 +174,7 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
 
       if (!response.ok) throw new Error('Failed to fetch users');
       
-      const data: UsersResponse = await response.json();
+      const data: GetUsersResponse = await response.json();
       setUsers(data.users || []);
       setUsersTotalCount(data.pagination.total);
     } catch (error) {
@@ -250,7 +205,7 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
 
       if (!response.ok) throw new Error('Failed to fetch posts');
       
-      const data: PostsResponse = await response.json();
+      const data: GetPostsResponse = await response.json();
       setPosts(data.posts || []);
       setPostsTotalCount(data.pagination.total);
     } catch (error) {
