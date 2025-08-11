@@ -186,13 +186,3 @@ backend/
 ├── 📦 go.mod                # Go modules configuration
 └── 🐳 Dockerfile            # Docker configuration
 ```
-
-## 📄 License
-
-This project is published under the [MIT License](LICENSE).
-
-## 📞 Support & Contact
-
-- 🌐 **Official Site**: [https://we-diat.com/](https://we-diat.com/)
-- 📧 **Email**: support@we-diat.com
-- 🐛 **Bug Reports**: Please use GitHub Issues
