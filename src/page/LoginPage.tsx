@@ -195,11 +195,18 @@ const LoginPage: React.FC = () => {
       );
       console.log("ログイン成功:", response.data);
       
-      // レスポンスからアカウント名とユーザーIDを取得しlocalStorageに保存
+      // レスポンスからアカウント名とユーザーIDとJWTトークンを取得しlocalStorageに保存
       const data = response.data;
       localStorage.setItem("accountName", data.accountName || email);
       localStorage.setItem("user_id", String(data.userId || data.user_id || 2));
-      console.log("localStorageに保存:", data.accountName || email, "user_id:", data.userId || data.user_id);
+      
+      // JWTトークンを保存
+      if (data.token) {
+        localStorage.setItem("jwt_token", data.token);
+        console.log("JWTトークンを保存しました");
+      }
+      
+      console.log("localStorageに保存:", data.accountName || email, "user_id:", data.userId || data.user_id, "token:", data.token ? "あり" : "なし");
       
       // ログイン成功後、プロフィールを取得
       await fetchUserProfileAfterLogin(data.userId || data.user_id || 2);

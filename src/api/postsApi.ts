@@ -236,29 +236,27 @@ const getAuthHeaders = (): Record<string, string> => {
 export const postsApi = {
     // 投稿一覧取得（公開エンドポイント）
     async getPosts(page: number = 1, limit: number = 20): Promise<PostsResponse> {
-        // protobufリクエスト型・レスポンス型をimport
-        // import { GetPostsRequest, PostsResponse } from '../proto/dieter';
         const token = getAuthToken();
         const headers: Record<string, string> = {
-            'Content-Type': 'application/x-protobuf',
-            'Accept': 'application/x-protobuf',
+            'Content-Type': 'application/json',
         };
         if (token) {
             headers['Authorization'] = `Bearer ${token}`;
         }
-        // protobufリクエストはクエリパラメータではなくbodyで送る場合はPOST/PUTだが、GETの場合はクエリでOK
-        const response = await axios.get(
+
+        const response = await fetch(
             `${API_BASE_URL}/public/posts?page=${page}&limit=${limit}`,
             {
+                method: 'GET',
                 headers,
-                responseType: 'arraybuffer',
             }
         );
-        // protobufデコード
-        // import { PostsResponse } from '../proto/dieter';
-        const reader = new Uint8Array(response.data);
-        // @ts-ignore
-        return require('../proto/dieter').PostsResponse.fromBinary(reader);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch posts');
+        }
+
+        return response.json();
     },
 
     // フォロー中ユーザーの投稿一覧取得（認証付きエンドポイント）
@@ -473,10 +471,25 @@ export const postsApi = {
 
     // フォロー・フォロワー数取得（認証付きエンドポイント）
     async getFollowCounts(): Promise<{ following_count: number; follower_count: number }> {
+        const token = getAuthToken();
+        if (!token) {
+            // トークンがない場合はデフォルト値を返す
+            return { following_count: 0, follower_count: 0 };
+        }
+
         const response = await fetch(`${API_BASE_URL}/api/users/follow-counts`, {
             method: 'GET',
             headers: getAuthHeaders(),
         });
+
+        if (response.status === 401) {
+            // 認証エラーの場合はトークンを削除してデフォルト値を返す
+            localStorage.removeItem('jwt_token');
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('token');
+            return { following_count: 0, follower_count: 0 };
+        }
+
         if (!response.ok) {
             throw new Error('Failed to fetch follow counts');
         }
@@ -528,10 +541,23 @@ export const postsApi = {
 
     // 未読通知数取得（認証付きエンドポイント）
     async getUnreadNotificationCount(): Promise<{ unread_count: number }> {
+        const token = getAuthToken();
+        if (!token) {
+            return { unread_count: 0 };
+        }
+
         const response = await fetch(`${API_BASE_URL}/api/notifications/unread-count`, {
             method: 'GET',
             headers: getAuthHeaders(),
         });
+
+        if (response.status === 401) {
+            localStorage.removeItem('jwt_token');
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('token');
+            return { unread_count: 0 };
+        }
+
         if (!response.ok) {
             throw new Error('Failed to fetch unread notification count');
         }
@@ -585,10 +611,23 @@ export const postsApi = {
 
     // 未読メッセージ数取得（認証付きエンドポイント）
     async getUnreadMessageCount(): Promise<{ unread_count: number }> {
+        const token = getAuthToken();
+        if (!token) {
+            return { unread_count: 0 };
+        }
+
         const response = await fetch(`${API_BASE_URL}/api/messages/unread-count`, {
             method: 'GET',
             headers: getAuthHeaders(),
         });
+
+        if (response.status === 401) {
+            localStorage.removeItem('jwt_token');
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('token');
+            return { unread_count: 0 };
+        }
+
         if (!response.ok) {
             throw new Error('Failed to fetch unread message count');
         }

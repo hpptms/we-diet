@@ -553,11 +553,22 @@ export const dieterApi = {
     // フォロー・フォロワー数取得（認証付きエンドポイント）
     async getFollowCounts(): Promise<{ following_count: number; follower_count: number }> {
         try {
+            const token = getAuthToken();
+            if (!token) {
+                return { following_count: 0, follower_count: 0 };
+            }
+
             const response = await axios.get(`${API_BASE_URL}/api/users/follow-counts`, {
                 headers: getAuthHeaders(),
             });
             return response.data;
-        } catch (error) {
+        } catch (error: any) {
+            if (error.response?.status === 401) {
+                localStorage.removeItem('jwt_token');
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('token');
+                return { following_count: 0, follower_count: 0 };
+            }
             console.error('Failed to fetch follow counts:', error);
             throw error;
         }
@@ -612,11 +623,22 @@ export const dieterApi = {
     // 未読通知数取得（認証付きエンドポイント）
     async getUnreadNotificationCount(): Promise<{ unread_count: number }> {
         try {
+            const token = getAuthToken();
+            if (!token) {
+                return { unread_count: 0 };
+            }
+
             const response = await axios.get(`${API_BASE_URL}/api/notifications/unread-count`, {
                 headers: getAuthHeaders(),
             });
             return response.data;
-        } catch (error) {
+        } catch (error: any) {
+            if (error.response?.status === 401) {
+                localStorage.removeItem('jwt_token');
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('token');
+                return { unread_count: 0 };
+            }
             console.error('Failed to fetch unread notification count:', error);
             throw error;
         }
@@ -672,11 +694,22 @@ export const dieterApi = {
     // 未読メッセージ数取得（認証付きエンドポイント）
     async getUnreadMessageCount(): Promise<{ unread_count: number }> {
         try {
+            const token = getAuthToken();
+            if (!token) {
+                return { unread_count: 0 };
+            }
+
             const response = await axios.get(`${API_BASE_URL}/api/messages/unread-count`, {
                 headers: getAuthHeaders(),
             });
             return response.data;
-        } catch (error) {
+        } catch (error: any) {
+            if (error.response?.status === 401) {
+                localStorage.removeItem('jwt_token');
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('token');
+                return { unread_count: 0 };
+            }
             console.error('Failed to fetch unread message count:', error);
             throw error;
         }

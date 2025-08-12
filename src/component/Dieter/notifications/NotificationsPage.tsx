@@ -19,6 +19,7 @@ import {
   Repeat as RetweetIcon,
   Comment as CommentIcon,
   Refresh as RefreshIcon,
+  AlternateEmail as MentionIcon,
 } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../recoil/darkModeAtom';
@@ -150,6 +151,8 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
         return <RetweetIcon sx={{ color: '#4caf50', fontSize: 20 }} />;
       case 'comment':
         return <CommentIcon sx={{ color: '#2196f3', fontSize: 20 }} />;
+      case 'mention':
+        return <MentionIcon sx={{ color: '#ff9800', fontSize: 20 }} />;
       default:
         return null;
     }
@@ -164,6 +167,8 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
         return `${actorName}さんがあなたの投稿をリツイートしました`;
       case 'comment':
         return `${actorName}さんがあなたの投稿にコメントしました`;
+      case 'mention':
+        return `${actorName}さんがあなたをメンションしました`;
       default:
         return `${actorName}さんからの通知`;
     }

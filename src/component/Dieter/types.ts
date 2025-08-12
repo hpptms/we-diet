@@ -90,7 +90,7 @@ export interface Notification {
     user_id: number;
     actor_id: number;
     post_id: number;
-    type: 'like' | 'retweet' | 'comment';
+    type: 'like' | 'retweet' | 'comment' | 'mention';
     is_read: boolean;
     created_at: string;
     updated_at: string;

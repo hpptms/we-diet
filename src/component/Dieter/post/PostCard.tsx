@@ -45,6 +45,9 @@ import { DEFAULT_IMAGES } from '../../../image/DefaultImage';
 import UserProfileModal from '../profile/UserProfileModal';
 import { useFollowContextOptional } from '../../../context/FollowContext';
 import ImageLightbox from './ImageLightbox';
+import LinkPreview from './LinkPreview';
+import MediaPlayer from './MediaPlayer';
+import { extractUrls, createLinkPreview, createMediaEmbed } from '../../../utils/linkPreview';
 
 interface PostCardProps {
   post: Post;
@@ -81,6 +84,10 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
   // フォローコンテキストを取得（オプション）
   const followContext = useFollowContextOptional();
 
+  // リンクプレビューとメディア関連の状態
+  const [linkPreviews, setLinkPreviews] = React.useState<Array<{url: string, preview: any}>>([]);
+  const [mediaEmbeds, setMediaEmbeds] = React.useState<Array<any>>([]);
+
   // リツイート表示用の時間フォーマット関数
   const formatRetweetTimestamp = (timestamp: string) => {
     const date = new Date(timestamp);
@@ -113,6 +120,41 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
     setRetweetCount(post.Retweets?.length || 0);
     setLikeCount(post.Likes?.length || 0);
   }, [post.Retweets, post.Likes, serverProfile.userId]);
+
+  // 投稿内容からリンクを解析してプレビューとメディアを生成
+  React.useEffect(() => {
+    const processLinks = async () => {
+      if (!post.Content) return;
+
+      const urls = extractUrls(post.Content);
+      
+      if (urls.length === 0) {
+        setLinkPreviews([]);
+        setMediaEmbeds([]);
+        return;
+      }
+
+      const previews: Array<{url: string, preview: any}> = [];
+      const embeds: Array<any> = [];
+
+      for (const url of urls) {
+        // メディア埋め込みを最初にチェック
+        const mediaEmbed = createMediaEmbed(url);
+        if (mediaEmbed) {
+          embeds.push(mediaEmbed);
+        } else {
+          // メディアでない場合はリンクプレビューを作成
+          const preview = createLinkPreview(url);
+          previews.push({ url, preview });
+        }
+      }
+
+      setLinkPreviews(previews);
+      setMediaEmbeds(embeds);
+    };
+
+    processLinks();
+  }, [post.Content]);
   
   
   // タイムスタンプを日本時間で表示
@@ -573,7 +615,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
         >
           {post.AuthorName ? post.AuthorName.charAt(0).toUpperCase() : 'U'}
         </Avatar>
-        <Box flex={1}>
+        <Box flex={1} sx={{ 
+          minWidth: 0,
+          maxWidth: '100%',
+          overflow: 'hidden'
+        }}>
           <Box display="flex" alignItems="center" gap={2} mb={2}>
             <Typography variant="subtitle1" sx={{ 
               fontWeight: 600,
@@ -596,10 +642,33 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
             mb: 3, 
             lineHeight: 1.6,
             fontSize: '1.1rem',
-            color: isDarkMode ? '#ffffff' : '#37474f'
+            color: isDarkMode ? '#ffffff' : '#37474f',
+            maxWidth: '100%',
+            wordBreak: 'break-word',
+            overflowWrap: 'anywhere',
+            overflow: 'hidden'
           }}>
             {post.Content}
           </Typography>
+
+          {/* メディアプレイヤー */}
+          {mediaEmbeds.map((media, index) => (
+            <MediaPlayer
+              key={`media-${post.ID}-${index}`}
+              media={media}
+            />
+          ))}
+
+          {/* リンクプレビュー */}
+          {linkPreviews.map((item, index) => (
+            <Box key={`link-${post.ID}-${index}`} sx={{ 
+              mb: 2,
+              maxWidth: '100%',
+              overflow: 'hidden'
+            }}>
+              <LinkPreview preview={item.preview} />
+            </Box>
+          ))}
           {/* 複数画像対応 */}
           {(post.Images && post.Images.length > 0) ? (
             <Box mb={3}>
