@@ -13,8 +13,10 @@ import TiktokLoginButton from "../component/TiktokLoginButton";
 import LineLoginButton from "../component/LineLoginButton";
 import { useSetRecoilState } from "recoil";
 import { serverProfileState, profileSettingsState, convertServerProfileToLocalProfile } from "../recoil/profileSettingsAtom";
+import { useTranslation } from "../hooks/useTranslation";
 
 const LoginPage: React.FC = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -39,7 +41,7 @@ const LoginPage: React.FC = () => {
     setRegisterError("");
     setRegisterSuccess("");
     if (!registerEmail) {
-      setRegisterError("メールアドレスを入力してください");
+      setRegisterError(t('auth', 'enterEmailAddress', {}, 'メールアドレスを入力してください'));
       return;
     }
     try {
@@ -53,7 +55,7 @@ const LoginPage: React.FC = () => {
           },
         }
       );
-      setRegisterSuccess(response.data.message || "確認メールを送信しました。メールをご確認ください。");
+      setRegisterSuccess(response.data.message || t('auth', 'sendVerificationEmail', {}, '確認メールを送信しました。メールをご確認ください。'));
       setRegisterEmail("");
       setTimeout(() => {
         setShowEmailModal(false);
@@ -61,9 +63,9 @@ const LoginPage: React.FC = () => {
       }, 2000);
     } catch (err: any) {
       if (err.response && err.response.data) {
-        setRegisterError(err.response.data.error || err.response.data.message || "送信に失敗しました");
+        setRegisterError(err.response.data.error || err.response.data.message || t('auth', 'sendingFailed', {}, '送信に失敗しました'));
       } else {
-        setRegisterError("送信に失敗しました");
+        setRegisterError(t('auth', 'sendingFailed', {}, '送信に失敗しました'));
       }
     }
   };
@@ -96,28 +98,28 @@ const LoginPage: React.FC = () => {
       let errorMessage = '';
       switch (errorParam) {
         case 'user_creation':
-          errorMessage = 'ユーザー作成に失敗しました。しばらく時間をおいて再度お試しください。';
+          errorMessage = t('auth', 'userCreationError', {}, 'ユーザー作成に失敗しました。しばらく時間をおいて再度お試しください。');
           break;
         case 'invalid_state':
-          errorMessage = 'セキュリティエラーが発生しました。再度ログインをお試しください。';
+          errorMessage = t('auth', 'invalidStateError', {}, 'セキュリティエラーが発生しました。再度ログインをお試しください。');
           break;
         case 'token_exchange':
-          errorMessage = '認証トークンの取得に失敗しました。再度ログインをお試しください。';
+          errorMessage = t('auth', 'tokenExchangeError', {}, '認証トークンの取得に失敗しました。再度ログインをお試しください。');
           break;
         case 'service_creation':
-          errorMessage = 'サービス接続エラーが発生しました。再度ログインをお試しください。';
+          errorMessage = t('auth', 'serviceCreationError', {}, 'サービス接続エラーが発生しました。再度ログインをお試しください。');
           break;
         case 'userinfo':
-          errorMessage = 'ユーザー情報の取得に失敗しました。再度ログインをお試しください。';
+          errorMessage = t('auth', 'userinfoError', {}, 'ユーザー情報の取得に失敗しました。再度ログインをお試しください。');
           break;
         case 'db_error':
-          errorMessage = 'データベースエラーが発生しました。管理者にお問い合わせください。';
+          errorMessage = t('auth', 'dbError', {}, 'データベースエラーが発生しました。管理者にお問い合わせください。');
           break;
         case 'jwt_generation':
-          errorMessage = '認証処理に失敗しました。再度ログインをお試しください。';
+          errorMessage = t('auth', 'jwtGenerationError', {}, '認証処理に失敗しました。再度ログインをお試しください。');
           break;
         default:
-          errorMessage = 'ログイン処理中にエラーが発生しました。再度お試しください。';
+          errorMessage = t('auth', 'loginProcessError', {}, 'ログイン処理中にエラーが発生しました。再度お試しください。');
       }
       setError(errorMessage);
       
@@ -134,12 +136,12 @@ const LoginPage: React.FC = () => {
     setError("");
     
     if (password !== confirmPassword) {
-      setError("パスワードが一致しません");
+      setError(t('auth', 'passwordMismatch', {}, 'パスワードが一致しません'));
       return;
     }
     
     if (password.length < 6) {
-      setError("パスワードは6文字以上である必要があります");
+      setError(t('auth', 'passwordTooShort', {}, 'パスワードは6文字以上である必要があります'));
       return;
     }
     
@@ -168,7 +170,7 @@ const LoginPage: React.FC = () => {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError("パスワード設定に失敗しました");
+        setError(t('auth', 'passwordSetFailed', {}, 'パスワード設定に失敗しました'));
       }
     }
   };
@@ -208,7 +210,7 @@ const LoginPage: React.FC = () => {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError("ログインに失敗しました");
+        setError(t('auth', 'loginFailed', {}, 'ログインに失敗しました'));
       }
     }
   };
@@ -303,7 +305,7 @@ const LoginPage: React.FC = () => {
               textAlign: 'center',
             }}
           >
-            {isPasswordSetMode ? 'パスワード設定' : 'ログイン'}
+            {isPasswordSetMode ? t('auth', 'passwordSet', {}, 'パスワード設定') : t('auth', 'login', {}, 'ログイン')}
           </Typography>
           {isPasswordSetMode && (
             <Typography 
@@ -314,8 +316,8 @@ const LoginPage: React.FC = () => {
                 color: 'text.secondary',
               }}
             >
-              メール認証が完了しました。<br />
-              アカウントのパスワードを設定してください。
+              {t('auth', 'emailVerificationComplete', {}, 'メール認証が完了しました。')}<br />
+              {t('auth', 'setPasswordInstructions', {}, 'アカウントのパスワードを設定してください。')}
             </Typography>
           )}
           <form 
@@ -330,7 +332,7 @@ const LoginPage: React.FC = () => {
           >
             <Box sx={{ width: "100%", mb: 2 }}>
               <label style={{ width: "100%", display: "block" }}>
-                メールアドレス
+                {t('auth', 'email', {}, 'メールアドレス')}
                 <input
                   type="email"
                   value={email}
@@ -342,13 +344,13 @@ const LoginPage: React.FC = () => {
             </Box>
             <Box sx={{ width: "100%", mb: 2 }}>
               <label style={{ width: "100%", display: "block" }}>
-                {isPasswordSetMode ? '新しいパスワード' : 'パスワード'}
+                {isPasswordSetMode ? t('auth', 'newPassword', {}, '新しいパスワード') : t('auth', 'password', {}, 'パスワード')}
                 <input
                   type="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
-                  placeholder={isPasswordSetMode ? '6文字以上のパスワードを入力' : ''}
+                  placeholder={isPasswordSetMode ? t('auth', 'passwordMinLength', {}, '6文字以上のパスワードを入力') : ''}
                   style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
                 />
               </label>
@@ -356,13 +358,13 @@ const LoginPage: React.FC = () => {
             {isPasswordSetMode && (
               <Box sx={{ width: "100%", mb: 2 }}>
                 <label style={{ width: "100%", display: "block" }}>
-                  パスワード確認
+                  {t('auth', 'confirmPassword', {}, 'パスワード確認')}
                   <input
                     type="password"
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
                     required
-                    placeholder="パスワードを再入力してください"
+                    placeholder={t('auth', 'reenterPassword', {}, 'パスワードを再入力してください')}
                     style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
                   />
                 </label>
@@ -381,7 +383,7 @@ const LoginPage: React.FC = () => {
               startIcon={<MdLogin size={22} />}
               sx={{ py: 1.5, fontWeight: 500, fontSize: 16, borderRadius: 1, mt: 1 }}
             >
-              {isPasswordSetMode ? 'パスワードを設定' : 'ログイン'}
+              {isPasswordSetMode ? t('auth', 'setPassword', {}, 'パスワードを設定') : t('auth', 'login', {}, 'ログイン')}
             </Button>
           </form>
           {/* パスワード設定モード時はメール登録・ソーシャルログインボタンを非表示 */}

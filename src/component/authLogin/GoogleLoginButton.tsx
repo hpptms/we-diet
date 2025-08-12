@@ -1,7 +1,9 @@
 import React from "react";
 import { trackLogin } from "../../utils/googleAnalytics";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const GoogleLoginButton: React.FC = () => {
+  const { t } = useTranslation();
   const apiEndpoint = import.meta.env.VITE_API_BASE_URL || 'https://we-diet-backend.com/';
   
   // デバッグ用：環境変数の値をコンソールに出力
@@ -44,7 +46,7 @@ const GoogleLoginButton: React.FC = () => {
       alt="Google"
       style={{ width: 20, height: 20, marginRight: 8 }}
     />
-    Googleでログイン
+    {t('auth', 'loginWithGoogle', {}, 'Googleでログイン')}
     </button>
   );
 };
