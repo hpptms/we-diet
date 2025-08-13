@@ -4,7 +4,7 @@ A comprehensive web application supporting diet and fitness! A modern SNS commun
 
 ## 🌐 Live Application
 
-Visit our official site: [https://we-diat.com/](https://we-diat.com/) 🌟
+Visit our official site: [https://we-diet.net/](https://we-diet.net/) 🌟
 
 ## 🎯 Main Features
 

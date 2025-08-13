@@ -128,11 +128,11 @@ User-agent: DataForSeoBot
 Disallow: /
 
 # サイトマップの指定
-Sitemap: https://we-diat.com/sitemap.xml
-Sitemap: https://we-diat.com/sitemap_multilang.xml
+Sitemap: https://we-diet.net/sitemap.xml
+Sitemap: https://we-diet.net/sitemap_multilang.xml
 
 # デフォルトクローリング頻度の推奨
 Crawl-delay: 2
 
 # ホストの指定（推奨）
-Host: https://we-diat.com
+Host: https://we-diet.net

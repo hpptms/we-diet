@@ -26,7 +26,7 @@ if (typeof window !== 'undefined') {
 export const initGA = () => {
     try {
         // 本番環境でのみGoogle Analyticsを初期化
-        if (window.location.hostname === 'we-diat.com') {
+        if (window.location.hostname === 'we-diet.net') {
             ReactGA.initialize(MEASUREMENT_ID, {
                 testMode: false,
                 gaOptions: {

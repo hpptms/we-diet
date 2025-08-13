@@ -47,7 +47,7 @@ const DataDeletion: React.FC = () => {
         margin: '20px 0' 
       }}>
         <p><strong>データ削除依頼先:</strong></p>
-        <p>メールアドレス: <a href="mailto:data-deletion@we-diat.com">data-deletion@we-diat.com</a></p>
+        <p>メールアドレス: <a href="mailto:data-deletion@we-diet.net">data-deletion@we-diet.net</a></p>
         <p><strong>件名:</strong> データ削除依頼</p>
         <p><strong>本文に記載する情報:</strong></p>
         <ul>
@@ -86,7 +86,7 @@ const DataDeletion: React.FC = () => {
         データ削除に関するご質問がございましたら、以下までお問い合わせください：
       </p>
       <p>
-        メールアドレス: <a href="mailto:support@we-diat.com">support@we-diat.com</a><br/>
+        メールアドレス: <a href="mailto:support@we-diet.net">support@we-diet.net</a><br/>
         件名: データ削除に関する問い合わせ
       </p>
 

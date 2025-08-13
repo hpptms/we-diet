@@ -4,7 +4,7 @@
     "name": "We Diet",
     "alternateName": "ウィーダイエット",
     "description": "ダイエットと健康管理をサポートするソーシャルプラットフォーム。体重記録、食事管理、運動記録をSNS機能と組み合わせて、持続可能な健康習慣を実現。",
-    "url": "https://we-diat.com",
+    "url": "https://we-diet.net",
     "sameAs": [
       "https://www.facebook.com/wediet",
       "https://twitter.com/we_diet_official",
@@ -27,21 +27,21 @@
     },
     "creator": {
       "@type": "Organization",
-      "@id": "https://we-diat.com/#organization"
+      "@id": "https://we-diet.net/#organization"
     },
     "publisher": {
       "@type": "Organization",
-      "@id": "https://we-diat.com/#organization"
+      "@id": "https://we-diet.net/#organization"
     }
   }</script><script type=application/ld+json>{
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": "https://we-diat.com/#organization",
+    "@id": "https://we-diet.net/#organization",
     "name": "We Diet",
-    "url": "https://we-diat.com",
+    "url": "https://we-diet.net",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://we-diat.com/original.png",
+      "url": "https://we-diet.net/original.png",
       "width": 512,
       "height": 512
     },
