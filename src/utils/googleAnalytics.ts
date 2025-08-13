@@ -129,7 +129,7 @@ export const trackDietEvent = (
 /**
  * ログインイベントを追跡
  */
-export const trackLogin = (method: 'google' | 'facebook' | 'tiktok' | 'email') => {
+export const trackLogin = (method: 'google' | 'facebook' | 'tiktok' | 'email' | 'x') => {
     try {
         // 一時的にGoogle Analytics無効化（hook エラー回避）
         console.log('Login tracked (GA disabled for debugging):', method);
@@ -145,7 +145,7 @@ export const trackLogin = (method: 'google' | 'facebook' | 'tiktok' | 'email') =
 /**
  * サインアップイベントを追跡
  */
-export const trackSignUp = (method: 'google' | 'facebook' | 'tiktok' | 'email') => {
+export const trackSignUp = (method: 'google' | 'facebook' | 'tiktok' | 'email' | 'x') => {
     try {
         ReactGA.event('sign_up', {
             event_category: 'user_authentication',

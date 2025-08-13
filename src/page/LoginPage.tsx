@@ -11,6 +11,7 @@ import GoogleLoginButton from "../component/authLogin/GoogleLoginButton";
 import FacebookLoginButton from "../component/FacebookLoginButton";
 import TiktokLoginButton from "../component/TiktokLoginButton";
 import LineLoginButton from "../component/LineLoginButton";
+import XLoginButton from "../component/XLoginButton";
 import { useSetRecoilState } from "recoil";
 import { serverProfileState, profileSettingsState, convertServerProfileToLocalProfile } from "../recoil/profileSettingsAtom";
 import { useTranslation } from "../hooks/useTranslation";
@@ -416,6 +417,7 @@ const LoginPage: React.FC = () => {
                 gap: 1,
               }}>
                 <GoogleLoginButton />
+                <XLoginButton />
                 <LineLoginButton />
                 {/* <FacebookLoginButton /> */}
                 {/* <TiktokLoginButton /> */}
