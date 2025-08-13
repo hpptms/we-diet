@@ -1,7 +1,7 @@
 import ReactGA from 'react-ga4';
 
 // Google Analytics設定
-const MEASUREMENT_ID = 'G-FGQKYE650R';
+const MEASUREMENT_ID = 'G-J3JE0T4ZFM';
 
 // Google Analyticsのフェッチエラーを静かに処理するグローバルハンドラー
 if (typeof window !== 'undefined') {
