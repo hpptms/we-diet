@@ -168,7 +168,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       if (exerciseData.walkingTime) {
         content += exerciseData.walkingTime + t('exercise', 'postMessages.units.minutes');
       }
-      content += "\\n";
+      content += "\n";
     }
     
     if (exerciseData.runningDistance || exerciseData.runningTime) {
@@ -179,28 +179,28 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       if (exerciseData.runningTime) {
         content += exerciseData.runningTime + t('exercise', 'postMessages.units.minutes');
       }
-      content += "\\n";
+      content += "\n";
     }
     
     // 筋力トレーニング
     if (exerciseData.pushUps) {
-      content += t('exercise', 'postMessages.pushUpsActivity') + exerciseData.pushUps + t('exercise', 'postMessages.units.times') + "\\n";
+      content += t('exercise', 'postMessages.pushUpsActivity') + exerciseData.pushUps + t('exercise', 'postMessages.units.times') + "\n";
     }
     if (exerciseData.sitUps) {
-      content += t('exercise', 'postMessages.sitUpsActivity') + exerciseData.sitUps + t('exercise', 'postMessages.units.times') + "\\n";
+      content += t('exercise', 'postMessages.sitUpsActivity') + exerciseData.sitUps + t('exercise', 'postMessages.units.times') + "\n";
     }
     if (exerciseData.squats) {
-      content += t('exercise', 'postMessages.squatsActivity') + exerciseData.squats + t('exercise', 'postMessages.units.times') + "\\n";
+      content += t('exercise', 'postMessages.squatsActivity') + exerciseData.squats + t('exercise', 'postMessages.units.times') + "\n";
     }
     
     // その他運動
     if (exerciseData.otherExerciseTime) {
-      content += t('exercise', 'postMessages.otherActivity') + exerciseData.otherExerciseTime + t('exercise', 'postMessages.units.minutes') + "\\n";
+      content += t('exercise', 'postMessages.otherActivity') + exerciseData.otherExerciseTime + t('exercise', 'postMessages.units.minutes') + "\n";
     }
     
     // 体重記録
     if (exerciseData.todayWeight) {
-      content += t('exercise', 'postMessages.weightRecord') + exerciseData.todayWeight + t('exercise', 'postMessages.units.kg') + "\\n";
+      content += t('exercise', 'postMessages.weightRecord') + exerciseData.todayWeight + t('exercise', 'postMessages.units.kg') + "\n";
     }
     
     // 運動メモ
@@ -544,7 +544,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   // Huawei Health連携処理（将来実装）
   const handleHuaweiHealthConnect = () => {
     setHealthAppSelectionOpen(false);
-    showWarning('Huawei Healthとの連携は今後実装予定です。\\n現在はGoogle Fitをご利用ください。');
+    showWarning('Huawei Healthとの連携は今後実装予定です。\n現在はGoogle Fitをご利用ください。');
   };
 
   // 段階的ヘルスアプリ連携処理（Google Fit → Samsung Health → Huawei Health）
@@ -974,62 +974,62 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
                           isSensitive: exerciseData.isSensitive
                         };
                         
-                        // 投稿内容を現在の画面入力データから作成
-                        let postContent = `今日は大体${caloriesBurned}カロリー消費しました！🔥\n\n`;
-                        
-                        // 有酸素運動
-                        if (currentExerciseData.walkingDistance || currentExerciseData.walkingTime || exerciseData.walkingSteps) {
-                          postContent += "🚶 ウォーキング: ";
-                          if (currentExerciseData.walkingDistance) {
-                            postContent += currentExerciseData.walkingDistance + "km ";
-                          }
-                          if (currentExerciseData.walkingTime) {
-                            postContent += currentExerciseData.walkingTime + "分 ";
-                          }
-                          if (exerciseData.walkingSteps) {
-                            postContent += exerciseData.walkingSteps + "歩";
-                          }
-                          postContent += "\n";
-                        }
-                        
-                        if (currentExerciseData.runningDistance || currentExerciseData.runningTime) {
-                          postContent += "🏃 ランニング: ";
-                          if (currentExerciseData.runningDistance) {
-                            postContent += currentExerciseData.runningDistance + "km ";
-                          }
-                          if (currentExerciseData.runningTime) {
-                            postContent += currentExerciseData.runningTime + "分";
-                          }
-                          postContent += "\\n";
-                        }
-                        
-                        // 筋力トレーニング
-                        if (currentExerciseData.pushUps) {
-                          postContent += "💪 腕立て伏せ: " + currentExerciseData.pushUps + "回\\n";
-                        }
-                        if (currentExerciseData.sitUps) {
-                          postContent += "🏋️ 腹筋: " + currentExerciseData.sitUps + "回\\n";
-                        }
-                        if (currentExerciseData.squats) {
-                          postContent += "🏋️ スクワット: " + currentExerciseData.squats + "回\\n";
-                        }
-                        
-                        // その他運動
-                        if (currentExerciseData.otherExerciseTime) {
-                          postContent += "🔥 その他運動: " + currentExerciseData.otherExerciseTime + "分\\n";
-                        }
-                        
-                        // 体重記録
-                        if (currentExerciseData.todayWeight) {
-                          postContent += "⚖️ 今日の体重: " + currentExerciseData.todayWeight + "kg\\n";
-                        }
-                        
-                        // 運動メモ
-                        if (currentExerciseData.exerciseNote) {
-                          postContent += "\\n📝 " + currentExerciseData.exerciseNote;
-                        }
-                        
-                        postContent += "\\n\\n#今日の運動";
+          // 投稿内容を現在の画面入力データから作成
+          let postContent = `今日は大体${caloriesBurned}カロリー消費しました！🔥\n\n`;
+          
+          // 有酸素運動
+          if (currentExerciseData.walkingDistance || currentExerciseData.walkingTime || exerciseData.walkingSteps) {
+            postContent += "🚶 ウォーキング: ";
+            if (currentExerciseData.walkingDistance) {
+              postContent += currentExerciseData.walkingDistance + "km ";
+            }
+            if (currentExerciseData.walkingTime) {
+              postContent += currentExerciseData.walkingTime + "分 ";
+            }
+            if (exerciseData.walkingSteps) {
+              postContent += exerciseData.walkingSteps + "歩";
+            }
+            postContent += "\n";
+          }
+          
+          if (currentExerciseData.runningDistance || currentExerciseData.runningTime) {
+            postContent += "🏃 ランニング: ";
+            if (currentExerciseData.runningDistance) {
+              postContent += currentExerciseData.runningDistance + "km ";
+            }
+            if (currentExerciseData.runningTime) {
+              postContent += currentExerciseData.runningTime + "分";
+            }
+            postContent += "\n";
+          }
+          
+          // 筋力トレーニング
+          if (currentExerciseData.pushUps) {
+            postContent += "💪 腕立て伏せ: " + currentExerciseData.pushUps + "回\n";
+          }
+          if (currentExerciseData.sitUps) {
+            postContent += "🏋️ 腹筋: " + currentExerciseData.sitUps + "回\n";
+          }
+          if (currentExerciseData.squats) {
+            postContent += "🏋️ スクワット: " + currentExerciseData.squats + "回\n";
+          }
+          
+          // その他運動
+          if (currentExerciseData.otherExerciseTime) {
+            postContent += "🔥 その他運動: " + currentExerciseData.otherExerciseTime + "分\n";
+          }
+          
+          // 体重記録
+          if (currentExerciseData.todayWeight) {
+            postContent += "⚖️ 今日の体重: " + currentExerciseData.todayWeight + "kg\n";
+          }
+          
+          // 運動メモ（どんな運動したの？の文字データ）
+          if (currentExerciseData.exerciseNote) {
+            postContent += "\n📝 " + currentExerciseData.exerciseNote;
+          }
+          
+          postContent += "\n\n#今日の運動";
                         
                         const postResult = await postsApi.createPost({
                           content: postContent,
