@@ -322,7 +322,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
           });
           
           // 投稿内容を現在の画面入力データから作成
-          let postContent = `今日は大体${caloriesBurned}カロリー消費しました！🔥\\n\\n`;
+          let postContent = `今日は大体${caloriesBurned}カロリー消費しました！🔥\n\n`;
           
           // 有酸素運動
           if (currentExerciseData.walkingDistance || currentExerciseData.walkingTime || exerciseData.walkingSteps) {
@@ -336,7 +336,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
             if (exerciseData.walkingSteps) {
               postContent += exerciseData.walkingSteps + "歩";
             }
-            postContent += "\\n";
+            postContent += "\n";
           }
           
           if (currentExerciseData.runningDistance || currentExerciseData.runningTime) {
@@ -975,7 +975,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
                         };
                         
                         // 投稿内容を現在の画面入力データから作成
-                        let postContent = `今日は大体${caloriesBurned}カロリー消費しました！🔥\\n\\n`;
+                        let postContent = `今日は大体${caloriesBurned}カロリー消費しました！🔥\n\n`;
                         
                         // 有酸素運動
                         if (currentExerciseData.walkingDistance || currentExerciseData.walkingTime || exerciseData.walkingSteps) {
@@ -989,7 +989,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
                           if (exerciseData.walkingSteps) {
                             postContent += exerciseData.walkingSteps + "歩";
                           }
-                          postContent += "\\n";
+                          postContent += "\n";
                         }
                         
                         if (currentExerciseData.runningDistance || currentExerciseData.runningTime) {
