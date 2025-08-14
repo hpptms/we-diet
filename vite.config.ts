@@ -16,7 +16,6 @@ export default defineConfig({
             port: 3000,
             host: 'localhost'
         }
-        // プロキシ設定を削除（Nginxでプロキシ処理）
     },
     build: {
         outDir: 'build',
