@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   
   <!-- Japanese (default) -->
   <url>
     <loc>https://we-diet.net/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh/" />
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
@@ -22,7 +24,7 @@
     <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
     <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-09</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -32,7 +34,7 @@
     <loc>https://we-diet.net/amp/index.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/amp/index.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/amp/index.html" />
-    <lastmod>2025-08-09</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -42,7 +44,6 @@
     <loc>https://we-diet.net/en/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh/" />
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
@@ -57,7 +58,7 @@
     <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
     <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-09</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -70,8 +71,18 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-09</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
@@ -84,8 +95,18 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-09</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
@@ -96,9 +117,20 @@
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
@@ -108,11 +140,21 @@
     <loc>https://we-diet.net/de/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -122,12 +164,21 @@
     <loc>https://we-diet.net/es/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
     <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -137,11 +188,21 @@
     <loc>https://we-diet.net/fr/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -151,12 +212,119 @@
     <loc>https://we-diet.net/pt/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
     <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
+  </url>
+
+  <!-- Italian -->
+  <url>
+    <loc>https://we-diet.net/it/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Russian -->
+  <url>
+    <loc>https://we-diet.net/ru/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Arabic -->
+  <url>
+    <loc>https://we-diet.net/ar/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Hindi -->
+  <url>
+    <loc>https://we-diet.net/hi/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
 
   <!-- Thai -->
@@ -164,10 +332,21 @@
     <loc>https://we-diet.net/th/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
     <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
     <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -177,10 +356,21 @@
     <loc>https://we-diet.net/vi/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://we-diet.net/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://we-diet.net/fr/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://we-diet.net/pt/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://we-diet.net/it/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://we-diet.net/ru/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://we-diet.net/ar/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://we-diet.net/hi/" />
     <xhtml:link rel="alternate" hreflang="th" href="https://we-diet.net/th/" />
     <xhtml:link rel="alternate" hreflang="vi" href="https://we-diet.net/vi/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -188,7 +378,7 @@
   <!-- Login Page -->
   <url>
     <loc>https://we-diet.net/login</loc>
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -196,7 +386,7 @@
   <!-- Privacy Policy -->
   <url>
     <loc>https://we-diet.net/privacy-policy</loc>
-    <lastmod>2025-08-10</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -204,7 +394,7 @@
   <!-- AMP Privacy Policy -->
   <url>
     <loc>https://we-diet.net/amp/privacy-policy.html</loc>
-    <lastmod>2025-08-10</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -212,7 +402,7 @@
   <!-- Terms of Service -->
   <url>
     <loc>https://we-diet.net/terms-of-service</loc>
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -220,7 +410,7 @@
   <!-- AMP Terms of Service -->
   <url>
     <loc>https://we-diet.net/amp/terms-of-service.html</loc>
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -228,7 +418,7 @@
   <!-- Data Deletion -->
   <url>
     <loc>https://we-diet.net/data-deletion</loc>
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -241,7 +431,7 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/help" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/help" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/help" />
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -254,7 +444,7 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/contact" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/contact" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/contact" />
-    <lastmod>2025-08-08</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
