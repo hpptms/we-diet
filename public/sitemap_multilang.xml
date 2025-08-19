@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <!-- Japanese (default) -->
   <url>
     <loc>https://we-diet.net/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -44,7 +41,7 @@
     <loc>https://we-diet.net/en/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -68,7 +65,7 @@
     <loc>https://we-diet.net/zh-cn/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -92,7 +89,7 @@
     <loc>https://we-diet.net/zh-tw/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -116,7 +113,7 @@
     <loc>https://we-diet.net/ko/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -140,7 +137,7 @@
     <loc>https://we-diet.net/de/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -164,7 +161,7 @@
     <loc>https://we-diet.net/es/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -188,7 +185,7 @@
     <loc>https://we-diet.net/fr/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -212,7 +209,7 @@
     <loc>https://we-diet.net/pt/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -236,7 +233,7 @@
     <loc>https://we-diet.net/it/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -260,7 +257,7 @@
     <loc>https://we-diet.net/ru/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -284,7 +281,7 @@
     <loc>https://we-diet.net/ar/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -308,7 +305,7 @@
     <loc>https://we-diet.net/hi/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -332,7 +329,7 @@
     <loc>https://we-diet.net/th/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -356,7 +353,7 @@
     <loc>https://we-diet.net/vi/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://we-diet.net/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://we-diet.net/de/" />
@@ -428,7 +425,7 @@
     <loc>https://we-diet.net/help</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/help" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/help" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/help" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/help" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/help" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/help" />
     <lastmod>2025-08-19</lastmod>
@@ -441,7 +438,7 @@
     <loc>https://we-diet.net/contact</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://we-diet.net/contact" />
     <xhtml:link rel="alternate" hreflang="en" href="https://we-diet.net/en/contact" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://we-diet.net/zh-cn/contact" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://we-diet.net/zh-cn/contact" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://we-diet.net/ko/contact" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://we-diet.net/contact" />
     <lastmod>2025-08-19</lastmod>
