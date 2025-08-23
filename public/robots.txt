@@ -29,22 +29,34 @@ Allow: /about
 Allow: /blog
 Allow: /amp/
 
-# 多言語ページは許可
+# 多言語ページ（実装済みのみ許可）
 Allow: /en/
-Allow: /zh/
-Allow: /zh-cn/
-Allow: /zh-tw/
+Allow: /ja/
 Allow: /ko/
-Allow: /de/
-Allow: /es/
-Allow: /fr/
-Allow: /pt/
-Allow: /it/
-Allow: /ru/
-Allow: /ar/
-Allow: /hi/
-Allow: /th/
-Allow: /vi/
+Allow: /zh/
+
+# 未実装の言語ページは除外
+Disallow: /de/
+Disallow: /es/
+Disallow: /zh-cn/
+Disallow: /zh-tw/
+Disallow: /fr/
+Disallow: /pt/
+Disallow: /it/
+Disallow: /ru/
+Disallow: /ar/
+Disallow: /hi/
+Disallow: /th/
+Disallow: /vi/
+
+# 存在しないAMPページパターンを除外
+Disallow: /amp/*/en.html
+Disallow: /amp/*/es.html
+Disallow: /amp/*/de.html
+Disallow: /amp/*/zh-cn.html
+
+# Cloudflare保護機能関連のパスを除外
+Disallow: /cdn-cgi/
 
 # 開発・システムファイルは除外
 Disallow: /build/
