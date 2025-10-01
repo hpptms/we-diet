@@ -3,6 +3,14 @@ import ReactGA from 'react-ga4';
 // Google Analytics設定
 const MEASUREMENT_ID = 'G-J3JE0T4ZFM';
 
+// gtag関数の型定義
+declare global {
+    interface Window {
+        gtag?: (...args: any[]) => void;
+        dataLayer?: any[];
+    }
+}
+
 // Google Analyticsのフェッチエラーを静かに処理するグローバルハンドラー
 if (typeof window !== 'undefined') {
     // コンソールエラーを抑制（GA関連のみ）
@@ -27,6 +35,17 @@ export const initGA = () => {
     try {
         // 本番環境でのみGoogle Analyticsを初期化
         if (window.location.hostname === 'we-diet.net') {
+            // gtag.jsが既に読み込まれているかチェック
+            if (window.gtag) {
+                console.log('✅ Google Analytics (gtag.js) is already loaded');
+                // 初回ページビューを送信
+                window.gtag('event', 'page_view', {
+                    page_path: window.location.pathname,
+                    page_title: document.title,
+                });
+            }
+
+            // react-ga4も初期化（後方互換性のため）
             ReactGA.initialize(MEASUREMENT_ID, {
                 testMode: false,
                 gaOptions: {
@@ -40,6 +59,13 @@ export const initGA = () => {
             // 手動でページビューを送信（エラーハンドリング付き）
             setTimeout(() => {
                 try {
+                    // gtagとreact-ga4の両方でページビューを送信
+                    if (window.gtag) {
+                        window.gtag('event', 'page_view', {
+                            page_path: window.location.pathname,
+                            page_title: document.title,
+                        });
+                    }
                     ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
                 } catch (error) {
                     // GAフェッチエラーを静かに処理
@@ -67,10 +93,22 @@ export const initGA = () => {
  */
 export const trackPageView = (pagePath?: string, pageTitle?: string) => {
     try {
+        const path = pagePath || window.location.pathname;
+        const title = pageTitle || document.title;
+
+        // gtag.jsでも送信
+        if (window.gtag) {
+            window.gtag('event', 'page_view', {
+                page_path: path,
+                page_title: title,
+            });
+        }
+
+        // react-ga4でも送信
         ReactGA.send({
             hitType: 'pageview',
-            page: pagePath || window.location.pathname,
-            title: pageTitle || document.title,
+            page: path,
+            title: title,
         });
     } catch (error) {
         console.error('Failed to track page view:', error);
@@ -82,6 +120,12 @@ export const trackPageView = (pagePath?: string, pageTitle?: string) => {
  */
 export const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
     try {
+        // gtag.jsでも送信
+        if (window.gtag) {
+            window.gtag('event', eventName, parameters);
+        }
+
+        // react-ga4でも送信
         ReactGA.event(eventName, parameters);
     } catch (error) {
         console.error('Failed to track event:', error);
