@@ -19,8 +19,8 @@ interface SEOHelmetProps {
  * Google検索エンジン向けに適切なcanonicalタグとhreflangタグを設定
  */
 export const SEOHelmet: React.FC<SEOHelmetProps> = ({
-  title = 'We Diet - ダイエット・健康管理SNSアプリ | 食事記録・運動記録・体重管理',
-  description = '一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。',
+  title = 'We Diet - ダイエットSNSアプリ | 仲間と続ける体重管理・食事記録・運動記録',
+  description = '一人では続けにくいダイエットも、仲間がいれば楽しく継続できる。We Dietは食事記録・運動記録・体重管理をSNSで共有できるダイエット記録アプリ。モチベーション維持をサポートする健康管理SNSプラットフォーム。無料で始められます。',
   canonicalUrl,
   alternateUrls = [],
   ogImage = 'https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp',
@@ -32,6 +32,7 @@ export const SEOHelmet: React.FC<SEOHelmetProps> = ({
       {/* 基本メタタグ */}
       <title>{title}</title>
       <meta name="description" content={description} />
+      <meta name="keywords" content="ダイエット,SNS,体重管理,食事記録,運動記録,ダイエットアプリ,健康管理,モチベーション,ダイエット仲間,レコーディングダイエット,ダイエット記録,体重記録,カロリー管理,健康SNS" />
       
       {/* Canonical URL - 重複コンテンツ問題を解決 */}
       <link rel="canonical" href={canonicalUrl} />

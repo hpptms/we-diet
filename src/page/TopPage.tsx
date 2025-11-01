@@ -65,24 +65,24 @@ export const TopPage = () => {
     switch (language) {
       case 'en':
         return {
-          title: 'We Diet - Diet & Health Management SNS App | Food Log, Exercise Record, Weight Management',
-          description: 'What\'s difficult alone becomes fun with friends. We Diet is a social platform supporting diet and health management.'
+          title: 'We Diet - Diet SNS App | Weight Management, Food Log & Exercise Tracking with Friends',
+          description: 'Hard to continue dieting alone? We Diet makes it fun with friends! Share food logs, exercise records, and weight management on social platform. Free diet tracking app with motivation support. Start your healthy lifestyle journey today.'
         };
       case 'ko':
         return {
-          title: 'We Diet - 다이어트 및 건강 관리 SNS 앱 | 식사 기록, 운동 기록, 체중 관리',
-          description: '혼자서는 계속하기 어렵지만, 친구가 있으면 즐거워집니다. We Diet은 다이어트와 건강 관리를 지원하는 소셜 플랫폼입니다.'
+          title: 'We Diet - 다이어트 SNS 앱 | 친구와 함께하는 체중 관리, 식사 기록, 운동 기록',
+          description: '혼자서는 계속하기 어려운 다이어트도 친구가 있으면 즐겁게 지속할 수 있습니다. We Diet은 식사 기록, 운동 기록, 체중 관리를 SNS로 공유할 수 있는 다이어트 기록 앱. 동기 부여를 지원하는 건강 관리 SNS 플랫폼. 무료로 시작하세요.'
         };
       case 'zh-CN':
         return {
-          title: 'We Diet - 减肥与健康管理SNS应用 | 饮食记录、运动记录、体重管理',
-          description: '一个人很难坚持，但有伙伴就会变得有趣。We Diet是支持减肥和健康管理的社交平台。'
+          title: 'We Diet - 减肥SNS应用 | 与伙伴一起坚持的体重管理、饮食记录、运动记录',
+          description: '一个人很难坚持减肥，但有伙伴就能愉快地持续下去。We Diet是可以在SNS上分享饮食记录、运动记录、体重管理的减肥记录应用。支持维持动力的健康管理SNS平台。免费开始使用。'
         };
       case 'ja':
       default:
         return {
-          title: 'We Diet - ダイエット・健康管理SNSアプリ | 食事記録・運動記録・体重管理',
-          description: '一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。'
+          title: 'We Diet - ダイエットSNSアプリ | 仲間と続ける体重管理・食事記録・運動記録',
+          description: '一人では続けにくいダイエットも、仲間がいれば楽しく継続できる。We Dietは食事記録・運動記録・体重管理をSNSで共有できるダイエット記録アプリ。モチベーション維持をサポートする健康管理SNSプラットフォーム。無料で始められます。'
         };
     }
   };

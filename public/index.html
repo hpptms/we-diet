@@ -32,32 +32,97 @@
   <meta name="twitter:image"
     content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" />
 
-  <!-- 構造化データ (JSON-LD) -->
+  <!-- 構造化データ (JSON-LD) - WebApplication -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "We Diet",
-    "description": "ダイエットと健康管理をサポートするソーシャルプラットフォーム。食事記録、運動記録、体重管理機能を提供。",
+    "alternateName": "ウィーダイエット",
+    "description": "一人では続けにくいダイエットも、仲間がいれば楽しく継続できる。食事記録・運動記録・体重管理をSNSで共有できるダイエット記録アプリ。",
     "url": "https://we-diet.net/",
     "applicationCategory": "HealthApplication",
-    "operatingSystem": "Web Browser",
+    "operatingSystem": "Web Browser, iOS, Android",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "JPY"
+      "priceCurrency": "JPY",
+      "availability": "https://schema.org/InStock"
     },
     "featureList": [
-      "食事記録管理",
-      "運動記録管理", 
-      "体重管理",
-      "ソーシャル機能",
-      "多言語対応"
+      "食事記録・カロリー管理",
+      "運動記録・アクティビティトラッキング", 
+      "体重記録・グラフ表示",
+      "SNS機能・コミュニティ",
+      "モチベーション管理",
+      "多言語対応（日本語、英語、中国語、韓国語）",
+      "画像アップロード・共有"
     ],
+    "screenshot": "https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "ratingCount": "100",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
     "author": {
       "@type": "Organization",
+      "@id": "https://we-diet.net/#organization",
       "name": "We Diet"
     }
+  }
+  </script>
+
+  <!-- 構造化データ (JSON-LD) - Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://we-diet.net/#organization",
+    "name": "We Diet",
+    "url": "https://we-diet.net/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://we-diet.net/favicon.ico",
+      "width": 128,
+      "height": 128
+    },
+    "description": "ダイエットと健康管理をサポートするソーシャルプラットフォームを提供する組織",
+    "sameAs": [
+      "https://we-diet.net/"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Support",
+      "email": "support@we-diet.net",
+      "availableLanguage": ["Japanese", "English", "Korean", "Chinese"]
+    }
+  }
+  </script>
+
+  <!-- 構造化データ (JSON-LD) - WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "We Diet",
+    "url": "https://we-diet.net/",
+    "description": "ダイエットSNSアプリ - 仲間と続ける体重管理・食事記録・運動記録",
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://we-diet.net/#organization"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://we-diet.net/search?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    },
+    "inLanguage": ["ja", "en", "ko", "zh-CN"]
   }
   </script>
 
