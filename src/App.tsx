@@ -1,6 +1,7 @@
 import React, { useEffect, Suspense, useMemo } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { CircularProgress, Box } from '@mui/material';
+import { HelmetProvider } from 'react-helmet-async';
 import DashboardLayout from './component/DashboardLayout';
 import AMPRedirect from './component/AMPRedirect';
 import { initGA, trackPageView } from './utils/googleAnalytics';
@@ -120,15 +121,16 @@ function App() {
   }, []);
 
   return (
-    <LanguageProvider>
-      <BrowserRouter
-        future={{
-          v7_startTransition: true,
-          v7_relativeSplatPath: true,
-        }}
-      >
-        <PageViewTracker />
-        <Routes>
+    <HelmetProvider>
+      <LanguageProvider>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
+          <PageViewTracker />
+          <Routes>
         <Route path="/login" element={
           <Suspense fallback={<LoadingComponent />}>
             <LazyLoginPage />
@@ -171,9 +173,10 @@ function App() {
         } />
         {/* 404ページのフォールバック - 不正なルートをトップページにリダイレクト */}
         <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </LanguageProvider>
+          </Routes>
+        </BrowserRouter>
+      </LanguageProvider>
+    </HelmetProvider>
   );
 }
 

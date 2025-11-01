@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import Header from '../component/Header';
 import Footer from '../component/Footer';
 import { HeroSection, FeatureSection, ProductSection } from '../component/TopPage';
+import { SEOHelmet } from '../component/SEOHelmet';
 import { useTranslation } from '../hooks/useTranslation';
 import { setLanguageToEnglish, setLanguageToJapanese, setLanguageToChineseCN, setLanguageToKorean, setLanguageToSpanish } from '../i18n';
 
@@ -33,6 +34,60 @@ const getAMPLink = (type: 'privacy' | 'terms' | 'dataDeletion', language: string
 
 export const TopPage = () => {
   const { t, language, setLanguage } = useTranslation();
+  
+  // 現在の言語に基づいてcanonical URLを生成
+  const getCanonicalUrl = () => {
+    const baseUrl = 'https://we-diet.net';
+    switch (language) {
+      case 'en':
+        return `${baseUrl}/en/`;
+      case 'ko':
+        return `${baseUrl}/ko/`;
+      case 'zh-CN':
+        return `${baseUrl}/zh/`;
+      case 'ja':
+      default:
+        return `${baseUrl}/`;
+    }
+  };
+
+  // 多言語対応のhreflangタグ設定
+  const alternateUrls = [
+    { lang: 'ja', url: 'https://we-diet.net/' },
+    { lang: 'en', url: 'https://we-diet.net/en/' },
+    { lang: 'ko', url: 'https://we-diet.net/ko/' },
+    { lang: 'zh', url: 'https://we-diet.net/zh/' },
+    { lang: 'x-default', url: 'https://we-diet.net/' }
+  ];
+
+  // 言語に応じたタイトルと説明文
+  const getSEOContent = () => {
+    switch (language) {
+      case 'en':
+        return {
+          title: 'We Diet - Diet & Health Management SNS App | Food Log, Exercise Record, Weight Management',
+          description: 'What\'s difficult alone becomes fun with friends. We Diet is a social platform supporting diet and health management.'
+        };
+      case 'ko':
+        return {
+          title: 'We Diet - 다이어트 및 건강 관리 SNS 앱 | 식사 기록, 운동 기록, 체중 관리',
+          description: '혼자서는 계속하기 어렵지만, 친구가 있으면 즐거워집니다. We Diet은 다이어트와 건강 관리를 지원하는 소셜 플랫폼입니다.'
+        };
+      case 'zh-CN':
+        return {
+          title: 'We Diet - 减肥与健康管理SNS应用 | 饮食记录、运动记录、体重管理',
+          description: '一个人很难坚持，但有伙伴就会变得有趣。We Diet是支持减肥和健康管理的社交平台。'
+        };
+      case 'ja':
+      default:
+        return {
+          title: 'We Diet - ダイエット・健康管理SNSアプリ | 食事記録・運動記録・体重管理',
+          description: '一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。'
+        };
+    }
+  };
+
+  const seoContent = getSEOContent();
   
   // ブラウザ言語による自動表示テスト
   console.log('Current language:', language);
@@ -91,15 +146,24 @@ export const TopPage = () => {
   }, [language]);
 
   return (
-    <div style={{ 
-      minHeight: "100vh", 
-      display: "flex", 
-      flexDirection: "column",
-      overflow: "hidden", // 横スクロールを防ぐ
-      margin: 0, // マージン完全削除
-      padding: 0, // パディング完全削除
-      position: "relative"
-    }}>
+    <>
+      {/* SEO設定 - canonicalタグとhreflangタグを動的に設定 */}
+      <SEOHelmet
+        title={seoContent.title}
+        description={seoContent.description}
+        canonicalUrl={getCanonicalUrl()}
+        alternateUrls={alternateUrls}
+      />
+      
+      <div style={{ 
+        minHeight: "100vh", 
+        display: "flex", 
+        flexDirection: "column",
+        overflow: "hidden", // 横スクロールを防ぐ
+        margin: 0, // マージン完全削除
+        padding: 0, // パディング完全削除
+        position: "relative"
+      }}>
       {/* デバッグ用: 言語テストボタン */}
       {window.location.hostname === '192.168.1.22' && (
         <Box sx={{
@@ -277,6 +341,7 @@ export const TopPage = () => {
 
       {/* フッターセクション */}
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
