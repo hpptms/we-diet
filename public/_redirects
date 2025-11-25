@@ -6,13 +6,19 @@
 /amp/terms-of-service.html /amp/terms-of-service.html 200
 /amp/data-deletion.html /amp/data-deletion.html 200
 
-# AMP多言語版ページの直接配信（実際に存在するもののみ）
-/amp/privacy-policy/* /amp/privacy-policy/:splat 200
-/amp/terms-of-service/* /amp/terms-of-service/:splat 200
+# AMP多言語版ページの直接配信（実装済みのもののみ）
+/amp/privacy-policy/en.html /amp/privacy-policy/en.html 200
+/amp/privacy-policy/ko.html /amp/privacy-policy/ko.html 200
+/amp/privacy-policy/zh.html /amp/privacy-policy/zh.html 200
+/amp/terms-of-service/en.html /amp/terms-of-service/en.html 200
+/amp/terms-of-service/ko.html /amp/terms-of-service/ko.html 200
+/amp/terms-of-service/zh.html /amp/terms-of-service/zh.html 200
 
-# 存在しないAMPページへのアクセスを404に
+# 存在しないAMPページへのアクセスを404に（未実装の言語）
 /amp/index.html /404 404
-/amp/data-deletion/* /404 404
+/amp/data-deletion/en.html /404 404
+/amp/data-deletion/ko.html /404 404
+/amp/data-deletion/zh.html /404 404
 
 # 未実装の言語ページを404に（SPAのルートとして処理しない）
 /de/* /404 404
@@ -25,6 +31,8 @@
 /hi/* /404 404
 /th/* /404 404
 /vi/* /404 404
+/zh-cn/* /404 404
+/zh-tw/* /404 404
 
 # 通常のSPA fallback - AMPパス以外の全ルートはindex.htmlを配信
 /* /index.html 200
