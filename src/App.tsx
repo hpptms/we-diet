@@ -20,6 +20,7 @@ const LazyVerifyEmailPage = React.lazy(() => import('./page/VerifyEmailPage'));
 const LazyPrivacyPolicy = React.lazy(() => import('./page/PrivacyPolicy'));
 const LazyDataDeletion = React.lazy(() => import('./page/DataDeletion'));
 const LazyTermsOfService = React.lazy(() => import('./page/TermsOfService'));
+const LazyFAQPage = React.lazy(() => import('./page/FAQPage'));
 
 // Loading component for suspense
 const LoadingComponent = () => {
@@ -165,6 +166,11 @@ function App() {
         } />
         <Route path="/terms-of-service" element={
           <AMPRedirect ampPath="/amp/terms-of-service.html" />
+        } />
+        <Route path="/faq" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyFAQPage />
+          </Suspense>
         } />
         <Route path="/" element={
           <Suspense fallback={<LoadingComponent />}>
