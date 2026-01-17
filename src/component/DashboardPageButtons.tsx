@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../recoil/darkModeAtom';
 import { useTranslation } from '../hooks/useTranslation';
@@ -18,21 +18,55 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const isDarkMode = useRecoilValue(darkModeState);
   const { t } = useTranslation();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // ダッシュボード表示時にスクロールを最上部にリセット
   useEffect(() => {
-    // 全てのスクロール位置をリセット
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
+    // スクロールリセット関数
+    const resetAllScrollPositions = () => {
+      // windowのスクロール
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
 
-    // overflow: autoの要素もリセット
-    const scrollableElements = document.querySelectorAll('[class*="MuiBox"]');
-    scrollableElements.forEach(el => {
-      if (el instanceof HTMLElement) {
-        el.scrollTop = 0;
+      // 自分自身から親要素を辿って全てのスクロールをリセット
+      if (containerRef.current) {
+        let parent: HTMLElement | null = containerRef.current.parentElement;
+        while (parent) {
+          parent.scrollTop = 0;
+          parent = parent.parentElement;
+        }
       }
+
+      // main要素のスクロールもリセット
+      const mainElements = document.querySelectorAll('main');
+      mainElements.forEach(el => {
+        el.scrollTop = 0;
+      });
+
+      // 全てのdivのスクロールをリセット（overflow: autoが設定されている可能性がある）
+      const allDivs = document.querySelectorAll('div');
+      allDivs.forEach(el => {
+        if (el.scrollTop > 0) {
+          el.scrollTop = 0;
+        }
+      });
+    };
+
+    // 即座に実行
+    resetAllScrollPositions();
+
+    // レンダリング後にも実行
+    requestAnimationFrame(() => {
+      resetAllScrollPositions();
     });
+
+    // 少し遅延してもう一度実行（ブラウザの復元対策）
+    const timeoutId = setTimeout(() => {
+      resetAllScrollPositions();
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   }, []); // マウント時に1回だけ実行
 
   useEffect(() => {
@@ -53,8 +87,8 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
   const shouldUseFullWidth = isTabletOrMobile || isPortraitMode;
 
   return (
-    <div style={{ 
-      display: "flex", 
+    <div ref={containerRef} style={{
+      display: "flex",
       flexDirection: "column", 
       gap: shouldUseFullWidth ? "15px" : "20px",
       marginBottom: shouldUseFullWidth ? "20px" : "30px",
