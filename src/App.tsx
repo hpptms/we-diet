@@ -71,6 +71,17 @@ const PageViewTracker = () => {
   return null;
 };
 
+// Component to scroll to top on route change
+const ScrollToTop = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  return null;
+};
+
 // 統合されたダッシュボードルートコンポーネント
 const DashboardRoute = React.memo(({ initialView, subView }: { initialView?: string; subView?: string }) => {
   return (
@@ -131,6 +142,7 @@ function App() {
           }}
         >
           <PageViewTracker />
+          <ScrollToTop />
           <Routes>
         <Route path="/login" element={
           <Suspense fallback={<LoadingComponent />}>
