@@ -267,6 +267,32 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         }
     }, []); // 初回のみ実行
 
+    // スクロールをトップにリセットする関数
+    const scrollToTop = () => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    };
+
+    // ブラウザバック/フォワード時のスクロールリセット
+    useEffect(() => {
+        const handlePopState = () => {
+            // 複数のタイミングでスクロールリセットを試みる
+            scrollToTop();
+            requestAnimationFrame(() => {
+                scrollToTop();
+            });
+            setTimeout(() => {
+                scrollToTop();
+            }, 50);
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, []);
+
     // URLに応じてcurrentViewを切り替え
     useEffect(() => {
         if (location.pathname === "/ProfileSettings") {
@@ -285,8 +311,15 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             setCurrentView("debug");
         }
 
-        // ページ遷移時（ブラウザバック含む）に常にスクロールをトップにリセット
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        // ページ遷移時に常にスクロールをトップにリセット
+        scrollToTop();
+        // ブラウザのスクロール復元が発生する可能性があるため、遅延してもう一度リセット
+        requestAnimationFrame(() => {
+            scrollToTop();
+        });
+        setTimeout(() => {
+            scrollToTop();
+        }, 100);
     }, [location.pathname, setCurrentView]);
 
     const renderContent = () => {

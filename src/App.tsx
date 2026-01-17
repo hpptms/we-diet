@@ -71,10 +71,35 @@ const PageViewTracker = () => {
   return null;
 };
 
-// Component to scroll to top on route change
+// Component to scroll to top on route change and disable browser scroll restoration
 const ScrollToTop = () => {
   const location = useLocation();
 
+  // ブラウザの自動スクロール復元を無効化
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    // popstateイベント（ブラウザバック/フォワード）でもスクロールをリセット
+    const handlePopState = () => {
+      // 少し遅延させてブラウザのスクロール復元後に実行
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'auto';
+      }
+    };
+  }, []);
+
+  // 通常のルート変更時のスクロールリセット
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
