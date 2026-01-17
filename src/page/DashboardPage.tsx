@@ -271,7 +271,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     useEffect(() => {
         if (location.pathname === "/ProfileSettings") {
             setCurrentView("profile");
-        } else if (location.pathname === "/Dashboard") {
+        } else if (location.pathname === "/Dashboard" || location.pathname === "/dashboard") {
             setCurrentView("dashboard");
         } else if (location.pathname === "/WeightManagement") {
             setCurrentView("weight");
@@ -284,14 +284,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         } else if (location.pathname === "/DebugLog") {
             setCurrentView("debug");
         }
-    }, [location.pathname, setCurrentView]);
 
-    // ダッシュボードに戻った時に一番上にスクロール
-    useEffect(() => {
-        if (currentView === 'dashboard') {
-            window.scrollTo(0, 0);
-        }
-    }, [currentView]);
+        // ページ遷移時（ブラウザバック含む）に常にスクロールをトップにリセット
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }, [location.pathname, setCurrentView]);
 
     const renderContent = () => {
         const handleBackToDashboard = () => {
