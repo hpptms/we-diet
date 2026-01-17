@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect, Suspense, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Snackbar, Alert, CircularProgress } from "@mui/material";
 import DashboardPageButtons from "../component/DashboardPageButtons";
@@ -267,11 +267,28 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         }
     }, []); // 初回のみ実行
 
-    // スクロールをトップにリセットする関数
+    // メインコンテナのref（overflow: autoのコンテナ用）
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // スクロールをトップにリセットする関数（全てのスクロール可能な要素をリセット）
     const scrollToTop = () => {
+        // windowのスクロール
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
+
+        // overflow: autoのコンテナのスクロールもリセット
+        if (containerRef.current) {
+            containerRef.current.scrollTop = 0;
+        }
+
+        // 全てのスクロール可能な要素をリセット
+        const scrollableElements = document.querySelectorAll('[style*="overflow"]');
+        scrollableElements.forEach(el => {
+            if (el instanceof HTMLElement) {
+                el.scrollTop = 0;
+            }
+        });
     };
 
     // ブラウザバック/フォワード時のスクロールリセット
@@ -285,6 +302,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             setTimeout(() => {
                 scrollToTop();
             }, 50);
+            setTimeout(() => {
+                scrollToTop();
+            }, 150);
         };
 
         window.addEventListener('popstate', handlePopState);
@@ -414,7 +434,9 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     };
 
   return (
-    <Box sx={{ 
+    <Box
+      ref={containerRef}
+      sx={{
       backgroundColor: isDarkMode ? '#000000' : 'transparent',
       minHeight: {
         xs: 'calc(100vh - 200px)', // スマホ・縦画面: フッター完全表示のため更に余裕を持たせる
