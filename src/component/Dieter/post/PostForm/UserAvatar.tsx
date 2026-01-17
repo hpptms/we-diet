@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Avatar } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
 import { profileSettingsState, serverProfileState } from '../../../../recoil/profileSettingsAtom';
-import { DEFAULT_IMAGES } from '../../../../image/DefaultImage';
+import { getUserUtils } from '../../layout/LeftSidebar/utils/userUtils';
 
 interface UserAvatarProps {
   currentUser?: {
@@ -16,37 +16,13 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ currentUser = { name: 'ユー�
   const profileSettings = useRecoilValue(profileSettingsState);
   const serverProfile = useRecoilValue(serverProfileState);
 
-  // アイコンのソースを取得する関数（LeftSidebarと同じロジック）
-  const getIconSrc = () => {
-    // サーバーからのデータを優先
-    if (serverProfile.profile) {
-      if (serverProfile.profile.icon_type === 'upload' && serverProfile.profile.uploaded_icon) {
-        return serverProfile.profile.uploaded_icon;
-      }
-      if (serverProfile.profile.icon_type === 'preset' && serverProfile.profile.selected_preset_id) {
-        const presetImage = DEFAULT_IMAGES.find(img => img.id === serverProfile.profile!.selected_preset_id);
-        return presetImage?.url;
-      }
-    }
-    
-    // ローカルデータにフォールバック
-    if (profileSettings.iconType === 'upload' && profileSettings.uploadedIcon) {
-      return profileSettings.uploadedIcon;
-    }
-    if (profileSettings.iconType === 'preset' && profileSettings.selectedPresetId) {
-      const presetImage = DEFAULT_IMAGES.find(img => img.id === profileSettings.selectedPresetId);
-      return presetImage?.url;
-    }
-    
-    // currentUserのavatarもチェック
-    if (currentUser.avatar) {
-      return currentUser.avatar;
-    }
-    
-    return undefined;
-  };
-
-  const iconSrc = getIconSrc();
+  // getUserUtilsを使ってアイコンソースを取得
+  const iconSrc = useMemo(() => {
+    const { getIconSrc } = getUserUtils(profileSettings, serverProfile);
+    const src = getIconSrc();
+    // getUserUtilsで取得できない場合、currentUserのavatarをチェック
+    return src || currentUser.avatar || undefined;
+  }, [profileSettings, serverProfile, currentUser.avatar]);
 
   return (
     <Avatar 
@@ -67,4 +43,4 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ currentUser = { name: 'ユー�
   );
 };
 
-export default UserAvatar;
+export default React.memo(UserAvatar);

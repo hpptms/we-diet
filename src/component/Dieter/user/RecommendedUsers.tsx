@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -26,9 +26,9 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
 
   // アバタークリック処理（PostCardと同じ仕組み）
-  const handleAvatarClick = async (userId: number) => {
+  const handleAvatarClick = useCallback(async (userId: number) => {
     if (isLoadingProfile) return;
-    
+
     try {
       setIsLoadingProfile(true);
       const profile = await postsApi.getUserProfile(userId);
@@ -40,13 +40,13 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
     } finally {
       setIsLoadingProfile(false);
     }
-  };
+  }, [isLoadingProfile]);
 
   // プロフィールモーダルを閉じる処理
-  const handleProfileModalClose = () => {
+  const handleProfileModalClose = useCallback(() => {
     setProfileModalOpen(false);
     setUserProfile(null);
-  };
+  }, []);
   return (
     <Box sx={{ 
       p: 2
@@ -160,4 +160,4 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = ({ users, onFollow }) 
   );
 };
 
-export default RecommendedUsers;
+export default React.memo(RecommendedUsers);

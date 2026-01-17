@@ -36,49 +36,29 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
         return defaultLanguage || getCurrentLanguage();
     });
 
-    // 言語設定の再評価（forceEnglishForTestフラグの変更を検出）
+    // 初期化処理（言語の再評価 + ストレージ監視 + グローバル関数公開）
     useEffect(() => {
+        // 言語設定の再評価
         const currentLang = getCurrentLanguage();
         if (currentLang !== language) {
             setCurrentLanguage(currentLang);
         }
-    }, []);
 
-    // ローカルストレージの変更を監視
-    useEffect(() => {
+        // HTML lang属性を設定
+        document.documentElement.lang = language;
+
+        // ローカルストレージの変更を監視
         const handleStorageChange = () => {
             const newLang = getCurrentLanguage();
             setCurrentLanguage(newLang);
         };
-
         window.addEventListener('storage', handleStorageChange);
-        return () => window.removeEventListener('storage', handleStorageChange);
-    }, []);
-
-    const setLanguage = (newLanguage: SupportedLanguage) => {
-        setCurrentLanguage(newLanguage);
-        setStoredLanguage(newLanguage);
-
-        // HTML lang属性を更新
-        if (typeof document !== 'undefined') {
-            document.documentElement.lang = newLanguage;
-        }
-
-        // ページタイトルを更新（必要に応じて）
-        // updatePageTitle(newLanguage);
-    };
-
-    // 初期化時にHTML lang属性を設定とグローバル関数を公開
-    useEffect(() => {
-        if (typeof document !== 'undefined') {
-            document.documentElement.lang = language;
-        }
 
         // 開発用：コンソールから言語を変更できるようにグローバルに公開
-        if (typeof window !== 'undefined') {
+        if (import.meta.env.DEV) {
             (window as any).setLanguageToEnglish = () => {
                 setLanguageToEnglish();
-                window.location.reload(); // ページをリロードして変更を反映
+                window.location.reload();
             };
             (window as any).setLanguageToJapanese = () => {
                 setLanguageToJapanese();
@@ -97,12 +77,19 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
                 window.location.reload();
             };
         }
+
+        return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
 
-    // 言語変更を監視してローカルストレージに保存
+    // 言語変更時の処理
     useEffect(() => {
         setStoredLanguage(language);
+        document.documentElement.lang = language;
     }, [language]);
+
+    const setLanguage = (newLanguage: SupportedLanguage) => {
+        setCurrentLanguage(newLanguage);
+    };
 
     const contextValue: LanguageContextType = {
         language,

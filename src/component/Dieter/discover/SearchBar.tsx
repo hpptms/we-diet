@@ -21,16 +21,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const { t } = useTranslation();
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
-    
+
     // 既存のタイマーをクリア
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
       debounceTimerRef.current = null;
     }
-    
+
     // 空の文字列の場合は即座に検索をクリア
     if (value.trim() === '') {
       onSearch?.('');
@@ -40,7 +40,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         onSearch?.(value);
       }, 500);
     }
-  };
+  }, [onSearch]);
 
   return (
     <Box sx={{ p: 2, mb: 2 }}>
@@ -105,4 +105,4 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   );
 };
 
-export default SearchBar;
+export default React.memo(SearchBar);

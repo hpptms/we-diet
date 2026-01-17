@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 /**
  * DotOverlay - 軽量版
@@ -11,7 +11,7 @@ import React from 'react';
  */
 export const DotOverlay: React.FC = () => {
   // レスポンシブなドットサイズとスペーシング
-  const getDotConfig = () => {
+  const getDotConfig = useCallback(() => {
     const width = typeof window !== 'undefined' ? window.innerWidth : 1024;
 
     if (width <= 430) {
@@ -27,9 +27,21 @@ export const DotOverlay: React.FC = () => {
       // デスクトップ
       return { dotSize: 12, spacing: 30 };
     }
-  };
+  }, []);
 
-  const { dotSize, spacing } = getDotConfig();
+  const [dotConfig, setDotConfig] = useState(getDotConfig);
+
+  // ウィンドウリサイズに対応
+  useEffect(() => {
+    const handleResize = () => {
+      setDotConfig(getDotConfig());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [getDotConfig]);
+
+  const { dotSize, spacing } = dotConfig;
 
   // CSSグラデーションでドットパターンを生成（CPU負荷なし）
   const dotPattern = `

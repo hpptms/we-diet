@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import {
   Box,
   TextField,
@@ -16,7 +16,10 @@ import {
 import { useTranslation } from '../../../hooks/useTranslation';
 import LinkPreview from './LinkPreview';
 import MediaPlayer from './MediaPlayer';
-import { extractUrls, createLinkPreview, createMediaEmbed } from '../../../utils/linkPreview';
+import { useLinkPreview } from '../../../hooks/useLinkPreview';
+
+// ハッシュタグ抽出用の正規表現（コンポーネント外で定義して再コンパイルを防止）
+const HASHTAG_REGEX = /#[\w\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]+/g;
 
 interface PostFormProps {
   onPost?: (content: string, images?: File[], isSensitive?: boolean) => Promise<void>;
@@ -40,9 +43,8 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
   const maxCharacters = 300;
   const maxImages = 3;
 
-  // リンクプレビューとメディア関連の状態
-  const [linkPreviews, setLinkPreviews] = useState<Array<{url: string, preview: any}>>([]);
-  const [mediaEmbeds, setMediaEmbeds] = useState<Array<any>>([]);
+  // リンクプレビューとメディア埋め込みをフックで管理
+  const { linkPreviews, mediaEmbeds } = useLinkPreview(postContent);
 
   const handleEmojiCategoryChange = (event: React.SyntheticEvent, newValue: number) => {
     setSelectedEmojiCategory(newValue);
@@ -60,8 +62,6 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
         setImageUrls([]);
         setHashtags([]);
         setIsSensitive(false);
-        setLinkPreviews([]);
-        setMediaEmbeds([]);
         
         console.log('投稿フォームがリセットされました');
       } catch (error) {
@@ -112,57 +112,25 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
     };
   }, [imageUrls]);
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setPostContent(value);
-    
-    // Extract hashtags from the content
-    const hashtagMatches = value.match(/#[\w\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]+/g);
-    const extractedHashtags = hashtagMatches ? Array.from(new Set(hashtagMatches)) : [];
-    setHashtags(extractedHashtags);
-
-    // リンクプレビューとメディアを更新
-    processLinksInContent(value);
-  };
-
-  // 投稿内容からリンクを解析してプレビューとメディアを生成
-  const processLinksInContent = React.useCallback(async (content: string) => {
-    const urls = extractUrls(content);
-    
-    if (urls.length === 0) {
-      setLinkPreviews([]);
-      setMediaEmbeds([]);
-      return;
-    }
-
-    const previews: Array<{url: string, preview: any}> = [];
-    const embeds: Array<any> = [];
-
-    for (const url of urls) {
-      // メディア埋め込みを最初にチェック
-      const mediaEmbed = createMediaEmbed(url);
-      if (mediaEmbed) {
-        embeds.push(mediaEmbed);
-      } else {
-        // メディアでない場合はリンクプレビューを作成
-        const preview = createLinkPreview(url);
-        previews.push({ url, preview });
-      }
-    }
-
-    setLinkPreviews(previews);
-    setMediaEmbeds(embeds);
+  // ハッシュタグ抽出ロジック（共通化）
+  const extractHashtags = useCallback((text: string): string[] => {
+    const matches = text.match(HASHTAG_REGEX);
+    return matches ? Array.from(new Set(matches)) : [];
   }, []);
 
-  const handleEmojiSelect = (emoji: string) => {
-    const newContent = postContent + emoji;
-    setPostContent(newContent);
-    
-    // Update hashtags after adding emoji
-    const hashtagMatches = newContent.match(/#[\w\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]+/g);
-    const extractedHashtags = hashtagMatches ? Array.from(new Set(hashtagMatches)) : [];
-    setHashtags(extractedHashtags);
-  };
+  const handleContentChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPostContent(value);
+    setHashtags(extractHashtags(value));
+  }, [extractHashtags]);
+
+  const handleEmojiSelect = useCallback((emoji: string) => {
+    setPostContent(prev => {
+      const newContent = prev + emoji;
+      setHashtags(extractHashtags(newContent));
+      return newContent;
+    });
+  }, [extractHashtags]);
 
 
   const openEmojiPicker = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -355,4 +323,4 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
   );
 };
 
-export default PostForm;
+export default React.memo(PostForm);

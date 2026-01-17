@@ -1,80 +1,8 @@
 import axios from 'axios';
+import type { Post, Comment, Like } from '../component/Dieter/types';
+import { getAuthToken, getAuthHeaders, clearAuthTokens } from '../utils/auth';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
-
-interface Post {
-    ID: number;
-    UserID: number;
-    Content: string;
-    ImageURL: string;
-    Images?: string[];       // 複数画像のURL配列
-    IsPublic: boolean;
-    IsSensitive: boolean;
-    AuthorName: string;      // 投稿者名（キャッシュ）
-    AuthorPicture: string;   // 投稿者アイコンURL（キャッシュ）
-    // リツイート関連のフィールド
-    IsRetweet?: boolean;     // リツイートされた投稿かどうか
-    RetweetUserID?: number;  // リツイートしたユーザーのID
-    RetweetUserName?: string; // リツイートしたユーザーの名前
-    RetweetUserPicture?: string; // リツイートしたユーザーのアイコン
-    RetweetedAt?: string;    // リツイートされた時間
-    User: {
-        ID: number;
-        UserName: string;
-        Email: string;
-        Picture: string;
-    };
-    Comments: Comment[];
-    Retweets: Retweet[];
-    Likes: Like[];
-    CreatedAt: string;
-    UpdatedAt: string;
-}
-
-interface Comment {
-    ID: number;
-    PostID: number;
-    UserID: number;
-    Content: string;
-    AuthorName: string;      // コメント者名（キャッシュ）
-    AuthorPicture: string;   // コメント者アイコンURL（キャッシュ）
-    User: {
-        ID: number;
-        UserName: string;
-        Email: string;
-        Picture: string;
-    };
-    CreatedAt: string;
-    UpdatedAt: string;
-}
-
-interface Retweet {
-    ID: number;
-    PostID: number;
-    UserID: number;
-    User: {
-        ID: number;
-        UserName: string;
-        Email: string;
-        Picture: string;
-    };
-    CreatedAt: string;
-    UpdatedAt: string;
-}
-
-interface Like {
-    ID: number;
-    PostID: number;
-    UserID: number;
-    User: {
-        ID: number;
-        UserName: string;
-        Email: string;
-        Picture: string;
-    };
-    CreatedAt: string;
-    UpdatedAt: string;
-}
 
 interface CreatePostRequest {
     content: string;
@@ -176,62 +104,6 @@ interface UserProfile {
     UpdatedAt: string;
 }
 
-// JWTトークンを取得するヘルパー関数
-const getAuthToken = (): string | null => {
-    return localStorage.getItem('jwt_token') || localStorage.getItem('authToken') || localStorage.getItem('token');
-};
-
-// 現在のユーザーIDを取得するヘルパー関数
-const getCurrentUserId = (): number | null => {
-    try {
-        // user_idフィールドを最初に確認（DashboardPageで設定される）
-        const userId = localStorage.getItem('user_id');
-        if (userId) {
-            return parseInt(userId, 10);
-        }
-
-        // serverProfileDataからユーザーIDを取得
-        const serverProfileData = localStorage.getItem('serverProfileData');
-        if (serverProfileData) {
-            const parsed = JSON.parse(serverProfileData);
-            if (parsed.userId) {
-                return parsed.userId;
-            }
-        }
-
-        // accountIdフィールドを確認
-        const accountId = localStorage.getItem('accountId');
-        if (accountId) {
-            return parseInt(accountId, 10);
-        }
-
-        // userIdフィールドを確認（他の実装での互換性）
-        const userIdAlt = localStorage.getItem('userId');
-        if (userIdAlt) {
-            return parseInt(userIdAlt, 10);
-        }
-
-        return null;
-    } catch (error) {
-        console.error('ユーザーID取得でエラー:', error);
-        return null;
-    }
-};
-
-// 認証ヘッダーを取得するヘルパー関数
-const getAuthHeaders = (): Record<string, string> => {
-    const token = getAuthToken();
-
-    const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-    };
-
-    if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    return headers;
-};
 
 export const postsApi = {
     // 投稿一覧取得（公開エンドポイント）
@@ -484,9 +356,7 @@ export const postsApi = {
 
         if (response.status === 401) {
             // 認証エラーの場合はトークンを削除してデフォルト値を返す
-            localStorage.removeItem('jwt_token');
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('token');
+            clearAuthTokens();
             return { following_count: 0, follower_count: 0 };
         }
 
@@ -552,9 +422,7 @@ export const postsApi = {
         });
 
         if (response.status === 401) {
-            localStorage.removeItem('jwt_token');
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('token');
+            clearAuthTokens();
             return { unread_count: 0 };
         }
 
@@ -622,9 +490,7 @@ export const postsApi = {
         });
 
         if (response.status === 401) {
-            localStorage.removeItem('jwt_token');
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('token');
+            clearAuthTokens();
             return { unread_count: 0 };
         }
 
@@ -644,4 +510,5 @@ export const postsApi = {
     },
 };
 
-export type { Post, Comment, Retweet, Like, CreatePostRequest, CreateCommentRequest, PostsResponse, RecommendedUser, RecommendedUsersResponse, Message, SendMessageRequest, MessagesResponse, ConversationItem, ConversationsResponse, UserProfile };
+export type { Post, Comment, Retweet, Like } from '../component/Dieter/types';
+export type { CreatePostRequest, CreateCommentRequest, PostsResponse, RecommendedUser, RecommendedUsersResponse, Message, SendMessageRequest, MessagesResponse, ConversationItem, ConversationsResponse, UserProfile };

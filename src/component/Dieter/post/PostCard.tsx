@@ -22,14 +22,10 @@ import {
   FavoriteBorder,
   ChatBubbleOutline,
   Repeat,
-  Share,
   Send,
   AccountCircle,
   MoreVert,
-  Bookmark,
   Flag,
-  Link as LinkIcon,
-  Edit,
   Delete,
   PersonAdd,
   PersonRemove,
@@ -47,7 +43,8 @@ import { useFollowContextOptional } from '../../../context/FollowContext';
 import ImageLightbox from './ImageLightbox';
 import LinkPreview from './LinkPreview';
 import MediaPlayer from './MediaPlayer';
-import { extractUrls, createLinkPreview, createMediaEmbed } from '../../../utils/linkPreview';
+import { formatRelativeTime } from '../../../utils/timeFormat';
+import { useLinkPreview } from '../../../hooks/useLinkPreview';
 
 interface PostCardProps {
   post: Post;
@@ -55,7 +52,7 @@ interface PostCardProps {
   onPostDelete?: (postId: number) => void;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete }) => {
+const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
   const isDarkMode = useRecoilValue(darkModeState);
   const profileSettings = useRecoilValue(profileSettingsState);
   const serverProfile = useRecoilValue(serverProfileState);
@@ -84,27 +81,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
   // フォローコンテキストを取得（オプション）
   const followContext = useFollowContextOptional();
 
-  // リンクプレビューとメディア関連の状態
-  const [linkPreviews, setLinkPreviews] = React.useState<Array<{url: string, preview: any}>>([]);
-  const [mediaEmbeds, setMediaEmbeds] = React.useState<Array<any>>([]);
-
-  // リツイート表示用の時間フォーマット関数
-  const formatRetweetTimestamp = (timestamp: string) => {
-    const date = new Date(timestamp);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffHours / 24);
-    
-    if (diffDays > 0) {
-      return `${diffDays}日前`;
-    } else if (diffHours > 0) {
-      return `${diffHours}時間前`;
-    } else {
-      const diffMinutes = Math.floor(diffMs / (1000 * 60));
-      return `${diffMinutes}分前`;
-    }
-  };
+  // リンクプレビューとメディア埋め込みをフックで管理
+  const { linkPreviews, mediaEmbeds } = useLinkPreview(post.Content);
 
   // 現在のユーザーのリツイート/ライク状態を確認
   React.useEffect(() => {
@@ -120,78 +98,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
     setRetweetCount(post.Retweets?.length || 0);
     setLikeCount(post.Likes?.length || 0);
   }, [post.Retweets, post.Likes, serverProfile.userId]);
-
-  // 投稿内容からリンクを解析してプレビューとメディアを生成
-  React.useEffect(() => {
-    const processLinks = async () => {
-      if (!post.Content) return;
-
-      const urls = extractUrls(post.Content);
-      
-      if (urls.length === 0) {
-        setLinkPreviews([]);
-        setMediaEmbeds([]);
-        return;
-      }
-
-      const previews: Array<{url: string, preview: any}> = [];
-      const embeds: Array<any> = [];
-
-      for (const url of urls) {
-        // メディア埋め込みを最初にチェック
-        const mediaEmbed = createMediaEmbed(url);
-        if (mediaEmbed) {
-          embeds.push(mediaEmbed);
-        } else {
-          // メディアでない場合はリンクプレビューを作成
-          const preview = createLinkPreview(url);
-          previews.push({ url, preview });
-        }
-      }
-
-      setLinkPreviews(previews);
-      setMediaEmbeds(embeds);
-    };
-
-    processLinks();
-  }, [post.Content]);
   
   
-  // タイムスタンプを日本時間で表示
-  const formatTimestamp = (timestamp: string) => {
-    const date = new Date(timestamp);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffHours / 24);
-    
-    if (diffDays > 0) {
-      return `${diffDays}日前`;
-    } else if (diffHours > 0) {
-      return `${diffHours}時間前`;
-    } else {
-      const diffMinutes = Math.floor(diffMs / (1000 * 60));
-      return `${diffMinutes}分前`;
-    }
-  };
-
-  // タイムスタンプを日本時間で表示（コメント用）
-  const formatCommentTimestamp = (timestamp: string) => {
-    const date = new Date(timestamp);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffHours / 24);
-    
-    if (diffDays > 0) {
-      return `${diffDays}日前`;
-    } else if (diffHours > 0) {
-      return `${diffHours}時間前`;
-    } else {
-      const diffMinutes = Math.floor(diffMs / (1000 * 60));
-      return diffMinutes < 1 ? 'たった今' : `${diffMinutes}分前`;
-    }
-  };
 
   const handleLike = async () => {
     if (liked) return; // すでにライクしている場合は何もしない
@@ -247,7 +155,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
     }
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent) => {
+  const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && event.ctrlKey) {
       handleSubmitComment();
     }
@@ -278,42 +186,12 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
     return undefined;
   };
 
-  // 現在のユーザー名を取得する関数
-  const getCurrentUserName = () => {
-    // サーバーからのデータを優先
-    if (serverProfile.profile?.display_name) {
-      return serverProfile.profile.display_name;
-    }
-    
-    // ローカルデータにフォールバック
-    if (profileSettings.displayName) {
-      return profileSettings.displayName;
-    }
-    
-    return 'ユーザー';
-  };
-
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleShare = () => {
-    console.log('シェア機能');
-    handleMenuClose();
-  };
-
-  const handleBookmark = () => {
-    console.log('ブックマーク機能');
-    handleMenuClose();
-  };
-
-  const handleCopyLink = () => {
-    console.log('リンクをコピー');
-    handleMenuClose();
   };
 
   const handleReport = async () => {
@@ -333,11 +211,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
       console.error('投稿の報告に失敗しました:', error);
       alert('投稿の報告に失敗しました。もう一度お試しください。');
     }
-    handleMenuClose();
-  };
-
-  const handleEdit = () => {
-    console.log('投稿を編集');
     handleMenuClose();
   };
 
@@ -496,28 +369,9 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
 
   // 画像ライトボックス関連の関数
   const handleImageClick = (index: number, event?: React.MouseEvent) => {
-    // クリック位置の情報を取得してログ出力
     if (event) {
-      const clickX = event.clientX;
-      const clickY = event.clientY;
-      const scrollX = window.scrollX;
-      const scrollY = window.scrollY;
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      
-      // 画像クリック位置情報を取得（サイレント処理）
-      const clickPositionInfo = {
-        clickPosition: { x: clickX, y: clickY },
-        scrollPosition: { x: scrollX, y: scrollY },
-        viewportSize: { width: viewportWidth, height: viewportHeight },
-        clickFromTop: clickY + scrollY,
-        clickFromLeft: clickX + scrollX
-      };
-      
-      // クリック位置を保存
-      setClickPosition({ x: clickX, y: clickY });
+      setClickPosition({ x: event.clientX, y: event.clientY });
     }
-    
     setLightboxImageIndex(index);
     setLightboxOpen(true);
   };
@@ -583,7 +437,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
             color: '#90a4ae',
             fontSize: '0.8rem'
           }}>
-            · {post.RetweetedAt ? formatRetweetTimestamp(post.RetweetedAt) : ''}
+            · {post.RetweetedAt ? formatRelativeTime(post.RetweetedAt) : ''}
           </Typography>
         </Box>
       )}
@@ -592,10 +446,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
           src={post.AuthorPicture && post.AuthorPicture.trim() !== '' ? post.AuthorPicture : undefined}
           alt={post.AuthorName || 'ユーザー'}
           onClick={handleAvatarClick}
-          imgProps={{
-            onError: (e) => {
-              console.log('Avatar画像の読み込みに失敗:', post.AuthorPicture);
-              console.log('フォールバックを表示します');
+          slotProps={{
+            img: {
+              onError: () => {
+                // Avatar画像の読み込みに失敗した場合、フォールバックを表示
+              }
             }
           }}
           sx={{ 
@@ -635,7 +490,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
               ·
             </Typography>
             <Typography variant="body2" sx={{ color: '#90a4ae' }}>
-              {formatTimestamp(post.CreatedAt)}
+              {formatRelativeTime(post.CreatedAt)}
             </Typography>
           </Box>
           <Typography variant="body1" sx={{ 
@@ -910,14 +765,16 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
               anchorEl={anchorEl}
               open={isMenuOpen}
               onClose={handleMenuClose}
-              PaperProps={{
-                sx: {
-                  backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
-                  color: isDarkMode ? 'white' : 'black',
-                  borderRadius: 2,
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
-                  border: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}`,
-                  minWidth: 200,
+              slotProps={{
+                paper: {
+                  sx: {
+                    backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+                    color: isDarkMode ? 'white' : 'black',
+                    borderRadius: 2,
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+                    border: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}`,
+                    minWidth: 200,
+                  }
                 }
               }}
               transformOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -1044,7 +901,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
                     placeholder="返信を投稿..."
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
-                    onKeyPress={handleKeyPress}
+                    onKeyDown={handleKeyDown}
                     variant="outlined"
                     size="small"
                     disabled={isSubmittingComment}
@@ -1133,7 +990,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
                               ·
                             </Typography>
                             <Typography variant="caption" sx={{ color: '#90a4ae' }}>
-                              {formatCommentTimestamp(comment.CreatedAt)}
+                              {formatRelativeTime(comment.CreatedAt, true)}
                             </Typography>
                           </Box>
                           <Typography variant="body2" sx={{ 
@@ -1174,4 +1031,4 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostUpdate, onPostDelete })
   );
 };
 
-export default PostCard;
+export default React.memo(PostCard);
