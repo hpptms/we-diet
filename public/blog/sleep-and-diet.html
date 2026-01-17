@@ -464,28 +464,12 @@
       color: var(--text);
       font-size: 1.2rem;
     }
-    .related-articles ul {
-      list-style: none;
-    }
-    .related-articles li {
-      margin-bottom: 12px;
-      padding-left: 24px;
-      position: relative;
-    }
-    .related-articles li::before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      color: var(--primary);
-      font-weight: bold;
-    }
-    .related-articles a {
-      color: var(--secondary);
-      text-decoration: none;
-    }
-    .related-articles a:hover {
-      color: var(--primary);
-    }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+    .related-card { background: var(--white); border-radius: 12px; overflow: hidden; text-decoration: none; color: var(--text); box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
+    .related-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .related-card img { width: 100%; height: 120px; object-fit: cover; }
+    .related-card-content { padding: 15px; }
+    .related-card-content h4 { font-size: 0.95rem; line-height: 1.4; margin: 0; color: var(--text); }
 
     .footer {
       background: var(--night);
@@ -511,6 +495,7 @@
       .environment-grid { grid-template-columns: 1fr; }
       .hormone-card { flex-direction: column; }
       .cta-section { padding: 40px 20px; }
+      .related-grid { grid-template-columns: 1fr; }
     }
   </style>
   <script type="application/ld+json">
@@ -755,12 +740,20 @@
 
     <div class="related-articles">
       <h3>関連記事</h3>
-      <ul>
-        <li><a href="/blog/stress-eating.html">ストレス食いを止める方法｜感情的な食欲をコントロール</a></li>
-        <li><a href="/blog/weight-loss-plateau.html">体重が減らなくなった？停滞期を乗り越える5つの戦略</a></li>
-        <li><a href="/blog/diet-motivation-tips.html">ダイエットが続かない人必見！モチベーションを維持する7つの方法</a></li>
-        <li><a href="/blog/exercise-for-beginners.html">運動嫌いでも続く！初心者向け自宅トレーニング入門</a></li>
-      </ul>
+      <div class="related-grid">
+        <a href="/blog/stress-eating.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=200&fit=crop" alt="ストレス食い" loading="lazy">
+          <div class="related-card-content"><h4>ストレス食いを止める方法｜感情的な食欲をコントロール</h4></div>
+        </a>
+        <a href="/blog/weight-loss-plateau.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=200&fit=crop" alt="停滞期" loading="lazy">
+          <div class="related-card-content"><h4>体重が減らなくなった？停滞期を乗り越える5つの戦略</h4></div>
+        </a>
+        <a href="/blog/diet-motivation-tips.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop" alt="モチベーション" loading="lazy">
+          <div class="related-card-content"><h4>ダイエットが続かない人必見！モチベーションを維持する7つの方法</h4></div>
+        </a>
+      </div>
     </div>
   </article>
 

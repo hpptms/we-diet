@@ -50,12 +50,15 @@
     .cta-button { display: inline-block; background: white; color: var(--primary-dark); padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-weight: 700; margin-top: 1.5rem; }
     .related-articles { margin-top: 3rem; padding: 2rem; background: var(--white); border-radius: 16px; }
     .related-articles h3 { color: var(--primary-dark); margin-bottom: 1rem; }
-    .related-articles ul { list-style: none; margin: 0; padding: 0; }
-    .related-articles li { margin: 0.75rem 0; }
-    .related-articles a { color: var(--text); text-decoration: none; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+    .related-card { background: var(--white); border-radius: 12px; overflow: hidden; text-decoration: none; color: var(--text); box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
+    .related-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .related-card img { width: 100%; height: 120px; object-fit: cover; }
+    .related-card-content { padding: 15px; }
+    .related-card-content h4 { font-size: 0.95rem; line-height: 1.4; margin: 0; color: var(--text); }
     .footer { background: var(--text); color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
     .footer a { color: rgba(255,255,255,0.8); text-decoration: none; margin: 0 1rem; }
-    @media (max-width: 768px) { .article-content { padding: 1.5rem; } }
+    @media (max-width: 768px) { .article-content { padding: 1.5rem; } .related-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -215,11 +218,20 @@
 
     <div class="related-articles">
       <h3>関連記事</h3>
-      <ul>
-        <li><a href="/blog/keto-diet-guide.html">ケトジェニックダイエット完全ガイド｜糖質制限で脂肪を燃焼</a></li>
-        <li><a href="/blog/intermittent-fasting-guide.html">断続的断食（IF）完全ガイド｜16:8から始める効果的なファスティング</a></li>
-        <li><a href="/blog/fat-burning-supplements.html">脂肪燃焼サプリの真実｜本当に効果があるものは？</a></li>
-      </ul>
+      <div class="related-grid">
+        <a href="/blog/keto-diet-guide.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400&h=200&fit=crop" alt="ケトジェニックダイエット" loading="lazy">
+          <div class="related-card-content"><h4>ケトジェニックダイエット完全ガイド｜糖質制限で脂肪を燃焼</h4></div>
+        </a>
+        <a href="/blog/intermittent-fasting-guide.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=400&h=200&fit=crop" alt="断続的断食" loading="lazy">
+          <div class="related-card-content"><h4>断続的断食（IF）完全ガイド｜16:8から始める効果的なファスティング</h4></div>
+        </a>
+        <a href="/blog/fat-burning-supplements.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=200&fit=crop" alt="脂肪燃焼サプリ" loading="lazy">
+          <div class="related-card-content"><h4>脂肪燃焼サプリの真実｜本当に効果があるものは？</h4></div>
+        </a>
+      </div>
     </div>
   </main>
 

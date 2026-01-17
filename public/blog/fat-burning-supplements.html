@@ -53,12 +53,15 @@
     .cta-button { display: inline-block; background: white; color: var(--primary); padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-weight: 700; margin-top: 1.5rem; }
     .related-articles { margin-top: 3rem; padding: 2rem; background: var(--white); border-radius: 16px; }
     .related-articles h3 { color: var(--primary-dark); margin-bottom: 1rem; }
-    .related-articles ul { list-style: none; margin: 0; padding: 0; }
-    .related-articles li { margin: 0.75rem 0; }
-    .related-articles a { color: var(--text); text-decoration: none; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+    .related-card { background: var(--white); border-radius: 12px; overflow: hidden; text-decoration: none; color: var(--text); box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
+    .related-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .related-card img { width: 100%; height: 120px; object-fit: cover; }
+    .related-card-content { padding: 15px; }
+    .related-card-content h4 { font-size: 0.95rem; line-height: 1.4; margin: 0; color: var(--text); }
     .footer { background: var(--text); color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
     .footer a { color: rgba(255,255,255,0.8); text-decoration: none; margin: 0 1rem; }
-    @media (max-width: 768px) { .article-content { padding: 1.5rem; } }
+    @media (max-width: 768px) { .article-content { padding: 1.5rem; } .related-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -244,11 +247,20 @@
 
     <div class="related-articles">
       <h3>関連記事</h3>
-      <ul>
-        <li><a href="/blog/protein-powder-guide.html">プロテインパウダー完全ガイド｜種類・選び方・効果的な飲み方</a></li>
-        <li><a href="/blog/pre-workout-supplements.html">プレワークアウトサプリの効果と注意点｜トレーニング前のブースター</a></li>
-        <li><a href="/blog/metabolism-boost-training.html">代謝を上げる筋トレ｜痩せやすい体を作るトレーニング法</a></li>
-      </ul>
+      <div class="related-grid">
+        <a href="/blog/protein-powder-guide.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&h=200&fit=crop" alt="プロテインパウダー" loading="lazy">
+          <div class="related-card-content"><h4>プロテインパウダー完全ガイド｜種類・選び方・効果的な飲み方</h4></div>
+        </a>
+        <a href="/blog/pre-workout-supplements.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&h=200&fit=crop" alt="プレワークアウトサプリ" loading="lazy">
+          <div class="related-card-content"><h4>プレワークアウトサプリの効果と注意点｜トレーニング前のブースター</h4></div>
+        </a>
+        <a href="/blog/caffeine-metabolism-guide.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=200&fit=crop" alt="カフェインと代謝" loading="lazy">
+          <div class="related-card-content"><h4>カフェインと代謝の関係｜脂肪燃焼を促進する正しい摂り方</h4></div>
+        </a>
+      </div>
     </div>
   </main>
 

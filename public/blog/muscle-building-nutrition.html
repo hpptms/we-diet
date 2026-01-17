@@ -251,16 +251,12 @@
 
     .related-articles { padding: 35px; background: #f5f5f5; }
     .related-articles h3 { margin-bottom: 20px; }
-    .related-grid { display: grid; gap: 15px; }
-    .related-link {
-      display: block;
-      background: var(--white);
-      padding: 18px 20px;
-      border-radius: 10px;
-      text-decoration: none;
-      color: var(--text);
-      border: 1px solid #eee;
-    }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+    .related-card { background: var(--white); border-radius: 12px; overflow: hidden; text-decoration: none; color: var(--text); box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
+    .related-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .related-card img { width: 100%; height: 120px; object-fit: cover; }
+    .related-card-content { padding: 15px; }
+    .related-card-content h4 { font-size: 0.95rem; line-height: 1.4; margin: 0; color: var(--text); }
 
     .footer { background: #1f2937; color: #9ca3af; padding: 40px 20px; }
     .footer-inner { max-width: 800px; margin: 0 auto; text-align: center; }
@@ -274,6 +270,7 @@
       .pfc-grid { grid-template-columns: 1fr; }
       .food-grid { grid-template-columns: 1fr; }
       .header-nav { display: none; }
+      .related-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -465,9 +462,18 @@
     <div class="related-articles">
       <h3>関連記事</h3>
       <div class="related-grid">
-        <a href="/blog/muscle-building-basics.html" class="related-link">筋肥大の科学｜筋肉がつくメカニズムと効率的なトレーニング法</a>
-        <a href="/blog/protein-diet.html" class="related-link">タンパク質ダイエットの正しいやり方｜筋肉を落とさず痩せる</a>
-        <a href="/blog/progressive-overload.html" class="related-link">漸進性過負荷の原則｜筋肉を成長させ続ける方法</a>
+        <a href="/blog/muscle-building-basics.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&h=200&fit=crop" alt="筋肥大の科学" loading="lazy">
+          <div class="related-card-content"><h4>筋肥大の科学｜筋肉がつくメカニズムと効率的なトレーニング法</h4></div>
+        </a>
+        <a href="/blog/protein-diet.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400&h=200&fit=crop" alt="タンパク質ダイエット" loading="lazy">
+          <div class="related-card-content"><h4>タンパク質ダイエットの正しいやり方｜筋肉を落とさず痩せる</h4></div>
+        </a>
+        <a href="/blog/progressive-overload.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&h=200&fit=crop" alt="漸進性過負荷の原則" loading="lazy">
+          <div class="related-card-content"><h4>漸進性過負荷の原則｜筋肉を成長させ続ける方法</h4></div>
+        </a>
       </div>
     </div>
   </article>

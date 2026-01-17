@@ -657,31 +657,49 @@
       gap: 1.5rem;
     }
 
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
     .related-card {
       background: var(--white);
       border-radius: 12px;
-      padding: 1.5rem;
+      overflow: hidden;
       text-decoration: none;
       color: var(--text);
-      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .related-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
 
-    .related-card h3 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: var(--primary-dark);
+    .related-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
     }
 
-    .related-card p {
-      font-size: 0.85rem;
-      color: var(--text-light);
-      margin-bottom: 0;
+    .related-card-content {
+      padding: 15px;
+    }
+
+    .related-card-content h4 {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      margin: 0;
+      color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .footer {
@@ -1106,16 +1124,16 @@
         <h2>関連記事</h2>
         <div class="related-grid">
           <a href="/blog/body-confidence-training.html" class="related-card">
-            <h3>筋トレで自信がつく科学的理由</h3>
-            <p>外見の変化がメンタルを変えるメカニズム</p>
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=200&fit=crop" alt="筋トレで自信がつく" loading="lazy">
+            <div class="related-card-content"><h4>筋トレで自信がつく科学的理由</h4></div>
           </a>
           <a href="/blog/diet-record-benefits.html" class="related-card">
-            <h3>レコーディングダイエットの効果</h3>
-            <p>記録するだけで痩せる理由</p>
+            <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=200&fit=crop" alt="レコーディングダイエット" loading="lazy">
+            <div class="related-card-content"><h4>レコーディングダイエットの効果</h4></div>
           </a>
           <a href="/blog/diet-motivation-tips.html" class="related-card">
-            <h3>モチベーションを維持する7つの方法</h3>
-            <p>続かない人必見の心理学テクニック</p>
+            <img src="https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=400&h=200&fit=crop" alt="モチベーション維持" loading="lazy">
+            <div class="related-card-content"><h4>モチベーションを維持する7つの方法</h4></div>
           </a>
         </div>
       </div>
