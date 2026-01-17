@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3JE0T4ZFM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J3JE0T4ZFM');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ダイエット・健康管理ブログ | We Diet</title>
+  <meta name="description" content="ダイエット、健康管理、食事記録に関する役立つ情報を発信。科学的根拠に基づいたダイエット方法や、モチベーション維持のコツをご紹介します。">
+  <meta property="og:title" content="ダイエット・健康管理ブログ | We Diet">
+  <meta property="og:description" content="ダイエット、健康管理、食事記録に関する役立つ情報を発信します。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://we-diet.net/blog/">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&h=630&fit=crop">
+  <link rel="canonical" href="https://we-diet.net/blog/">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #dbeafe;
+      --accent: #f59e0b;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+      --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      --radius: 16px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.8;
+      color: var(--text);
+      background: var(--bg);
+    }
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+      color: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--white);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 50%, #06b6d4 100%);
+      color: var(--white);
+      padding: 80px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+    .hero h1 {
+      font-family: 'Poppins', 'Noto Sans JP', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .hero p { font-size: 1.1rem; opacity: 0.95; max-width: 600px; margin: 0 auto; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 48px 24px; }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .section-title h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-light), transparent);
+    }
+    .featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .featured-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .featured-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-xl); }
+    .featured-card a { text-decoration: none; color: inherit; }
+    .featured-image { width: 100%; height: 240px; object-fit: cover; }
+    .featured-content { padding: 24px; }
+    .featured-category {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--white);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .featured-title { font-size: 1.3rem; font-weight: 700; line-height: 1.5; margin-bottom: 12px; color: var(--text); }
+    .featured-excerpt { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .article-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .article-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .article-card a { text-decoration: none; color: inherit; display: block; }
+    .article-image { width: 100%; height: 180px; object-fit: cover; }
+    .article-content { padding: 20px; }
+    .article-category {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    .article-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 8px;
+      color: var(--text);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .article-meta { color: var(--text-muted); font-size: 0.8rem; }
+    .cta-section {
+      background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 50%, #06b6d4 100%);
+      border-radius: var(--radius);
+      padding: 64px 48px;
+      text-align: center;
+      color: var(--white);
+      margin-top: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 400px; height: 400px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+    .cta-section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; position: relative; }
+    .cta-section p { font-size: 1.05rem; opacity: 0.95; margin-bottom: 24px; position: relative; }
+    .cta-button {
+      display: inline-block;
+      background: var(--white);
+      color: var(--primary);
+      padding: 16px 48px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .cta-button:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .footer {
+      background: var(--text);
+      color: var(--white);
+      padding: 48px 24px;
+      margin-top: 64px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px;
+    }
+    .footer-brand h3 { font-family: 'Poppins', sans-serif; font-size: 1.5rem; margin-bottom: 12px; }
+    .footer-brand p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+    .footer-links h4 { font-size: 1rem; margin-bottom: 16px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85rem;
+    }
+    @media (max-width: 900px) {
+      .featured { grid-template-columns: 1fr; }
+      .article-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+    }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.8rem; }
+      .article-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .cta-section { padding: 48px 24px; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "We Diet ブログ",
+    "description": "ダイエット、健康管理、食事記録に関する役立つ情報を発信",
+    "url": "https://we-diet.net/blog/",
+    "publisher": { "@type": "Organization", "name": "We Diet", "logo": { "@type": "ImageObject", "url": "https://we-diet.net/favicon.ico" } }
+  }
+  </script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo"><span class="logo-icon">W</span>We Diet</a>
+      <nav class="nav-links">
+        <a href="/">ホーム</a>
+        <a href="/blog/">ブログ</a>
+        <a href="/faq">よくある質問</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Diet & Wellness Blog</h1>
+      <p>一人じゃないから、続けられる。ダイエットのコツや健康的な食事のアイデア、モチベーション維持の方法をお届けします。</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-title"><h2>注目の記事</h2></div>
+
+    <div class="featured">
+      <article class="featured-card">
+        <a href="/blog/diet-motivation-tips.html">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=480&fit=crop" alt="ダイエットモチベーション" class="featured-image" loading="lazy">
+          <div class="featured-content">
+            <span class="featured-category">モチベーション</span>
+            <h3 class="featured-title">ダイエットが続かない人必見！モチベーションを維持する7つの方法</h3>
+            <p class="featured-excerpt">「今度こそ痩せる！」と決意したのに、いつの間にか挫折…そんな経験ありませんか？実は私もそうでした。この記事では、私が実際に試して効果があった方法をシェアします。</p>
+          </div>
+        </a>
+      </article>
+      <article class="featured-card">
+        <a href="/blog/diet-community-power.html">
+          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=480&fit=crop" alt="ダイエットコミュニティ" class="featured-image" loading="lazy">
+          <div class="featured-content">
+            <span class="featured-category">コミュニティ</span>
+            <h3 class="featured-title">ダイエットコミュニティに参加するメリット｜仲間がいれば成功率3倍</h3>
+            <p class="featured-excerpt">研究データで証明された「仲間の力」。一人で頑張るのと、誰かと一緒に取り組むのでは、成功率が全然違うんです。</p>
+          </div>
+        </a>
+      </article>
+    </div>
+
+    <div class="section-title"><h2>最新記事</h2></div>
+
+    <div class="article-grid">
+      <article class="article-card">
+        <a href="/blog/calorie-counting-basics.html">
+          <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&h=360&fit=crop" alt="カロリー計算" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">食事管理</span>
+            <h3 class="article-title">初心者向けカロリー計算の基本｜無理なく痩せる食事管理術</h3>
+            <p class="article-meta">2025.01.15</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/weight-loss-plateau.html">
+          <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=360&fit=crop" alt="停滞期" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">ダイエット</span>
+            <h3 class="article-title">体重が減らなくなった？停滞期を乗り越える5つの戦略</h3>
+            <p class="article-meta">2025.01.14</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/healthy-breakfast-ideas.html">
+          <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&h=360&fit=crop" alt="朝食レシピ" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">レシピ</span>
+            <h3 class="article-title">朝食で差がつく！ダイエット中におすすめの朝ごはん10選</h3>
+            <p class="article-meta">2025.01.13</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/exercise-for-beginners.html">
+          <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=360&fit=crop" alt="自宅トレーニング" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">運動</span>
+            <h3 class="article-title">運動嫌いでも続く！初心者向け自宅トレーニング入門</h3>
+            <p class="article-meta">2025.01.12</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/diet-sns-benefits.html">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=360&fit=crop" alt="SNSダイエット" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">SNS活用</span>
+            <h3 class="article-title">ダイエットにSNSを活用するメリット｜仲間の力で成功率UP</h3>
+            <p class="article-meta">2025.01.11</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/mindful-eating.html">
+          <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&h=360&fit=crop" alt="マインドフルイーティング" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">食事法</span>
+            <h3 class="article-title">マインドフルイーティングとは？食べ過ぎを防ぐ食事術</h3>
+            <p class="article-meta">2025.01.10</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/protein-diet.html">
+          <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600&h=360&fit=crop" alt="タンパク質ダイエット" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">栄養</span>
+            <h3 class="article-title">タンパク質ダイエットの正しいやり方｜筋肉を落とさず痩せる</h3>
+            <p class="article-meta">2025.01.09</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/cheat-day-guide.html">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=360&fit=crop" alt="チートデイ" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">ダイエット</span>
+            <h3 class="article-title">チートデイの正しい取り入れ方｜ダイエット効果を最大化</h3>
+            <p class="article-meta">2025.01.08</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/sleep-and-diet.html">
+          <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&h=360&fit=crop" alt="睡眠とダイエット" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">生活習慣</span>
+            <h3 class="article-title">睡眠とダイエットの深い関係｜痩せやすい体を作る睡眠法</h3>
+            <p class="article-meta">2025.01.07</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/diet-record-benefits.html">
+          <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=360&fit=crop" alt="レコーディングダイエット" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">記録</span>
+            <h3 class="article-title">レコーディングダイエットの効果｜記録するだけで痩せる理由</h3>
+            <p class="article-meta">2025.01.06</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/low-carb-recipes.html">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=360&fit=crop" alt="低糖質レシピ" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">レシピ</span>
+            <h3 class="article-title">糖質制限中でも満足！低糖質レシピ15選</h3>
+            <p class="article-meta">2025.01.05</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/water-intake-diet.html">
+          <img src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&h=360&fit=crop" alt="水分補給" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">生活習慣</span>
+            <h3 class="article-title">水を飲むだけで痩せる？正しい水分補給とダイエット効果</h3>
+            <p class="article-meta">2025.01.04</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/diet-food-mistakes.html">
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=360&fit=crop" alt="ダイエット食品" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">食事管理</span>
+            <h3 class="article-title">実は太る！？ダイエット中に避けるべき食べ物の落とし穴</h3>
+            <p class="article-meta">2025.01.03</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/walking-for-weight-loss.html">
+          <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&h=360&fit=crop" alt="ウォーキング" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">運動</span>
+            <h3 class="article-title">ウォーキングで痩せる！効果的な歩き方と目標歩数</h3>
+            <p class="article-meta">2025.01.02</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/stress-eating.html">
+          <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=600&h=360&fit=crop" alt="ストレス食い" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">メンタル</span>
+            <h3 class="article-title">ストレス食いを止める方法｜感情的な食欲をコントロール</h3>
+            <p class="article-meta">2025.01.01</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/diet-meal-prep.html">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&h=360&fit=crop" alt="ミールプレップ" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">食事管理</span>
+            <h3 class="article-title">作り置きでダイエット成功！ミールプレップ入門ガイド</h3>
+            <p class="article-meta">2024.12.30</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/realistic-weight-loss-goals.html">
+          <img src="https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=600&h=360&fit=crop" alt="目標設定" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">目標設定</span>
+            <h3 class="article-title">無理のない目標設定｜リバウンドしない体重減少ペースとは</h3>
+            <p class="article-meta">2024.12.28</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/blog/diet-app-features.html">
+          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=360&fit=crop" alt="ダイエットアプリ" class="article-image" loading="lazy">
+          <div class="article-content">
+            <span class="article-category">アプリ活用</span>
+            <h3 class="article-title">ダイエットアプリを最大限活用する方法｜We Dietの使い方ガイド</h3>
+            <p class="article-meta">2024.12.26</p>
+          </div>
+        </a>
+      </article>
+    </div>
+
+    <div class="cta-section">
+      <h2>今日からダイエット仲間と一緒に始めよう</h2>
+      <p>We Dietは、食事記録・運動記録・体重管理ができるダイエットSNSアプリです。<br>仲間と励まし合いながら、楽しくダイエットを続けられます。</p>
+      <a href="/" class="cta-button">無料で始める</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>We Diet</h3>
+        <p>一人じゃないから、続けられる。<br>仲間と一緒に、楽しくダイエット。</p>
+      </div>
+      <div class="footer-links">
+        <h4>サービス</h4>
+        <ul>
+          <li><a href="/">トップページ</a></li>
+          <li><a href="/blog/">ブログ</a></li>
+          <li><a href="/faq">よくある質問</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>法的情報</h4>
+        <ul>
+          <li><a href="/privacy-policy">プライバシーポリシー</a></li>
+          <li><a href="/terms-of-service">利用規約</a></li>
+          <li><a href="/cookie-policy">Cookieポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 We Diet. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

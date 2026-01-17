@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3JE0T4ZFM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J3JE0T4ZFM');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ダイエットアプリを最大限活用する方法｜We Dietの使い方ガイド | We Diet</title>
+  <meta name="description" content="食事記録、運動記録、体重管理…ダイエットアプリの機能をフル活用してダイエット成功へ。We Dietの効果的な使い方を詳しく解説します。">
+  <meta name="keywords" content="ダイエットアプリ,使い方,食事記録,体重管理,We Diet">
+  <meta property="og:title" content="ダイエットアプリを最大限活用する方法｜We Dietの使い方ガイド">
+  <meta property="og:description" content="食事記録、運動記録、体重管理…アプリの機能をフル活用してダイエット成功へ。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://we-diet.net/blog/diet-app-features.html">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&h=630&fit=crop">
+  <link rel="canonical" href="https://we-diet.net/blog/diet-app-features.html">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2196f3;
+      --primary-light: #e3f2fd;
+      --primary-dark: #1565c0;
+      --secondary: #42a5f5;
+      --accent: #64b5f6;
+      --text: #37474f;
+      --text-light: #607d8b;
+      --bg: #fafafa;
+      --white: #ffffff;
+      --success: #4caf50;
+      --gradient-start: #1976d2;
+      --gradient-end: #42a5f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.9; color: var(--text); background: var(--bg); }
+
+    .header {
+      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+      color: white;
+      padding: 18px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(33,150,243,0.3);
+    }
+    .header-inner { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .header a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 700; font-family: 'Poppins', sans-serif; }
+    .header-nav { display: flex; gap: 25px; }
+    .header-nav a { font-size: 0.95rem; font-weight: 500; opacity: 0.9; transition: opacity 0.3s; }
+    .header-nav a:hover { opacity: 1; }
+
+    .hero {
+      height: 400px;
+      background: linear-gradient(rgba(21,101,192,0.75), rgba(33,150,243,0.85)), url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&h=600&fit=crop') center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+    .hero-content { max-width: 700px; padding: 0 20px; }
+    .hero-category {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .hero h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    .hero-meta { opacity: 0.9; font-size: 0.95rem; }
+
+    .breadcrumb { max-width: 800px; margin: 25px auto; padding: 0 20px; font-size: 0.85rem; color: var(--text-light); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .article { max-width: 800px; margin: 0 auto 50px; background: var(--white); border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); overflow: hidden; }
+
+    .author-box { display: flex; align-items: center; gap: 15px; padding: 25px 35px; border-bottom: 1px solid #eee; background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%); }
+    .author-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--white); box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+    .author-info h4 { font-size: 1rem; color: var(--text); }
+    .author-info p { font-size: 0.85rem; color: var(--text-light); }
+
+    .article-content { padding: 40px 35px; }
+
+    .lead-text {
+      font-size: 1.15rem;
+      color: var(--text);
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 25px;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 35px;
+    }
+
+    .article-content h2 {
+      color: var(--primary-dark);
+      font-size: 1.5rem;
+      margin: 45px 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 3px solid var(--primary-light);
+      position: relative;
+    }
+    .article-content h2::before {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--primary);
+    }
+
+    .article-content h3 { color: var(--text); font-size: 1.25rem; margin: 30px 0 15px; }
+    .article-content p { margin-bottom: 20px; }
+    .article-content ul, .article-content ol { margin: 20px 0 25px 25px; }
+    .article-content li { margin-bottom: 12px; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 2px solid var(--primary-light);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 8px 25px rgba(33,150,243,0.15);
+      transform: translateY(-3px);
+    }
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 15px;
+    }
+    .feature-card h3 { color: var(--primary-dark); font-size: 1.1rem; margin-bottom: 10px; }
+    .feature-card p { font-size: 0.95rem; color: var(--text-light); margin: 0; }
+
+    .step-flow {
+      margin: 30px 0;
+    }
+    .step-item {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    .step-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 55px;
+      bottom: -15px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+    }
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(33,150,243,0.3);
+    }
+    .step-content {
+      flex: 1;
+      background: var(--white);
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .step-content h4 { color: var(--primary-dark); font-size: 1.1rem; margin-bottom: 10px; }
+    .step-content p { margin: 0; font-size: 0.95rem; color: var(--text-light); }
+
+    .tip-box {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      border-left: 4px solid var(--success);
+      border-radius: 0 12px 12px 0;
+      padding: 25px;
+      margin: 25px 0;
+    }
+    .tip-box h4 {
+      color: #2e7d32;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tip-box p { margin: 0; }
+    .tip-box ul { margin: 10px 0 0 20px; }
+    .tip-box li { color: #2e7d32; }
+
+    .continue-tips {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 25px 0;
+    }
+    .continue-tip {
+      background: var(--primary-light);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .continue-tip h4 { color: var(--primary-dark); font-size: 1rem; margin-bottom: 8px; }
+    .continue-tip p { font-size: 0.85rem; color: var(--text-light); margin: 0; }
+
+    .graph-section {
+      background: var(--white);
+      border: 2px solid var(--primary-light);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 25px 0;
+    }
+    .graph-section h4 { color: var(--primary-dark); margin-bottom: 15px; text-align: center; }
+    .graph-list {
+      display: grid;
+      gap: 12px;
+    }
+    .graph-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 15px;
+      background: var(--primary-light);
+      border-radius: 8px;
+    }
+    .graph-item strong { color: var(--primary-dark); min-width: 100px; }
+    .graph-item span { color: var(--text-light); }
+
+    .sns-tips {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 25px 0;
+    }
+    .sns-tips h4 { color: #e65100; margin-bottom: 15px; }
+    .sns-tips ul { margin: 0; padding-left: 20px; }
+    .sns-tips li { color: #bf360c; margin-bottom: 8px; }
+
+    .qa-section {
+      margin: 30px 0;
+    }
+    .qa-item {
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .qa-question {
+      background: var(--primary-light);
+      padding: 18px 20px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .qa-question::before {
+      content: 'Q';
+      background: var(--primary);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    .qa-answer {
+      padding: 18px 20px;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+    .qa-answer::before {
+      content: 'A.';
+      color: var(--primary);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    .summary-box {
+      background: linear-gradient(135deg, var(--primary-light) 0%, #bbdefb 100%);
+      border-radius: 16px;
+      padding: 30px;
+      margin: 35px 0;
+    }
+    .summary-box h3 { color: var(--primary-dark); margin-bottom: 15px; }
+    .summary-box ul { margin: 0; padding-left: 20px; }
+    .summary-box li { margin-bottom: 10px; color: var(--text); }
+
+    .cta-section {
+      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--primary) 50%, var(--gradient-end) 100%);
+      color: white;
+      padding: 50px 35px;
+      text-align: center;
+    }
+    .cta-section h2 { font-size: 1.6rem; margin-bottom: 15px; }
+    .cta-section p { opacity: 0.95; margin-bottom: 25px; font-size: 1.05rem; }
+    .cta-button {
+      display: inline-block;
+      background: var(--white);
+      color: var(--primary-dark);
+      padding: 16px 45px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+
+    .related-articles { padding: 35px; background: #f5f5f5; }
+    .related-articles h3 { margin-bottom: 20px; color: var(--text); font-size: 1.2rem; }
+    .related-grid { display: grid; gap: 15px; }
+    .related-link {
+      display: block;
+      background: var(--white);
+      padding: 18px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s ease;
+      border: 1px solid #eee;
+    }
+    .related-link:hover { border-color: var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+
+    .footer { background: #263238; color: #b0bec5; padding: 40px 20px; }
+    .footer-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+    .footer p { margin-bottom: 15px; }
+    .footer-links { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+    .footer a { color: var(--accent); text-decoration: none; transition: color 0.3s; }
+    .footer a:hover { color: var(--white); }
+
+    @media (max-width: 768px) {
+      .hero { height: 350px; }
+      .hero h1 { font-size: 1.6rem; }
+      .article-content { padding: 25px 20px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .continue-tips { grid-template-columns: 1fr; }
+      .step-item { flex-direction: column; }
+      .step-item:not(:last-child)::after { display: none; }
+      .header-nav { display: none; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "ダイエットアプリを最大限活用する方法｜We Dietの使い方ガイド",
+    "description": "食事記録、運動記録、体重管理…ダイエットアプリの機能をフル活用してダイエット成功へ。We Dietの効果的な使い方を詳しく解説します。",
+    "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&h=630&fit=crop",
+    "author": {
+      "@type": "Person",
+      "name": "山田美咲"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "We Diet",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://we-diet.net/logo.png"
+      }
+    },
+    "datePublished": "2024-12-22",
+    "dateModified": "2024-12-22"
+  }
+  </script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/">We Diet</a>
+      <nav class="header-nav">
+        <a href="/">ホーム</a>
+        <a href="/blog/">ブログ</a>
+        <a href="/privacy-policy">プライバシー</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-category">📱 アプリ活用</span>
+      <h1>ダイエットアプリを最大限活用する方法<br>We Dietの使い方ガイド</h1>
+      <p class="hero-meta">更新日: 2024年12月22日 | 読了時間: 約8分</p>
+    </div>
+  </section>
+
+  <nav class="breadcrumb">
+    <a href="/">ホーム</a> &gt; <a href="/blog/">ブログ</a> &gt; We Dietの使い方ガイド
+  </nav>
+
+  <article class="article">
+    <div class="author-box">
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="山田美咲" class="author-avatar">
+      <div class="author-info">
+        <h4>山田美咲</h4>
+        <p>We Diet プロダクトマネージャー / 元ダイエットジプシー</p>
+      </div>
+    </div>
+
+    <div class="article-content">
+      <div class="lead-text">
+        <p>「ダイエットアプリ、ダウンロードしたけど結局使わなくなった…」そんな経験、ありませんか？実は私もそうでした。でも、正しい使い方を知ってからは、アプリがダイエットの強力な味方になりました。この記事では、We Dietの機能をフル活用して、ダイエットを成功させる具体的な方法をお伝えします。</p>
+      </div>
+
+      <h2>We Dietの4つの主要機能</h2>
+
+      <p>まずは、We Dietでできることを整理しましょう。大きく分けて4つの機能があります。</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🍽️</div>
+          <h3>食事記録</h3>
+          <p>毎日の食事を簡単に記録。写真を撮るだけでもOK。何を食べたかを見える化します。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚖️</div>
+          <h3>体重管理</h3>
+          <p>毎日の体重を記録すると、グラフで推移が一目瞭然。長期的なトレンドが分かります。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏃</div>
+          <h3>運動記録</h3>
+          <p>ウォーキング、筋トレ、ジョギング…行った運動を記録。消費カロリーの目安も表示。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <h3>SNS機能</h3>
+          <p>同じ目標を持つダイエット仲間と繋がれる。投稿へのいいねやコメントで励まし合おう。</p>
+        </div>
+      </div>
+
+      <h2>効果的な使い方5ステップ</h2>
+
+      <p>機能を知ったら、次は効果的な使い方です。私がおすすめする5つのステップをご紹介します。</p>
+
+      <div class="step-flow">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>プロフィールを設定する</h4>
+            <p>身長、現在の体重、目標体重を入力しましょう。これにより、1日の目標カロリーが自動計算されます。目標を明確にすることで、モチベーションも上がります。「私は○kg痩せるんだ」と宣言する最初のステップです。</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>毎朝体重を記録する</h4>
+            <p>起床後、トイレに行った後がベストタイミング。毎日同じ条件で測ることで、正確な推移が分かります。日々の変動に一喜一憂せず、週単位で見ることがポイントです。</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>食事は食べた直後に記録</h4>
+            <p>「後で思い出そう」は禁物。食べた直後に記録する習慣をつけましょう。完璧なカロリー計算じゃなくてOK。写真を撮るだけ、メニュー名を入れるだけでも効果があります。</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>仲間をフォローする</h4>
+            <p>同じ目標を持つ人をフォローして、タイムラインを活性化しましょう。他の人の投稿を見ることで刺激を受け、「私も頑張ろう」という気持ちになります。</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h4>毎日何かを投稿する</h4>
+            <p>食事の写真、体重の変化、今日の気づき…何でもOKです。発信することで意識が高まり、仲間からの応援がモチベーションになります。「見られている」という意識が行動を変えます。</p>
+          </div>
+        </div>
+      </div>
+
+      <h2>記録を続けるコツ</h2>
+
+      <p>「三日坊主になりそう…」という方、安心してください。続けるコツがあります。</p>
+
+      <div class="continue-tips">
+        <div class="continue-tip">
+          <h4>完璧を求めない</h4>
+          <p>カロリー計算が面倒なら、写真だけでもOK</p>
+        </div>
+        <div class="continue-tip">
+          <h4>習慣化する</h4>
+          <p>朝起きたら体重測定、食後すぐ記録</p>
+        </div>
+        <div class="continue-tip">
+          <h4>通知を活用</h4>
+          <p>リマインダーをオンにして忘れ防止</p>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <h4>💡 1日忘れても大丈夫！</h4>
+        <p>完璧に記録できなくても問題ありません。翌日からまた始めればOK。大切なのは長期的に続けることです。私も最初は週2〜3回しか記録できませんでした。でも、続けているうちに自然と毎日記録するようになりました。</p>
+      </div>
+
+      <h2>グラフを活用する</h2>
+
+      <p>記録したデータは、グラフで確認すると効果的です。</p>
+
+      <div class="graph-section">
+        <h4>確認できる3つのグラフ</h4>
+        <div class="graph-list">
+          <div class="graph-item">
+            <strong>📈 体重グラフ</strong>
+            <span>長期的な推移を確認。右肩下がりなら順調の証拠</span>
+          </div>
+          <div class="graph-item">
+            <strong>🍴 カロリーグラフ</strong>
+            <span>日々の摂取カロリーをチェック。食べ過ぎの傾向を把握</span>
+          </div>
+          <div class="graph-item">
+            <strong>🏋️ 運動記録</strong>
+            <span>週ごとの運動量を振り返り。運動習慣の定着を確認</span>
+          </div>
+        </div>
+      </div>
+
+      <p>週に1回はグラフを見返して、自分の変化を確認しましょう。「先週より減ってる！」という発見がモチベーションになります。</p>
+
+      <h2>SNS機能を活用する</h2>
+
+      <p>一人でダイエットするのは辛いもの。SNS機能を使って、仲間と一緒に頑張りましょう。</p>
+
+      <div class="sns-tips">
+        <h4>🌟 投稿のコツ</h4>
+        <ul>
+          <li>食事の写真はなるべくキレイに撮る（見栄えを気にすると自然と健康的な食事に）</li>
+          <li>正直に報告する（完璧を装わないことで共感が生まれる）</li>
+          <li>小さな成功も共有する（「1kg減った！」は立派な報告）</li>
+          <li>質問や悩みも投稿してみる（先輩ダイエッターからアドバイスがもらえることも）</li>
+        </ul>
+      </div>
+
+      <h3>フォロワーとの交流</h3>
+      <ul>
+        <li>他の人の投稿に「いいね」やコメントをする</li>
+        <li>励ましのメッセージを送る（送った分だけ返ってくる）</li>
+        <li>参考になった投稿を保存する</li>
+        <li>同じ目標の人を見つけて一緒に頑張る</li>
+      </ul>
+
+      <h2>よくある質問</h2>
+
+      <div class="qa-section">
+        <div class="qa-item">
+          <div class="qa-question">毎日記録しないとダメ？</div>
+          <div class="qa-answer">理想は毎日ですが、週に数日でも効果はあります。大切なのは長く続けること。自分のペースで構いません。記録しない日があっても、自分を責めないでください。</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-question">外食が多くても使える？</div>
+          <div class="qa-answer">もちろんです！外食メニューも多数登録されています。「ラーメン」「定食」などざっくり記録するだけでもOK。外食が多い人こそ、記録することで食生活の傾向が分かります。</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-question">他の人に見られたくない投稿もある…</div>
+          <div class="qa-answer">プライベート設定も可能です。公開範囲を選べるので、体重の記録は自分だけ、食事は仲間に公開、など使い分けができます。</div>
+        </div>
+      </div>
+
+      <div class="summary-box">
+        <h3>📝 この記事のポイント</h3>
+        <ul>
+          <li>We Dietには<strong>食事記録・体重管理・運動記録・SNS</strong>の4機能がある</li>
+          <li>効果的な使い方：プロフィール設定→毎朝体重記録→食後すぐ記録→仲間フォロー→毎日投稿</li>
+          <li>完璧を求めず、写真だけでもOK。続けることが大切</li>
+          <li>グラフで長期的な変化を確認してモチベーション維持</li>
+          <li>SNS機能で仲間と励まし合うと継続率アップ</li>
+        </ul>
+      </div>
+
+      <p>ダイエットアプリは、使いこなすことで効果が何倍にもなります。完璧に使おうとせず、まずは一つの機能から始めてみてください。記録を続けることで、あなたの食生活や運動習慣が見える化され、自然と行動が変わっていきます。</p>
+    </div>
+
+    <div class="cta-section">
+      <h2>今日からWe Dietを活用しよう</h2>
+      <p>食事記録、体重管理、仲間との交流…<br>We Dietでダイエットを楽しく成功させましょう。</p>
+      <a href="/" class="cta-button">無料で始める</a>
+    </div>
+
+    <div class="related-articles">
+      <h3>関連記事</h3>
+      <div class="related-grid">
+        <a href="/blog/diet-record-benefits.html" class="related-link">レコーディングダイエットの効果｜記録するだけで痩せる理由</a>
+        <a href="/blog/diet-sns-benefits.html" class="related-link">ダイエットにSNSを活用するメリット｜仲間の力で成功率UP</a>
+        <a href="/blog/diet-motivation-tips.html" class="related-link">ダイエットが続かない人必見！モチベーションを維持する7つの方法</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>&copy; 2025 We Diet. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="/">トップページ</a>
+        <a href="/blog/">ブログ</a>
+        <a href="/privacy-policy">プライバシーポリシー</a>
+        <a href="/terms-of-service">利用規約</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

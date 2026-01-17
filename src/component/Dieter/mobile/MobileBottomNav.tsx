@@ -37,34 +37,46 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
     }
   };
 
+  // 共通ボタンスタイル（タップターゲット48px以上を確保）
+  const buttonStyle = {
+    minWidth: 56,
+    minHeight: 56,
+    p: 1,
+    flexDirection: 'column',
+    fontSize: '0.75rem',
+    fontWeight: 500,
+    borderRadius: 2,
+    '&:active': {
+      transform: 'scale(0.95)',
+    },
+  };
+
   return (
     <Box sx={{
       backgroundColor: isDarkMode ? '#000000' : 'white',
       borderTop: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`,
-      py: 1,
-      paddingBottom: 'env(safe-area-inset-bottom)' // iOS Safari対応
+      py: 0.5,
+      paddingBottom: 'max(8px, env(safe-area-inset-bottom))', // iOS Safari対応
     }}>
       <Box sx={{
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center',
         maxWidth: 500,
-        mx: 'auto'
+        mx: 'auto',
+        px: 1,
       }}>
         {/* Home Button */}
         <Button
           onClick={onNavigateToHome}
           sx={{
-            minWidth: 'auto',
-            p: 1,
-            color: (!showFollowingPosts && !showMessages && !showNotifications) 
-              ? '#29b6f6' 
-              : (isDarkMode ? '#888' : '#666'),
-            flexDirection: 'column',
-            fontSize: '0.7rem'
+            ...buttonStyle,
+            color: (!showFollowingPosts && !showMessages && !showNotifications)
+              ? '#29b6f6'
+              : (isDarkMode ? '#999' : '#666'),
           }}
         >
-          <HomeIcon sx={{ fontSize: 20, mb: 0.5 }} />
+          <HomeIcon sx={{ fontSize: 24, mb: 0.25 }} />
           ホーム
         </Button>
 
@@ -72,14 +84,11 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         <Button
           onClick={handleSearch}
           sx={{
-            minWidth: 'auto',
-            p: 1,
-            color: isSearching ? '#29b6f6' : (isDarkMode ? '#888' : '#666'),
-            flexDirection: 'column',
-            fontSize: '0.7rem'
+            ...buttonStyle,
+            color: isSearching ? '#29b6f6' : (isDarkMode ? '#999' : '#666'),
           }}
         >
-          <Box sx={{ fontSize: 20, mb: 0.5 }}>🔍</Box>
+          <Box sx={{ fontSize: 22, mb: 0.25, lineHeight: 1 }}>🔍</Box>
           検索
         </Button>
 
@@ -87,14 +96,11 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         <Button
           onClick={onOpenPostModal}
           sx={{
-            minWidth: 'auto',
-            p: 1,
+            ...buttonStyle,
             color: '#29b6f6',
-            flexDirection: 'column',
-            fontSize: '0.7rem'
           }}
         >
-          <EditIcon sx={{ fontSize: 20, mb: 0.5 }} />
+          <EditIcon sx={{ fontSize: 24, mb: 0.25 }} />
           投稿
         </Button>
 
@@ -102,17 +108,14 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         <Button
           onClick={onNavigateToNotifications}
           sx={{
-            minWidth: 'auto',
-            p: 1,
-            color: showNotifications 
-              ? '#29b6f6' 
-              : (isDarkMode ? '#888' : '#666'),
-            flexDirection: 'column',
-            fontSize: '0.7rem',
-            position: 'relative'
+            ...buttonStyle,
+            color: showNotifications
+              ? '#29b6f6'
+              : (isDarkMode ? '#999' : '#666'),
+            position: 'relative',
           }}
         >
-          <Box sx={{ fontSize: 20, mb: 0.5 }}>🔔</Box>
+          <Box sx={{ fontSize: 22, mb: 0.25, lineHeight: 1 }}>🔔</Box>
           通知
         </Button>
 
@@ -120,14 +123,11 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         <Button
           onClick={onNavigateToProfile}
           sx={{
-            minWidth: 'auto',
-            p: 1,
-            color: isDarkMode ? '#888' : '#666',
-            flexDirection: 'column',
-            fontSize: '0.7rem'
+            ...buttonStyle,
+            color: isDarkMode ? '#999' : '#666',
           }}
         >
-          <PeopleIcon sx={{ fontSize: 20, mb: 0.5 }} />
+          <PeopleIcon sx={{ fontSize: 24, mb: 0.25 }} />
           設定
         </Button>
       </Box>

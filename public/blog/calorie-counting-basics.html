@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3JE0T4ZFM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J3JE0T4ZFM');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>初心者向けカロリー計算の基本｜無理なく痩せる食事管理術 | We Diet</title>
+  <meta name="description" content="カロリー計算って難しそう？大丈夫、この記事を読めば基本がわかります。面倒くさがりでも続く食事管理のコツを伝授。">
+  <meta property="og:title" content="初心者向けカロリー計算の基本｜無理なく痩せる食事管理術">
+  <meta property="og:description" content="カロリー計算の基礎から、簡単に続けられる食事記録の方法まで解説します。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://we-diet.net/blog/calorie-counting-basics.html">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&h=630&fit=crop">
+  <link rel="canonical" href="https://we-diet.net/blog/calorie-counting-basics.html">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #dbeafe;
+      --accent: #f59e0b;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+      --radius: 16px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans JP', -apple-system, sans-serif; line-height: 1.9; color: var(--text); background: var(--bg); }
+    .header { background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%); color: var(--white); position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo-icon { width: 36px; height: 36px; background: var(--white); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: bold; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.95rem; }
+    .hero-image { width: 100%; height: 400px; object-fit: cover; }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+    .breadcrumb { padding: 20px 0; font-size: 0.9rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .article { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); margin-bottom: 48px; overflow: hidden; }
+    .article-header { padding: 40px 40px 0; }
+    .category { display: inline-block; background: #10b981; color: var(--white); padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; margin-bottom: 16px; }
+    .article-header h1 { font-size: 1.9rem; font-weight: 700; line-height: 1.4; margin-bottom: 16px; }
+    .meta { color: var(--text-muted); font-size: 0.9rem; padding-bottom: 24px; border-bottom: 1px solid #e2e8f0; }
+    .article-content { padding: 40px; }
+    .article-content p { margin-bottom: 24px; font-size: 1.05rem; }
+    .article-content h2 { font-size: 1.5rem; font-weight: 700; margin: 48px 0 20px; padding-bottom: 12px; border-bottom: 3px solid var(--primary-light); }
+    .article-content h3 { font-size: 1.2rem; font-weight: 600; margin: 32px 0 16px; }
+    .article-content ul, .article-content ol { margin: 20px 0 28px 24px; }
+    .article-content li { margin-bottom: 12px; font-size: 1.05rem; }
+    .article-content img { width: 100%; border-radius: 12px; margin: 32px 0; }
+    .tip-box { background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 4px solid var(--accent); padding: 24px; margin: 32px 0; border-radius: 0 12px 12px 0; }
+    .tip-box h4 { color: #92400e; margin-bottom: 12px; font-size: 1.1rem; }
+    .info-box { background: var(--primary-light); border-radius: 12px; padding: 24px; margin: 32px 0; }
+    .info-box h4 { color: var(--primary); margin-bottom: 12px; }
+    .calorie-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+    .calorie-table th, .calorie-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    .calorie-table th { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+    .calorie-table tr:hover { background: #f8fafc; }
+    .cta-section { background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 50%, #06b6d4 100%); padding: 48px; text-align: center; color: var(--white); }
+    .cta-section h2 { font-size: 1.6rem; margin-bottom: 16px; }
+    .cta-section p { opacity: 0.95; margin-bottom: 24px; }
+    .cta-button { display: inline-block; background: var(--white); color: var(--primary); padding: 16px 48px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: transform 0.3s; }
+    .cta-button:hover { transform: scale(1.05); }
+    .related-articles { padding: 40px; background: #f8fafc; }
+    .related-articles h3 { margin-bottom: 24px; font-size: 1.3rem; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .related-card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); transition: transform 0.3s; }
+    .related-card:hover { transform: translateY(-4px); }
+    .related-card a { text-decoration: none; color: inherit; }
+    .related-card img { width: 100%; height: 120px; object-fit: cover; }
+    .related-card .content { padding: 16px; }
+    .related-card h4 { font-size: 0.95rem; line-height: 1.5; }
+    .footer { background: var(--text); color: var(--white); padding: 48px 24px; text-align: center; }
+    .footer a { color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; }
+    @media (max-width: 768px) {
+      .hero-image { height: 250px; }
+      .article-header, .article-content { padding: 24px; }
+      .article-header h1 { font-size: 1.5rem; }
+      .related-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo"><span class="logo-icon">W</span>We Diet</a>
+      <nav class="nav-links">
+        <a href="/">ホーム</a>
+        <a href="/blog/">ブログ</a>
+        <a href="/faq">よくある質問</a>
+      </nav>
+    </div>
+  </header>
+
+  <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600&h=800&fit=crop" alt="健康的な食事" class="hero-image">
+
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="/">ホーム</a> &gt; <a href="/blog/">ブログ</a> &gt; カロリー計算の基本
+    </nav>
+
+    <article class="article">
+      <div class="article-header">
+        <span class="category">食事管理</span>
+        <h1>初心者向けカロリー計算の基本｜無理なく痩せる食事管理術</h1>
+        <p class="meta">2025年1月15日 · 読了時間 約10分</p>
+      </div>
+
+      <div class="article-content">
+        <p>「カロリー計算ってめんどくさそう…」</p>
+
+        <p>わかります、その気持ち。私も最初はそう思ってました。</p>
+
+        <p>でも実際やってみると、意外とシンプルだし、何より「なぜ痩せないのか」が見えてくるんですよね。</p>
+
+        <p>今日は、面倒くさがりな私でも続けられた、カロリー計算の基本をお伝えします。難しい計算式とか出てきませんので、安心してください（笑）</p>
+
+        <h2>そもそもカロリーって何？</h2>
+
+        <p>超ざっくり言うと、カロリーは「エネルギーの単位」です。</p>
+
+        <p>私たちは食べ物からエネルギー（カロリー）を摂取して、生きるために消費しています。で、この「摂取」と「消費」のバランスで体重が決まるわけです。</p>
+
+        <ul>
+          <li><strong>摂取カロリー > 消費カロリー</strong> → 太る</li>
+          <li><strong>摂取カロリー < 消費カロリー</strong> → 痩せる</li>
+          <li><strong>摂取カロリー = 消費カロリー</strong> → 現状維持</li>
+        </ul>
+
+        <p>これだけ。シンプルでしょ？</p>
+
+        <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&h=450&fit=crop" alt="カラフルな野菜" loading="lazy">
+
+        <h2>自分の消費カロリーを知ろう</h2>
+
+        <p>まず知るべきは「自分が1日にどれくらいカロリーを消費しているか」です。</p>
+
+        <p>これは「基礎代謝」＋「活動代謝」で決まります。</p>
+
+        <h3>基礎代謝の目安</h3>
+
+        <p>基礎代謝は、何もしなくても消費されるエネルギー。呼吸とか心臓動かすとかに使われてます。</p>
+
+        <table class="calorie-table">
+          <tr>
+            <th>性別</th>
+            <th>年代</th>
+            <th>基礎代謝の目安</th>
+          </tr>
+          <tr>
+            <td>女性</td>
+            <td>20-30代</td>
+            <td>約1,100〜1,200kcal</td>
+          </tr>
+          <tr>
+            <td>女性</td>
+            <td>40-50代</td>
+            <td>約1,000〜1,100kcal</td>
+          </tr>
+          <tr>
+            <td>男性</td>
+            <td>20-30代</td>
+            <td>約1,400〜1,500kcal</td>
+          </tr>
+          <tr>
+            <td>男性</td>
+            <td>40-50代</td>
+            <td>約1,300〜1,400kcal</td>
+          </tr>
+        </table>
+
+        <p>※体重や身長で変わるので、あくまで目安です</p>
+
+        <h3>1日の総消費カロリー</h3>
+
+        <p>基礎代謝に活動量を掛けると、1日の総消費カロリーがわかります：</p>
+
+        <ul>
+          <li>デスクワーク中心：基礎代謝 × 1.2</li>
+          <li>適度に動く：基礎代謝 × 1.5</li>
+          <li>よく動く・運動習慣あり：基礎代謝 × 1.7</li>
+        </ul>
+
+        <div class="tip-box">
+          <h4>計算例</h4>
+          <p>30代女性、デスクワーク中心の場合：<br>
+          1,150kcal × 1.2 = 約1,380kcal/日<br><br>
+          つまり、1,380kcal以下に抑えれば痩せる計算になります。</p>
+        </div>
+
+        <h2>どれくらい減らせばいいの？</h2>
+
+        <p>脂肪1kgを落とすには、約7,200kcalの赤字が必要と言われています。</p>
+
+        <p>「7,200kcal!?」って思うかもしれませんが、これを30日で割ると1日あたり240kcal。</p>
+
+        <p>ご飯を茶碗半分減らす（約80kcal）＋15分のウォーキング（約60kcal）くらいで達成できちゃう数字です。</p>
+
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=450&fit=crop" alt="サラダボウル" loading="lazy">
+
+        <h2>よくある食べ物のカロリー</h2>
+
+        <p>参考までに、よく食べるものののカロリーを載せておきますね：</p>
+
+        <table class="calorie-table">
+          <tr>
+            <th>食べ物</th>
+            <th>カロリー目安</th>
+          </tr>
+          <tr>
+            <td>ご飯（茶碗1杯）</td>
+            <td>約240kcal</td>
+          </tr>
+          <tr>
+            <td>食パン（6枚切り1枚）</td>
+            <td>約160kcal</td>
+          </tr>
+          <tr>
+            <td>ラーメン</td>
+            <td>約500〜800kcal</td>
+          </tr>
+          <tr>
+            <td>牛丼（並）</td>
+            <td>約650kcal</td>
+          </tr>
+          <tr>
+            <td>コンビニおにぎり</td>
+            <td>約170〜200kcal</td>
+          </tr>
+          <tr>
+            <td>サラダチキン</td>
+            <td>約100〜120kcal</td>
+          </tr>
+          <tr>
+            <td>カフェラテ（M）</td>
+            <td>約150kcal</td>
+          </tr>
+          <tr>
+            <td>ショートケーキ</td>
+            <td>約350kcal</td>
+          </tr>
+        </table>
+
+        <p>こうやって見ると、何気なく飲んでるカフェラテとか、けっこうカロリーありますよね…（私は知った時ショックでした）</p>
+
+        <h2>カロリー計算、続けるコツ</h2>
+
+        <h3>1. 完璧を目指さない</h3>
+
+        <p>全部の食材を量って記録する必要はないです。「だいたいこれくらいかな」でOK。</p>
+
+        <p>外食の時は「ラーメン食べた」くらいの記録でも十分効果があります。</p>
+
+        <h3>2. アプリを使う</h3>
+
+        <p>手書きで記録するより、アプリのほうが圧倒的に楽です。We Dietなら、写真撮るだけでもいいし、簡単に記録できます。</p>
+
+        <h3>3. まずは記録だけでOK</h3>
+
+        <p>最初から「〇〇kcal以下に抑える」って目標は立てなくていいです。</p>
+
+        <p>1週間くらい普通に食べて記録するだけ。そうすると「自分がどれくらい食べてるか」が見えてきて、自然と「ここ減らせるな」って気づきます。</p>
+
+        <div class="info-box">
+          <h4>私の体験談</h4>
+          <p>記録を始めて気づいたんですけど、私、無意識に間食でけっこうカロリー摂ってたんですよね。デスクに置いてあったチョコとか、気づいたら5個くらい食べてた日もあって…。記録するようになってから、「あ、さっき食べたな」って意識できるようになりました。</p>
+        </div>
+
+        <h2>注意点：カロリーだけ見てもダメ</h2>
+
+        <p>カロリー計算は大事なんですけど、それだけ見てると失敗します。</p>
+
+        <p>例えば、ポテトチップス300kcalとサラダチキン300kcalは同じカロリーですけど、体への影響は全然違いますよね。</p>
+
+        <p>タンパク質、脂質、炭水化物のバランスも意識できるとベストです。でもまあ、最初はカロリーを意識するだけでも十分効果ありますよ。</p>
+
+        <h2>まとめ</h2>
+
+        <p>カロリー計算って、やってみると意外とシンプルです：</p>
+
+        <ol>
+          <li>自分の消費カロリーを把握する</li>
+          <li>食べたものを記録する</li>
+          <li>摂取 < 消費になるよう調整する</li>
+        </ol>
+
+        <p>完璧にやる必要はないです。「だいたい」でいいんです。</p>
+
+        <p>まずは1週間、食べたものを記録してみてください。それだけで「なるほど、だから痩せないのか」って発見があるはずです。</p>
+
+        <p>We Dietなら、記録も簡単だし、同じように頑張ってる仲間も見つかります。一緒に頑張りましょ！</p>
+      </div>
+
+      <div class="cta-section">
+        <h2>カロリー記録を始めてみよう</h2>
+        <p>We Dietなら、食事記録が簡単。<br>仲間と一緒に、無理なくダイエット。</p>
+        <a href="/" class="cta-button">無料で始める</a>
+      </div>
+
+      <div class="related-articles">
+        <h3>あわせて読みたい</h3>
+        <div class="related-grid">
+          <article class="related-card">
+            <a href="/blog/diet-record-benefits.html">
+              <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=240&fit=crop" alt="レコーディングダイエット" loading="lazy">
+              <div class="content">
+                <h4>レコーディングダイエットの効果｜記録するだけで痩せる理由</h4>
+              </div>
+            </a>
+          </article>
+          <article class="related-card">
+            <a href="/blog/protein-diet.html">
+              <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400&h=240&fit=crop" alt="タンパク質" loading="lazy">
+              <div class="content">
+                <h4>タンパク質ダイエットの正しいやり方｜筋肉を落とさず痩せる</h4>
+              </div>
+            </a>
+          </article>
+          <article class="related-card">
+            <a href="/blog/diet-food-mistakes.html">
+              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=240&fit=crop" alt="食べ物の落とし穴" loading="lazy">
+              <div class="content">
+                <h4>実は太る！？ダイエット中に避けるべき食べ物の落とし穴</h4>
+              </div>
+            </a>
+          </article>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 We Diet. All rights reserved.</p>
+    <p>
+      <a href="/">トップページ</a>
+      <a href="/blog/">ブログ</a>
+      <a href="/privacy-policy">プライバシーポリシー</a>
+      <a href="/terms-of-service">利用規約</a>
+    </p>
+  </footer>
+</body>
+</html>

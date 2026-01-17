@@ -23,8 +23,10 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
   mobileLeftOverlay,
   mobileRightOverlay,
 }) => {
-  const { isTabletOrMobile } = useResponsive();
+  const { isTabletOrMobile, isSmallScreen } = useResponsive();
+  // モバイル: 768px以下、タブレット: 768px～960px、デスクトップ: 960px以上
   const isMobile = isTabletOrMobile;
+  const isTablet = isSmallScreen && !isTabletOrMobile; // 768px～900pxの間
 
   return (
     <Box sx={{ 
@@ -41,44 +43,45 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
         {mobileRightOverlay}
 
         <Grid container spacing={0} sx={{ width: '100%' }}>
-          {/* Desktop Left Sidebar */}
-          <Grid item xs={0} sm={0} md={3} lg={3} xl={2.625} sx={{ 
-            order: { xs: 1, md: 1 },
-            display: { xs: 'none', md: 'block' }
+          {/* Desktop Left Sidebar - lg以上で表示 */}
+          <Grid item xs={0} sm={0} md={0} lg={2.5} xl={2.5} sx={{
+            order: { xs: 1, lg: 1 },
+            display: { xs: 'none', lg: 'block' }
           }}>
             {leftSidebar}
           </Grid>
 
-          {/* Main Content */}
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6.75} sx={{ order: { xs: 1, md: 2 } }}>
-            <Box sx={{ 
-              backgroundColor: isDarkMode ? '#000000' : 'white', 
+          {/* Main Content - タブレットでは全幅、デスクトップでは中央 */}
+          <Grid item xs={12} sm={12} md={12} lg={7} xl={7} sx={{ order: { xs: 1, lg: 2 } }}>
+            <Box sx={{
+              backgroundColor: isDarkMode ? '#000000' : 'white',
               minHeight: { xs: '100vh', md: '100vh' },
-              borderLeft: { xs: 'none', md: '1px solid white' },
-              borderRight: { xs: 'none', md: '1px solid white' },
-              borderTop: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, md: 'none' },
-              borderBottom: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, md: 'none' },
-              boxShadow: { xs: 'none', md: isDarkMode 
-                ? '0 4px 12px rgba(187, 134, 252, 0.15)' 
+              borderLeft: { xs: 'none', lg: '1px solid white' },
+              borderRight: { xs: 'none', lg: '1px solid white' },
+              borderTop: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, lg: 'none' },
+              borderBottom: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, lg: 'none' },
+              boxShadow: { xs: 'none', lg: isDarkMode
+                ? '0 4px 12px rgba(187, 134, 252, 0.15)'
                 : '0 4px 12px rgba(66, 165, 245, 0.15)' },
-              maxWidth: '100%',
-              pb: { xs: 4, md: 0 },
-              overflowY: { xs: 'auto', md: 'visible' }
+              maxWidth: { xs: '100%', md: '800px', lg: '100%' },
+              mx: { xs: 0, md: 'auto', lg: 0 },
+              pb: { xs: 10, md: 4, lg: 0 }, // モバイルでは底部ナビ用に余白
+              overflowY: { xs: 'auto', lg: 'visible' }
             }}>
-              {/* Mobile Header */}
+              {/* Mobile/Tablet Header */}
               {isMobile && mobileHeader}
-              
+
               {/* Main Content */}
               {mainContent}
             </Box>
           </Grid>
 
-          {/* Desktop Right Sidebar */}
-          <Grid item xs={0} sm={0} md={3} lg={3} xl={2.625} sx={{ 
-            order: { xs: 2, md: 3 },
-            display: { xs: 'none', md: 'block' }
+          {/* Desktop Right Sidebar - lg以上で表示 */}
+          <Grid item xs={0} sm={0} md={0} lg={2.5} xl={2.5} sx={{
+            order: { xs: 2, lg: 3 },
+            display: { xs: 'none', lg: 'block' }
           }}>
-            <Box 
+            <Box
               position="sticky"
               top={0}
               sx={{
@@ -104,10 +107,10 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
             </Box>
           </Grid>
 
-          {/* Mobile Bottom Navigation */}
+          {/* Mobile/Tablet Bottom Navigation - lg未満で表示 */}
           {mobileBottomNav && (
-            <Grid item xs={12} sx={{ 
-              display: { xs: 'block', md: 'none' },
+            <Grid item xs={12} sx={{
+              display: { xs: 'block', lg: 'none' },
               position: 'fixed',
               bottom: 0,
               left: 0,

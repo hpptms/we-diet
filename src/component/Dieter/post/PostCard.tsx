@@ -406,16 +406,16 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
   };
 
   return (
-    <Box sx={{ 
-      p: 4, 
-      mb: 0, 
+    <Box sx={{
+      p: { xs: 2, sm: 3, md: 4 },
+      mb: 0,
       borderBottom: isDarkMode ? '2px solid #29b6f6' : '2px solid #e1f5fe',
       transition: 'all 0.3s ease',
-      '&:hover': { 
+      '&:hover': {
         backgroundColor: isDarkMode ? 'rgba(41, 182, 246, 0.05)' : 'rgba(227, 242, 253, 0.4)',
-        transform: 'translateX(4px)',
-        boxShadow: '0 4px 20px rgba(41, 182, 246, 0.1)'
-      } 
+        transform: { xs: 'none', md: 'translateX(4px)' },
+        boxShadow: { xs: 'none', md: '0 4px 20px rgba(41, 182, 246, 0.1)' }
+      }
     }}>
       {/* リツイート情報の表示 */}
       {post.IsRetweet && (
@@ -441,8 +441,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
           </Typography>
         </Box>
       )}
-      <Box display="flex" gap={3}>
-        <Avatar 
+      <Box display="flex" gap={{ xs: 1.5, sm: 2, md: 3 }}>
+        <Avatar
           src={post.AuthorPicture && post.AuthorPicture.trim() !== '' ? post.AuthorPicture : undefined}
           alt={post.AuthorName || 'ユーザー'}
           onClick={handleAvatarClick}
@@ -453,15 +453,16 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
               }
             }
           }}
-          sx={{ 
+          sx={{
             bgcolor: 'linear-gradient(45deg, #42a5f5 30%, #29b6f6 90%)',
-            width: 48,
-            height: 48,
-            fontSize: '1.2rem',
+            width: { xs: 40, sm: 44, md: 48 },
+            height: { xs: 40, sm: 44, md: 48 },
+            fontSize: { xs: '1rem', md: '1.2rem' },
             fontWeight: 'bold',
             boxShadow: '0 3px 10px rgba(66, 165, 245, 0.3)',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
+            flexShrink: 0,
             '&:hover': {
               transform: 'scale(1.05)',
               boxShadow: '0 6px 20px rgba(66, 165, 245, 0.4)',
@@ -470,33 +471,49 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
         >
           {post.AuthorName ? post.AuthorName.charAt(0).toUpperCase() : 'U'}
         </Avatar>
-        <Box flex={1} sx={{ 
+        <Box flex={1} sx={{
           minWidth: 0,
           maxWidth: '100%',
           overflow: 'hidden'
         }}>
-          <Box display="flex" alignItems="center" gap={2} mb={2}>
-            <Typography variant="subtitle1" sx={{ 
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={{ xs: 0.5, sm: 1, md: 2 }}
+            mb={{ xs: 1, md: 2 }}
+            flexWrap="wrap"
+          >
+            <Typography variant="subtitle1" sx={{
               fontWeight: 600,
               color: '#0277bd',
-              fontSize: '1.1rem'
+              fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' }
             }}>
               {post.AuthorName || 'ユーザー'}
             </Typography>
-            <Typography variant="body2" sx={{ color: '#546e7a' }}>
+            <Typography variant="body2" sx={{
+              color: '#546e7a',
+              fontSize: { xs: '0.8rem', sm: '0.85rem' },
+              display: { xs: 'none', sm: 'block' }
+            }}>
               @{post.AuthorName || 'user'}
             </Typography>
-            <Typography variant="body2" sx={{ color: '#90a4ae' }}>
+            <Typography variant="body2" sx={{
+              color: '#90a4ae',
+              display: { xs: 'none', sm: 'block' }
+            }}>
               ·
             </Typography>
-            <Typography variant="body2" sx={{ color: '#90a4ae' }}>
+            <Typography variant="body2" sx={{
+              color: '#90a4ae',
+              fontSize: { xs: '0.75rem', sm: '0.85rem' }
+            }}>
               {formatRelativeTime(post.CreatedAt)}
             </Typography>
           </Box>
-          <Typography variant="body1" sx={{ 
-            mb: 3, 
+          <Typography variant="body1" sx={{
+            mb: { xs: 2, md: 3 },
             lineHeight: 1.6,
-            fontSize: '1.1rem',
+            fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' },
             color: isDarkMode ? '#ffffff' : '#37474f',
             maxWidth: '100%',
             wordBreak: 'break-word',

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3JE0T4ZFM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J3JE0T4ZFM');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIG3完全ガイド｜ベンチプレス・スクワット・デッドリフトの正しいフォーム | We Diet</title>
+  <meta name="description" content="筋トレの王道BIG3を徹底解説。ベンチプレス、スクワット、デッドリフトの正しいフォーム、よくある間違い、重量設定まで完全網羅。">
+  <meta name="keywords" content="BIG3,ベンチプレス,スクワット,デッドリフト,筋トレ,フォーム">
+  <meta property="og:title" content="BIG3完全ガイド｜ベンチプレス・スクワット・デッドリフトの正しいフォーム">
+  <meta property="og:description" content="筋トレの王道BIG3を徹底解説。正しいフォームと重量設定を完全網羅。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://we-diet.net/blog/compound-exercises-guide.html">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&h=630&fit=crop">
+  <link rel="canonical" href="https://we-diet.net/blog/compound-exercises-guide.html">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #7c3aed;
+      --primary-light: #f5f3ff;
+      --primary-dark: #5b21b6;
+      --secondary: #8b5cf6;
+      --accent: #a78bfa;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --bg: #f9fafb;
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.9; color: var(--text); background: var(--bg); }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 18px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(124,58,237,0.3);
+    }
+    .header-inner { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .header a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 700; font-family: 'Poppins', sans-serif; }
+    .header-nav { display: flex; gap: 25px; }
+    .header-nav a { font-size: 0.95rem; font-weight: 500; opacity: 0.9; transition: opacity 0.3s; }
+    .header-nav a:hover { opacity: 1; }
+
+    .hero {
+      height: 400px;
+      background: linear-gradient(rgba(91,33,182,0.8), rgba(124,58,237,0.85)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&h=600&fit=crop') center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+    .hero-content { max-width: 700px; padding: 0 20px; }
+    .hero-category {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .hero h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    .hero-meta { opacity: 0.9; font-size: 0.95rem; }
+
+    .breadcrumb { max-width: 800px; margin: 25px auto; padding: 0 20px; font-size: 0.85rem; color: var(--text-light); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+
+    .article { max-width: 800px; margin: 0 auto 50px; background: var(--white); border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); overflow: hidden; }
+
+    .author-box { display: flex; align-items: center; gap: 15px; padding: 25px 35px; border-bottom: 1px solid #eee; background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%); }
+    .author-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--white); box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+    .author-info h4 { font-size: 1rem; color: var(--text); }
+    .author-info p { font-size: 0.85rem; color: var(--text-light); }
+
+    .article-content { padding: 40px 35px; }
+
+    .lead-text {
+      font-size: 1.15rem;
+      color: var(--text);
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 25px;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 35px;
+    }
+
+    .article-content h2 {
+      color: var(--primary-dark);
+      font-size: 1.5rem;
+      margin: 45px 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 3px solid var(--primary-light);
+      position: relative;
+    }
+    .article-content h2::before {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--primary);
+    }
+
+    .article-content h3 { color: var(--text); font-size: 1.25rem; margin: 30px 0 15px; }
+    .article-content p { margin-bottom: 20px; }
+    .article-content ul, .article-content ol { margin: 20px 0 25px 25px; }
+    .article-content li { margin-bottom: 12px; }
+
+    .exercise-card {
+      background: var(--white);
+      border: 2px solid var(--primary);
+      border-radius: 20px;
+      margin: 30px 0;
+      overflow: hidden;
+    }
+    .exercise-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 20px 25px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .exercise-number {
+      background: rgba(255,255,255,0.2);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .exercise-header h3 { margin: 0; font-size: 1.3rem; }
+    .exercise-header p { margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; }
+    .exercise-body { padding: 25px; }
+
+    .form-step {
+      display: flex;
+      gap: 15px;
+      margin: 15px 0;
+      padding: 15px;
+      background: var(--primary-light);
+      border-radius: 10px;
+    }
+    .form-step-num {
+      background: var(--primary);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .mistake-box {
+      background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+      border-left: 4px solid #dc2626;
+      border-radius: 0 12px 12px 0;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .mistake-box h4 { color: #991b1b; margin-bottom: 10px; }
+    .mistake-box ul { margin: 0 0 0 20px; }
+    .mistake-box li { color: #7f1d1d; }
+
+    .correct-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
+      border-left: 4px solid #16a34a;
+      border-radius: 0 12px 12px 0;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .correct-box h4 { color: #166534; margin-bottom: 10px; }
+
+    .muscle-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .muscle-tag {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .muscle-tag.main { background: var(--primary); color: white; }
+
+    .tip-box {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 4px solid #f59e0b;
+      border-radius: 0 12px 12px 0;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .tip-box h4 { color: #b45309; margin-bottom: 10px; }
+
+    .summary-box {
+      background: linear-gradient(135deg, var(--primary-light) 0%, #ddd6fe 100%);
+      border-radius: 16px;
+      padding: 30px;
+      margin: 35px 0;
+    }
+    .summary-box h3 { color: var(--primary-dark); margin-bottom: 15px; }
+    .summary-box ul { margin: 0; padding-left: 20px; }
+    .summary-box li { margin-bottom: 10px; }
+
+    .cta-section {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--secondary) 100%);
+      color: white;
+      padding: 50px 35px;
+      text-align: center;
+    }
+    .cta-section h2 { font-size: 1.6rem; margin-bottom: 15px; }
+    .cta-section p { opacity: 0.95; margin-bottom: 25px; font-size: 1.05rem; }
+    .cta-button {
+      display: inline-block;
+      background: var(--white);
+      color: var(--primary-dark);
+      padding: 16px 45px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .cta-button:hover { transform: translateY(-2px); }
+
+    .related-articles { padding: 35px; background: #f5f5f5; }
+    .related-articles h3 { margin-bottom: 20px; color: var(--text); font-size: 1.2rem; }
+    .related-grid { display: grid; gap: 15px; }
+    .related-link {
+      display: block;
+      background: var(--white);
+      padding: 18px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s ease;
+      border: 1px solid #eee;
+    }
+    .related-link:hover { border-color: var(--primary); }
+
+    .footer { background: #1f2937; color: #9ca3af; padding: 40px 20px; }
+    .footer-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+    .footer p { margin-bottom: 15px; }
+    .footer-links { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+    .footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .hero { height: 350px; }
+      .hero h1 { font-size: 1.6rem; }
+      .article-content { padding: 25px 20px; }
+      .header-nav { display: none; }
+      .exercise-header { flex-direction: column; text-align: center; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "BIG3完全ガイド｜ベンチプレス・スクワット・デッドリフトの正しいフォーム",
+    "description": "筋トレの王道BIG3を徹底解説。ベンチプレス、スクワット、デッドリフトの正しいフォームと重量設定を完全網羅。",
+    "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&h=630&fit=crop",
+    "author": {"@type": "Person", "name": "鈴木健太"},
+    "publisher": {"@type": "Organization", "name": "We Diet"},
+    "datePublished": "2025-01-17",
+    "dateModified": "2025-01-17"
+  }
+  </script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/">We Diet</a>
+      <nav class="header-nav">
+        <a href="/">ホーム</a>
+        <a href="/blog/">ブログ</a>
+        <a href="/privacy-policy">プライバシー</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-category">🏋️ 筋トレ種目</span>
+      <h1>BIG3完全ガイド<br>ベンチプレス・スクワット・デッドリフト</h1>
+      <p class="hero-meta">更新日: 2025年1月17日 | 読了時間: 約12分</p>
+    </div>
+  </section>
+
+  <nav class="breadcrumb">
+    <a href="/">ホーム</a> &gt; <a href="/blog/">ブログ</a> &gt; BIG3完全ガイド
+  </nav>
+
+  <article class="article">
+    <div class="author-box">
+      <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=100&h=100&fit=crop&crop=face" alt="鈴木健太" class="author-avatar">
+      <div class="author-info">
+        <h4>鈴木健太</h4>
+        <p>NSCA-CPT認定パーソナルトレーナー / 筋トレ歴15年</p>
+      </div>
+    </div>
+
+    <div class="article-content">
+      <div class="lead-text">
+        <p>筋トレで「BIG3」と呼ばれる3つの種目をご存知ですか？ベンチプレス、スクワット、デッドリフト。この3種目は、全身の筋肉を効率的に鍛えられる「キング・オブ・エクササイズ」です。正しいフォームをマスターすれば、筋肥大も筋力アップも一気に加速します。</p>
+      </div>
+
+      <h2>なぜBIG3が重要なのか</h2>
+
+      <p>BIG3が「筋トレの王道」と呼ばれる理由は以下の3つです：</p>
+
+      <ul>
+        <li><strong>複数の関節を使う</strong>：一度にたくさんの筋肉を動員できる</li>
+        <li><strong>高重量を扱える</strong>：筋肥大に必要な強い刺激を与えられる</li>
+        <li><strong>日常動作に直結</strong>：しゃがむ、持ち上げる、押すという基本動作の強化</li>
+      </ul>
+
+      <p>BIG3だけで全身の約80%の筋肉を鍛えられると言われています。時間がない人こそ、この3種目を優先すべきです。</p>
+
+      <!-- ベンチプレス -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-number">1</div>
+          <div>
+            <h3>ベンチプレス</h3>
+            <p>上半身の王様。厚い胸板を作る最強種目</p>
+          </div>
+        </div>
+        <div class="exercise-body">
+          <h4>鍛えられる筋肉</h4>
+          <div class="muscle-list">
+            <span class="muscle-tag main">大胸筋</span>
+            <span class="muscle-tag">三角筋前部</span>
+            <span class="muscle-tag">上腕三頭筋</span>
+          </div>
+
+          <h4>正しいフォーム</h4>
+          <div class="form-step">
+            <span class="form-step-num">1</span>
+            <p>ベンチに仰向けになり、目線がバーの真下に来るように位置を調整</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">2</span>
+            <p>肩甲骨を寄せて胸を張り、軽くアーチを作る。足は床にしっかりつける</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">3</span>
+            <p>手幅は肩幅の1.5倍程度。バーを握ったら手首をまっすぐに</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">4</span>
+            <p>バーを乳首の少し下あたりに下ろす。肘は45〜60度程度開く</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">5</span>
+            <p>胸に触れたら一瞬止め、爆発的に押し上げる</p>
+          </div>
+
+          <div class="mistake-box">
+            <h4>❌ よくある間違い</h4>
+            <ul>
+              <li>お尻がベンチから浮く（腰を痛める原因）</li>
+              <li>バーを首の方に下ろす（肩を痛める）</li>
+              <li>肘を90度に開きすぎる（肩関節に負担）</li>
+              <li>手首が反り返る（手首の怪我につながる）</li>
+            </ul>
+          </div>
+
+          <div class="correct-box">
+            <h4>✅ コツ</h4>
+            <p>「肩甲骨を寄せて、胸を高くする」これができているかどうかで効きが全然違います。ベンチに寝たとき、拳一個分くらい腰とベンチの間に隙間があるのが理想です。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- スクワット -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-number">2</div>
+          <div>
+            <h3>スクワット</h3>
+            <p>キング・オブ・エクササイズ。全身を鍛える最強種目</p>
+          </div>
+        </div>
+        <div class="exercise-body">
+          <h4>鍛えられる筋肉</h4>
+          <div class="muscle-list">
+            <span class="muscle-tag main">大腿四頭筋</span>
+            <span class="muscle-tag main">大臀筋</span>
+            <span class="muscle-tag">ハムストリングス</span>
+            <span class="muscle-tag">脊柱起立筋</span>
+            <span class="muscle-tag">腹筋群</span>
+          </div>
+
+          <h4>正しいフォーム</h4>
+          <div class="form-step">
+            <span class="form-step-num">1</span>
+            <p>バーを僧帽筋の上部にのせる（ハイバー）か、肩甲骨の上にのせる（ローバー）</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">2</span>
+            <p>足は肩幅より少し広め、つま先は30度程度外向き</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">3</span>
+            <p>胸を張り、視線は正面やや上。お腹に力を入れて体幹を安定させる</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">4</span>
+            <p>膝とつま先を同じ方向に向けながら、お尻を後ろに引くようにしゃがむ</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">5</span>
+            <p>太ももが床と平行（パラレル）以上の深さまでしゃがむ</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">6</span>
+            <p>かかとで床を押すイメージで立ち上がる</p>
+          </div>
+
+          <div class="mistake-box">
+            <h4>❌ よくある間違い</h4>
+            <ul>
+              <li>膝がつま先より大きく前に出る（膝を痛める）</li>
+              <li>膝が内側に入る（ニーイン）→ 膝の靭帯を痛める</li>
+              <li>背中が丸まる（腰椎椎間板ヘルニアのリスク）</li>
+              <li>かかとが浮く（バランスが崩れる）</li>
+            </ul>
+          </div>
+
+          <div class="correct-box">
+            <h4>✅ コツ</h4>
+            <p>しゃがむときは「椅子に座るイメージ」で、お尻を後ろに引きます。足首の硬い人はかかとにプレートを挟むと深くしゃがみやすくなります。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- デッドリフト -->
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <div class="exercise-number">3</div>
+          <div>
+            <h3>デッドリフト</h3>
+            <p>背中と下半身を同時に鍛える。最も高重量を扱える種目</p>
+          </div>
+        </div>
+        <div class="exercise-body">
+          <h4>鍛えられる筋肉</h4>
+          <div class="muscle-list">
+            <span class="muscle-tag main">広背筋</span>
+            <span class="muscle-tag main">脊柱起立筋</span>
+            <span class="muscle-tag main">大臀筋</span>
+            <span class="muscle-tag">ハムストリングス</span>
+            <span class="muscle-tag">僧帽筋</span>
+            <span class="muscle-tag">前腕</span>
+          </div>
+
+          <h4>正しいフォーム</h4>
+          <div class="form-step">
+            <span class="form-step-num">1</span>
+            <p>バーベルの真下に足を置く。足幅は腰幅程度、つま先は軽く外向き</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">2</span>
+            <p>膝を曲げてバーを握る。手幅は膝の外側程度</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">3</span>
+            <p>背中をまっすぐに保ち、胸を張る。腕は伸ばしたまま</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">4</span>
+            <p>バーを体に沿わせながら、足で床を押して立ち上がる</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">5</span>
+            <p>完全に立ち上がったら肩甲骨を軽く寄せ、胸を張る</p>
+          </div>
+          <div class="form-step">
+            <span class="form-step-num">6</span>
+            <p>股関節から折り曲げるように、コントロールしながら下ろす</p>
+          </div>
+
+          <div class="mistake-box">
+            <h4>❌ よくある間違い</h4>
+            <ul>
+              <li>背中が丸まる（腰を壊す最大の原因！）</li>
+              <li>バーが体から離れる（腰への負担が増大）</li>
+              <li>腕で引き上げようとする（上腕二頭筋を痛める）</li>
+              <li>首を反らせすぎる（頸椎を痛める）</li>
+            </ul>
+          </div>
+
+          <div class="correct-box">
+            <h4>✅ コツ</h4>
+            <p>「腕はただのフック」と考えてください。引き上げるのは背中と脚の力です。バーは常に体に触れているくらい近くを通します。初心者はハーフデッドリフトから始めるのもおすすめ。</p>
+          </div>
+        </div>
+      </div>
+
+      <h2>初心者の重量設定</h2>
+
+      <p>まずはフォームの習得が最優先。<strong>最初の1〜2週間はバーだけ（20kg）で練習</strong>しましょう。</p>
+
+      <div class="tip-box">
+        <h4>💡 重量アップの目安</h4>
+        <p>10回×3セットを正しいフォームでこなせたら、次回は2.5〜5kg増やします。「10回がギリギリ」くらいが適切な負荷です。</p>
+      </div>
+
+      <h2>週間スケジュール例</h2>
+
+      <p>初心者は各種目を<strong>週2回</strong>行うのが理想です。</p>
+
+      <ul>
+        <li><strong>月曜</strong>：ベンチプレス + スクワット</li>
+        <li><strong>水曜</strong>：デッドリフト + 補助種目</li>
+        <li><strong>金曜</strong>：ベンチプレス + スクワット</li>
+      </ul>
+
+      <p>同じ種目は最低48時間以上空けて行いましょう。</p>
+
+      <div class="summary-box">
+        <h3>📝 この記事のポイント</h3>
+        <ul>
+          <li>BIG3で全身の約80%の筋肉を効率的に鍛えられる</li>
+          <li><strong>ベンチプレス</strong>：肩甲骨を寄せて胸を張る</li>
+          <li><strong>スクワット</strong>：膝をつま先と同じ方向に、背中はまっすぐ</li>
+          <li><strong>デッドリフト</strong>：背中を丸めない、バーは体に沿わせる</li>
+          <li>最初はバーだけでフォームを完璧にする</li>
+          <li>各種目週2回、48時間以上の休息を確保</li>
+        </ul>
+      </div>
+
+      <p>BIG3は正しいフォームで行えば最高の種目ですが、間違ったフォームでは怪我のリスクが高まります。焦らずフォームを習得し、徐々に重量を上げていきましょう！</p>
+    </div>
+
+    <div class="cta-section">
+      <h2>BIG3の記録をつけよう</h2>
+      <p>We Dietで重量と回数を記録すれば、成長が一目瞭然。<br>正しいフォームで、着実にレベルアップ！</p>
+      <a href="/" class="cta-button">無料で始める</a>
+    </div>
+
+    <div class="related-articles">
+      <h3>関連記事</h3>
+      <div class="related-grid">
+        <a href="/blog/muscle-building-basics.html" class="related-link">筋肥大の科学｜筋肉がつくメカニズムと効率的なトレーニング法</a>
+        <a href="/blog/progressive-overload.html" class="related-link">漸進性過負荷の原則｜筋肉を成長させ続ける方法</a>
+        <a href="/blog/muscle-building-nutrition.html" class="related-link">筋肉を増やす食事法｜バルクアップのための栄養戦略</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>&copy; 2025 We Diet. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="/">トップページ</a>
+        <a href="/blog/">ブログ</a>
+        <a href="/privacy-policy">プライバシーポリシー</a>
+        <a href="/terms-of-service">利用規約</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

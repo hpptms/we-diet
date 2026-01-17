@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentLanguage } from '../i18n';
 
@@ -44,7 +45,17 @@ const PrivacyPolicy: React.FC = () => {
 
   // 現在は日本語で統一のため、日本語版のみを表示
   return (
-    <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+    <>
+      <Helmet>
+        <title>プライバシーポリシー | We Diet - ダイエットSNS</title>
+        <meta name="description" content="We Dietのプライバシーポリシーです。個人情報の収集・利用目的・管理について説明しています。" />
+        <meta property="og:title" content="プライバシーポリシー | We Diet" />
+        <meta property="og:description" content="We Dietのプライバシーポリシー。個人情報の取り扱いについて。" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://we-diet.com/privacy-policy" />
+        <link rel="canonical" href="https://we-diet.com/privacy-policy" />
+      </Helmet>
+      <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
       <button 
         style={backButtonStyle} 
         onClick={handleBackClick}
@@ -104,6 +115,7 @@ const PrivacyPolicy: React.FC = () => {
       <h2>8. プライバシーポリシーの変更</h2>
       <p>本プライバシーポリシーは、法令の変更やサービスの改善等により変更することがあります。変更した場合は、当サイトに掲載してお知らせします。</p>
     </div>
+    </>
   );
 };
 

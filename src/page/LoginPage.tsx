@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from "react-router-dom";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
@@ -300,8 +301,18 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <Box sx={containerStyles}>
-      {!shouldUseFullWidth && <Header />}
+    <>
+      <Helmet>
+        <title>ログイン | We Diet - ダイエットSNS</title>
+        <meta name="description" content="We Dietにログイン。ダイエット仲間と一緒に健康的な生活を始めましょう。Google、LINE、Xでの簡単ログインに対応。" />
+        <meta property="og:title" content="ログイン | We Diet" />
+        <meta property="og:description" content="We Dietにログインして、ダイエット仲間と繋がろう。" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://we-diet.com/login" />
+        <link rel="canonical" href="https://we-diet.com/login" />
+      </Helmet>
+      <Box sx={containerStyles}>
+        {!shouldUseFullWidth && <Header />}
       <Box sx={mainBoxStyles}>
         <Box sx={loginCardStyles}>
           <Typography 
@@ -438,6 +449,7 @@ const LoginPage: React.FC = () => {
       </Box>
       {!shouldUseFullWidth && <Footer />}
     </Box>
+    </>
   );
 };
 

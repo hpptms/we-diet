@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentLanguage } from '../i18n';
 
@@ -44,7 +45,17 @@ const TermsOfService: React.FC = () => {
 
   // 現在は日本語で統一のため、日本語版のみを表示
   return (
-    <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+    <>
+      <Helmet>
+        <title>利用規約 | We Diet - ダイエットSNS</title>
+        <meta name="description" content="We Dietの利用規約です。サービス利用の条件、ユーザーアカウント、コンテンツガイドラインについて説明しています。" />
+        <meta property="og:title" content="利用規約 | We Diet" />
+        <meta property="og:description" content="We Dietの利用規約。サービス利用条件について。" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://we-diet.com/terms-of-service" />
+        <link rel="canonical" href="https://we-diet.com/terms-of-service" />
+      </Helmet>
+      <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
       <button 
         style={backButtonStyle} 
         onClick={handleBackClick}
@@ -124,6 +135,7 @@ const TermsOfService: React.FC = () => {
       <h2>12. 準拠法</h2>
       <p>本条項は日本法に準拠します。</p>
     </div>
+    </>
   );
 };
 

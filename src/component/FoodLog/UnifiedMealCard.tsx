@@ -40,7 +40,7 @@ const UnifiedMealCard: React.FC<UnifiedMealCardProps> = ({
                     variant="outlined"
                     inputProps={{
                         maxLength: maxLength,
-                        style: { fontSize: '14px' }
+                        style: { fontSize: '16px' } // iOS で自動ズームを防止するため16px以上
                     }}
                     sx={{
                         '& .MuiOutlinedInput-root': {
