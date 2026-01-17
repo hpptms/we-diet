@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>断続的断食（IF）完全ガイド｜16:8から始める効果的なファスティング | We Diet ブログ</title>
+  <meta name="description" content="断続的断食（インターミッテントファスティング）の正しいやり方を解説。16:8メソッドの効果、初心者向けの始め方、注意点まで詳しく紹介。">
+  <meta name="keywords" content="断続的断食,インターミッテントファスティング,IF,16:8,ダイエット,脂肪燃焼">
+  <link rel="canonical" href="https://we-and-diet.com/blog/intermittent-fasting-guide.html">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3JE0T4ZFM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J3JE0T4ZFM');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root { --primary: #10b981; --primary-dark: #059669; --primary-light: #d1fae5; --text: #1e293b; --bg: #f0fdf4; --white: #ffffff; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans JP', sans-serif; color: var(--text); background: var(--bg); line-height: 1.8; }
+    .header { background: var(--white); padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+    .nav-link { color: var(--text); text-decoration: none; font-weight: 500; }
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); padding: 4rem 2rem; text-align: center; color: var(--white); position: relative; }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200') center/cover; opacity: 0.15; }
+    .hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+    .category-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1.5rem; border-radius: 30px; font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; margin-bottom: 1rem; line-height: 1.4; }
+    .hero-description { font-size: 1.1rem; opacity: 0.95; }
+    .container { max-width: 800px; margin: 0 auto; padding: 3rem 1.5rem; }
+    .article-content { background: var(--white); border-radius: 20px; padding: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .article-content h2 { color: var(--primary-dark); font-size: 1.5rem; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--primary-light); }
+    .article-content h3 { color: var(--text); font-size: 1.25rem; margin: 2rem 0 0.75rem; }
+    .article-content p { margin-bottom: 1.5rem; text-align: justify; }
+    .article-content ul, .article-content ol { margin: 1rem 0 1.5rem 1.5rem; }
+    .article-content li { margin-bottom: 0.5rem; }
+    .method-card { background: var(--bg); border-radius: 12px; padding: 1.5rem; margin: 1rem 0; border-left: 4px solid var(--primary); }
+    .method-card h4 { color: var(--primary-dark); margin-bottom: 0.5rem; }
+    .highlight-box { background: linear-gradient(135deg, var(--primary-light) 0%, #ecfdf5 100%); border-radius: 16px; padding: 2rem; margin: 2rem 0; }
+    .highlight-box h4 { color: var(--primary-dark); margin-bottom: 1rem; }
+    .warning-box { background: #fef3cd; border-left: 4px solid #f59e0b; padding: 1.5rem; border-radius: 0 12px 12px 0; margin: 2rem 0; }
+    .schedule-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    .schedule-table th, .schedule-table td { padding: 12px; border: 1px solid #e5e7eb; text-align: left; }
+    .schedule-table th { background: var(--primary-light); color: var(--primary-dark); }
+    .cta-section { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: 20px; padding: 3rem; text-align: center; color: white; margin-top: 3rem; }
+    .cta-button { display: inline-block; background: white; color: var(--primary); padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-weight: 700; margin-top: 1.5rem; }
+    .related-articles { margin-top: 3rem; padding: 2rem; background: var(--white); border-radius: 16px; }
+    .related-articles h3 { color: var(--primary-dark); margin-bottom: 1rem; }
+    .related-articles ul { list-style: none; margin: 0; padding: 0; }
+    .related-articles li { margin: 0.75rem 0; }
+    .related-articles a { color: var(--text); text-decoration: none; }
+    .footer { background: var(--text); color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
+    .footer a { color: rgba(255,255,255,0.8); text-decoration: none; margin: 0 1rem; }
+    @media (max-width: 768px) { .article-content { padding: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">We Diet</a>
+      <a href="/blog/" class="nav-link">ブログ一覧</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="category-badge">食事法</span>
+      <h1>断続的断食（IF）完全ガイド｜16:8から始める効果的なファスティング</h1>
+      <p class="hero-description">科学的に証明された断食の効果と正しいやり方</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <article class="article-content">
+      <p>「断食」と聞くと厳しいイメージがありますが、断続的断食（インターミッテントファスティング、IF）は、食べない時間と食べる時間を決めるだけのシンプルな方法です。</p>
+
+      <p>この記事では、初心者にも始めやすい16:8メソッドを中心に、断続的断食の効果と正しいやり方を解説します。</p>
+
+      <h2>断続的断食（IF）とは</h2>
+
+      <p>断続的断食は、<strong>「何を食べるか」ではなく「いつ食べるか」</strong>に焦点を当てた食事法です。一定時間の断食と食事可能時間を交互に繰り返すことで、体の代謝を最適化します。</p>
+
+      <h2>主な断続的断食の方法</h2>
+
+      <div class="method-card">
+        <h4>16:8メソッド（最もポピュラー）</h4>
+        <p>16時間の断食 + 8時間の食事可能時間。例：12時〜20時に食事、20時〜翌12時は断食。朝食を抜くだけで実現可能。</p>
+      </div>
+
+      <div class="method-card">
+        <h4>5:2ダイエット</h4>
+        <p>週5日は通常食、週2日は500〜600kcalに制限。断食日は連続しないようにする。</p>
+      </div>
+
+      <div class="method-card">
+        <h4>24時間断食</h4>
+        <p>週1〜2回、24時間の断食を行う。夕食後から翌日の夕食まで、など。上級者向け。</p>
+      </div>
+
+      <div class="method-card">
+        <h4>20:4メソッド（ウォリアーダイエット）</h4>
+        <p>20時間の断食 + 4時間の食事可能時間。1日1〜2食になる。より効果的だが、難易度高め。</p>
+      </div>
+
+      <h2>断続的断食の科学的効果</h2>
+
+      <div class="highlight-box">
+        <h4>研究で確認されている効果</h4>
+        <ul>
+          <li><strong>体脂肪の減少</strong> - インスリンレベルが下がり、脂肪燃焼モードに</li>
+          <li><strong>オートファジーの活性化</strong> - 細胞の浄化・修復機能が向上</li>
+          <li><strong>インスリン感受性の改善</strong> - 血糖コントロールが良くなる</li>
+          <li><strong>成長ホルモンの増加</strong> - 筋肉維持・脂肪燃焼を促進</li>
+          <li><strong>炎症マーカーの減少</strong> - 慢性疾患リスクの低下</li>
+          <li><strong>脳機能の向上</strong> - BDNF（脳由来神経栄養因子）が増加</li>
+        </ul>
+      </div>
+
+      <h2>16:8メソッドの始め方</h2>
+
+      <h3>初心者向けスケジュール例</h3>
+
+      <table class="schedule-table">
+        <tr>
+          <th>時間</th>
+          <th>内容</th>
+        </tr>
+        <tr>
+          <td>7:00</td>
+          <td>起床（水・お茶・ブラックコーヒーはOK）</td>
+        </tr>
+        <tr>
+          <td>12:00</td>
+          <td>1食目（食事可能時間スタート）</td>
+        </tr>
+        <tr>
+          <td>15:00</td>
+          <td>軽い間食（必要な場合）</td>
+        </tr>
+        <tr>
+          <td>19:30</td>
+          <td>2食目（最後の食事）</td>
+        </tr>
+        <tr>
+          <td>20:00</td>
+          <td>断食時間スタート</td>
+        </tr>
+      </table>
+
+      <h3>段階的に始める方法</h3>
+      <ol>
+        <li><strong>Week 1</strong>：12時間断食から始める（夕食後から朝食まで）</li>
+        <li><strong>Week 2</strong>：14時間に延長</li>
+        <li><strong>Week 3以降</strong>：16時間断食を目指す</li>
+      </ol>
+
+      <h2>断食中に摂取OK/NGなもの</h2>
+
+      <h3>断食中OK</h3>
+      <ul>
+        <li>水（必須！たっぷり飲む）</li>
+        <li>ブラックコーヒー（砂糖・ミルクなし）</li>
+        <li>緑茶・紅茶・ハーブティー</li>
+        <li>塩（電解質補給）</li>
+      </ul>
+
+      <h3>断食中NG</h3>
+      <ul>
+        <li>カロリーのある飲み物（ジュース、牛乳など）</li>
+        <li>人工甘味料入りの飲料（インスリン反応の可能性）</li>
+        <li>サプリメント（食事と一緒に摂取推奨）</li>
+        <li>もちろん、固形物全般</li>
+      </ul>
+
+      <h2>食事可能時間の過ごし方</h2>
+
+      <p>断食を解除する最初の食事（ブレイクファスト）は重要です。</p>
+
+      <ul>
+        <li><strong>タンパク質を十分に摂る</strong> - 筋肉維持のため</li>
+        <li><strong>野菜・食物繊維を最初に</strong> - 血糖値の急上昇を防ぐ</li>
+        <li><strong>暴食しない</strong> - 普通の量を意識する</li>
+        <li><strong>加工食品を避ける</strong> - 栄養価の高い食事を心がける</li>
+      </ul>
+
+      <div class="warning-box">
+        <h4>断続的断食に向かない人</h4>
+        <ul>
+          <li>妊娠中・授乳中の女性</li>
+          <li>成長期の子供・青年</li>
+          <li>摂食障害の既往がある方</li>
+          <li>低血糖症の方</li>
+          <li>糖尿病で薬を服用中の方（医師に相談）</li>
+          <li>BMIが低い方</li>
+        </ul>
+      </div>
+
+      <h2>よくある失敗と対策</h2>
+
+      <h3>1. 空腹に耐えられない</h3>
+      <p><strong>対策</strong>：水をたっぷり飲む、ブラックコーヒーで空腹感を抑える、最初は12時間から始める</p>
+
+      <h3>2. 食事可能時間に暴食してしまう</h3>
+      <p><strong>対策</strong>：タンパク質と野菜を先に食べる、食事の計画を立てる、ゆっくり食べる</p>
+
+      <h3>3. エネルギー不足を感じる</h3>
+      <p><strong>対策</strong>：食事可能時間にしっかり栄養を摂る、電解質（塩）を補給する、睡眠を十分に取る</p>
+
+      <h2>断続的断食と運動の組み合わせ</h2>
+
+      <ul>
+        <li><strong>軽い運動</strong>は断食中でもOK（ウォーキング、軽いヨガなど）</li>
+        <li><strong>筋トレ</strong>は食事可能時間の前後が効果的</li>
+        <li><strong>高強度トレーニング</strong>は食事後に行う</li>
+        <li>断食中の激しい運動は低血糖のリスクあり</li>
+      </ul>
+
+      <h2>まとめ</h2>
+
+      <p>断続的断食は、シンプルながら科学的に効果が証明されたダイエット法です。16:8メソッドなら、朝食を遅らせるだけで始められます。</p>
+
+      <p>最初は空腹感があるかもしれませんが、1〜2週間で体が慣れてきます。無理せず、自分のペースで取り入れてみてください。</p>
+    </article>
+
+    <div class="cta-section">
+      <h2>断食スケジュールを記録しよう</h2>
+      <p>We Dietで食事時間と体重を記録して、効果を見える化</p>
+      <a href="/" class="cta-button">無料で始める</a>
+    </div>
+
+    <div class="related-articles">
+      <h3>関連記事</h3>
+      <ul>
+        <li><a href="/blog/calorie-counting-basics.html">初心者向けカロリー計算の基本｜無理なく痩せる食事管理術</a></li>
+        <li><a href="/blog/protein-diet.html">タンパク質ダイエットの正しいやり方｜筋肉を落とさず痩せる</a></li>
+        <li><a href="/blog/fat-burning-supplements.html">脂肪燃焼サプリの真実｜本当に効果があるものは？</a></li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 We Diet. All rights reserved.</p>
+    <p>
+      <a href="/">トップページ</a>
+      <a href="/blog/">ブログ</a>
+      <a href="/privacy-policy">プライバシーポリシー</a>
+    </p>
+  </footer>
+</body>
+</html>
