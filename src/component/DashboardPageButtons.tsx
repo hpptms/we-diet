@@ -19,13 +19,29 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
   const isDarkMode = useRecoilValue(darkModeState);
   const { t } = useTranslation();
 
+  // ダッシュボード表示時にスクロールを最上部にリセット
+  useEffect(() => {
+    // 全てのスクロール位置をリセット
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // overflow: autoの要素もリセット
+    const scrollableElements = document.querySelectorAll('[class*="MuiBox"]');
+    scrollableElements.forEach(el => {
+      if (el instanceof HTMLElement) {
+        el.scrollTop = 0;
+      }
+    });
+  }, []); // マウント時に1回だけ実行
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
     window.addEventListener('resize', handleResize);
-    
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
