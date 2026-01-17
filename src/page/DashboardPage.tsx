@@ -559,7 +559,28 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         </Box>
       )}
       {renderContent()}
-      
+
+      {/* ブログリンク */}
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '20px 0',
+        marginTop: '20px'
+      }}>
+        <a
+          href="/blog/index.html"
+          style={{
+            color: isDarkMode ? '#90caf9' : '#1976d2',
+            textDecoration: 'none',
+            fontSize: '14px',
+            padding: '8px 15px',
+            borderRadius: '4px'
+          }}
+        >
+          {t('pages', 'topPage.footer.blog', {}, 'ブログ')}
+        </a>
+      </Box>
+
       {/* 共通トースト */}
       <ToastProvider toast={toast} onClose={hideToast} />
       

@@ -323,7 +323,7 @@ export const TopPage = () => {
             >
               {t('pages', 'topPage.footer.termsOfService')}
             </a>
-            <a 
+            <a
               href={getAMPLink('dataDeletion', language)}
               style={{
                 color: "#6c757d",
@@ -334,6 +334,18 @@ export const TopPage = () => {
               }}
             >
               データ削除手順
+            </a>
+            <a
+              href="/blog/index.html"
+              style={{
+                color: "#6c757d",
+                textDecoration: "none",
+                fontSize: "14px",
+                padding: "8px 15px",
+                borderRadius: "4px"
+              }}
+            >
+              {t('pages', 'topPage.footer.blog', {}, 'ブログ')}
             </a>
           </div>
         </div>
