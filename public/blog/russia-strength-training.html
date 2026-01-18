@@ -31,6 +31,11 @@
             --theme-primary-light: #ddd6fe;
             --theme-bg: #f5f3ff;
         }
+        .hero { background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-primary-dark) 100%); }
+        .article-content h2 { color: var(--theme-primary-dark); border-bottom-color: var(--theme-primary); }
+        .info-card { background: linear-gradient(135deg, var(--theme-primary-light) 0%, var(--theme-bg) 100%); border-left-color: var(--theme-primary); }
+        .info-card h4 { color: var(--theme-primary-dark); }
+        .comparison-table th { background: var(--theme-primary); }
     </style>
 </head>
 <body>
@@ -44,247 +49,245 @@
         </div>
     </header>
 
-    <main class="main-content">
-        <article class="article">
-            <div class="article-header">
-                <div class="article-meta">
-                    <span class="category">世界のフィットネス</span>
-                    <time datetime="2025-01-18">2025年1月18日</time>
-                </div>
-                <h1>ロシアのストレングス文化｜ケトルベルとカリステニクスの伝統</h1>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="category-badge">世界のフィットネス</span>
+            <h1>ロシアのストレングス文化｜ケトルベルとカリステニクスの伝統</h1>
+            <p class="hero-description">ケトルベルトレーニングの発祥地ロシア。厳しい気候と歴史的背景が育んだ、実用的で効率的なトレーニング文化を解説します。</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <article class="article-content">
+            <figure class="article-image">
+                <img src="https://images.pexels.com/photos/4164761/pexels-photo-4164761.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ケトルベルを持つ人" loading="lazy">
+                <figcaption>ロシア発祥のケトルベルトレーニング</figcaption>
+            </figure>
+
+            <p>ロシアは、ケトルベルトレーニングの発祥地として知られています。厳しい気候と歴史的背景が、実用的で効率的なトレーニング文化を育んできました。</p>
+
+            <p>この記事では、ロシアのケトルベル文化、ストリートワークアウト、そして現代のフィットネス事情を紹介します。</p>
+
+            <h2>ケトルベル：ロシアの伝統</h2>
+
+            <h3>ケトルベルの歴史</h3>
+
+            <p>ケトルベル（ロシア語で「ギリャ」）は18世紀のロシアで誕生しました。</p>
+
+            <div class="info-card">
+                <h4>ケトルベルの歴史</h4>
+                <ul>
+                    <li><strong>18世紀:</strong> 農産物の重量測定に使用開始</li>
+                    <li><strong>19世紀:</strong> サーカスの力技パフォーマンスで人気に</li>
+                    <li><strong>1948年:</strong> ソ連でギレヴォイ・スポーツ（ケトルベル競技）が公式スポーツに</li>
+                    <li><strong>1990年代:</strong> パベル・ツァツーリンがアメリカに紹介</li>
+                    <li><strong>2000年代:</strong> 世界中で爆発的な人気に</li>
+                </ul>
             </div>
 
-            <div class="article-content">
-                <figure class="article-image">
-                    <img src="https://images.pexels.com/photos/4164761/pexels-photo-4164761.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ケトルベルを持つ人" loading="lazy">
-                    <figcaption>ロシア発祥のケトルベルトレーニング</figcaption>
-                </figure>
+            <h3>ロシアンケトルベルの特徴</h3>
 
-                <p>ロシアは、ケトルベルトレーニングの発祥地として知られています。厳しい気候と歴史的背景が、実用的で効率的なトレーニング文化を育んできました。</p>
+            <ul>
+                <li><strong>効率性:</strong> 1つの道具で全身を鍛えられる</li>
+                <li><strong>実用性:</strong> 実生活で使える機能的な強さ</li>
+                <li><strong>持久力:</strong> 心肺機能と筋力を同時に強化</li>
+                <li><strong>爆発力:</strong> スイング動作でパワー向上</li>
+            </ul>
 
-                <p>この記事では、ロシアのケトルベル文化、ストリートワークアウト、そして現代のフィットネス事情を紹介します。</p>
+            <h3>基本的なケトルベルエクササイズ</h3>
 
-                <h2>ケトルベル：ロシアの伝統</h2>
-
-                <h3>ケトルベルの歴史</h3>
-
-                <p>ケトルベル（ロシア語で「ギリャ」）は18世紀のロシアで誕生しました。</p>
-
-                <div class="info-card">
-                    <h4>ケトルベルの歴史</h4>
-                    <ul>
-                        <li><strong>18世紀:</strong> 農産物の重量測定に使用開始</li>
-                        <li><strong>19世紀:</strong> サーカスの力技パフォーマンスで人気に</li>
-                        <li><strong>1948年:</strong> ソ連でギレヴォイ・スポーツ（ケトルベル競技）が公式スポーツに</li>
-                        <li><strong>1990年代:</strong> パベル・ツァツーリンがアメリカに紹介</li>
-                        <li><strong>2000年代:</strong> 世界中で爆発的な人気に</li>
-                    </ul>
-                </div>
-
-                <h3>ロシアンケトルベルの特徴</h3>
-
-                <ul>
-                    <li><strong>効率性:</strong> 1つの道具で全身を鍛えられる</li>
-                    <li><strong>実用性:</strong> 実生活で使える機能的な強さ</li>
-                    <li><strong>持久力:</strong> 心肺機能と筋力を同時に強化</li>
-                    <li><strong>爆発力:</strong> スイング動作でパワー向上</li>
-                </ul>
-
-                <h3>基本的なケトルベルエクササイズ</h3>
-
-                <div class="comparison-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>種目</th>
-                                <th>主な効果</th>
-                                <th>難易度</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>スイング</td>
-                                <td>後ろの筋肉チェーン、心肺機能</td>
-                                <td>初級</td>
-                            </tr>
-                            <tr>
-                                <td>ゴブレットスクワット</td>
-                                <td>下半身、体幹</td>
-                                <td>初級</td>
-                            </tr>
-                            <tr>
-                                <td>クリーン&プレス</td>
-                                <td>全身、肩</td>
-                                <td>中級</td>
-                            </tr>
-                            <tr>
-                                <td>スナッチ</td>
-                                <td>全身、爆発力</td>
-                                <td>上級</td>
-                            </tr>
-                            <tr>
-                                <td>ターキッシュゲットアップ</td>
-                                <td>全身の連動性</td>
-                                <td>上級</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h2>ストリートワークアウト文化</h2>
-
-                <h3>公園の鉄棒文化</h3>
-
-                <p>ロシアの公園には、無料で使えるトレーニング器具が設置されています。</p>
-
-                <ul>
-                    <li>プルアップバー</li>
-                    <li>ディップスバー</li>
-                    <li>うんてい</li>
-                    <li>登り棒</li>
-                </ul>
-
-                <div class="tip-box">
-                    <h4>ロシアのストリートワークアウト</h4>
-                    <p>冬の極寒でも公園でトレーニングするロシア人は珍しくありません。「寒さに強い体を作る」という精神も、ロシアのフィットネス文化の一部です。</p>
-                </div>
-
-                <h3>人気のカリステニクス動作</h3>
-
-                <ul>
-                    <li><strong>マッスルアップ:</strong> 懸垂から上体を持ち上げる</li>
-                    <li><strong>フロントレバー:</strong> 水平に体を浮かせる</li>
-                    <li><strong>プランシェ:</strong> 手だけで体を支える</li>
-                    <li><strong>ヒューマンフラッグ:</strong> ポールに横向きにぶら下がる</li>
-                </ul>
-
-                <h2>ロシアの軍事フィットネス</h2>
-
-                <h3>スペツナズトレーニング</h3>
-
-                <p>ロシア特殊部隊のトレーニングは、世界で最もハードと言われています。</p>
-
-                <div class="info-card">
-                    <h4>スペツナズ式トレーニング要素</h4>
-                    <ul>
-                        <li><strong>全身持久力:</strong> 長距離の行軍、水泳</li>
-                        <li><strong>爆発的パワー:</strong> ケトルベル、重量挙げ</li>
-                        <li><strong>格闘技:</strong> サンボ、システマ</li>
-                        <li><strong>精神力:</strong> 極限状況への適応</li>
-                    </ul>
-                </div>
-
-                <h3>GTO（Готов к труду и обороне）</h3>
-
-                <p>ソ連時代から続く国民体力テストで、現在も実施されています。</p>
-
-                <ul>
-                    <li>100m走</li>
-                    <li>長距離走</li>
-                    <li>水泳</li>
-                    <li>懸垂または腕立て伏せ</li>
-                    <li>射撃</li>
-                </ul>
-
-                <h2>ロシアの格闘技フィットネス</h2>
-
-                <h3>サンボ</h3>
-
-                <p>ソ連で開発された格闘技で、柔道とレスリングの要素を組み合わせています。</p>
-
-                <ul>
-                    <li>立ち技と寝技の両方</li>
-                    <li>関節技が豊富</li>
-                    <li>MMAファイターにも人気</li>
-                    <li>ケビン・リーやハビブ・ヌルマゴメドフが実践</li>
-                </ul>
-
-                <h3>システマ</h3>
-
-                <p>ロシア軍で使われる格闘術で、リラックスした動きが特徴です。</p>
-
-                <ul>
-                    <li>呼吸法を重視</li>
-                    <li>リラックスした状態で動く</li>
-                    <li>自然な動きで相手を制する</li>
-                    <li>メンタルトレーニングも含む</li>
-                </ul>
-
-                <h2>現代ロシアのフィットネス市場</h2>
-
-                <div class="comparison-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>項目</th>
-                                <th>データ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>ジム数</td>
-                                <td>約8,000軒</td>
-                            </tr>
-                            <tr>
-                                <td>会員数</td>
-                                <td>約500万人</td>
-                            </tr>
-                            <tr>
-                                <td>市場規模</td>
-                                <td>約20億ドル</td>
-                            </tr>
-                            <tr>
-                                <td>成長率</td>
-                                <td>年間5-7%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3>人気のジムチェーン</h3>
-
-                <ul>
-                    <li><strong>World Class:</strong> プレミアムジム</li>
-                    <li><strong>X-Fit:</strong> 中価格帯で人気</li>
-                    <li><strong>Alex Fitness:</strong> 大手チェーン</li>
-                </ul>
-
-                <h2>ロシア式トレーニングを取り入れるコツ</h2>
-
-                <h3>1. ケトルベルを始める</h3>
-
-                <div class="info-card">
-                    <h4>初心者向けケトルベルプログラム</h4>
-                    <ol>
-                        <li>ゴブレットスクワット 3×10</li>
-                        <li>ケトルベルスイング 5×10</li>
-                        <li>ケトルベルデッドリフト 3×10</li>
-                        <li>ケトルベルロウ 3×10/側</li>
-                    </ol>
-                    <p>週3回、まずは8-12kgのケトルベルから始めましょう。</p>
-                </div>
-
-                <h3>2. 自重トレーニングを強化</h3>
-
-                <p>公園の鉄棒を活用して、懸垂やディップスを練習しましょう。</p>
-
-                <h3>3. 寒さへの適応</h3>
-
-                <p>冷水シャワーなどで、寒さへの耐性を高めることもロシア式の考え方です。</p>
-
-                <h2>まとめ</h2>
-
-                <p>ロシアのフィットネス文化は、実用性、効率性、そして精神的な強さを重視しています。ケトルベルトレーニングは世界中で人気となり、ストリートワークアウトも若者を中心に広がっています。</p>
-
-                <p>シンプルな道具で全身を鍛えるロシア式アプローチは、忙しい現代人にも適しています。まずはケトルベルスイングから始めてみませんか？</p>
-
-                <div class="cta-box">
-                    <h3>ケトルベル仲間を見つけよう</h3>
-                    <p>We Dietでケトルベルトレーニングを楽しむ仲間と繋がりましょう。</p>
-                    <a href="/" class="cta-button">無料で始める</a>
-                </div>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>種目</th>
+                            <th>主な効果</th>
+                            <th>難易度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>スイング</td>
+                            <td>後ろの筋肉チェーン、心肺機能</td>
+                            <td>初級</td>
+                        </tr>
+                        <tr>
+                            <td>ゴブレットスクワット</td>
+                            <td>下半身、体幹</td>
+                            <td>初級</td>
+                        </tr>
+                        <tr>
+                            <td>クリーン&プレス</td>
+                            <td>全身、肩</td>
+                            <td>中級</td>
+                        </tr>
+                        <tr>
+                            <td>スナッチ</td>
+                            <td>全身、爆発力</td>
+                            <td>上級</td>
+                        </tr>
+                        <tr>
+                            <td>ターキッシュゲットアップ</td>
+                            <td>全身の連動性</td>
+                            <td>上級</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+
+            <h2>ストリートワークアウト文化</h2>
+
+            <h3>公園の鉄棒文化</h3>
+
+            <p>ロシアの公園には、無料で使えるトレーニング器具が設置されています。</p>
+
+            <ul>
+                <li>プルアップバー</li>
+                <li>ディップスバー</li>
+                <li>うんてい</li>
+                <li>登り棒</li>
+            </ul>
+
+            <div class="tip-box">
+                <h4>ロシアのストリートワークアウト</h4>
+                <p>冬の極寒でも公園でトレーニングするロシア人は珍しくありません。「寒さに強い体を作る」という精神も、ロシアのフィットネス文化の一部です。</p>
+            </div>
+
+            <h3>人気のカリステニクス動作</h3>
+
+            <ul>
+                <li><strong>マッスルアップ:</strong> 懸垂から上体を持ち上げる</li>
+                <li><strong>フロントレバー:</strong> 水平に体を浮かせる</li>
+                <li><strong>プランシェ:</strong> 手だけで体を支える</li>
+                <li><strong>ヒューマンフラッグ:</strong> ポールに横向きにぶら下がる</li>
+            </ul>
+
+            <h2>ロシアの軍事フィットネス</h2>
+
+            <h3>スペツナズトレーニング</h3>
+
+            <p>ロシア特殊部隊のトレーニングは、世界で最もハードと言われています。</p>
+
+            <div class="info-card">
+                <h4>スペツナズ式トレーニング要素</h4>
+                <ul>
+                    <li><strong>全身持久力:</strong> 長距離の行軍、水泳</li>
+                    <li><strong>爆発的パワー:</strong> ケトルベル、重量挙げ</li>
+                    <li><strong>格闘技:</strong> サンボ、システマ</li>
+                    <li><strong>精神力:</strong> 極限状況への適応</li>
+                </ul>
+            </div>
+
+            <h3>GTO（Готов к труду и обороне）</h3>
+
+            <p>ソ連時代から続く国民体力テストで、現在も実施されています。</p>
+
+            <ul>
+                <li>100m走</li>
+                <li>長距離走</li>
+                <li>水泳</li>
+                <li>懸垂または腕立て伏せ</li>
+                <li>射撃</li>
+            </ul>
+
+            <h2>ロシアの格闘技フィットネス</h2>
+
+            <h3>サンボ</h3>
+
+            <p>ソ連で開発された格闘技で、柔道とレスリングの要素を組み合わせています。</p>
+
+            <ul>
+                <li>立ち技と寝技の両方</li>
+                <li>関節技が豊富</li>
+                <li>MMAファイターにも人気</li>
+                <li>ケビン・リーやハビブ・ヌルマゴメドフが実践</li>
+            </ul>
+
+            <h3>システマ</h3>
+
+            <p>ロシア軍で使われる格闘術で、リラックスした動きが特徴です。</p>
+
+            <ul>
+                <li>呼吸法を重視</li>
+                <li>リラックスした状態で動く</li>
+                <li>自然な動きで相手を制する</li>
+                <li>メンタルトレーニングも含む</li>
+            </ul>
+
+            <h2>現代ロシアのフィットネス市場</h2>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>データ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ジム数</td>
+                            <td>約8,000軒</td>
+                        </tr>
+                        <tr>
+                            <td>会員数</td>
+                            <td>約500万人</td>
+                        </tr>
+                        <tr>
+                            <td>市場規模</td>
+                            <td>約20億ドル</td>
+                        </tr>
+                        <tr>
+                            <td>成長率</td>
+                            <td>年間5-7%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>人気のジムチェーン</h3>
+
+            <ul>
+                <li><strong>World Class:</strong> プレミアムジム</li>
+                <li><strong>X-Fit:</strong> 中価格帯で人気</li>
+                <li><strong>Alex Fitness:</strong> 大手チェーン</li>
+            </ul>
+
+            <h2>ロシア式トレーニングを取り入れるコツ</h2>
+
+            <h3>1. ケトルベルを始める</h3>
+
+            <div class="info-card">
+                <h4>初心者向けケトルベルプログラム</h4>
+                <ol>
+                    <li>ゴブレットスクワット 3×10</li>
+                    <li>ケトルベルスイング 5×10</li>
+                    <li>ケトルベルデッドリフト 3×10</li>
+                    <li>ケトルベルロウ 3×10/側</li>
+                </ol>
+                <p>週3回、まずは8-12kgのケトルベルから始めましょう。</p>
+            </div>
+
+            <h3>2. 自重トレーニングを強化</h3>
+
+            <p>公園の鉄棒を活用して、懸垂やディップスを練習しましょう。</p>
+
+            <h3>3. 寒さへの適応</h3>
+
+            <p>冷水シャワーなどで、寒さへの耐性を高めることもロシア式の考え方です。</p>
+
+            <h2>まとめ</h2>
+
+            <p>ロシアのフィットネス文化は、実用性、効率性、そして精神的な強さを重視しています。ケトルベルトレーニングは世界中で人気となり、ストリートワークアウトも若者を中心に広がっています。</p>
+
+            <p>シンプルな道具で全身を鍛えるロシア式アプローチは、忙しい現代人にも適しています。まずはケトルベルスイングから始めてみませんか？</p>
         </article>
+
+        <div class="cta-section">
+            <h2>ケトルベル仲間を見つけよう</h2>
+            <p>We Dietでケトルベルトレーニングを楽しむ仲間と繋がりましょう。</p>
+            <a href="/" class="cta-button">無料で始める</a>
+        </div>
     </main>
 
     <footer class="footer">

@@ -31,331 +31,329 @@
             --theme-primary-light: #fbcfe8;
             --theme-bg: #fdf2f8;
         }
+        .hero { background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-primary-dark) 100%); }
+        .article-content h2 { color: var(--theme-primary-dark); border-bottom-color: var(--theme-primary); }
+        .info-card { background: linear-gradient(135deg, var(--theme-primary-light) 0%, var(--theme-bg) 100%); border-left-color: var(--theme-primary); }
+        .info-card h4 { color: var(--theme-primary-dark); }
+        .comparison-table th { background: var(--theme-primary); }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-inner">
             <a href="/" class="logo">We Diet</a>
-            <nav class="nav-links">
-                <a href="/">ホーム</a>
-                <a href="/blog/">ブログ</a>
-            </nav>
+            <a href="/blog/" class="nav-link">ブログ一覧</a>
         </div>
     </header>
 
-    <main class="main-content">
-        <article class="article">
-            <div class="article-header">
-                <div class="article-meta">
-                    <span class="category">世界のフィットネス</span>
-                    <time datetime="2025-01-18">2025年1月18日</time>
-                </div>
-                <h1>韓国のフィットネス文化｜K-POPアイドルのボディメイク事情</h1>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="category-badge">世界のフィットネス</span>
+            <h1>韓国のフィットネス文化｜K-POPアイドルのボディメイク事情</h1>
+            <p class="hero-description">美意識の高い韓国のボディメイク最前線</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <article class="article-content">
+            <figure class="article-image">
+                <img src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=800" alt="韓国のモダンなジム" loading="lazy">
+                <figcaption>韓国の最新フィットネスジム</figcaption>
+            </figure>
+
+            <p>韓国は世界で最も「見た目」に対する意識が高い国の一つと言われています。K-POPの世界的な人気とともに、韓国式のフィットネスやダイエット法にも注目が集まっています。</p>
+
+            <p>この記事では、韓国独自のフィットネス文化、K-POPアイドルのトレーニング法、そして日本との違いについて詳しく解説します。</p>
+
+            <h2>韓国フィットネス市場の現状</h2>
+
+            <div class="info-card">
+                <h4>韓国フィットネス市場データ</h4>
+                <ul>
+                    <li><strong>市場規模:</strong> 約4兆ウォン（約4,400億円）</li>
+                    <li><strong>ジム会員数:</strong> 約900万人</li>
+                    <li><strong>会員率:</strong> 人口の約17%</li>
+                    <li><strong>成長率:</strong> 年間8-10%の成長</li>
+                </ul>
             </div>
 
-            <div class="article-content">
-                <figure class="article-image">
-                    <img src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=800" alt="韓国のモダンなジム" loading="lazy">
-                    <figcaption>韓国の最新フィットネスジム</figcaption>
-                </figure>
+            <h3>韓国のジム事情</h3>
 
-                <p>韓国は世界で最も「見た目」に対する意識が高い国の一つと言われています。K-POPの世界的な人気とともに、韓国式のフィットネスやダイエット法にも注目が集まっています。</p>
+            <p>韓国のジムは日本と比べていくつかの特徴があります。</p>
 
-                <p>この記事では、韓国独自のフィットネス文化、K-POPアイドルのトレーニング法、そして日本との違いについて詳しく解説します。</p>
+            <ul>
+                <li><strong>24時間営業が標準:</strong> 深夜帯も多くの人が利用</li>
+                <li><strong>低価格:</strong> 月額3-5万ウォン（約3,300-5,500円）が多い</li>
+                <li><strong>パーソナルトレーニング人気:</strong> 1回5-10万ウォン</li>
+                <li><strong>美容ジム:</strong> エステ併設のジムも多数</li>
+            </ul>
 
-                <h2>韓国フィットネス市場の現状</h2>
+            <h2>K-POPアイドルのボディメイク</h2>
 
-                <div class="info-card">
-                    <h4>韓国フィットネス市場データ</h4>
-                    <ul>
-                        <li><strong>市場規模:</strong> 約4兆ウォン（約4,400億円）</li>
-                        <li><strong>ジム会員数:</strong> 約900万人</li>
-                        <li><strong>会員率:</strong> 人口の約17%</li>
-                        <li><strong>成長率:</strong> 年間8-10%の成長</li>
-                    </ul>
-                </div>
+            <h3>男性アイドルのトレーニング</h3>
 
-                <h3>韓国のジム事情</h3>
+            <p>BTSやEXOなど、男性K-POPアイドルは「引き締まった筋肉」を目指します。</p>
 
-                <p>韓国のジムは日本と比べていくつかの特徴があります。</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>部位</th>
+                        <th>トレーニング</th>
+                        <th>目標</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>腹筋</td>
+                        <td>クランチ、レッグレイズ</td>
+                        <td>シックスパック</td>
+                    </tr>
+                    <tr>
+                        <td>胸</td>
+                        <td>ベンチプレス、腕立て</td>
+                        <td>薄く広い胸板</td>
+                    </tr>
+                    <tr>
+                        <td>腕</td>
+                        <td>ダンベルカール</td>
+                        <td>適度な太さ</td>
+                    </tr>
+                    <tr>
+                        <td>肩</td>
+                        <td>サイドレイズ</td>
+                        <td>なで肩改善</td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <ul>
-                    <li><strong>24時間営業が標準:</strong> 深夜帯も多くの人が利用</li>
-                    <li><strong>低価格:</strong> 月額3-5万ウォン（約3,300-5,500円）が多い</li>
-                    <li><strong>パーソナルトレーニング人気:</strong> 1回5-10万ウォン</li>
-                    <li><strong>美容ジム:</strong> エステ併設のジムも多数</li>
-                </ul>
-
-                <h2>K-POPアイドルのボディメイク</h2>
-
-                <h3>男性アイドルのトレーニング</h3>
-
-                <p>BTSやEXOなど、男性K-POPアイドルは「引き締まった筋肉」を目指します。</p>
-
-                <div class="comparison-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>部位</th>
-                                <th>トレーニング</th>
-                                <th>目標</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>腹筋</td>
-                                <td>クランチ、レッグレイズ</td>
-                                <td>シックスパック</td>
-                            </tr>
-                            <tr>
-                                <td>胸</td>
-                                <td>ベンチプレス、腕立て</td>
-                                <td>薄く広い胸板</td>
-                            </tr>
-                            <tr>
-                                <td>腕</td>
-                                <td>ダンベルカール</td>
-                                <td>適度な太さ</td>
-                            </tr>
-                            <tr>
-                                <td>肩</td>
-                                <td>サイドレイズ</td>
-                                <td>なで肩改善</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="tip-box">
-                    <h4>BTS ジョングクのトレーニング</h4>
-                    <p>ファンの間で有名な「ジョングクルーティン」は、ボクシング、筋トレ、ダンス練習を組み合わせたハードなトレーニング。1日数時間のワークアウトを行うことも。</p>
-                </div>
-
-                <h3>女性アイドルのボディメイク</h3>
-
-                <figure class="article-image">
-                    <img src="https://images.pexels.com/photos/3823063/pexels-photo-3823063.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ピラティスをする女性" loading="lazy">
-                    <figcaption>韓国で人気のマシンピラティス</figcaption>
-                </figure>
-
-                <p>BLACKPINK、TWICEなど女性アイドルは「細いけど筋肉のある体」を追求します。</p>
-
-                <ul>
-                    <li><strong>ピラティス:</strong> ほぼ全員が実践する基本トレーニング</li>
-                    <li><strong>バレエエクササイズ:</strong> 美しいラインを作る</li>
-                    <li><strong>軽い筋トレ:</strong> 太くならない程度に引き締め</li>
-                    <li><strong>ダンス:</strong> 1日8-12時間の練習も</li>
-                </ul>
-
-                <h3>アイドルのダイエット法</h3>
-
-                <div class="warning-box">
-                    <h4>注意：極端なダイエットは危険</h4>
-                    <p>アイドルのダイエット法の中には、非常に極端なものもあります。健康を害する可能性があるため、以下の情報は参考程度にとどめてください。</p>
-                </div>
-
-                <p>話題になったアイドルのダイエット法（推奨ではありません）：</p>
-
-                <ul>
-                    <li><strong>紙コップダイエット:</strong> 食事量を紙コップ1杯分に制限</li>
-                    <li><strong>さつまいもダイエット:</strong> 主食をさつまいもに置き換え</li>
-                    <li><strong>デンマークダイエット:</strong> 2週間の超低カロリー食</li>
-                    <li><strong>断食:</strong> カムバック前の短期間断食</li>
-                </ul>
-
-                <h2>韓国式ピラティスの特徴</h2>
-
-                <h3>なぜ韓国でピラティスが人気？</h3>
-
-                <p>韓国では「筋トレ＝太くなる」というイメージが強く、細く引き締めるピラティスが女性に人気です。</p>
-
-                <div class="info-card">
-                    <h4>韓国式ピラティスの特徴</h4>
-                    <ul>
-                        <li><strong>マシンピラティス中心:</strong> リフォーマーを使った本格的なスタジオ</li>
-                        <li><strong>少人数制:</strong> 1-4人の少人数クラスが主流</li>
-                        <li><strong>美容目的:</strong> 姿勢改善、O脚矯正、骨盤矯正</li>
-                        <li><strong>高価格:</strong> 月額15-30万ウォン（約16,500-33,000円）</li>
-                    </ul>
-                </div>
-
-                <h3>人気のピラティス動作</h3>
-
-                <ul>
-                    <li><strong>ハンドレッド:</strong> 腹筋を鍛える基本動作</li>
-                    <li><strong>ロールアップ:</strong> 背骨の柔軟性向上</li>
-                    <li><strong>レッグサークル:</strong> 股関節の可動域改善</li>
-                    <li><strong>スワン:</strong> 背中の引き締め</li>
-                </ul>
-
-                <h2>韓国の美意識とボディイメージ</h2>
-
-                <h3>「몸짱（モムチャン）」文化</h3>
-
-                <p>韓国語で「最高のボディ」を意味する「몸짱（モムチャン）」という言葉は、社会現象になりました。</p>
-
-                <div class="comparison-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>性別</th>
-                                <th>韓国の理想体型</th>
-                                <th>日本との違い</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>男性</td>
-                                <td>腹筋が割れた細マッチョ</td>
-                                <td>日本より筋肉重視</td>
-                            </tr>
-                            <tr>
-                                <td>女性</td>
-                                <td>細身でS字ライン</td>
-                                <td>よりスリム志向</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3>外見重視社会の光と影</h3>
-
-                <p>韓国の美意識の高さは、メリットとデメリットの両面があります。</p>
-
-                <p><strong>ポジティブな面：</strong></p>
-                <ul>
-                    <li>健康意識の高さ</li>
-                    <li>フィットネス産業の発展</li>
-                    <li>自己管理能力の向上</li>
-                </ul>
-
-                <p><strong>課題：</strong></p>
-                <ul>
-                    <li>過度な痩せ願望</li>
-                    <li>摂食障害のリスク</li>
-                    <li>ボディイメージの歪み</li>
-                </ul>
-
-                <h2>韓国で流行するフィットネストレンド</h2>
-
-                <h3>1. ホームトレーニング（홈트）</h3>
-
-                <p>YouTubeを中心に「홈트（ホムトゥ）」と呼ばれるホームトレーニングが大流行しています。</p>
-
-                <ul>
-                    <li><strong>チョン・ダヨン:</strong> 韓国フィットネスの母</li>
-                    <li><strong>ソミ（元I.O.I）:</strong> アイドル発のワークアウト</li>
-                    <li><strong>タニュタ:</strong> ダンスベースのエクササイズ</li>
-                </ul>
-
-                <h3>2. クライミングジム</h3>
-
-                <figure class="article-image">
-                    <img src="https://images.pexels.com/photos/6700656/pexels-photo-6700656.jpeg?auto=compress&cs=tinysrgb&w=800" alt="クライミングジム" loading="lazy">
-                    <figcaption>若者に人気のインドアクライミング</figcaption>
-                </figure>
-
-                <p>韓国では室内クライミングが若者を中心に人気です。</p>
-
-                <ul>
-                    <li>ソウル市内に100以上のクライミングジム</li>
-                    <li>デート場所としても人気</li>
-                    <li>体幹と握力を楽しく鍛えられる</li>
-                </ul>
-
-                <h3>3. ボクシングエクササイズ</h3>
-
-                <p>ストレス発散と全身運動を兼ねたボクシングジムが増加中です。</p>
-
-                <div class="tip-box">
-                    <h4>韓国ボクシングジムの特徴</h4>
-                    <p>おしゃれな内装、K-POPミュージック、SNS映えする空間が特徴。「キックボクシング＋ダンス」のようなプログラムも人気です。</p>
-                </div>
-
-                <h2>韓国と日本のフィットネス比較</h2>
-
-                <div class="comparison-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>項目</th>
-                                <th>韓国</th>
-                                <th>日本</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>ジム月会費</td>
-                                <td>約3,300-5,500円</td>
-                                <td>約8,000-15,000円</td>
-                            </tr>
-                            <tr>
-                                <td>営業時間</td>
-                                <td>24時間が主流</td>
-                                <td>7:00-23:00が多い</td>
-                            </tr>
-                            <tr>
-                                <td>人気種目</td>
-                                <td>ピラティス、筋トレ</td>
-                                <td>ヨガ、エアロビクス</td>
-                            </tr>
-                            <tr>
-                                <td>理想体型</td>
-                                <td>スリム＋筋肉</td>
-                                <td>とにかく細く</td>
-                            </tr>
-                            <tr>
-                                <td>外見への投資</td>
-                                <td>非常に高い</td>
-                                <td>高い</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h2>韓国式フィットネスを取り入れるコツ</h2>
-
-                <h3>1. ピラティスを始める</h3>
-
-                <p>韓国で人気のマシンピラティスは日本でも増加中。姿勢改善と引き締めに効果的です。</p>
-
-                <h3>2. K-POPダンスでエクササイズ</h3>
-
-                <p>好きなK-POPの振り付けを覚えながら楽しく有酸素運動ができます。</p>
-
-                <h3>3. 韓国式食事管理</h3>
-
-                <ul>
-                    <li>発酵食品（キムチ）を積極的に摂取</li>
-                    <li>タンパク質中心の食事</li>
-                    <li>野菜をたっぷり</li>
-                    <li>間食は控えめに</li>
-                </ul>
-
-                <div class="warning-box">
-                    <h4>極端なダイエットは避けよう</h4>
-                    <p>アイドルのような極端なダイエットは健康を害します。バランスの取れた食事と適度な運動を心がけましょう。</p>
-                </div>
-
-                <h2>まとめ</h2>
-
-                <p>韓国のフィットネス文化は、高い美意識とK-POPの影響で独自の発展を遂げています。ピラティス、筋トレ、ダンスを組み合わせたボディメイクが特徴的です。</p>
-
-                <p>ただし、極端なダイエットや過度な外見重視は問題もあります。韓国の良い部分を取り入れつつ、健康的で持続可能なフィットネスライフを目指しましょう。</p>
-
-                <div class="cta-box">
-                    <h3>K-POPダンスで楽しくダイエット</h3>
-                    <p>We Dietで韓国式フィットネスを楽しむ仲間と繋がりましょう。</p>
-                    <a href="/" class="cta-button">無料で始める</a>
-                </div>
+            <div class="tip-box">
+                <h4>BTS ジョングクのトレーニング</h4>
+                <p>ファンの間で有名な「ジョングクルーティン」は、ボクシング、筋トレ、ダンス練習を組み合わせたハードなトレーニング。1日数時間のワークアウトを行うことも。</p>
             </div>
+
+            <h3>女性アイドルのボディメイク</h3>
+
+            <figure class="article-image">
+                <img src="https://images.pexels.com/photos/3823063/pexels-photo-3823063.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ピラティスをする女性" loading="lazy">
+                <figcaption>韓国で人気のマシンピラティス</figcaption>
+            </figure>
+
+            <p>BLACKPINK、TWICEなど女性アイドルは「細いけど筋肉のある体」を追求します。</p>
+
+            <ul>
+                <li><strong>ピラティス:</strong> ほぼ全員が実践する基本トレーニング</li>
+                <li><strong>バレエエクササイズ:</strong> 美しいラインを作る</li>
+                <li><strong>軽い筋トレ:</strong> 太くならない程度に引き締め</li>
+                <li><strong>ダンス:</strong> 1日8-12時間の練習も</li>
+            </ul>
+
+            <h3>アイドルのダイエット法</h3>
+
+            <div class="warning-box">
+                <h4>注意：極端なダイエットは危険</h4>
+                <p>アイドルのダイエット法の中には、非常に極端なものもあります。健康を害する可能性があるため、以下の情報は参考程度にとどめてください。</p>
+            </div>
+
+            <p>話題になったアイドルのダイエット法（推奨ではありません）：</p>
+
+            <ul>
+                <li><strong>紙コップダイエット:</strong> 食事量を紙コップ1杯分に制限</li>
+                <li><strong>さつまいもダイエット:</strong> 主食をさつまいもに置き換え</li>
+                <li><strong>デンマークダイエット:</strong> 2週間の超低カロリー食</li>
+                <li><strong>断食:</strong> カムバック前の短期間断食</li>
+            </ul>
+
+            <h2>韓国式ピラティスの特徴</h2>
+
+            <h3>なぜ韓国でピラティスが人気？</h3>
+
+            <p>韓国では「筋トレ＝太くなる」というイメージが強く、細く引き締めるピラティスが女性に人気です。</p>
+
+            <div class="info-card">
+                <h4>韓国式ピラティスの特徴</h4>
+                <ul>
+                    <li><strong>マシンピラティス中心:</strong> リフォーマーを使った本格的なスタジオ</li>
+                    <li><strong>少人数制:</strong> 1-4人の少人数クラスが主流</li>
+                    <li><strong>美容目的:</strong> 姿勢改善、O脚矯正、骨盤矯正</li>
+                    <li><strong>高価格:</strong> 月額15-30万ウォン（約16,500-33,000円）</li>
+                </ul>
+            </div>
+
+            <h3>人気のピラティス動作</h3>
+
+            <ul>
+                <li><strong>ハンドレッド:</strong> 腹筋を鍛える基本動作</li>
+                <li><strong>ロールアップ:</strong> 背骨の柔軟性向上</li>
+                <li><strong>レッグサークル:</strong> 股関節の可動域改善</li>
+                <li><strong>スワン:</strong> 背中の引き締め</li>
+            </ul>
+
+            <h2>韓国の美意識とボディイメージ</h2>
+
+            <h3>「モムチャン」文化</h3>
+
+            <p>韓国語で「最高のボディ」を意味する「モムチャン」という言葉は、社会現象になりました。</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>性別</th>
+                        <th>韓国の理想体型</th>
+                        <th>日本との違い</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>男性</td>
+                        <td>腹筋が割れた細マッチョ</td>
+                        <td>日本より筋肉重視</td>
+                    </tr>
+                    <tr>
+                        <td>女性</td>
+                        <td>細身でS字ライン</td>
+                        <td>よりスリム志向</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>外見重視社会の光と影</h3>
+
+            <p>韓国の美意識の高さは、メリットとデメリットの両面があります。</p>
+
+            <p><strong>ポジティブな面：</strong></p>
+            <ul>
+                <li>健康意識の高さ</li>
+                <li>フィットネス産業の発展</li>
+                <li>自己管理能力の向上</li>
+            </ul>
+
+            <p><strong>課題：</strong></p>
+            <ul>
+                <li>過度な痩せ願望</li>
+                <li>摂食障害のリスク</li>
+                <li>ボディイメージの歪み</li>
+            </ul>
+
+            <h2>韓国で流行するフィットネストレンド</h2>
+
+            <h3>1. ホームトレーニング（ホムトゥ）</h3>
+
+            <p>YouTubeを中心に「ホムトゥ」と呼ばれるホームトレーニングが大流行しています。</p>
+
+            <ul>
+                <li><strong>チョン・ダヨン:</strong> 韓国フィットネスの母</li>
+                <li><strong>ソミ（元I.O.I）:</strong> アイドル発のワークアウト</li>
+                <li><strong>タニュタ:</strong> ダンスベースのエクササイズ</li>
+            </ul>
+
+            <h3>2. クライミングジム</h3>
+
+            <figure class="article-image">
+                <img src="https://images.pexels.com/photos/6700656/pexels-photo-6700656.jpeg?auto=compress&cs=tinysrgb&w=800" alt="クライミングジム" loading="lazy">
+                <figcaption>若者に人気のインドアクライミング</figcaption>
+            </figure>
+
+            <p>韓国では室内クライミングが若者を中心に人気です。</p>
+
+            <ul>
+                <li>ソウル市内に100以上のクライミングジム</li>
+                <li>デート場所としても人気</li>
+                <li>体幹と握力を楽しく鍛えられる</li>
+            </ul>
+
+            <h3>3. ボクシングエクササイズ</h3>
+
+            <p>ストレス発散と全身運動を兼ねたボクシングジムが増加中です。</p>
+
+            <div class="tip-box">
+                <h4>韓国ボクシングジムの特徴</h4>
+                <p>おしゃれな内装、K-POPミュージック、SNS映えする空間が特徴。「キックボクシング＋ダンス」のようなプログラムも人気です。</p>
+            </div>
+
+            <h2>韓国と日本のフィットネス比較</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>項目</th>
+                        <th>韓国</th>
+                        <th>日本</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ジム月会費</td>
+                        <td>約3,300-5,500円</td>
+                        <td>約8,000-15,000円</td>
+                    </tr>
+                    <tr>
+                        <td>営業時間</td>
+                        <td>24時間が主流</td>
+                        <td>7:00-23:00が多い</td>
+                    </tr>
+                    <tr>
+                        <td>人気種目</td>
+                        <td>ピラティス、筋トレ</td>
+                        <td>ヨガ、エアロビクス</td>
+                    </tr>
+                    <tr>
+                        <td>理想体型</td>
+                        <td>スリム＋筋肉</td>
+                        <td>とにかく細く</td>
+                    </tr>
+                    <tr>
+                        <td>外見への投資</td>
+                        <td>非常に高い</td>
+                        <td>高い</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>韓国式フィットネスを取り入れるコツ</h2>
+
+            <h3>1. ピラティスを始める</h3>
+
+            <p>韓国で人気のマシンピラティスは日本でも増加中。姿勢改善と引き締めに効果的です。</p>
+
+            <h3>2. K-POPダンスでエクササイズ</h3>
+
+            <p>好きなK-POPの振り付けを覚えながら楽しく有酸素運動ができます。</p>
+
+            <h3>3. 韓国式食事管理</h3>
+
+            <ul>
+                <li>発酵食品（キムチ）を積極的に摂取</li>
+                <li>タンパク質中心の食事</li>
+                <li>野菜をたっぷり</li>
+                <li>間食は控えめに</li>
+            </ul>
+
+            <div class="warning-box">
+                <h4>極端なダイエットは避けよう</h4>
+                <p>アイドルのような極端なダイエットは健康を害します。バランスの取れた食事と適度な運動を心がけましょう。</p>
+            </div>
+
+            <h2>まとめ</h2>
+
+            <p>韓国のフィットネス文化は、高い美意識とK-POPの影響で独自の発展を遂げています。ピラティス、筋トレ、ダンスを組み合わせたボディメイクが特徴的です。</p>
+
+            <p>ただし、極端なダイエットや過度な外見重視は問題もあります。韓国の良い部分を取り入れつつ、健康的で持続可能なフィットネスライフを目指しましょう。</p>
         </article>
+
+        <div class="cta-section">
+            <h2>K-POPダンスで楽しくダイエット</h2>
+            <p>We Dietで韓国式フィットネスを楽しむ仲間と繋がりましょう。</p>
+            <a href="/" class="cta-button">無料で始める</a>
+        </div>
     </main>
 
     <footer class="footer">
         <p>&copy; 2025 We Diet. All rights reserved.</p>
-        <p><a href="/">ホーム</a> | <a href="/blog/">ブログ一覧</a></p>
+        <p>
+            <a href="/">トップページ</a>
+            <a href="/blog/">ブログ</a>
+            <a href="/privacy-policy">プライバシーポリシー</a>
+        </p>
     </footer>
 </body>
 </html>

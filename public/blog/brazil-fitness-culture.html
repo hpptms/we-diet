@@ -31,6 +31,11 @@
             --theme-primary-light: #bbf7d0;
             --theme-bg: #f0fdf4;
         }
+        .hero { background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-primary-dark) 100%); }
+        .article-content h2 { color: var(--theme-primary-dark); border-bottom-color: var(--theme-primary); }
+        .info-card { background: linear-gradient(135deg, var(--theme-primary-light) 0%, var(--theme-bg) 100%); border-left-color: var(--theme-primary); }
+        .info-card h4 { color: var(--theme-primary-dark); }
+        .comparison-table th { background: var(--theme-primary); }
     </style>
 </head>
 <body>
@@ -44,327 +49,325 @@
         </div>
     </header>
 
-    <main class="main-content">
-        <article class="article">
-            <div class="article-header">
-                <div class="article-meta">
-                    <span class="category">世界のフィットネス</span>
-                    <time datetime="2025-01-18">2025年1月18日</time>
-                </div>
-                <h1>ブラジルのフィットネス文化｜ビーチボディとカーニバルの国</h1>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="category-badge">世界のフィットネス</span>
+            <h1>ブラジルのフィットネス文化｜ビーチボディとカーニバルの国</h1>
+            <p class="hero-description">アメリカに次ぐ世界第2位のフィットネス大国ブラジル。ビーチカルチャー、カポエイラ、ブラジリアン柔術など、独自のフィットネス文化を解説します。</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <article class="article-content">
+            <figure class="article-image">
+                <img src="https://images.pexels.com/photos/2868242/pexels-photo-2868242.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ブラジルのビーチでトレーニング" loading="lazy">
+                <figcaption>コパカバーナビーチでのトレーニング風景</figcaption>
+            </figure>
+
+            <p>ブラジルは、アメリカに次ぐ世界第2位のフィットネス大国です。一年中暖かい気候、ビーチカルチャー、カーニバルの伝統が、国民の高いフィットネス意識を育んできました。</p>
+
+            <p>この記事では、ブラジル独自のフィットネス文化、カポエイラやブラジリアン柔術、そして世界に広まったズンバの魅力を紹介します。</p>
+
+            <h2>世界第2位のフィットネス大国</h2>
+
+            <div class="info-card">
+                <h4>ブラジルフィットネス市場データ</h4>
+                <ul>
+                    <li><strong>ジム施設数:</strong> 約35,000軒（世界第2位）</li>
+                    <li><strong>会員数:</strong> 約1,000万人</li>
+                    <li><strong>市場規模:</strong> 約25億ドル</li>
+                    <li><strong>ジム人口密度:</strong> 人口10万人あたり17軒</li>
+                </ul>
             </div>
 
-            <div class="article-content">
-                <figure class="article-image">
-                    <img src="https://images.pexels.com/photos/2868242/pexels-photo-2868242.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ブラジルのビーチでトレーニング" loading="lazy">
-                    <figcaption>コパカバーナビーチでのトレーニング風景</figcaption>
-                </figure>
+            <h3>なぜブラジル人はフィットネスが好き？</h3>
 
-                <p>ブラジルは、アメリカに次ぐ世界第2位のフィットネス大国です。一年中暖かい気候、ビーチカルチャー、カーニバルの伝統が、国民の高いフィットネス意識を育んできました。</p>
+            <ul>
+                <li><strong>ビーチ文化:</strong> 水着姿になる機会が多い</li>
+                <li><strong>カーニバル:</strong> 露出度の高い衣装で踊る</li>
+                <li><strong>社交性:</strong> ジムは社交の場でもある</li>
+                <li><strong>気候:</strong> 一年中屋外で運動できる</li>
+                <li><strong>ボディポジティブ:</strong> 鍛えた体を見せることに抵抗がない</li>
+            </ul>
 
-                <p>この記事では、ブラジル独自のフィットネス文化、カポエイラやブラジリアン柔術、そして世界に広まったズンバの魅力を紹介します。</p>
+            <h2>ビーチフィットネス文化</h2>
 
-                <h2>世界第2位のフィットネス大国</h2>
+            <h3>コパカバーナの朝</h3>
 
-                <div class="info-card">
-                    <h4>ブラジルフィットネス市場データ</h4>
-                    <ul>
-                        <li><strong>ジム施設数:</strong> 約35,000軒（世界第2位）</li>
-                        <li><strong>会員数:</strong> 約1,000万人</li>
-                        <li><strong>市場規模:</strong> 約25億ドル</li>
-                        <li><strong>ジム人口密度:</strong> 人口10万人あたり17軒</li>
-                    </ul>
-                </div>
+            <p>リオデジャネイロのコパカバーナビーチでは、早朝から多くの人がトレーニングしています。</p>
 
-                <h3>なぜブラジル人はフィットネスが好き？</h3>
+            <ul>
+                <li><strong>ビーチランニング:</strong> 砂浜でのジョギング</li>
+                <li><strong>ビーチバレー:</strong> 国民的スポーツ</li>
+                <li><strong>砂浜筋トレ:</strong> 不安定な砂地でのトレーニング</li>
+                <li><strong>フットバレー:</strong> 足でバレーボール</li>
+                <li><strong>スラックライン:</strong> バランス感覚を鍛える</li>
+            </ul>
 
-                <ul>
-                    <li><strong>ビーチ文化:</strong> 水着姿になる機会が多い</li>
-                    <li><strong>カーニバル:</strong> 露出度の高い衣装で踊る</li>
-                    <li><strong>社交性:</strong> ジムは社交の場でもある</li>
-                    <li><strong>気候:</strong> 一年中屋外で運動できる</li>
-                    <li><strong>ボディポジティブ:</strong> 鍛えた体を見せることに抵抗がない</li>
-                </ul>
-
-                <h2>ビーチフィットネス文化</h2>
-
-                <h3>コパカバーナの朝</h3>
-
-                <p>リオデジャネイロのコパカバーナビーチでは、早朝から多くの人がトレーニングしています。</p>
-
-                <ul>
-                    <li><strong>ビーチランニング:</strong> 砂浜でのジョギング</li>
-                    <li><strong>ビーチバレー:</strong> 国民的スポーツ</li>
-                    <li><strong>砂浜筋トレ:</strong> 不安定な砂地でのトレーニング</li>
-                    <li><strong>フットバレー:</strong> 足でバレーボール</li>
-                    <li><strong>スラックライン:</strong> バランス感覚を鍛える</li>
-                </ul>
-
-                <div class="tip-box">
-                    <h4>ビーチワークアウトの効果</h4>
-                    <p>砂浜でのトレーニングは、舗装路より約1.6倍のカロリーを消費。不安定な地面がバランス能力と体幹を強化します。</p>
-                </div>
-
-                <h3>ビーチジム（Academia de Praia）</h3>
-
-                <p>ブラジルのビーチには無料の屋外ジムが設置されています。</p>
-
-                <ul>
-                    <li>プルアップバー</li>
-                    <li>ディップスバー</li>
-                    <li>アブローラー</li>
-                    <li>ステップ台</li>
-                    <li>すべて無料で利用可能</li>
-                </ul>
-
-                <h2>ブラジル発のフィットネス</h2>
-
-                <h3>カポエイラ（Capoeira）</h3>
-
-                <figure class="article-image">
-                    <img src="https://images.pexels.com/photos/6253309/pexels-photo-6253309.jpeg?auto=compress&cs=tinysrgb&w=800" alt="カポエイラを踊る人々" loading="lazy">
-                    <figcaption>ブラジル発祥のカポエイラ</figcaption>
-                </figure>
-
-                <p>カポエイラは16世紀にブラジルで生まれた格闘技×ダンス×音楽の融合芸術です。</p>
-
-                <div class="info-card">
-                    <h4>カポエイラの特徴</h4>
-                    <ul>
-                        <li><strong>「ジョゴ」:</strong> 円陣を組んで2人が交互に技を繰り出す</li>
-                        <li><strong>「ジンガ」:</strong> 基本のステップ</li>
-                        <li><strong>アクロバティック:</strong> 回転、逆立ち、宙返り</li>
-                        <li><strong>音楽:</strong> ビリンバウ（弦楽器）のリズムに合わせる</li>
-                    </ul>
-                </div>
-
-                <h4>カポエイラの効果</h4>
-
-                <div class="comparison-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>効果</th>
-                                <th>詳細</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>全身運動</td>
-                                <td>1時間で500-700kcal消費</td>
-                            </tr>
-                            <tr>
-                                <td>柔軟性</td>
-                                <td>キックや回避動作で大幅向上</td>
-                            </tr>
-                            <tr>
-                                <td>バランス</td>
-                                <td>片足や逆立ちでの動作</td>
-                            </tr>
-                            <tr>
-                                <td>リズム感</td>
-                                <td>音楽に合わせた動き</td>
-                            </tr>
-                            <tr>
-                                <td>コミュニティ</td>
-                                <td>グループでの練習が基本</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3>ブラジリアン柔術（BJJ）</h3>
-
-                <figure class="article-image">
-                    <img src="https://images.pexels.com/photos/8611093/pexels-photo-8611093.jpeg?auto=compress&cs=tinysrgb&w=800" alt="柔術の練習" loading="lazy">
-                    <figcaption>世界中で人気のブラジリアン柔術</figcaption>
-                </figure>
-
-                <p>グレイシー一族が発展させたブラジリアン柔術は、世界中で人気のマーシャルアーツです。</p>
-
-                <ul>
-                    <li><strong>寝技中心:</strong> 相手を制圧する技術</li>
-                    <li><strong>体格差を克服:</strong> 小さい人でも大きい人に勝てる</li>
-                    <li><strong>全身運動:</strong> 筋力、柔軟性、持久力を鍛える</li>
-                    <li><strong>格闘技としてもフィットネスとしても人気</strong></li>
-                </ul>
-
-                <div class="tip-box">
-                    <h4>BJJのカロリー消費</h4>
-                    <p>1時間のスパーリングで700-1,000kcal消費。全身の筋肉を使うため、効率的なワークアウトです。</p>
-                </div>
-
-                <h3>ズンバ（Zumba）</h3>
-
-                <figure class="article-image">
-                    <img src="https://images.pexels.com/photos/3775566/pexels-photo-3775566.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ズンバクラス" loading="lazy">
-                    <figcaption>楽しくエクササイズできるズンバ</figcaption>
-                </figure>
-
-                <p>実はズンバの創設者ベト・ペレスはコロンビア人ですが、ブラジルのサンバやフォホーのリズムが大きく影響しています。ブラジルでも大人気のフィットネスプログラムです。</p>
-
-                <ul>
-                    <li>ラテン音楽に合わせたダンスエクササイズ</li>
-                    <li>1レッスンで400-600kcal消費</li>
-                    <li>楽しみながら有酸素運動</li>
-                    <li>世界180カ国、1,500万人が実践</li>
-                </ul>
-
-                <h2>ブラジルの理想的な体型</h2>
-
-                <h3>「ブラジリアンバット」</h3>
-
-                <p>ブラジルでは丸くて大きなお尻（bumbum）が美の象徴です。</p>
-
-                <ul>
-                    <li><strong>Miss Bumbum:</strong> お尻の美しさを競うコンテスト</li>
-                    <li><strong>ヒップアップトレーニング:</strong> ジムの人気メニュー</li>
-                    <li><strong>グルート専門クラス:</strong> お尻を鍛える専門クラスが多数</li>
-                </ul>
-
-                <div class="info-card">
-                    <h4>ブラジリアンバットトレーニング</h4>
-                    <ul>
-                        <li><strong>ヒップスラスト:</strong> お尻を集中的に鍛える</li>
-                        <li><strong>スクワット:</strong> 深くしゃがんで大臀筋を刺激</li>
-                        <li><strong>ランジ:</strong> 歩きながらお尻を鍛える</li>
-                        <li><strong>ケーブルキックバック:</strong> ケーブルマシンでの孤立運動</li>
-                    </ul>
-                </div>
-
-                <h3>男性の理想</h3>
-
-                <ul>
-                    <li>筋肉質だが過度ではない</li>
-                    <li>サッカー選手のような引き締まった体</li>
-                    <li>日焼けした健康的な肌</li>
-                </ul>
-
-                <h2>カーニバルとフィットネス</h2>
-
-                <h3>サンバスクールでのトレーニング</h3>
-
-                <p>リオのカーニバルに参加するダンサーたちは、本番に向けて何ヶ月もトレーニングします。</p>
-
-                <ul>
-                    <li><strong>サンバダンス練習:</strong> 週3-5回</li>
-                    <li><strong>筋トレ:</strong> ハイヒールで踊るための脚力強化</li>
-                    <li><strong>有酸素運動:</strong> 1時間以上踊り続けるスタミナ</li>
-                    <li><strong>食事管理:</strong> カーニバル前は特に厳格に</li>
-                </ul>
-
-                <h3>カーニバル後の「回復期」</h3>
-
-                <p>カーニバル後は少しリラックスし、その後また翌年に向けてトレーニングを再開するサイクルがあります。</p>
-
-                <h2>ブラジルで人気のジムチェーン</h2>
-
-                <div class="comparison-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ジム名</th>
-                                <th>特徴</th>
-                                <th>店舗数</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Smart Fit</td>
-                                <td>低価格、24時間営業</td>
-                                <td>1,000+</td>
-                            </tr>
-                            <tr>
-                                <td>Bodytech</td>
-                                <td>プレミアムジム</td>
-                                <td>200+</td>
-                            </tr>
-                            <tr>
-                                <td>Bio Ritmo</td>
-                                <td>高級総合フィットネス</td>
-                                <td>50+</td>
-                            </tr>
-                            <tr>
-                                <td>Selfit</td>
-                                <td>若者向け</td>
-                                <td>100+</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h2>ブラジルと日本のフィットネス比較</h2>
-
-                <div class="comparison-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>項目</th>
-                                <th>ブラジル</th>
-                                <th>日本</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>屋外運動</td>
-                                <td>非常に盛ん（ビーチ）</td>
-                                <td>限定的</td>
-                            </tr>
-                            <tr>
-                                <td>ダンス系</td>
-                                <td>サンバ、ズンバが人気</td>
-                                <td>増加中</td>
-                            </tr>
-                            <tr>
-                                <td>体型の理想</td>
-                                <td>曲線的、お尻重視</td>
-                                <td>細身重視</td>
-                            </tr>
-                            <tr>
-                                <td>コミュニティ</td>
-                                <td>社交的、グループ好き</td>
-                                <td>個人志向</td>
-                            </tr>
-                            <tr>
-                                <td>露出への抵抗</td>
-                                <td>低い</td>
-                                <td>高い</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h2>ブラジル式フィットネスを取り入れるコツ</h2>
-
-                <h3>1. ダンスエクササイズを始める</h3>
-
-                <p>ズンバやサンバフィットネスで楽しく有酸素運動しましょう。</p>
-
-                <h3>2. グルートトレーニングを強化</h3>
-
-                <p>ヒップアップはスタイルアップだけでなく、腰痛予防にも効果的です。</p>
-
-                <h3>3. 屋外で運動する</h3>
-
-                <p>公園や海辺でのトレーニングを取り入れ、自然の中で体を動かしましょう。</p>
-
-                <h3>4. コミュニティで楽しむ</h3>
-
-                <p>ブラジル人のように、仲間と一緒に楽しく運動する文化を取り入れましょう。</p>
-
-                <h2>まとめ</h2>
-
-                <p>ブラジルのフィットネス文化は、楽しさ、コミュニティ、そしてボディポジティブな姿勢が特徴です。ビーチでのトレーニング、カポエイラ、ブラジリアン柔術など、独自のフィットネスが世界に広まっています。</p>
-
-                <p>「楽しみながら鍛える」というブラジルの精神は、継続的なフィットネスライフの鍵かもしれません。まずはズンバやダンスエクササイズから始めてみませんか？</p>
-
-                <div class="cta-box">
-                    <h3>ダンスフィットネス仲間を見つけよう</h3>
-                    <p>We Dietでズンバやダンスを楽しむ仲間と繋がりましょう。</p>
-                    <a href="/" class="cta-button">無料で始める</a>
-                </div>
+            <div class="tip-box">
+                <h4>ビーチワークアウトの効果</h4>
+                <p>砂浜でのトレーニングは、舗装路より約1.6倍のカロリーを消費。不安定な地面がバランス能力と体幹を強化します。</p>
             </div>
+
+            <h3>ビーチジム（Academia de Praia）</h3>
+
+            <p>ブラジルのビーチには無料の屋外ジムが設置されています。</p>
+
+            <ul>
+                <li>プルアップバー</li>
+                <li>ディップスバー</li>
+                <li>アブローラー</li>
+                <li>ステップ台</li>
+                <li>すべて無料で利用可能</li>
+            </ul>
+
+            <h2>ブラジル発のフィットネス</h2>
+
+            <h3>カポエイラ（Capoeira）</h3>
+
+            <figure class="article-image">
+                <img src="https://images.pexels.com/photos/6253309/pexels-photo-6253309.jpeg?auto=compress&cs=tinysrgb&w=800" alt="カポエイラを踊る人々" loading="lazy">
+                <figcaption>ブラジル発祥のカポエイラ</figcaption>
+            </figure>
+
+            <p>カポエイラは16世紀にブラジルで生まれた格闘技×ダンス×音楽の融合芸術です。</p>
+
+            <div class="info-card">
+                <h4>カポエイラの特徴</h4>
+                <ul>
+                    <li><strong>「ジョゴ」:</strong> 円陣を組んで2人が交互に技を繰り出す</li>
+                    <li><strong>「ジンガ」:</strong> 基本のステップ</li>
+                    <li><strong>アクロバティック:</strong> 回転、逆立ち、宙返り</li>
+                    <li><strong>音楽:</strong> ビリンバウ（弦楽器）のリズムに合わせる</li>
+                </ul>
+            </div>
+
+            <h4>カポエイラの効果</h4>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>効果</th>
+                            <th>詳細</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>全身運動</td>
+                            <td>1時間で500-700kcal消費</td>
+                        </tr>
+                        <tr>
+                            <td>柔軟性</td>
+                            <td>キックや回避動作で大幅向上</td>
+                        </tr>
+                        <tr>
+                            <td>バランス</td>
+                            <td>片足や逆立ちでの動作</td>
+                        </tr>
+                        <tr>
+                            <td>リズム感</td>
+                            <td>音楽に合わせた動き</td>
+                        </tr>
+                        <tr>
+                            <td>コミュニティ</td>
+                            <td>グループでの練習が基本</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>ブラジリアン柔術（BJJ）</h3>
+
+            <figure class="article-image">
+                <img src="https://images.pexels.com/photos/8611093/pexels-photo-8611093.jpeg?auto=compress&cs=tinysrgb&w=800" alt="柔術の練習" loading="lazy">
+                <figcaption>世界中で人気のブラジリアン柔術</figcaption>
+            </figure>
+
+            <p>グレイシー一族が発展させたブラジリアン柔術は、世界中で人気のマーシャルアーツです。</p>
+
+            <ul>
+                <li><strong>寝技中心:</strong> 相手を制圧する技術</li>
+                <li><strong>体格差を克服:</strong> 小さい人でも大きい人に勝てる</li>
+                <li><strong>全身運動:</strong> 筋力、柔軟性、持久力を鍛える</li>
+                <li><strong>格闘技としてもフィットネスとしても人気</strong></li>
+            </ul>
+
+            <div class="tip-box">
+                <h4>BJJのカロリー消費</h4>
+                <p>1時間のスパーリングで700-1,000kcal消費。全身の筋肉を使うため、効率的なワークアウトです。</p>
+            </div>
+
+            <h3>ズンバ（Zumba）</h3>
+
+            <figure class="article-image">
+                <img src="https://images.pexels.com/photos/3775566/pexels-photo-3775566.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ズンバクラス" loading="lazy">
+                <figcaption>楽しくエクササイズできるズンバ</figcaption>
+            </figure>
+
+            <p>実はズンバの創設者ベト・ペレスはコロンビア人ですが、ブラジルのサンバやフォホーのリズムが大きく影響しています。ブラジルでも大人気のフィットネスプログラムです。</p>
+
+            <ul>
+                <li>ラテン音楽に合わせたダンスエクササイズ</li>
+                <li>1レッスンで400-600kcal消費</li>
+                <li>楽しみながら有酸素運動</li>
+                <li>世界180カ国、1,500万人が実践</li>
+            </ul>
+
+            <h2>ブラジルの理想的な体型</h2>
+
+            <h3>「ブラジリアンバット」</h3>
+
+            <p>ブラジルでは丸くて大きなお尻（bumbum）が美の象徴です。</p>
+
+            <ul>
+                <li><strong>Miss Bumbum:</strong> お尻の美しさを競うコンテスト</li>
+                <li><strong>ヒップアップトレーニング:</strong> ジムの人気メニュー</li>
+                <li><strong>グルート専門クラス:</strong> お尻を鍛える専門クラスが多数</li>
+            </ul>
+
+            <div class="info-card">
+                <h4>ブラジリアンバットトレーニング</h4>
+                <ul>
+                    <li><strong>ヒップスラスト:</strong> お尻を集中的に鍛える</li>
+                    <li><strong>スクワット:</strong> 深くしゃがんで大臀筋を刺激</li>
+                    <li><strong>ランジ:</strong> 歩きながらお尻を鍛える</li>
+                    <li><strong>ケーブルキックバック:</strong> ケーブルマシンでの孤立運動</li>
+                </ul>
+            </div>
+
+            <h3>男性の理想</h3>
+
+            <ul>
+                <li>筋肉質だが過度ではない</li>
+                <li>サッカー選手のような引き締まった体</li>
+                <li>日焼けした健康的な肌</li>
+            </ul>
+
+            <h2>カーニバルとフィットネス</h2>
+
+            <h3>サンバスクールでのトレーニング</h3>
+
+            <p>リオのカーニバルに参加するダンサーたちは、本番に向けて何ヶ月もトレーニングします。</p>
+
+            <ul>
+                <li><strong>サンバダンス練習:</strong> 週3-5回</li>
+                <li><strong>筋トレ:</strong> ハイヒールで踊るための脚力強化</li>
+                <li><strong>有酸素運動:</strong> 1時間以上踊り続けるスタミナ</li>
+                <li><strong>食事管理:</strong> カーニバル前は特に厳格に</li>
+            </ul>
+
+            <h3>カーニバル後の「回復期」</h3>
+
+            <p>カーニバル後は少しリラックスし、その後また翌年に向けてトレーニングを再開するサイクルがあります。</p>
+
+            <h2>ブラジルで人気のジムチェーン</h2>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ジム名</th>
+                            <th>特徴</th>
+                            <th>店舗数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Smart Fit</td>
+                            <td>低価格、24時間営業</td>
+                            <td>1,000+</td>
+                        </tr>
+                        <tr>
+                            <td>Bodytech</td>
+                            <td>プレミアムジム</td>
+                            <td>200+</td>
+                        </tr>
+                        <tr>
+                            <td>Bio Ritmo</td>
+                            <td>高級総合フィットネス</td>
+                            <td>50+</td>
+                        </tr>
+                        <tr>
+                            <td>Selfit</td>
+                            <td>若者向け</td>
+                            <td>100+</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>ブラジルと日本のフィットネス比較</h2>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>ブラジル</th>
+                            <th>日本</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>屋外運動</td>
+                            <td>非常に盛ん（ビーチ）</td>
+                            <td>限定的</td>
+                        </tr>
+                        <tr>
+                            <td>ダンス系</td>
+                            <td>サンバ、ズンバが人気</td>
+                            <td>増加中</td>
+                        </tr>
+                        <tr>
+                            <td>体型の理想</td>
+                            <td>曲線的、お尻重視</td>
+                            <td>細身重視</td>
+                        </tr>
+                        <tr>
+                            <td>コミュニティ</td>
+                            <td>社交的、グループ好き</td>
+                            <td>個人志向</td>
+                        </tr>
+                        <tr>
+                            <td>露出への抵抗</td>
+                            <td>低い</td>
+                            <td>高い</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>ブラジル式フィットネスを取り入れるコツ</h2>
+
+            <h3>1. ダンスエクササイズを始める</h3>
+
+            <p>ズンバやサンバフィットネスで楽しく有酸素運動しましょう。</p>
+
+            <h3>2. グルートトレーニングを強化</h3>
+
+            <p>ヒップアップはスタイルアップだけでなく、腰痛予防にも効果的です。</p>
+
+            <h3>3. 屋外で運動する</h3>
+
+            <p>公園や海辺でのトレーニングを取り入れ、自然の中で体を動かしましょう。</p>
+
+            <h3>4. コミュニティで楽しむ</h3>
+
+            <p>ブラジル人のように、仲間と一緒に楽しく運動する文化を取り入れましょう。</p>
+
+            <h2>まとめ</h2>
+
+            <p>ブラジルのフィットネス文化は、楽しさ、コミュニティ、そしてボディポジティブな姿勢が特徴です。ビーチでのトレーニング、カポエイラ、ブラジリアン柔術など、独自のフィットネスが世界に広まっています。</p>
+
+            <p>「楽しみながら鍛える」というブラジルの精神は、継続的なフィットネスライフの鍵かもしれません。まずはズンバやダンスエクササイズから始めてみませんか？</p>
         </article>
+
+        <div class="cta-section">
+            <h2>ダンスフィットネス仲間を見つけよう</h2>
+            <p>We Dietでズンバやダンスを楽しむ仲間と繋がりましょう。</p>
+            <a href="/" class="cta-button">無料で始める</a>
+        </div>
     </main>
 
     <footer class="footer">
