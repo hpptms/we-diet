@@ -41,6 +41,20 @@
   <link rel="stylesheet" href="/blog/css/blog-article.css">
   <link rel="stylesheet" href="/blog/css/blog-components.css">
 
+  <style>
+    :root {
+      --theme-primary: #0d9488;
+      --theme-primary-dark: #0f766e;
+      --theme-primary-light: #ccfbf1;
+      --theme-bg: #f0fdfa;
+    }
+    .hero { background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-primary-dark) 100%); }
+    .article-content h2 { color: var(--theme-primary-dark); border-bottom-color: var(--theme-primary); }
+    .info-card { background: linear-gradient(135deg, var(--theme-primary-light) 0%, var(--theme-bg) 100%); border-left-color: var(--theme-primary); }
+    .info-card h4 { color: var(--theme-primary-dark); }
+    .comparison-table th { background: var(--theme-primary); }
+  </style>
+
 </head>
 <body>
   <header class="header">
