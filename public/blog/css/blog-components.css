@@ -1,0 +1,549 @@
+/**
+ * We Diet Blog - Components CSS
+ * 記事内で使用するコンポーネント
+ */
+
+/* ==========================================================================
+   Info Card / Box
+   ========================================================================== */
+.info-card,
+.info-box {
+  background: linear-gradient(135deg, var(--primary-light) 0%, #e0f2fe 100%);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid var(--primary);
+}
+
+.info-card h4,
+.info-box h4 {
+  color: var(--primary-dark);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.info-card p:last-child,
+.info-box p:last-child {
+  margin-bottom: 0;
+}
+
+.info-card ul,
+.info-box ul {
+  margin: 0.75rem 0 0 1rem;
+}
+
+/* ==========================================================================
+   Tip Box
+   ========================================================================== */
+.tip-box {
+  background: linear-gradient(135deg, var(--warning-light) 0%, #fde68a 100%);
+  border-left: 4px solid var(--warning);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.tip-box h4 {
+  color: #92400e;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.tip-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Warning Box
+   ========================================================================== */
+.warning-box {
+  background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+  border-left: 4px solid #f97316;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.warning-box h4 {
+  color: #c2410c;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.warning-box p:last-child {
+  margin-bottom: 0;
+}
+
+.warning-box ul {
+  margin: 0.75rem 0 0 1rem;
+}
+
+/* ==========================================================================
+   Success Box
+   ========================================================================== */
+.success-box {
+  background: linear-gradient(135deg, var(--success-light) 0%, #a7f3d0 100%);
+  border-left: 4px solid var(--success);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.success-box h4 {
+  color: #047857;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.success-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Comparison Table
+   ========================================================================== */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.comparison-table th,
+.comparison-table td {
+  border: 1px solid var(--border);
+  padding: 0.875rem;
+  text-align: center;
+}
+
+.comparison-table th {
+  background: var(--primary);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.comparison-table tr:nth-child(even) {
+  background: var(--bg);
+}
+
+.comparison-table tr:hover {
+  background: var(--primary-light);
+}
+
+@media (max-width: 768px) {
+  .comparison-table {
+    font-size: 0.85rem;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 0.5rem;
+  }
+}
+
+/* ==========================================================================
+   Feature Grid
+   ========================================================================== */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.feature-item {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.feature-item h4 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-dark);
+}
+
+.feature-item p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Stats Grid
+   ========================================================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.stat-item {
+  background: var(--bg);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* ==========================================================================
+   Quote Box
+   ========================================================================== */
+.quote-box {
+  background: var(--bg);
+  border-left: 4px solid var(--primary);
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-style: italic;
+  position: relative;
+}
+
+.quote-box::before {
+  content: '"';
+  position: absolute;
+  left: 0.75rem;
+  top: 0.5rem;
+  font-size: 2.5rem;
+  color: var(--primary);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.quote-box p {
+  margin-bottom: 0.5rem;
+}
+
+.quote-author {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-style: normal;
+  text-align: right;
+}
+
+/* ==========================================================================
+   Step List
+   ========================================================================== */
+.step-list {
+  list-style: none;
+  counter-reset: step-counter;
+  margin: 1.5rem 0;
+  padding: 0;
+}
+
+.step-list li {
+  counter-increment: step-counter;
+  position: relative;
+  padding-left: 3.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.step-list li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   Check List
+   ========================================================================== */
+.check-list {
+  list-style: none;
+  margin: 1.5rem 0;
+  padding: 0;
+}
+
+.check-list li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.check-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   Badge
+   ========================================================================== */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.badge-primary {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.badge-success {
+  background: var(--success-light);
+  color: #047857;
+}
+
+.badge-warning {
+  background: var(--warning-light);
+  color: #92400e;
+}
+
+.badge-danger {
+  background: var(--danger-light);
+  color: #b91c1c;
+}
+
+/* ==========================================================================
+   Card
+   ========================================================================== */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-text {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Callout
+   ========================================================================== */
+.callout {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+}
+
+.callout-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.callout-content h4 {
+  margin-bottom: 0.5rem;
+}
+
+.callout-content p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.callout-info {
+  background: var(--info-light);
+  border-left: 4px solid var(--info);
+}
+
+.callout-info .callout-content h4 {
+  color: #0e7490;
+}
+
+.callout-warning {
+  background: var(--warning-light);
+  border-left: 4px solid var(--warning);
+}
+
+.callout-warning .callout-content h4 {
+  color: #92400e;
+}
+
+.callout-success {
+  background: var(--success-light);
+  border-left: 4px solid var(--success);
+}
+
+.callout-success .callout-content h4 {
+  color: #047857;
+}
+
+/* ==========================================================================
+   Summary Box (Do/Don't)
+   ========================================================================== */
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.summary-do {
+  background: var(--success-light);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+}
+
+.summary-do h4 {
+  color: #047857;
+  margin-bottom: 0.75rem;
+}
+
+.summary-dont {
+  background: var(--danger-light);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+}
+
+.summary-dont h4 {
+  color: #b91c1c;
+  margin-bottom: 0.75rem;
+}
+
+.summary-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.summary-list li {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Recipe Card
+   ========================================================================== */
+.recipe-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin: 1.5rem 0;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--accent);
+}
+
+.recipe-card h4 {
+  color: var(--accent);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.recipe-ingredients,
+.recipe-steps {
+  margin-bottom: 1rem;
+}
+
+.recipe-ingredients h5,
+.recipe-steps h5 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ==========================================================================
+   Timeline
+   ========================================================================== */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 1.5rem 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.75rem;
+  top: 0.25rem;
+  width: 12px;
+  height: 12px;
+  background: var(--primary);
+  border-radius: 50%;
+}
+
+.timeline-item h4 {
+  margin-bottom: 0.5rem;
+}
+
+.timeline-item p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  margin-bottom: 0;
+}

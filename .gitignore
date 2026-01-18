@@ -19,6 +19,7 @@
 .env.test.local
 .env.production.local
 BLOG_ARTICLES.md
+BLOG_CREATION_GUIDE.md
 
 /dist
 /vite
