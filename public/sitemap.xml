@@ -924,4 +924,75 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- ブログ記事 - 自宅フィットネス (home-fitness) -->
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/home-fitness-complete-guide.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/balance-ball-guide.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/ankle-weights-guide.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/nintendo-switch-fitness.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/ring-fit-adventure-guide.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/fitness-mat-guide.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/dance-exercise-guide.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/stepper-guide.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/push-up-bar-guide.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/home-fitness/exercise-bike-guide.html</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
