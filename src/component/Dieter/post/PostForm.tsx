@@ -144,12 +144,12 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
   const canPost = (Boolean(postContent.trim()) || selectedImages.length > 0) && postContent.length <= maxCharacters;
 
   return (
-    <Box sx={{ 
-      p: { xs: 2, sm: 4 }, 
-      mb: 0, 
-      borderBottom: isDarkMode ? '2px solid #29b6f6' : '2px solid #e1f5fe',
-      background: isDarkMode 
-        ? '#000000' 
+    <Box sx={{
+      p: { xs: 1.5, sm: 2, md: 3 },
+      mb: 0,
+      borderBottom: isDarkMode ? '1px solid #29b6f6' : '1px solid #e1f5fe',
+      background: isDarkMode
+        ? '#000000'
         : 'linear-gradient(135deg, rgba(227, 242, 253, 0.3) 0%, rgba(187, 222, 251, 0.2) 100%)'
     }}>
       {/* 隠されたファイル入力 */}
@@ -162,25 +162,25 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
         onChange={handleFileSelect}
       />
 
-      <Box display="flex" gap={{ xs: 2, sm: 3 }}>
+      <Box display="flex" gap={{ xs: 1, sm: 2 }}>
         <UserAvatar currentUser={currentUser} />
         <Box flex={1}>
           <TextField
             multiline
-            rows={3}
+            rows={{ xs: 2, sm: 3 }}
             fullWidth
             placeholder={t('dieter', 'postModal.placeholder', {}, '今どうしてる？')}
             value={postContent}
             onChange={handleContentChange}
             onKeyDown={handleKeyDown}
             variant="outlined"
-            sx={{ 
+            sx={{
               mb: 1.5,
               '& .MuiOutlinedInput-root': {
-                borderRadius: 3,
+                borderRadius: { xs: 2, sm: 3 },
                 backgroundColor: isDarkMode ? '#000000' : 'white',
-                border: isDarkMode ? '2px solid #29b6f6' : '2px solid #e1f5fe',
-                fontSize: { xs: '1rem', sm: '1.1rem' },
+                border: isDarkMode ? '1px solid #29b6f6' : '1px solid #e1f5fe',
+                fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' },
                 color: isDarkMode ? '#ffffff' : '#000000',
                 transition: 'all 0.3s ease',
                 outline: 'none',

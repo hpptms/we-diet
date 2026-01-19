@@ -26,6 +26,7 @@ import { darkModeState } from '../../../recoil/darkModeAtom';
 import { postsApi } from '../../../api/postsApi';
 import { Notification, NotificationResponse } from '../types';
 import { useTranslation } from '../../../hooks/useTranslation';
+import { highlightMentions } from '../../../utils/mentionUtils';
 
 interface NotificationsPageProps {
   onBack?: () => void;
@@ -348,7 +349,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onBack, onNotific
                                   WebkitBoxOrient: 'vertical',
                                 }}
                               >
-                                {notification.post.Content}
+                                {highlightMentions(notification.post.Content)}
                               </Typography>
                             </Box>
                           )}

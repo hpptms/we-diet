@@ -39,32 +39,36 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
 
   // 共通ボタンスタイル（タップターゲット48px以上を確保）
   const buttonStyle = {
-    minWidth: 56,
-    minHeight: 56,
-    p: 1,
+    minWidth: { xs: 50, sm: 60 },
+    minHeight: { xs: 54, sm: 60 },
+    p: { xs: 0.5, sm: 1 },
     flexDirection: 'column',
-    fontSize: '0.75rem',
-    fontWeight: 500,
-    borderRadius: 2,
+    fontSize: { xs: '0.7rem', sm: '0.75rem' },
+    fontWeight: 600,
+    borderRadius: 0,
+    transition: 'all 0.2s ease',
     '&:active': {
       transform: 'scale(0.95)',
+      backgroundColor: isDarkMode ? 'rgba(41, 182, 246, 0.1)' : 'rgba(41, 182, 246, 0.08)',
     },
   };
 
   return (
     <Box sx={{
       backgroundColor: isDarkMode ? '#000000' : 'white',
-      borderTop: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`,
-      py: 0.5,
-      paddingBottom: 'max(8px, env(safe-area-inset-bottom))', // iOS Safari対応
+      borderTop: `2px solid ${isDarkMode ? '#29b6f6' : '#42a5f5'}`,
+      boxShadow: isDarkMode
+        ? '0 -2px 10px rgba(0, 0, 0, 0.5)'
+        : '0 -2px 10px rgba(0, 0, 0, 0.1)',
+      paddingBottom: 'max(4px, env(safe-area-inset-bottom))', // iOS Safari対応
     }}>
       <Box sx={{
         display: 'flex',
         justifyContent: 'space-around',
-        alignItems: 'center',
-        maxWidth: 500,
+        alignItems: 'stretch',
+        width: '100%',
+        maxWidth: '100%',
         mx: 'auto',
-        px: 1,
       }}>
         {/* Home Button */}
         <Button
@@ -73,11 +77,15 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
             ...buttonStyle,
             color: (!showFollowingPosts && !showMessages && !showNotifications)
               ? '#29b6f6'
-              : (isDarkMode ? '#999' : '#666'),
+              : (isDarkMode ? '#90a4ae' : '#757575'),
+            backgroundColor: (!showFollowingPosts && !showMessages && !showNotifications)
+              ? (isDarkMode ? 'rgba(41, 182, 246, 0.15)' : 'rgba(41, 182, 246, 0.1)')
+              : 'transparent',
+            flex: 1,
           }}
         >
-          <HomeIcon sx={{ fontSize: 24, mb: 0.25 }} />
-          ホーム
+          <HomeIcon sx={{ fontSize: { xs: 22, sm: 24 }, mb: 0.25 }} />
+          <Box sx={{ fontSize: { xs: '0.65rem', sm: '0.7rem' } }}>ホーム</Box>
         </Button>
 
         {/* Search Button */}
@@ -85,23 +93,36 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           onClick={handleSearch}
           sx={{
             ...buttonStyle,
-            color: isSearching ? '#29b6f6' : (isDarkMode ? '#999' : '#666'),
+            color: isSearching ? '#29b6f6' : (isDarkMode ? '#90a4ae' : '#757575'),
+            backgroundColor: isSearching
+              ? (isDarkMode ? 'rgba(41, 182, 246, 0.15)' : 'rgba(41, 182, 246, 0.1)')
+              : 'transparent',
+            flex: 1,
           }}
         >
-          <Box sx={{ fontSize: 22, mb: 0.25, lineHeight: 1 }}>🔍</Box>
-          検索
+          <Box sx={{ fontSize: { xs: 20, sm: 22 }, mb: 0.25, lineHeight: 1 }}>🔍</Box>
+          <Box sx={{ fontSize: { xs: '0.65rem', sm: '0.7rem' } }}>検索</Box>
         </Button>
 
-        {/* Post Button */}
+        {/* Post Button - 目立たせる */}
         <Button
           onClick={onOpenPostModal}
           sx={{
             ...buttonStyle,
-            color: '#29b6f6',
+            color: 'white',
+            backgroundColor: '#29b6f6',
+            flex: 1,
+            '&:hover': {
+              backgroundColor: '#1e88e5',
+            },
+            '&:active': {
+              transform: 'scale(0.95)',
+              backgroundColor: '#1976d2',
+            },
           }}
         >
-          <EditIcon sx={{ fontSize: 24, mb: 0.25 }} />
-          投稿
+          <EditIcon sx={{ fontSize: { xs: 22, sm: 24 }, mb: 0.25 }} />
+          <Box sx={{ fontSize: { xs: '0.65rem', sm: '0.7rem' } }}>投稿</Box>
         </Button>
 
         {/* Notification Button */}
@@ -111,24 +132,32 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
             ...buttonStyle,
             color: showNotifications
               ? '#29b6f6'
-              : (isDarkMode ? '#999' : '#666'),
+              : (isDarkMode ? '#90a4ae' : '#757575'),
+            backgroundColor: showNotifications
+              ? (isDarkMode ? 'rgba(41, 182, 246, 0.15)' : 'rgba(41, 182, 246, 0.1)')
+              : 'transparent',
             position: 'relative',
+            flex: 1,
           }}
         >
-          <Box sx={{ fontSize: 22, mb: 0.25, lineHeight: 1 }}>🔔</Box>
-          通知
+          <Box sx={{ fontSize: { xs: 20, sm: 22 }, mb: 0.25, lineHeight: 1 }}>🔔</Box>
+          <Box sx={{ fontSize: { xs: '0.65rem', sm: '0.7rem' } }}>通知</Box>
         </Button>
 
-        {/* Profile Button */}
+        {/* Messages Button */}
         <Button
           onClick={onNavigateToProfile}
           sx={{
             ...buttonStyle,
-            color: isDarkMode ? '#999' : '#666',
+            color: showMessages ? '#29b6f6' : (isDarkMode ? '#90a4ae' : '#757575'),
+            backgroundColor: showMessages
+              ? (isDarkMode ? 'rgba(41, 182, 246, 0.15)' : 'rgba(41, 182, 246, 0.1)')
+              : 'transparent',
+            flex: 1,
           }}
         >
-          <PeopleIcon sx={{ fontSize: 24, mb: 0.25 }} />
-          設定
+          <PeopleIcon sx={{ fontSize: { xs: 22, sm: 24 }, mb: 0.25 }} />
+          <Box sx={{ fontSize: { xs: '0.65rem', sm: '0.7rem' } }}>設定</Box>
         </Button>
       </Box>
     </Box>

@@ -349,11 +349,11 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
 
     // レスポンシブスタイル設定
     const containerStyles = {
-        maxWidth: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 900,
-        width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
-        mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
-        p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 0, sm: 1 } : 3,
-        minHeight: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'calc(100vh + 8rem)' : '100vh',
+        maxWidth: { xs: '100%', lg: 900 },
+        width: '100%',
+        mx: { xs: 0, lg: 'auto' },
+        p: { xs: 0, sm: 1, lg: 3 },
+        minHeight: '100vh',
         background: isDarkMode ? '#000000' : '#ffffff',
         color: isDarkMode ? '#ffffff' : 'inherit',
         position: 'relative' as const,
@@ -361,7 +361,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         flexDirection: 'column' as const,
         boxSizing: 'border-box' as const,
         overflowX: 'hidden' as const,
-        paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(8rem, env(safe-area-inset-bottom))' : 4,
+        pb: { xs: '100px', sm: '80px', lg: 4 },
         // モバイル時のスクロール動作を改善
         WebkitOverflowScrolling: 'touch',
     };

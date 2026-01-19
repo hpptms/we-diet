@@ -972,11 +972,12 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     }), [viewPeriod, currentDate, weightRecords, isDarkMode]);
 
     return (
-        <Box sx={{ 
-            p: 3, 
-            maxWidth: 1200, 
-            mx: 'auto',
-            paddingBottom: { xs: 'max(3rem, env(safe-area-inset-bottom))', md: 3 },
+        <Box sx={{
+            p: { xs: 1, sm: 2, lg: 3 },
+            maxWidth: { xs: '100%', lg: 1200 },
+            width: '100%',
+            mx: { xs: 0, lg: 'auto' },
+            pb: { xs: '100px', sm: '80px', lg: 3 },
             minHeight: '100vh',
             backgroundColor: isDarkMode ? '#000000' : '#ffffff',
             color: isDarkMode ? '#ffffff' : 'inherit',

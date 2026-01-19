@@ -51,22 +51,21 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
             {leftSidebar}
           </Grid>
 
-          {/* Main Content - タブレットでは全幅、デスクトップでは中央 */}
+          {/* Main Content - モバイル・タブレットでは全幅、デスクトップでは中央 */}
           <Grid item xs={12} sm={12} md={12} lg={7} xl={7} sx={{ order: { xs: 1, lg: 2 } }}>
             <Box sx={{
               backgroundColor: isDarkMode ? '#000000' : 'white',
-              minHeight: { xs: '100vh', md: '100vh' },
+              minHeight: '100vh',
               borderLeft: { xs: 'none', lg: '1px solid white' },
               borderRight: { xs: 'none', lg: '1px solid white' },
-              borderTop: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, lg: 'none' },
-              borderBottom: { xs: `1px solid ${isDarkMode ? '#bb86fc' : '#42a5f5'}`, lg: 'none' },
               boxShadow: { xs: 'none', lg: isDarkMode
                 ? '0 4px 12px rgba(187, 134, 252, 0.15)'
                 : '0 4px 12px rgba(66, 165, 245, 0.15)' },
-              maxWidth: { xs: '100%', md: '800px', lg: '100%' },
-              mx: { xs: 0, md: 'auto', lg: 0 },
-              pb: { xs: 10, md: 4, lg: 0 }, // モバイルでは底部ナビ用に余白
-              overflowY: { xs: 'auto', lg: 'visible' }
+              width: '100%',
+              maxWidth: '100%',
+              mx: 0,
+              pb: { xs: '80px', lg: 0 }, // モバイル・タブレットでは底部ナビ用に余白
+              position: 'relative'
             }}>
               {/* Mobile/Tablet Header */}
               {isMobile && mobileHeader}

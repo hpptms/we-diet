@@ -283,35 +283,36 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onBack }) => {
   // レスポンシブスタイル設定
   const containerStyles = {
     maxWidth: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 800,
-    width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
+    width: '100%',
     mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
-    p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 1, sm: 2 } : 3,
-    minHeight: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'calc(100vh + 6rem)' : 'auto',
+    p: { xs: 0, sm: 1, md: 2, lg: 3 },
+    minHeight: '100vh',
     backgroundColor: isDarkMode ? '#000000' : 'transparent',
     color: isDarkMode ? '#ffffff' : 'inherit',
     display: 'flex',
     flexDirection: 'column' as const,
     boxSizing: 'border-box' as const,
     overflowX: 'hidden' as const,
-    paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(6rem, env(safe-area-inset-bottom))' : 4,
+    pb: { xs: '100px', sm: '80px', lg: 4 },
     // モバイル時のスクロール動作を改善
     WebkitOverflowScrolling: 'touch',
   };
 
   const cardStyles = {
-    mb: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 1 : 3,
-    flex: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 1 : 'none',
-    borderRadius: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : undefined,
-    boxShadow: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'none' : undefined,
+    mb: { xs: 0, sm: 1, lg: 3 },
+    borderRadius: { xs: 0, lg: 2 },
+    boxShadow: { xs: 'none', lg: 3 },
     backgroundColor: isDarkMode ? '#000000' : 'white',
-    border: isDarkMode ? '2px solid #ffffff' : 'none',
+    border: isDarkMode ? { xs: 'none', lg: '1px solid #333' } : 'none',
   };
 
   const titleStyles = {
     textAlign: 'center' as const,
-    mb: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 2 : 4,
-    fontSize: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '1.75rem' : undefined,
-    px: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 2 : 0,
+    mb: { xs: 2, lg: 4 },
+    fontSize: { xs: '1.5rem', sm: '1.75rem', lg: '2.125rem' },
+    px: { xs: 2, lg: 0 },
+    pt: { xs: 2, lg: 0 },
+    fontWeight: 700,
     color: isDarkMode ? '#ffffff' : 'inherit',
   };
 

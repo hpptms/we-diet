@@ -671,14 +671,14 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
 
   // レスポンシブスタイル設定
   const containerStyles = {
-    p: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? { xs: 0, sm: 1 } : 2,
-    maxWidth: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 900,
-    width: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? '100%' : 'auto',
-    mx: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 0 : 'auto',
+    p: { xs: 0, sm: 1, lg: 2 },
+    maxWidth: { xs: '100%', lg: 900 },
+    width: '100%',
+    mx: { xs: 0, lg: 'auto' },
     background: isDarkMode ? '#000000' : '#ffffff',
-    minHeight: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'calc(100vh + 10rem)' : '100vh',
+    minHeight: '100vh',
     color: isDarkMode ? '#ffffff' : 'inherit',
-    paddingBottom: (isTabletOrMobile || isPortraitMode || isSmallScreen) ? 'max(10rem, env(safe-area-inset-bottom))' : 4,
+    pb: { xs: '100px', sm: '80px', lg: 4 },
     display: 'flex',
     flexDirection: 'column' as const,
     boxSizing: 'border-box' as const,

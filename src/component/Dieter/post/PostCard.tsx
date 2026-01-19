@@ -45,6 +45,7 @@ import LinkPreview from './LinkPreview';
 import MediaPlayer from './MediaPlayer';
 import { formatRelativeTime } from '../../../utils/timeFormat';
 import { useLinkPreview } from '../../../hooks/useLinkPreview';
+import { highlightMentions } from '../../../utils/mentionUtils';
 
 interface PostCardProps {
   post: Post;
@@ -407,9 +408,9 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
 
   return (
     <Box sx={{
-      p: { xs: 2, sm: 3, md: 4 },
+      p: { xs: 1.5, sm: 2, md: 3 },
       mb: 0,
-      borderBottom: isDarkMode ? '2px solid #29b6f6' : '2px solid #e1f5fe',
+      borderBottom: isDarkMode ? '1px solid #29b6f6' : '1px solid #e1f5fe',
       transition: 'all 0.3s ease',
       '&:hover': {
         backgroundColor: isDarkMode ? 'rgba(41, 182, 246, 0.05)' : 'rgba(227, 242, 253, 0.4)',
@@ -520,7 +521,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
             overflowWrap: 'anywhere',
             overflow: 'hidden'
           }}>
-            {post.Content}
+            {highlightMentions(post.Content)}
           </Typography>
 
           {/* メディアプレイヤー */}
@@ -1010,11 +1011,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                               {formatRelativeTime(comment.CreatedAt, true)}
                             </Typography>
                           </Box>
-                          <Typography variant="body2" sx={{ 
+                          <Typography variant="body2" sx={{
                             lineHeight: 1.5,
                             color: isDarkMode ? '#ffffff' : '#37474f'
                           }}>
-                            {comment.Content}
+                            {highlightMentions(comment.Content)}
                           </Typography>
                         </Box>
                       </Box>
