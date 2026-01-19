@@ -18,6 +18,9 @@ const INDEX_NOW_ENDPOINTS = {
 // サイトのベースURL
 const SITE_URL = 'https://we-diet.net';
 
+// IndexNow APIキー
+const API_KEY = '67d6ff0a14744ef39ee0fafe5a6526ee';
+
 /**
  * IndexNowに単一のURLを送信
  *
@@ -27,7 +30,7 @@ const SITE_URL = 'https://we-diet.net';
  */
 export async function submitToIndexNow(
   url: string,
-  apiKey: string = ''
+  apiKey: string = API_KEY
 ): Promise<boolean> {
   try {
     // 相対パスの場合は絶対URLに変換
@@ -71,7 +74,7 @@ export async function submitToIndexNow(
  */
 export async function submitBulkToIndexNow(
   urls: string[],
-  apiKey: string = ''
+  apiKey: string = API_KEY
 ): Promise<boolean> {
   try {
     // 相対パスを絶対URLに変換
@@ -146,7 +149,7 @@ export function notifyPageView(url: string): void {
  */
 export async function submitSitemapToIndexNow(
   sitemapUrl: string = `${SITE_URL}/sitemap.xml`,
-  apiKey: string = ''
+  apiKey: string = API_KEY
 ): Promise<void> {
   try {
     console.log('📡 Fetching sitemap:', sitemapUrl);
