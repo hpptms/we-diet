@@ -355,6 +355,7 @@ const LoginPage: React.FC = () => {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
+                  autoComplete="email"
                   style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
                 />
               </label>
@@ -367,6 +368,7 @@ const LoginPage: React.FC = () => {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
+                  autoComplete={isPasswordSetMode ? "new-password" : "current-password"}
                   placeholder={isPasswordSetMode ? t('auth', 'passwordMinLength', {}, '6文字以上のパスワードを入力') : ''}
                   style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
                 />
@@ -381,6 +383,7 @@ const LoginPage: React.FC = () => {
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
                     required
+                    autoComplete="new-password"
                     placeholder={t('auth', 'reenterPassword', {}, 'パスワードを再入力してください')}
                     style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
                   />

@@ -7,48 +7,29 @@
  * 参考: https://www.indexnow.org/
  */
 
-// IndexNowのエンドポイント
-const INDEX_NOW_ENDPOINTS = {
-  bing: 'https://www.bing.com/indexnow',
-  yandex: 'https://yandex.com/indexnow',
-  // IndexNowプロトコルは、1つのエンドポイントに送信すれば
-  // すべての参加検索エンジンに共有されます
-};
-
 // サイトのベースURL
 const SITE_URL = 'https://we-diet.net';
 
-// IndexNow APIキー
-const API_KEY = '67d6ff0a14744ef39ee0fafe5a6526ee';
-
 /**
- * IndexNowに単一のURLを送信
+ * IndexNowに単一のURLを送信（バックエンド経由）
  *
  * @param url - 通知するURL（完全なURLまたはパス）
- * @param apiKey - IndexNow APIキー（オプション）
  * @returns Promise<boolean> - 成功したかどうか
  */
 export async function submitToIndexNow(
-  url: string,
-  apiKey: string = API_KEY
+  url: string
 ): Promise<boolean> {
   try {
     // 相対パスの場合は絶対URLに変換
     const fullUrl = url.startsWith('http') ? url : `${SITE_URL}${url}`;
 
-    const payload = {
-      host: new URL(SITE_URL).hostname,
-      key: apiKey || undefined,
-      urlList: [fullUrl],
-    };
-
-    // Bingのエンドポイントに送信（すべての参加エンジンに共有される）
-    const response = await fetch(INDEX_NOW_ENDPOINTS.bing, {
+    // バックエンド経由でIndexNowに送信（CORSエラー回避）
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/indexnow/submit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ url: fullUrl }),
     });
 
     // IndexNowは成功時に200または202を返す
@@ -66,15 +47,13 @@ export async function submitToIndexNow(
 }
 
 /**
- * IndexNowに複数のURLを一括送信
+ * IndexNowに複数のURLを一括送信（バックエンド経由）
  *
  * @param urls - 通知するURLの配列
- * @param apiKey - IndexNow APIキー（オプション）
  * @returns Promise<boolean> - 成功したかどうか
  */
 export async function submitBulkToIndexNow(
-  urls: string[],
-  apiKey: string = API_KEY
+  urls: string[]
 ): Promise<boolean> {
   try {
     // 相対パスを絶対URLに変換
@@ -82,18 +61,13 @@ export async function submitBulkToIndexNow(
       url.startsWith('http') ? url : `${SITE_URL}${url}`
     );
 
-    const payload = {
-      host: new URL(SITE_URL).hostname,
-      key: apiKey || undefined,
-      urlList: fullUrls,
-    };
-
-    const response = await fetch(INDEX_NOW_ENDPOINTS.bing, {
+    // バックエンド経由でIndexNowに送信（CORSエラー回避）
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/indexnow/submit-bulk`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ urls: fullUrls }),
     });
 
     if (response.status === 200 || response.status === 202) {
@@ -145,11 +119,9 @@ export function notifyPageView(url: string): void {
  * （管理者が手動で実行する想定）
  *
  * @param sitemapUrl - サイトマップのURL
- * @param apiKey - IndexNow APIキー
  */
 export async function submitSitemapToIndexNow(
-  sitemapUrl: string = `${SITE_URL}/sitemap.xml`,
-  apiKey: string = API_KEY
+  sitemapUrl: string = `${SITE_URL}/sitemap.xml`
 ): Promise<void> {
   try {
     console.log('📡 Fetching sitemap:', sitemapUrl);
@@ -168,7 +140,7 @@ export async function submitSitemapToIndexNow(
     for (let i = 0; i < urls.length; i += chunkSize) {
       const chunk = urls.slice(i, i + chunkSize);
       console.log(`📤 Submitting chunk ${i / chunkSize + 1} (${chunk.length} URLs)`);
-      await submitBulkToIndexNow(chunk, apiKey);
+      await submitBulkToIndexNow(chunk);
 
       // レート制限を避けるため、少し待機
       if (i + chunkSize < urls.length) {

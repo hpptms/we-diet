@@ -73,15 +73,17 @@
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
   <link rel="dns-prefetch" href="https://res.cloudinary.com">
 
-  <!-- フォントのプリロード（WOFF2形式） -->
-  <link rel="preload" href="/fonts/mplus1p-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/mplus1p-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- Google Fonts 事前接続 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- LCP Hero画像のプリロード（モバイル用） -->
-  <link rel="preload" as="image" href="https://res.cloudinary.com/drmyhhtjo/image/upload/w_412,h_320,c_fill,q_auto,f_auto/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" media="(max-width: 768px)" fetchpriority="high">
+  <!-- Google Fonts (Noto Sans JP) -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
-  <!-- LCP Hero画像のプリロード（デスクトップ用） -->
-  <link rel="preload" as="image" href="https://res.cloudinary.com/drmyhhtjo/image/upload/w_1920,h_500,c_fill,q_auto,f_auto/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" media="(min-width: 769px)" fetchpriority="high">
+  <!-- LCP Hero画像のプリロード（トップページ用） -->
+  <!-- Note: プリロードは実際にトップページで使用される画像のみに適用 -->
+  <!-- <link rel="preload" as="image" href="https://res.cloudinary.com/drmyhhtjo/image/upload/w_412,h_320,c_fill,q_auto,f_auto/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" media="(max-width: 768px)" fetchpriority="high"> -->
+  <!-- <link rel="preload" as="image" href="https://res.cloudinary.com/drmyhhtjo/image/upload/w_1920,h_500,c_fill,q_auto,f_auto/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" media="(min-width: 769px)" fetchpriority="high"> -->
 
   <!-- Critical CSS inlined -->
   <style>
@@ -98,7 +100,7 @@
 
     body {
       margin: 0;
-      font-family: 'M PLUS 1p', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;

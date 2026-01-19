@@ -1,27 +1,9 @@
-/* M PLUS 1p: Local fonts */
-@font-face {
-    font-family: 'M PLUS 1p';
-    src: url('/fonts/mplus1p-regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
+/* Google Fonts - Noto Sans JP は index.html で読み込み済み */
 
-@font-face {
-    font-family: 'M PLUS 1p';
-    src: url('/fonts/mplus1p-bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-/* しっぽり明朝 B1: FontPlus CDN（サンプル/商用利用は要契約） */
-/* Font import removed to prevent 404 error - using fallback fonts */
-
-/* 基本はNoto Serif JP、見出しはしっぽり明朝B1 */
+/* 基本フォント設定 */
 html,
 body {
-    font-family: 'M PLUS 1p', serif;
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 h1,
@@ -30,12 +12,12 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Shippori Mincho B1', 'Noto Serif JP', serif;
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     font-weight: 700;
 }
 
-/* 強調やキャプションなどにも適用例 */
+/* 強調やキャプションなどにも適用 */
 .caption,
 .emphasis {
-    font-family: 'Shippori Mincho B1', 'M PLUS 1p', serif;
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
