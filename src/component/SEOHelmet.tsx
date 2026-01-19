@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 interface SEOHelmetProps {
   title?: string;
   description?: string;
+  keywords?: string;
   canonicalUrl: string;
   alternateUrls?: {
     lang: string;
@@ -12,31 +13,54 @@ interface SEOHelmetProps {
   ogImage?: string;
   ogType?: string;
   twitterCard?: string;
+  noindex?: boolean;
+  structuredData?: object | object[];
 }
 
 /**
  * SEOHelmet - 動的にSEOタグを設定するコンポーネント
  * Google検索エンジン向けに適切なcanonicalタグとhreflangタグを設定
+ *
+ * @param title - ページタイトル
+ * @param description - ページの説明
+ * @param keywords - カスタムキーワード（省略可）
+ * @param canonicalUrl - 正規URL
+ * @param alternateUrls - 多言語対応URL
+ * @param ogImage - OGP画像URL
+ * @param ogType - OGPタイプ
+ * @param twitterCard - Twitterカードタイプ
+ * @param noindex - インデックス登録を拒否する場合はtrue
+ * @param structuredData - 構造化データ（JSON-LD）
  */
 export const SEOHelmet: React.FC<SEOHelmetProps> = ({
   title = 'We Diet - ダイエットSNSアプリ | 仲間と続ける体重管理・食事記録・運動記録',
   description = '一人では続けにくいダイエットも、仲間がいれば楽しく継続できる。We Dietは食事記録・運動記録・体重管理をSNSで共有できるダイエット記録アプリ。モチベーション維持をサポートする健康管理SNSプラットフォーム。無料で始められます。',
+  keywords = 'ダイエット,SNS,体重管理,食事記録,運動記録,ダイエットアプリ,健康管理,モチベーション,ダイエット仲間,レコーディングダイエット,ダイエット記録,体重記録,カロリー管理,健康SNS',
   canonicalUrl,
   alternateUrls = [],
   ogImage = 'https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp',
   ogType = 'website',
-  twitterCard = 'summary_large_image'
+  twitterCard = 'summary_large_image',
+  noindex = false,
+  structuredData
 }) => {
+  // 構造化データを配列として扱う
+  const structuredDataArray = structuredData
+    ? Array.isArray(structuredData)
+      ? structuredData
+      : [structuredData]
+    : [];
+
   return (
     <Helmet>
       {/* 基本メタタグ */}
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content="ダイエット,SNS,体重管理,食事記録,運動記録,ダイエットアプリ,健康管理,モチベーション,ダイエット仲間,レコーディングダイエット,ダイエット記録,体重記録,カロリー管理,健康SNS" />
-      
+      <meta name="keywords" content={keywords} />
+
       {/* Canonical URL - 重複コンテンツ問題を解決 */}
       <link rel="canonical" href={canonicalUrl} />
-      
+
       {/* 多言語対応 - hreflangタグ */}
       {alternateUrls.map((alternate) => (
         <link
@@ -46,23 +70,31 @@ export const SEOHelmet: React.FC<SEOHelmetProps> = ({
           href={alternate.url}
         />
       ))}
-      
+
       {/* OGPタグ */}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content={ogType} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={ogImage} />
-      
+      <meta property="og:site_name" content="We Diet" />
+
       {/* Twitter Cardタグ */}
       <meta name="twitter:card" content={twitterCard} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
-      
+
       {/* ロボットタグ */}
-      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-      <meta name="googlebot" content="index, follow" />
+      <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'} />
+      <meta name="googlebot" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+
+      {/* 構造化データ (JSON-LD) */}
+      {structuredDataArray.map((data, index) => (
+        <script key={index} type="application/ld+json">
+          {JSON.stringify(data)}
+        </script>
+      ))}
     </Helmet>
   );
 };

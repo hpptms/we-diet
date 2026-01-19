@@ -1,7 +1,7 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentLanguage } from '../i18n';
+import { SEOHelmet } from '../component/SEOHelmet';
 
 const TermsOfService: React.FC = () => {
   const navigate = useNavigate();
@@ -46,15 +46,13 @@ const TermsOfService: React.FC = () => {
   // 現在は日本語で統一のため、日本語版のみを表示
   return (
     <>
-      <Helmet>
-        <title>利用規約 | We Diet - ダイエットSNS</title>
-        <meta name="description" content="We Dietの利用規約です。サービス利用の条件、ユーザーアカウント、コンテンツガイドラインについて説明しています。" />
-        <meta property="og:title" content="利用規約 | We Diet" />
-        <meta property="og:description" content="We Dietの利用規約。サービス利用条件について。" />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://we-diet.com/terms-of-service" />
-        <link rel="canonical" href="https://we-diet.com/terms-of-service" />
-      </Helmet>
+      <SEOHelmet
+        title="利用規約 | We Diet - ダイエットSNS"
+        description="We Dietの利用規約です。サービス利用の条件、ユーザーアカウント、コンテンツガイドラインについて説明しています。"
+        keywords="利用規約,規約,We Diet,ダイエットSNS,サービス利用条件,ガイドライン"
+        canonicalUrl="https://we-diet.net/terms-of-service"
+        ogType="article"
+      />
       <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
       <button 
         style={backButtonStyle} 

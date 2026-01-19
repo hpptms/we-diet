@@ -1,8 +1,8 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Container, Typography, Box, Accordion, AccordionSummary, AccordionDetails, Paper } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from '../hooks/useTranslation';
+import { SEOHelmet } from '../component/SEOHelmet';
 
 const FAQPage: React.FC = () => {
   const { t } = useTranslation();
@@ -65,28 +65,13 @@ const FAQPage: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>よくある質問（FAQ） - ダイエットSNS We diet</title>
-        <meta name="description" content="ダイエットSNS We dietに関するよくある質問（FAQ）。利用方法、機能、プライバシー、料金などについての疑問にお答えします。" />
-        <meta name="keywords" content="FAQ,よくある質問,ダイエットSNS,使い方,機能,料金,プライバシー" />
-        <link rel="canonical" href="https://we-diet.net/faq" />
-        
-        {/* Open Graph */}
-        <meta property="og:title" content="よくある質問（FAQ） - ダイエットSNS We diet" />
-        <meta property="og:description" content="ダイエットSNS We dietに関するよくある質問。利用方法、機能、プライバシーなどについての疑問にお答えします。" />
-        <meta property="og:url" content="https://we-diet.net/faq" />
-        <meta property="og:type" content="website" />
-        
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="よくある質問（FAQ） - ダイエットSNS We diet" />
-        <meta name="twitter:description" content="ダイエットSNS We dietに関するよくある質問。利用方法、機能、プライバシーなどについての疑問にお答えします。" />
-        
-        {/* 構造化データ */}
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-      </Helmet>
+      <SEOHelmet
+        title="よくある質問（FAQ） - ダイエットSNS We diet"
+        description="ダイエットSNS We dietに関するよくある質問（FAQ）。利用方法、機能、プライバシー、料金などについての疑問にお答えします。"
+        keywords="FAQ,よくある質問,ダイエットSNS,使い方,機能,料金,プライバシー,We Diet,ヘルプ,サポート"
+        canonicalUrl="https://we-diet.net/faq"
+        structuredData={structuredData}
+      />
 
       <Box sx={{ 
         minHeight: '100vh',

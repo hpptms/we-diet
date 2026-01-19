@@ -6,6 +6,7 @@ import DashboardLayout from './component/DashboardLayout';
 import AMPRedirect from './component/AMPRedirect';
 import { initGA, trackPageView } from './utils/googleAnalytics';
 import { initPerformanceMonitoring } from './utils/performanceMonitoring';
+import { notifyPageView } from './utils/indexNow';
 import { LanguageProvider } from './context/LanguageContext';
 import { useTranslation } from './hooks/useTranslation';
 
@@ -60,12 +61,16 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
-// Component to track page views
+// Component to track page views and notify IndexNow
 const PageViewTracker = () => {
   const location = useLocation();
 
   useEffect(() => {
+    // Google Analytics tracking
     trackPageView(location.pathname + location.search, document.title);
+
+    // IndexNow notification (本番環境のみ)
+    notifyPageView(location.pathname);
   }, [location]);
 
   return null;

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from 'react-helmet-async';
 import { useNavigate } from "react-router-dom";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
+import { SEOHelmet } from "../component/SEOHelmet";
 import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material";
 import { MdLogin } from "react-icons/md";
 import axios from "axios";
@@ -302,15 +302,13 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>ログイン | We Diet - ダイエットSNS</title>
-        <meta name="description" content="We Dietにログイン。ダイエット仲間と一緒に健康的な生活を始めましょう。Google、LINE、Xでの簡単ログインに対応。" />
-        <meta property="og:title" content="ログイン | We Diet" />
-        <meta property="og:description" content="We Dietにログインして、ダイエット仲間と繋がろう。" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://we-diet.com/login" />
-        <link rel="canonical" href="https://we-diet.com/login" />
-      </Helmet>
+      <SEOHelmet
+        title="ログイン | We Diet - ダイエットSNS"
+        description="We Dietにログイン。ダイエット仲間と一緒に健康的な生活を始めましょう。Google、LINE、Xでの簡単ログインに対応。"
+        keywords="ログイン,We Diet,ダイエットSNS,アカウント,サインイン,Google,LINE,X,Twitter,Facebook,TikTok"
+        canonicalUrl="https://we-diet.net/login"
+        noindex={true}
+      />
       <Box sx={containerStyles}>
         {!shouldUseFullWidth && <Header />}
       <Box sx={mainBoxStyles}>
