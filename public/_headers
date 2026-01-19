@@ -51,3 +51,30 @@
 # Service Workerは短期キャッシュ
 /sw.js
   Cache-Control: public, max-age=0, must-revalidate
+
+# IndexNow API key - 1年キャッシュ
+/*.txt
+  Cache-Control: public, max-age=31536000, immutable
+
+# Sitemap - 1日キャッシュ
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+
+/sitemap_multilang.xml
+  Cache-Control: public, max-age=86400
+
+# Robots.txt - 1日キャッシュ
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+# Manifest - 1週間キャッシュ
+/manifest.json
+  Cache-Control: public, max-age=604800
+
+# Favicon - 1年キャッシュ
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+# AMP pages - 1時間キャッシュ
+/amp/*
+  Cache-Control: public, max-age=3600

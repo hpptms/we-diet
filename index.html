@@ -70,13 +70,18 @@
   <link rel="alternate" hreflang="x-default" href="https://we-diet.net/" />
 
   <!-- DNS事前解決（クリティカルパス最適化） -->
-  <link rel="preconnect" href="https://res.cloudinary.com">
-
-  <!-- 重要なリソースのプリロード -->
-  <!-- Hero画像のpreloadを削除（トップページ以外で未使用の警告を回避） -->
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+  <link rel="dns-prefetch" href="https://res.cloudinary.com">
 
   <!-- フォントのプリロード（WOFF2形式） -->
-  <!-- M PLUS 1p フォントの正しいURLに修正 -->
+  <link rel="preload" href="/fonts/mplus1p-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/mplus1p-bold.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- LCP Hero画像のプリロード（モバイル用） -->
+  <link rel="preload" as="image" href="https://res.cloudinary.com/drmyhhtjo/image/upload/w_412,h_320,c_fill,q_auto,f_auto/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" media="(max-width: 768px)" fetchpriority="high">
+
+  <!-- LCP Hero画像のプリロード（デスクトップ用） -->
+  <link rel="preload" as="image" href="https://res.cloudinary.com/drmyhhtjo/image/upload/w_1920,h_500,c_fill,q_auto,f_auto/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" media="(min-width: 769px)" fetchpriority="high">
 
   <!-- Critical CSS inlined -->
   <style>
