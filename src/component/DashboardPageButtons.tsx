@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../recoil/darkModeAtom';
 import { useTranslation } from '../hooks/useTranslation';
 
-type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter' | 'blog' | 'debug';
+type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter' | 'debug';
 
 interface DashboardPageButtonsProps {
   onViewChange: (view: CurrentView) => void;
@@ -423,7 +423,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
         }}
         onClick={() => {
           // console.log("ブログがクリックされました");
-          onViewChange('blog');
+          window.location.href = '/blog/index.html';
         }}
       >
         📝 ブログ
