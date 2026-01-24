@@ -14,11 +14,13 @@ import {
   PostFormActions,
 } from './PostForm/index';
 import MentionSuggestion from './PostForm/MentionSuggestion';
+import HashtagSuggestion from './PostForm/HashtagSuggestion';
 import { useTranslation } from '../../../hooks/useTranslation';
 import LinkPreview from './LinkPreview';
 import MediaPlayer from './MediaPlayer';
 import { useLinkPreview } from '../../../hooks/useLinkPreview';
 import { useMentionSuggestion } from '../../../hooks/useMentionSuggestion';
+import { useHashtagSuggestion, HashtagItem } from '../../../hooks/useHashtagSuggestion';
 
 // ハッシュタグ抽出用の正規表現（コンポーネント外で定義して再コンパイルを防止）
 const HASHTAG_REGEX = /#[\w\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]+/g;
@@ -53,6 +55,10 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
   // メンションサジェスト機能
   const mentionSuggestion = useMentionSuggestion();
 
+  // ハッシュタグサジェスト機能
+  const hashtagSuggestion = useHashtagSuggestion();
+  const [hashtagHoverIndex, setHashtagHoverIndex] = useState(-1);
+
   const handleEmojiCategoryChange = (event: React.SyntheticEvent, newValue: number) => {
     setSelectedEmojiCategory(newValue);
   };
@@ -85,6 +91,20 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
         // EnterまたはTabで選択を確定
         if ((event.key === 'Enter' || event.key === 'Tab') && mentionSuggestion.suggestions[mentionSuggestion.selectedIndex]) {
           const newText = mentionSuggestion.selectSuggestion(mentionSuggestion.suggestions[mentionSuggestion.selectedIndex]);
+          setPostContent(newText);
+          setHashtags(extractHashtags(newText));
+        }
+        return;
+      }
+    }
+
+    // ハッシュタグサジェストのキーボード操作を処理
+    if (hashtagSuggestion.showSuggestions) {
+      const handled = hashtagSuggestion.handleKeyDown(event);
+      if (handled) {
+        // EnterまたはTabで選択を確定
+        if ((event.key === 'Enter' || event.key === 'Tab') && hashtagSuggestion.suggestions[hashtagSuggestion.selectedIndex]) {
+          const newText = hashtagSuggestion.selectSuggestion(hashtagSuggestion.suggestions[hashtagSuggestion.selectedIndex]);
           setPostContent(newText);
           setHashtags(extractHashtags(newText));
         }
@@ -148,7 +168,10 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
 
     // メンションサジェストの更新
     mentionSuggestion.handleInputChange(value, cursorPosition);
-  }, [extractHashtags, mentionSuggestion]);
+
+    // ハッシュタグサジェストの更新
+    hashtagSuggestion.handleInputChange(value, cursorPosition);
+  }, [extractHashtags, mentionSuggestion, hashtagSuggestion]);
 
   const handleEmojiSelect = useCallback((emoji: string) => {
     setPostContent(prev => {
@@ -168,6 +191,18 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
   // メンションサジェストのホバー処理
   const handleMentionHover = useCallback((index: number) => {
     setHoverIndex(index);
+  }, []);
+
+  // ハッシュタグサジェストからハッシュタグを選択
+  const handleHashtagSelect = useCallback((hashtag: HashtagItem) => {
+    const newText = hashtagSuggestion.selectSuggestion(hashtag);
+    setPostContent(newText);
+    setHashtags(extractHashtags(newText));
+  }, [hashtagSuggestion, extractHashtags]);
+
+  // ハッシュタグサジェストのホバー処理
+  const handleHashtagHover = useCallback((index: number) => {
+    setHashtagHoverIndex(index);
   }, []);
 
 
@@ -254,6 +289,17 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
                 selectedIndex={hoverIndex >= 0 ? hoverIndex : mentionSuggestion.selectedIndex}
                 onSelect={handleMentionSelect}
                 onHover={handleMentionHover}
+              />
+            )}
+
+            {/* ハッシュタグサジェストドロップダウン */}
+            {hashtagSuggestion.showSuggestions && !mentionSuggestion.showSuggestions && (
+              <HashtagSuggestion
+                suggestions={hashtagSuggestion.suggestions}
+                isLoading={hashtagSuggestion.isLoading}
+                selectedIndex={hashtagHoverIndex >= 0 ? hashtagHoverIndex : hashtagSuggestion.selectedIndex}
+                onSelect={handleHashtagSelect}
+                onHover={handleHashtagHover}
               />
             )}
           </Box>

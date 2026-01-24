@@ -22,6 +22,7 @@ const LazyPrivacyPolicy = React.lazy(() => import('./page/PrivacyPolicy'));
 const LazyDataDeletion = React.lazy(() => import('./page/DataDeletion'));
 const LazyTermsOfService = React.lazy(() => import('./page/TermsOfService'));
 const LazyFAQPage = React.lazy(() => import('./page/FAQPage'));
+const LazyHashtagFeed = React.lazy(() => import('./page/MainContent/HashtagFeed'));
 
 // Loading component for suspense
 const LoadingComponent = () => {
@@ -189,6 +190,15 @@ function App() {
         <Route path="/FoodLog" element={<DashboardRoute initialView="FoodLog" />} />
         <Route path="/Dieter" element={<DashboardRoute initialView="dieter" />} />
         <Route path="/Dieter/Follow" element={<DashboardRoute initialView="dieter" subView="follow" />} />
+        <Route path="/hashtag/:hashtag" element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyHashtagFeed />
+              </Suspense>
+            </DashboardLayout>
+          </PrivateRoute>
+        } />
         <Route path="/DebugLog" element={<DashboardRoute initialView="debug" />} />
         <Route path="/register/complete" element={
           <Suspense fallback={<LoadingComponent />}>

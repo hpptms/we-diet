@@ -46,7 +46,8 @@ import LinkPreview from './LinkPreview';
 import MediaPlayer from './MediaPlayer';
 import { formatRelativeTime } from '../../../utils/timeFormat';
 import { useLinkPreview } from '../../../hooks/useLinkPreview';
-import { highlightMentions } from '../../../utils/mentionUtils';
+import { highlightMentionsAndHashtags } from '../../../utils/hashtagUtils';
+import { useNavigate } from 'react-router-dom';
 
 interface PostCardProps {
   post: Post;
@@ -56,6 +57,7 @@ interface PostCardProps {
 
 const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const navigate = useNavigate();
   const profileSettings = useRecoilValue(profileSettingsState);
   const serverProfile = useRecoilValue(serverProfileState);
   const [liked, setLiked] = useState(false);
@@ -282,6 +284,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
     } finally {
       setIsLoadingProfile(false);
     }
+  };
+
+  // ハッシュタグクリック処理（#hashtagをクリックしたとき）
+  const handleHashtagClick = (hashtag: string) => {
+    // #を削除してナビゲート
+    const cleanHashtag = hashtag.startsWith('#') ? hashtag.substring(1) : hashtag;
+    navigate(`/hashtag/${encodeURIComponent(cleanHashtag)}`);
   };
 
   // 現在のユーザーの投稿かどうかを判定
@@ -544,7 +553,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
             overflowWrap: 'anywhere',
             overflow: 'hidden'
           }}>
-            {highlightMentions(post.Content, handleMentionClick)}
+            {highlightMentionsAndHashtags(post.Content, handleMentionClick, handleHashtagClick)}
           </Typography>
 
           {/* メディアプレイヤー */}
@@ -1038,7 +1047,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                             lineHeight: 1.5,
                             color: isDarkMode ? '#ffffff' : '#37474f'
                           }}>
-                            {highlightMentions(comment.Content, handleMentionClick)}
+                            {highlightMentionsAndHashtags(comment.Content, handleMentionClick, handleHashtagClick)}
                           </Typography>
                         </Box>
                       </Box>

@@ -798,6 +798,41 @@ export const dieterApi = {
             throw error;
         }
     },
+
+    // ハッシュタグ検索（公開エンドポイント）
+    async searchHashtags(query: string, limit: number = 8): Promise<{ hashtags: Array<{ hashtag: string; posts: number }> }> {
+        try {
+            const url = new URL(`${API_BASE_URL}/public/hashtags/search`);
+            url.searchParams.append('q', query);
+            url.searchParams.append('limit', limit.toString());
+
+            const response = await axios.get(url.toString());
+            return response.data;
+        } catch (error) {
+            console.error('Failed to search hashtags:', error);
+            throw error;
+        }
+    },
+
+    // ハッシュタグで投稿検索（公開エンドポイント）
+    async getPostsByHashtag(hashtag: string, page: number = 1, limit: number = 20): Promise<LegacyPostsResponse & { hashtag: string }> {
+        try {
+            // #を削除してエンコード
+            const cleanHashtag = hashtag.startsWith('#') ? hashtag.substring(1) : hashtag;
+            const url = new URL(`${API_BASE_URL}/public/posts/hashtag/${encodeURIComponent(cleanHashtag)}`);
+            url.searchParams.append('page', page.toString());
+            url.searchParams.append('limit', limit.toString());
+
+            // 認証ヘッダーを含める（オプション - ブロック機能のため）
+            const headers = getAuthHeaders();
+
+            const response = await axios.get(url.toString(), { headers });
+            return response.data;
+        } catch (error) {
+            console.error('Failed to fetch posts by hashtag:', error);
+            throw error;
+        }
+    },
 };
 
 export type {
