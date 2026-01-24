@@ -270,41 +270,33 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     // メインコンテナのref（overflow: autoのコンテナ用）
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // スクロールをトップにリセットする関数（全てのスクロール可能な要素をリセット）
+    // スクロールをトップにリセットする関数(パフォーマンス最適化版)
     const scrollToTop = () => {
-        // windowのスクロール
+        // windowのスクロール(最も重要)
         window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
 
-        // overflow: autoのコンテナのスクロールもリセット
-        if (containerRef.current) {
+        // メインコンテナのスクロールをリセット
+        if (containerRef.current && containerRef.current.scrollTop > 0) {
             containerRef.current.scrollTop = 0;
         }
 
-        // 全てのスクロール可能な要素をリセット
-        const scrollableElements = document.querySelectorAll('[style*="overflow"]');
+        // 特定のスクロール可能な要素のみをリセット(パフォーマンス最適化)
+        // 全要素を検索するのではなく、必要な要素のみを対象
+        const scrollableElements = document.querySelectorAll('main, .scrollable-container, [data-scrollable]');
         scrollableElements.forEach(el => {
-            if (el instanceof HTMLElement) {
+            if (el instanceof HTMLElement && el.scrollTop > 0) {
                 el.scrollTop = 0;
             }
         });
     };
 
-    // ブラウザバック/フォワード時のスクロールリセット
+    // ブラウザバック/フォワード時のスクロールリセット(パフォーマンス最適化版)
     useEffect(() => {
         const handlePopState = () => {
-            // 複数のタイミングでスクロールリセットを試みる
-            scrollToTop();
+            // 1回のrequestAnimationFrameで十分(複数回の呼び出しを削減)
             requestAnimationFrame(() => {
                 scrollToTop();
             });
-            setTimeout(() => {
-                scrollToTop();
-            }, 50);
-            setTimeout(() => {
-                scrollToTop();
-            }, 150);
         };
 
         window.addEventListener('popstate', handlePopState);

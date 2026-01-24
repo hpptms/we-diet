@@ -17,15 +17,10 @@ export const useMessages = () => {
         }
     };
 
-    // 初回ロード時と定期的に未読メッセージ数を取得
+    // 注意: ポーリング処理は useUnifiedPollingManager に統合されました
+    // 初回取得のみ実行(定期ポーリングは統合マネージャーが担当)
     useEffect(() => {
-        // 初回取得
         fetchUnreadMessageCount();
-
-        // 30秒ごとに未読メッセージ数を更新
-        const interval = setInterval(fetchUnreadMessageCount, 30000);
-
-        return () => clearInterval(interval);
     }, []);
 
     // メッセージページに移動するハンドラー

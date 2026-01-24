@@ -131,53 +131,14 @@ export const useMessageManager = () => {
         }
     }, [fetchConversations]);
 
-    // リアルタイムメッセージチェックの開始
-    const startMessagePolling = useCallback(() => {
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-        }
+    // 注意: ポーリング処理は useUnifiedPollingManager に統合されました
+    // このフックは統合ポーリングマネージャーと併用してください
+    // 個別のポーリングは削除されました(パフォーマンス最適化)
 
-        // 30秒間隔で未読メッセージ数をチェック
-        intervalRef.current = setInterval(() => {
-            fetchUnreadCount();
-        }, 30000);
-
-        // メッセージポーリング開始（サイレント処理）
-    }, [fetchUnreadCount]);
-
-    // リアルタイムメッセージチェックの停止
-    const stopMessagePolling = useCallback(() => {
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-            intervalRef.current = null;
-            // メッセージポーリング停止（サイレント処理）
-        }
-    }, []);
-
-    // 初期化
+    // 初期データのみ取得(ポーリングは統合マネージャーが担当)
     useEffect(() => {
-        // 初期データ取得
         fetchUnreadCount();
-
-        // ポーリング開始
-        startMessagePolling();
-
-        // クリーンアップ
-        return () => {
-            stopMessagePolling();
-        };
-    }, [fetchUnreadCount, startMessagePolling, stopMessagePolling]);
-
-    // ページ離脱時の処理
-    useEffect(() => {
-        const handleBeforeUnload = () => stopMessagePolling();
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-            stopMessagePolling();
-        };
-    }, [stopMessagePolling]);
+    }, [fetchUnreadCount]);
 
     return {
         // 状態

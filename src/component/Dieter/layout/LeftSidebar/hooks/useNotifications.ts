@@ -6,7 +6,8 @@ export const useNotifications = () => {
     const [showNotifications, setShowNotifications] = useState(false);
     const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
 
-    // 未読通知数を取得
+    // 注意: ポーリング処理は useUnifiedPollingManager に統合されました
+    // 未読通知数を取得(初回のみ、定期ポーリングは統合マネージャーが担当)
     useEffect(() => {
         const fetchUnreadNotificationCount = async () => {
             try {
@@ -18,10 +19,6 @@ export const useNotifications = () => {
         };
 
         fetchUnreadNotificationCount();
-        // 30秒ごとに更新
-        const interval = setInterval(fetchUnreadNotificationCount, 30000);
-
-        return () => clearInterval(interval);
     }, []);
 
     // 通知カウントをリセット
