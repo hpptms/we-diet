@@ -270,24 +270,15 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     // メインコンテナのref（overflow: autoのコンテナ用）
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // スクロールをトップにリセットする関数(パフォーマンス最適化版)
+    // スクロールをトップにリセットする関数（軽量版）
     const scrollToTop = () => {
-        // windowのスクロール(最も重要)
+        // windowのスクロールのみリセット（最も効果的かつ軽量）
         window.scrollTo(0, 0);
 
         // メインコンテナのスクロールをリセット
         if (containerRef.current && containerRef.current.scrollTop > 0) {
             containerRef.current.scrollTop = 0;
         }
-
-        // 特定のスクロール可能な要素のみをリセット(パフォーマンス最適化)
-        // 全要素を検索するのではなく、必要な要素のみを対象
-        const scrollableElements = document.querySelectorAll('main, .scrollable-container, [data-scrollable]');
-        scrollableElements.forEach(el => {
-            if (el instanceof HTMLElement && el.scrollTop > 0) {
-                el.scrollTop = 0;
-            }
-        });
     };
 
     // ブラウザバック/フォワード時のスクロールリセット(パフォーマンス最適化版)
@@ -323,15 +314,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             setCurrentView("debug");
         }
 
-        // ページ遷移時に常にスクロールをトップにリセット
-        scrollToTop();
-        // ブラウザのスクロール復元が発生する可能性があるため、遅延してもう一度リセット
+        // ページ遷移時にスクロールをトップにリセット（1回のみ）
         requestAnimationFrame(() => {
             scrollToTop();
         });
-        setTimeout(() => {
-            scrollToTop();
-        }, 100);
     }, [location.pathname, setCurrentView]);
 
     const renderContent = () => {

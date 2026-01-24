@@ -9,6 +9,8 @@ type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' |
 interface DashboardPageButtonsProps {
   onViewChange: (view: CurrentView) => void;
   hasWeightInput?: boolean;
+  showInstallButton?: boolean;
+  onInstallClick?: () => void;
   isAdmin?: boolean;
   adminLoading?: boolean;
 }
@@ -21,42 +23,14 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
 
   // ダッシュボード表示時にスクロールを最上部にリセット
   useEffect(() => {
-    // スクロールリセット関数
-    const resetAllScrollPositions = () => {
-      // windowのスクロール
+    // スクロールリセット関数（軽量版）
+    const resetScrollPosition = () => {
+      // windowのスクロールのみリセット（最も効果的かつ軽量）
       window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-
-      // 自分自身から親要素を辿って全てのスクロールをリセット
-      if (containerRef.current) {
-        let parent: HTMLElement | null = containerRef.current.parentElement;
-        while (parent) {
-          parent.scrollTop = 0;
-          parent = parent.parentElement;
-        }
-      }
-
-      // main要素のスクロールもリセット
-      const mainElements = document.querySelectorAll('main');
-      mainElements.forEach(el => {
-        el.scrollTop = 0;
-      });
-
-      // スクロール可能な要素のみを対象にする(パフォーマンス最適化)
-      // 全てのdivを検索するのではなく、overflow属性を持つ要素のみを対象
-      const scrollableElements = document.querySelectorAll('[style*="overflow"], .scrollable-container');
-      scrollableElements.forEach(el => {
-        if (el instanceof HTMLElement && el.scrollTop > 0) {
-          el.scrollTop = 0;
-        }
-      });
     };
 
-    // レンダリング後に1回だけ実行(パフォーマンス最適化)
-    const rafId = requestAnimationFrame(() => {
-      resetAllScrollPositions();
-    });
+    // レンダリング後に1回だけ実行
+    const rafId = requestAnimationFrame(resetScrollPosition);
 
     return () => cancelAnimationFrame(rafId);
   }, []); // マウント時に1回だけ実行

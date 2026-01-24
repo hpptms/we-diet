@@ -69,16 +69,15 @@ class ExerciseRecordApi {
         hasWeightInput: boolean;
     }): Promise<CreateExerciseRecordResponse> {
         try {
-            // Convert files to base64
-            const base64Images: string[] = [];
-            for (const file of data.todayImages) {
-                try {
-                    const base64 = await fileToBase64(file);
-                    base64Images.push(base64);
-                } catch (error) {
+            // Convert files to base64 in parallel for better performance
+            const base64Promises = data.todayImages.map(file =>
+                fileToBase64(file).catch(error => {
                     console.error('Failed to convert image to base64:', error);
-                }
-            }
+                    return null;
+                })
+            );
+            const base64Results = await Promise.all(base64Promises);
+            const base64Images = base64Results.filter((b): b is string => b !== null);
 
             const request: CreateExerciseRecordRequest = {
                 user_id: data.userId,
