@@ -1,11 +1,20 @@
 import React from 'react';
 
 /**
+ * メンションクリック時のコールバック型
+ */
+export type MentionClickHandler = (username: string) => void;
+
+/**
  * テキスト内の@メンションをハイライト表示するための関数
  * @param text - 元のテキスト
+ * @param onMentionClick - メンションクリック時のコールバック（オプション）
  * @returns メンションがハイライトされたReact要素の配列
  */
-export const highlightMentions = (text: string): React.ReactNode[] => {
+export const highlightMentions = (
+  text: string,
+  onMentionClick?: MentionClickHandler
+): React.ReactNode[] => {
   if (!text) return [];
 
   // @username パターンにマッチする正規表現
@@ -20,6 +29,7 @@ export const highlightMentions = (text: string): React.ReactNode[] => {
   while ((match = mentionRegex.exec(text)) !== null) {
     const matchStart = match.index;
     const matchEnd = match.index + match[0].length;
+    const username = match[1]; // @を除いたユーザー名
 
     // メンション前のテキストを追加
     if (matchStart > lastIndex) {
@@ -36,6 +46,12 @@ export const highlightMentions = (text: string): React.ReactNode[] => {
           cursor: 'pointer',
           textDecoration: 'none',
           transition: 'all 0.2s ease',
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onMentionClick) {
+            onMentionClick(username);
+          }
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.textDecoration = 'underline';

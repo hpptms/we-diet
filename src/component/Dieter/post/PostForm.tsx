@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import {
   Box,
   TextField,
@@ -13,10 +13,12 @@ import {
   UserAvatar,
   PostFormActions,
 } from './PostForm/index';
+import MentionSuggestion from './PostForm/MentionSuggestion';
 import { useTranslation } from '../../../hooks/useTranslation';
 import LinkPreview from './LinkPreview';
 import MediaPlayer from './MediaPlayer';
 import { useLinkPreview } from '../../../hooks/useLinkPreview';
+import { useMentionSuggestion } from '../../../hooks/useMentionSuggestion';
 
 // ハッシュタグ抽出用の正規表現（コンポーネント外で定義して再コンパイルを防止）
 const HASHTAG_REGEX = /#[\w\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]+/g;
@@ -38,13 +40,18 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
   const [isSensitive, setIsSensitive] = useState(false);
   const [emojiAnchorEl, setEmojiAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedEmojiCategory, setSelectedEmojiCategory] = useState(0);
+  const [hoverIndex, setHoverIndex] = useState(-1);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const textFieldRef = useRef<HTMLInputElement>(null);
   const isDarkMode = useRecoilValue(darkModeState);
   const maxCharacters = 300;
   const maxImages = 3;
 
   // リンクプレビューとメディア埋め込みをフックで管理
   const { linkPreviews, mediaEmbeds } = useLinkPreview(postContent);
+
+  // メンションサジェスト機能
+  const mentionSuggestion = useMentionSuggestion();
 
   const handleEmojiCategoryChange = (event: React.SyntheticEvent, newValue: number) => {
     setSelectedEmojiCategory(newValue);
@@ -71,6 +78,21 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    // メンションサジェストのキーボード操作を処理
+    if (mentionSuggestion.showSuggestions) {
+      const handled = mentionSuggestion.handleKeyDown(event);
+      if (handled) {
+        // EnterまたはTabで選択を確定
+        if ((event.key === 'Enter' || event.key === 'Tab') && mentionSuggestion.suggestions[mentionSuggestion.selectedIndex]) {
+          const newText = mentionSuggestion.selectSuggestion(mentionSuggestion.suggestions[mentionSuggestion.selectedIndex]);
+          setPostContent(newText);
+          setHashtags(extractHashtags(newText));
+        }
+        return;
+      }
+    }
+
+    // Shift+Enterで投稿
     if (event.shiftKey && event.key === 'Enter') {
       event.preventDefault();
       handlePost();
@@ -120,9 +142,13 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
 
   const handleContentChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    const cursorPosition = e.target.selectionStart || value.length;
     setPostContent(value);
     setHashtags(extractHashtags(value));
-  }, [extractHashtags]);
+
+    // メンションサジェストの更新
+    mentionSuggestion.handleInputChange(value, cursorPosition);
+  }, [extractHashtags, mentionSuggestion]);
 
   const handleEmojiSelect = useCallback((emoji: string) => {
     setPostContent(prev => {
@@ -131,6 +157,18 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
       return newContent;
     });
   }, [extractHashtags]);
+
+  // メンションサジェストからユーザーを選択
+  const handleMentionSelect = useCallback((user: { id: number; username: string; avatar: string }) => {
+    const newText = mentionSuggestion.selectSuggestion(user);
+    setPostContent(newText);
+    setHashtags(extractHashtags(newText));
+  }, [mentionSuggestion, extractHashtags]);
+
+  // メンションサジェストのホバー処理
+  const handleMentionHover = useCallback((index: number) => {
+    setHoverIndex(index);
+  }, []);
 
 
   const openEmojiPicker = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -165,45 +203,60 @@ const PostForm: React.FC<PostFormProps> = ({ onPost, currentUser = { name: 'ユ�
       <Box display="flex" gap={{ xs: 1, sm: 2 }}>
         <UserAvatar currentUser={currentUser} />
         <Box flex={1}>
-          <TextField
-            multiline
-            rows={{ xs: 2, sm: 3 }}
-            fullWidth
-            placeholder={t('dieter', 'postModal.placeholder', {}, '今どうしてる？')}
-            value={postContent}
-            onChange={handleContentChange}
-            onKeyDown={handleKeyDown}
-            variant="outlined"
-            sx={{
-              mb: 1.5,
-              '& .MuiOutlinedInput-root': {
-                borderRadius: { xs: 2, sm: 3 },
-                backgroundColor: isDarkMode ? '#000000' : 'white',
-                border: isDarkMode ? '1px solid #29b6f6' : '1px solid #e1f5fe',
-                fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' },
-                color: isDarkMode ? '#ffffff' : '#000000',
-                transition: 'all 0.3s ease',
-                outline: 'none',
-                '&:hover': {
-                  borderColor: '#29b6f6',
-                  boxShadow: '0 4px 12px rgba(41, 182, 246, 0.15)'
+          {/* テキストフィールドとメンションサジェストのコンテナ */}
+          <Box sx={{ position: 'relative' }}>
+            <TextField
+              multiline
+              rows={3}
+              fullWidth
+              placeholder={t('dieter', 'postModal.placeholder', {}, '今どうしてる？')}
+              value={postContent}
+              onChange={handleContentChange}
+              onKeyDown={handleKeyDown}
+              inputRef={textFieldRef}
+              variant="outlined"
+              sx={{
+                mb: 1.5,
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: { xs: 2, sm: 3 },
+                  backgroundColor: isDarkMode ? '#000000' : 'white',
+                  border: isDarkMode ? '1px solid #29b6f6' : '1px solid #e1f5fe',
+                  fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' },
+                  color: isDarkMode ? '#ffffff' : '#000000',
+                  transition: 'all 0.3s ease',
+                  outline: 'none',
+                  '&:hover': {
+                    borderColor: '#29b6f6',
+                    boxShadow: '0 4px 12px rgba(41, 182, 246, 0.15)'
+                  },
+                  '&.Mui-focused': {
+                    borderColor: '#29b6f6',
+                    boxShadow: '0 6px 20px rgba(41, 182, 246, 0.25)',
+                    outline: 'none'
+                  }
                 },
-                '&.Mui-focused': {
-                  borderColor: '#29b6f6',
-                  boxShadow: '0 6px 20px rgba(41, 182, 246, 0.25)',
-                  outline: 'none'
+                '& .MuiOutlinedInput-notchedOutline': {
+                  border: 'none'
+                },
+                '& .MuiInputBase-input::placeholder': {
+                  color: isDarkMode ? '#bbbbbb' : '#90a4ae',
+                  opacity: 1
                 }
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none'
-              },
-              '& .MuiInputBase-input::placeholder': {
-                color: isDarkMode ? '#bbbbbb' : '#90a4ae',
-                opacity: 1
-              }
-            }}
-            inputProps={{ maxLength: maxCharacters }}
-          />
+              }}
+              inputProps={{ maxLength: maxCharacters }}
+            />
+
+            {/* メンションサジェストドロップダウン */}
+            {mentionSuggestion.showSuggestions && (
+              <MentionSuggestion
+                suggestions={mentionSuggestion.suggestions}
+                isLoading={mentionSuggestion.isLoading}
+                selectedIndex={hoverIndex >= 0 ? hoverIndex : mentionSuggestion.selectedIndex}
+                onSelect={handleMentionSelect}
+                onHover={handleMentionHover}
+              />
+            )}
+          </Box>
 
           {/* Hashtags display */}
           {hashtags.length > 0 && (

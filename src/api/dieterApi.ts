@@ -750,6 +750,36 @@ export const dieterApi = {
         }
     },
 
+    // ユーザー検索（メンション機能用・公開エンドポイント）
+    async searchUsers(query: string, limit: number = 10): Promise<{ users: Array<{ id: number; username: string; avatar: string }> }> {
+        try {
+            const url = new URL(`${API_BASE_URL}/public/users/search`);
+            url.searchParams.append('q', query);
+            url.searchParams.append('limit', limit.toString());
+
+            const response = await axios.get(url.toString());
+            return response.data;
+        } catch (error) {
+            console.error('Failed to search users:', error);
+            throw error;
+        }
+    },
+
+    // ユーザー名で正確に一致するユーザーを検索（メンションクリック用）
+    async getUserByUsername(username: string): Promise<{ id: number; username: string; avatar: string } | null> {
+        try {
+            const response = await this.searchUsers(username, 10);
+            // 完全一致するユーザーを検索
+            const exactMatch = response.users.find(
+                user => user.username.toLowerCase() === username.toLowerCase()
+            );
+            return exactMatch || null;
+        } catch (error) {
+            console.error('Failed to get user by username:', error);
+            return null;
+        }
+    },
+
     // 投稿検索（公開エンドポイント）
     async searchPosts(query: string, page: number = 1, limit: number = 20): Promise<LegacyPostsResponse & { query: string }> {
         try {

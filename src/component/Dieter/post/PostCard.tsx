@@ -34,6 +34,7 @@ import {
 import { useRecoilValue } from 'recoil';
 import { Post, Comment } from '../types';
 import { postsApi, UserProfile } from '../../../api/postsApi';
+import { dieterApi } from '../../../api/dieterApi';
 import { blockUser, checkBlockStatus } from '../../../api/blockApi';
 import { darkModeState } from '../../../recoil/darkModeAtom';
 import { profileSettingsState, serverProfileState } from '../../../recoil/profileSettingsAtom';
@@ -259,6 +260,28 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
   const handleProfileModalClose = () => {
     setProfileModalOpen(false);
     setUserProfile(null);
+  };
+
+  // メンションクリック処理（@usernameをクリックしたとき）
+  const handleMentionClick = async (username: string) => {
+    if (isLoadingProfile) return;
+
+    try {
+      setIsLoadingProfile(true);
+      // ユーザー名からユーザーIDを取得
+      const user = await dieterApi.getUserByUsername(username);
+      if (user) {
+        const profile = await postsApi.getUserProfile(user.id);
+        setUserProfile(profile);
+        setProfileModalOpen(true);
+      } else {
+        console.warn('ユーザーが見つかりませんでした:', username);
+      }
+    } catch (error) {
+      console.error('プロフィール取得に失敗しました:', error);
+    } finally {
+      setIsLoadingProfile(false);
+    }
   };
 
   // 現在のユーザーの投稿かどうかを判定
@@ -521,7 +544,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
             overflowWrap: 'anywhere',
             overflow: 'hidden'
           }}>
-            {highlightMentions(post.Content)}
+            {highlightMentions(post.Content, handleMentionClick)}
           </Typography>
 
           {/* メディアプレイヤー */}
@@ -1015,7 +1038,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                             lineHeight: 1.5,
                             color: isDarkMode ? '#ffffff' : '#37474f'
                           }}>
-                            {highlightMentions(comment.Content)}
+                            {highlightMentions(comment.Content, handleMentionClick)}
                           </Typography>
                         </Box>
                       </Box>

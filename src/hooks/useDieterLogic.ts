@@ -26,7 +26,6 @@ interface UseDieterLogicProps {
     setShowFollowingPosts: (show: boolean) => void;
     setShowMessages: (show: boolean) => void;
     setShowNotifications: (show: boolean) => void;
-    setShowFollowManagement: (show: boolean) => void;
     setIsPostModalOpen: (open: boolean) => void;
 
     // Utils
@@ -54,7 +53,6 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         setShowFollowingPosts,
         setShowMessages,
         setShowNotifications,
-        setShowFollowManagement,
         setIsPostModalOpen,
         navigate,
         refreshFollowCounts,
@@ -165,7 +163,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
             clearTimeout(timer);
             stopRealtimeUpdates();
         };
-    }, [showFollowingPosts]);
+    }, [showFollowingPosts, fetchPosts, startRealtimeUpdates, stopRealtimeUpdates]);
 
     // ページ離脱時の処理
     useEffect(() => {
@@ -276,63 +274,63 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
     }, []);
 
     // Navigation handlers
-    const handleNavigateToProfile = () => {
+    const handleNavigateToProfile = useCallback(() => {
         if (onViewChange) {
             onViewChange('profile');
         }
-    };
+    }, [onViewChange]);
 
-    const handleNavigateToExercise = () => {
+    const handleNavigateToExercise = useCallback(() => {
         if (onViewChange) {
             onViewChange('exercise');
         }
-    };
+    }, [onViewChange]);
 
-    const handleNavigateToFoodLog = () => {
+    const handleNavigateToFoodLog = useCallback(() => {
         if (onViewChange) {
             onViewChange('FoodLog');
         }
-    };
+    }, [onViewChange]);
 
-    const handleNavigateToFollowManagement = () => {
+    const handleNavigateToFollowManagement = useCallback(() => {
         navigate('/Dieter/Follow');
-    };
+    }, [navigate]);
 
-    const handleNavigateToMessages = async () => {
+    const handleNavigateToMessages = useCallback(async () => {
         setShowMessages(true);
 
         // メッセージ画面を開いた時に会話一覧を取得
         await messageManager.fetchConversations();
-    };
+    }, [setShowMessages, messageManager]);
 
-    const handleNavigateToNotifications = async () => {
+    const handleNavigateToNotifications = useCallback(async () => {
         setShowNotifications(true);
         setShowMessages(false);
 
         // 通知画面を開いた時に通知一覧を取得
         await notificationManager.fetchNotifications();
-    };
+    }, [setShowNotifications, setShowMessages, notificationManager]);
 
-    const handleNavigateToHome = () => {
+    const handleNavigateToHome = useCallback(() => {
         setShowMessages(false);
         setShowNotifications(false);
         setShowFollowingPosts(false);
-    };
+    }, [setShowMessages, setShowNotifications, setShowFollowingPosts]);
 
-    const handleToggleFollowingPosts = () => {
+    const handleToggleFollowingPosts = useCallback(() => {
         setShowFollowingPosts(!showFollowingPosts);
-    };
+    }, [setShowFollowingPosts, showFollowingPosts]);
 
-    const handleOpenPostModal = () => {
+    const handleOpenPostModal = useCallback(() => {
         setIsPostModalOpen(true);
-    };
+    }, [setIsPostModalOpen]);
 
-    const handleClosePostModal = () => {
+    const handleClosePostModal = useCallback(() => {
         setIsPostModalOpen(false);
-    };
+    }, [setIsPostModalOpen]);
 
     // 投稿処理
-    const handlePost = async (content: string, images?: File[], isSensitive?: boolean) => {
+    const handlePost = useCallback(async (content: string, images?: File[], isSensitive?: boolean) => {
         try {
             // 投稿作成中（サイレント処理）
 
@@ -343,7 +341,7 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
             };
 
             // 投稿作成
-            const newPost = await dieterApi.createPost(postData);
+            await dieterApi.createPost(postData);
             // 投稿作成完了（サイレント処理）
 
             // 投稿作成後、少し待ってからリアルタイム更新を手動実行
@@ -362,10 +360,10 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
             alert('投稿の作成に失敗しました。もう一度お試しください。');
             throw error;
         }
-    };
+    }, [fetchPosts]);
 
     // Search handling
-    const handleSearch = async (query: string) => {
+    const handleSearch = useCallback(async (query: string) => {
         setSearchQuery(query);
 
         if (query.trim() === '') {
@@ -386,12 +384,12 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
         } finally {
             setSearchLoading(false);
         }
-    };
+    }, [setSearchQuery, setIsSearching, setSearchResults, setSearchLoading]);
 
     // Follow handling
-    const handleFollow = async (userId: number) => {
+    const handleFollow = useCallback(async (userId: number) => {
         try {
-            const result = await postsApi.toggleFollow(userId);
+            await postsApi.toggleFollow(userId);
 
             await new Promise(resolve => setTimeout(resolve, 500));
             await refreshFollowCounts();
@@ -423,10 +421,10 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
             const errorMessage = error.response?.data?.error || error.message || 'フォロー操作に失敗しました。もう一度お試しください。';
             alert(`エラー: ${errorMessage}`);
         }
-    };
+    }, [refreshFollowCounts, serverProfile.userId, setRecommendedUsers]);
 
     // 投稿削除処理
-    const handlePostDelete = async (postId: number) => {
+    const handlePostDelete = useCallback(async (postId: number) => {
         // 削除IDを記録
         setDeletedPostIds((prev: Set<number>) => new Set(Array.from(prev).concat(postId)));
 
@@ -435,15 +433,15 @@ export const useDieterLogic = (props: UseDieterLogicProps) => {
 
         // 削除処理では再取得は不要（既にローカルから削除済み）
         // 投稿削除完了（サイレント処理）
-    };
+    }, [setDeletedPostIds, setPosts]);
 
     // Sensitive content filtering
-    const filterSensitivePosts = (posts: Post[]): Post[] => {
+    const filterSensitivePosts = useCallback((posts: Post[]): Post[] => {
         if (!profileSettings.enableSensitiveFilter) {
             return posts.filter(post => !post.IsSensitive);
         }
         return posts;
-    };
+    }, [profileSettings.enableSensitiveFilter]);
 
     // Current user
     const currentUser = {
