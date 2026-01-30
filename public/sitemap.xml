@@ -270,6 +270,13 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://we-diet.net/blog/page/diet-basics/exercise-over-diet-restriction.html</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- ブログ記事 - 筋トレ・ボディメイク (muscle-training) -->
   <url>
     <loc>https://we-diet.net/blog/page/muscle-training/muscle-building-basics.html</loc>
