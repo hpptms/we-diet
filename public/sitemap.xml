@@ -110,7 +110,7 @@
   <!-- ブログセクション -->
   <url>
     <loc>https://we-diet.net/blog/</loc>
-    <lastmod>2025-01-18</lastmod>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -471,6 +471,13 @@
   <url>
     <loc>https://we-diet.net/blog/page/sexual-health/intimacy-and-fitness.html</loc>
     <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/sexual-health/erectile-function-and-muscle.html</loc>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
