@@ -12,6 +12,7 @@ import { darkModeState } from '../../recoil/darkModeAtom';
 import { dieterApi, LegacyPost } from '../../api/dieterApi';
 import PostCard from '../../component/Dieter/post/PostCard';
 import { Post } from '../../component/Dieter/types';
+import { SEOHelmet } from '../../component/SEOHelmet';
 
 const HashtagFeed: React.FC = () => {
   const { hashtag } = useParams<{ hashtag: string }>();
@@ -138,12 +139,19 @@ const HashtagFeed: React.FC = () => {
   const displayHashtag = hashtag ? (hashtag.startsWith('#') ? hashtag : `#${hashtag}`) : '';
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        backgroundColor: isDarkMode ? '#000000' : '#f5f8fa',
-      }}
-    >
+    <>
+      <SEOHelmet
+        title={`${displayHashtag} の投稿一覧 | We Diet - ダイエットSNS`}
+        description={`${displayHashtag} タグが付いた投稿一覧です。ダイエット仲間の食事記録・運動記録・体重管理の投稿をチェックしましょう。`}
+        keywords={`${hashtag},ハッシュタグ,ダイエット,SNS,投稿,We Diet,食事記録,運動記録`}
+        canonicalUrl={`https://we-diet.net/hashtag/${encodeURIComponent(hashtag || '')}`}
+      />
+      <Box
+        sx={{
+          minHeight: '100vh',
+          backgroundColor: isDarkMode ? '#000000' : '#f5f8fa',
+        }}
+      >
       {/* Header */}
       <Box
         sx={{
@@ -278,6 +286,7 @@ const HashtagFeed: React.FC = () => {
         )}
       </Box>
     </Box>
+    </>
   );
 };
 

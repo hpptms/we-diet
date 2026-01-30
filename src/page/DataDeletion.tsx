@@ -1,8 +1,17 @@
 import React from 'react';
+import { SEOHelmet } from '../component/SEOHelmet';
 
 const DataDeletion: React.FC = () => {
   return (
-    <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+    <>
+      <SEOHelmet
+        title="データ削除手順 | We Diet - ダイエットSNS"
+        description="We Dietのアカウントとデータの削除方法についてご案内します。アプリ内からの削除方法、メールでの削除依頼、Facebook連携データの削除について説明しています。"
+        keywords="データ削除,アカウント削除,We Diet,プライバシー,個人情報削除,GDPR,データ保護"
+        canonicalUrl="https://we-diet.net/data-deletion"
+        ogType="article"
+      />
+      <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
       <h1>ユーザーデータ削除について</h1>
       <p>最終更新日: {new Date().toLocaleDateString('ja-JP')}</p>
       
@@ -100,6 +109,7 @@ const DataDeletion: React.FC = () => {
         <strong>重要:</strong> データ削除は取り消しできません。削除前に必要なデータはバックアップを取ることをお勧めします。
       </div>
     </div>
+    </>
   );
 };
 

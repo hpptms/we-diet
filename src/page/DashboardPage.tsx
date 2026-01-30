@@ -4,6 +4,7 @@ import { Box, Snackbar, Alert, CircularProgress } from "@mui/material";
 import DashboardPageButtons from "../component/DashboardPageButtons";
 import { useTranslation } from "../hooks/useTranslation";
 import { setLanguageToEnglish, setLanguageToJapanese, setLanguageToChineseCN, setLanguageToKorean, setLanguageToSpanish } from "../i18n";
+import { SEOHelmet } from "../component/SEOHelmet";
 
 // Lazy load heavy components
 const ProfileSettings = React.lazy(() => import("./MainContent/ProfileSettings"));
@@ -412,10 +413,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     };
 
   return (
-    <Box
-      ref={containerRef}
-      sx={{
-      backgroundColor: isDarkMode ? '#000000' : 'transparent',
+    <>
+      <SEOHelmet
+        title="ダッシュボード | We Diet - ダイエットSNS"
+        description="We Dietのダッシュボード。食事記録・運動記録・体重管理をここから始めましょう。"
+        canonicalUrl="https://we-diet.net/dashboard"
+        noindex={true}
+      />
+      <Box
+        ref={containerRef}
+        sx={{
+        backgroundColor: isDarkMode ? '#000000' : 'transparent',
       minHeight: {
         xs: 'calc(100vh - 200px)', // スマホ・縦画面: フッター完全表示のため更に余裕を持たせる
         sm: 'calc(100vh - 150px)',  // タブレット: フッター表示のため余裕を持たせる
@@ -578,6 +586,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         </Alert>
       </Snackbar>
     </Box>
+    </>
   );
 };
 

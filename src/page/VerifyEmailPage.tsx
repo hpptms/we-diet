@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import './VerifyEmailPage.css';
+import { SEOHelmet } from '../component/SEOHelmet';
 
 const VerifyEmailPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -64,8 +65,15 @@ const VerifyEmailPage: React.FC = () => {
   };
 
   return (
-    <div className="verify-email-container">
-      <div className="verify-email-card">
+    <>
+      <SEOHelmet
+        title="メール認証 | We Diet - ダイエットSNS"
+        description="We Dietのメール認証ページです。"
+        canonicalUrl="https://we-diet.net/verify-email"
+        noindex={true}
+      />
+      <div className="verify-email-container">
+        <div className="verify-email-card">
         {status === 'loading' && (
           <div className="verify-status loading">
             <div className="spinner"></div>
@@ -131,8 +139,9 @@ const VerifyEmailPage: React.FC = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
