@@ -429,7 +429,7 @@ const LoginPage: React.FC = () => {
                 gap: 1,
               }}>
                 <GoogleLoginButton />
-                <XLoginButton />
+                {/* <XLoginButton /> */}
                 <LineLoginButton />
                 {/* <FacebookLoginButton /> */}
                 {/* <TiktokLoginButton /> */}
