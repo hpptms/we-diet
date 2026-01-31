@@ -574,9 +574,23 @@
 }
 
 .affiliate-grid {
+  display: -ms-grid;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
+  /* Fallback for older Safari versions that don't support gap */
+  grid-gap: 1rem;
+}
+
+/* Fallback: Add margin to cards if gap is not supported */
+@supports not (gap: 1rem) {
+  .affiliate-grid {
+    margin: -0.5rem;
+  }
+
+  .affiliate-card {
+    margin: 0.5rem;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -602,9 +616,18 @@
 
 /* Card Header - Image and Title */
 .affiliate-card-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 1rem;
   margin-bottom: 0.75rem;
+}
+
+/* Fallback for Safari that doesn't support gap in flexbox */
+@supports not (gap: 1rem) {
+  .affiliate-card-header>*+* {
+    margin-left: 1rem;
+  }
 }
 
 /* Product Image - Small */
