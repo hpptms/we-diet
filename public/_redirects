@@ -14,25 +14,21 @@
 /amp/terms-of-service/ko.html /amp/terms-of-service/ko.html 200
 /amp/terms-of-service/zh.html /amp/terms-of-service/zh.html 200
 
-# 存在しないAMPページへのアクセスを404に（未実装の言語）
-/amp/index.html /404 404
-/amp/data-deletion/en.html /404 404
-/amp/data-deletion/ko.html /404 404
-/amp/data-deletion/zh.html /404 404
+# 存在しないAMPページへのアクセスを404ページにリダイレクト
+# 注意: Cloudflare Pagesのリダイレクトは404ステータスをサポートしていないため、
+# これらのパスは404.htmlが存在すれば自動的に404を返します（リダイレクト不要）
 
-# 未実装の言語ページを404に（SPAのルートとして処理しない）
-/de/* /404 404
-/es/* /404 404
-/pt/* /404 404
-/fr/* /404 404
-/it/* /404 404
-/ru/* /404 404
-/ar/* /404 404
-/hi/* /404 404
-/th/* /404 404
-/vi/* /404 404
-/zh-cn/* /404 404
-/zh-tw/* /404 404
-
-# 通常のSPA fallback - AMPパス以外の全ルートはindex.htmlを配信
-/* /index.html 200
+# 未実装の言語ページをホームページにリダイレクト（302 = 一時的リダイレクト）
+# 将来これらの言語をサポートする可能性があるため302を使用
+/de/* / 302
+/es/* / 302
+/pt/* / 302
+/fr/* / 302
+/it/* / 302
+/ru/* / 302
+/ar/* / 302
+/hi/* / 302
+/th/* / 302
+/vi/* / 302
+/zh-cn/* / 302
+/zh-tw/* / 302
