@@ -325,19 +325,19 @@ const LoginPage: React.FC = () => {
             {isPasswordSetMode ? t('auth', 'passwordSet', {}, 'パスワード設定') : t('auth', 'login', {}, 'ログイン')}
           </Typography>
           {isPasswordSetMode && (
-            <Typography 
-              variant="body1" 
-              sx={{ 
-                mb: 2,
-                textAlign: 'center',
-                color: 'text.secondary',
-              }}
-            >
-              {t('auth', 'emailVerificationComplete', {}, 'メール認証が完了しました。')}<br />
-              {t('auth', 'setPasswordInstructions', {}, 'アカウントのパスワードを設定してください。')}
-            </Typography>
-          )}
-          <form 
+            <>
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                  mb: 2,
+                  textAlign: 'center',
+                  color: 'text.secondary',
+                }}
+              >
+                {t('auth', 'emailVerificationComplete', {}, 'メール認証が完了しました。')}<br />
+                {t('auth', 'setPasswordInstructions', {}, 'アカウントのパスワードを設定してください。')}
+              </Typography>
+              <form 
             onSubmit={handleSubmit} 
             style={{ 
               width: "100%", 
@@ -406,6 +406,8 @@ const LoginPage: React.FC = () => {
               {isPasswordSetMode ? t('auth', 'setPassword', {}, 'パスワードを設定') : t('auth', 'login', {}, 'ログイン')}
             </Button>
           </form>
+            </>
+          )}
           {/* パスワード設定モード時はメール登録・ソーシャルログインボタンを非表示 */}
           {!isPasswordSetMode && (
             <>
