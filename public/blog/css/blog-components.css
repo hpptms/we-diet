@@ -547,3 +547,104 @@
   color: var(--text-light);
   margin-bottom: 0;
 }
+
+/* ==========================================================================
+   Affiliate Product Card
+   ========================================================================== */
+.affiliate-section {
+  background: linear-gradient(135deg, #fff8f0 0%, #fff3e6 100%);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin: 2rem 0;
+  border: 2px solid #ffb366;
+}
+
+.affiliate-section h2 {
+  color: #d97706 !important;
+  border-bottom-color: #f59e0b !important;
+  margin-bottom: 1rem;
+}
+
+.affiliate-section > p {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+.affiliate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.affiliate-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.affiliate-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.affiliate-card h4 {
+  color: var(--text);
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.affiliate-card h4::before {
+  content: '🛒';
+  font-size: 1.2rem;
+}
+
+.affiliate-card p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.affiliate-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(180deg, #ffa41c 0%, #ff8f00 100%);
+  color: #111 !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--radius);
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(255, 143, 0, 0.3);
+}
+
+.affiliate-button:hover {
+  background: linear-gradient(180deg, #ffb340 0%, #ffa020 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 143, 0, 0.4);
+}
+
+.affiliate-button::after {
+  content: '→';
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .affiliate-section {
+    padding: 1.5rem;
+  }
+
+  .affiliate-grid {
+    grid-template-columns: 1fr;
+  }
+}

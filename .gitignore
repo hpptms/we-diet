@@ -20,6 +20,8 @@
 .env.production.local
 BLOG_ARTICLES.md
 BLOG_CREATION_GUIDE.md
+Tracking_ID.txt
+AFFILIATE_TODO.md
 
 /dist
 /vite
