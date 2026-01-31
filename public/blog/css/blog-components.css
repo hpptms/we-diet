@@ -567,7 +567,7 @@
   padding-bottom: 0;
 }
 
-.affiliate-section > p {
+.affiliate-section>p {
   color: var(--text-light);
   margin-bottom: 1.5rem;
   font-size: 0.9rem;
@@ -575,8 +575,14 @@
 
 .affiliate-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .affiliate-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
 }
 
 /* Individual Product Card - Compact Style */
@@ -687,6 +693,24 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .affiliate-section {
+    padding: 1.5rem;
+  }
+
+  .affiliate-card {
+    padding: 1.125rem;
+  }
+
+  .affiliate-card h4 {
+    font-size: 0.9rem;
+  }
+
+  .affiliate-card p {
+    font-size: 0.8rem;
+  }
+}
+
 @media (max-width: 768px) {
   .affiliate-section {
     padding: 1rem;
@@ -694,6 +718,11 @@
 
   .affiliate-grid {
     grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  .affiliate-card {
+    padding: 1rem;
   }
 
   .affiliate-card-header {
@@ -703,5 +732,42 @@
   .affiliate-card-image {
     width: 70px;
     height: 70px;
+  }
+
+  .affiliate-card h4 {
+    font-size: 0.9rem;
+  }
+
+  .affiliate-card p {
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .affiliate-button {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .affiliate-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .affiliate-card-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .affiliate-card-image {
+    width: 100%;
+    max-width: 120px;
+    height: 120px;
+  }
+
+  .affiliate-card h4 {
+    text-align: center;
+    -webkit-line-clamp: 3;
   }
 }
