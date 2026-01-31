@@ -410,14 +410,14 @@ const LoginPage: React.FC = () => {
           {!isPasswordSetMode && (
             <>
               {/* メールで登録ボタン */}
-              <Box sx={{ 
+              {/* <Box sx={{ 
                 mt: 1, 
                 textAlign: "center", 
                 width: "100%", 
                 maxWidth: shouldUseFullWidth ? "100%" : 400 
               }}>
                 <MailRegisterButton onClick={() => setShowEmailModal(true)} />
-              </Box>
+              </Box> */}
               {/* ソーシャルログインボタン */}
               <Box sx={{ 
                 mt: 1, 
@@ -437,7 +437,7 @@ const LoginPage: React.FC = () => {
             </>
           )}
           {/* メールアドレス入力用モーダル */}
-          <MailRegisterModal
+          {/* <MailRegisterModal
             open={showEmailModal}
             onClose={() => setShowEmailModal(false)}
             onSend={handleSendRegisterEmail}
@@ -445,7 +445,7 @@ const LoginPage: React.FC = () => {
             setRegisterEmail={setRegisterEmail}
             registerError={registerError}
             registerSuccess={registerSuccess}
-          />
+          /> */}
         </Box>
       </Box>
       {!shouldUseFullWidth && <Footer />}
