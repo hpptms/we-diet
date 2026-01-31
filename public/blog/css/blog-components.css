@@ -549,102 +549,194 @@
 }
 
 /* ==========================================================================
-   Affiliate Product Card
+   Affiliate Product Card (Rich Design with Image)
    ========================================================================== */
 .affiliate-section {
-  background: linear-gradient(135deg, #fff8f0 0%, #fff3e6 100%);
+  background: #f8f9fa;
   border-radius: var(--radius-lg);
   padding: 2rem;
   margin: 2rem 0;
-  border: 2px solid #ffb366;
+  border: 1px solid #e5e7eb;
 }
 
 .affiliate-section h2 {
-  color: #d97706 !important;
-  border-bottom-color: #f59e0b !important;
-  margin-bottom: 1rem;
+  color: #374151 !important;
+  border-bottom: none !important;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0;
 }
 
 .affiliate-section > p {
   color: var(--text-light);
   margin-bottom: 1.5rem;
+  font-size: 0.9rem;
 }
 
 .affiliate-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
+/* Individual Product Card */
 .affiliate-card {
   background: var(--white);
   border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
   display: flex;
-  flex-direction: column;
-  transition: transform 0.3s, box-shadow 0.3s;
+  align-items: center;
+  gap: 1rem;
+  transition: box-shadow 0.3s;
 }
 
 .affiliate-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.affiliate-card h4 {
-  color: var(--text);
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
+/* Product Image */
+.affiliate-card-image {
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  background: #f9fafb;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.affiliate-card h4::before {
-  content: '🛒';
-  font-size: 1.2rem;
+.affiliate-card-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-.affiliate-card p {
-  color: var(--text-light);
-  font-size: 0.9rem;
-  line-height: 1.6;
+/* Product Info */
+.affiliate-card-info {
   flex-grow: 1;
-  margin-bottom: 1rem;
+  min-width: 0;
 }
 
+.affiliate-card-info h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.affiliate-card-info h4::before {
+  content: none;
+}
+
+.affiliate-card-brand {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.affiliate-card-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #dc2626;
+  margin-bottom: 0.25rem;
+}
+
+.affiliate-card-meta {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* Product Description (optional) */
+.affiliate-card-info p {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0.5rem 0 0 0;
+  line-height: 1.5;
+}
+
+/* Amazon Button */
 .affiliate-button {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  background: linear-gradient(180deg, #ffa41c 0%, #ff8f00 100%);
+  background: linear-gradient(180deg, #f7ca45 0%, #f0b429 100%);
   color: #111 !important;
   text-decoration: none !important;
   font-weight: 600;
-  padding: 0.875rem 1.5rem;
-  border-radius: var(--radius);
+  font-size: 0.9rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
   transition: all 0.3s;
-  box-shadow: 0 2px 4px rgba(255, 143, 0, 0.3);
+  border: 1px solid #c99a2c;
+  white-space: nowrap;
 }
 
 .affiliate-button:hover {
-  background: linear-gradient(180deg, #ffb340 0%, #ffa020 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(255, 143, 0, 0.4);
+  background: linear-gradient(180deg, #f9d45e 0%, #f5c03a 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(240, 180, 41, 0.4);
+}
+
+.affiliate-button::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23111'%3E%3Cpath d='M15.54 15.11c-.3.29-.61.57-.93.85-.15.14-.31.27-.48.4-.17.13-.34.25-.52.37a12.82 12.82 0 0 1-1.13.7c-.39.22-.8.41-1.22.58-.42.17-.85.31-1.29.42-.44.11-.89.19-1.35.24-.46.05-.92.08-1.39.08-.47 0-.93-.03-1.39-.08-.46-.05-.91-.13-1.35-.24-.44-.11-.87-.25-1.29-.42-.42-.17-.83-.36-1.22-.58-.39-.22-.77-.45-1.13-.7-.18-.12-.35-.24-.52-.37-.17-.13-.33-.26-.48-.4-.32-.28-.63-.56-.93-.85-.1-.1-.1-.26 0-.36.1-.1.26-.1.36 0 .28.27.57.53.87.78.15.13.3.25.46.37.16.12.32.23.49.34.34.22.69.42 1.05.61.37.19.75.35 1.14.49.39.14.79.25 1.2.34.41.09.82.15 1.24.19.42.04.85.06 1.27.06s.85-.02 1.27-.06c.42-.04.83-.1 1.24-.19.41-.09.81-.2 1.2-.34.39-.14.77-.3 1.14-.49.36-.19.71-.39 1.05-.61.17-.11.33-.22.49-.34.16-.12.31-.24.46-.37.3-.25.59-.51.87-.78.1-.1.26-.1.36 0 .1.1.1.26 0 .36zM20.16 8.4c-.45 1.54-1.08 2.99-1.86 4.34-.06.1-.17.14-.27.12-.1-.02-.18-.1-.2-.2-.11-.63-.31-1.24-.58-1.82-.27-.58-.62-1.12-1.03-1.61l-.05-.06c.01-.01.02-.01.03-.02.77-.39 1.49-.86 2.17-1.39.1-.08.25-.06.32.04l.06.1c.56.83.98 1.74 1.26 2.69.03.1-.03.21-.13.24-.01 0-.02 0-.03.01.1.17.19.34.27.52.02.04.02.09.04.14-.01-.03-.01-.07 0-.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z'/%3E%3C/svg%3E");
+  background-size: contain;
 }
 
 .affiliate-button::after {
-  content: '→';
-  font-size: 1.1rem;
+  content: none;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .affiliate-section {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 
-  .affiliate-grid {
-    grid-template-columns: 1fr;
+  .affiliate-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
   }
+
+  .affiliate-card-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .affiliate-card-info {
+    width: 100%;
+  }
+
+  .affiliate-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Legacy support - vertical card style */
+.affiliate-card--vertical {
+  flex-direction: column;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.affiliate-card--vertical .affiliate-card-image {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 1rem;
+}
+
+.affiliate-card--vertical .affiliate-button {
+  width: 100%;
+  margin-top: 1rem;
 }
