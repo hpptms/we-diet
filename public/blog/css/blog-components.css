@@ -693,9 +693,15 @@
 }
 
 /* Responsive Design */
+/* Tablet: 769px - 1024px (2 columns) */
 @media (max-width: 1024px) and (min-width: 769px) {
   .affiliate-section {
     padding: 1.5rem;
+  }
+
+  .affiliate-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
   .affiliate-card {
@@ -711,7 +717,47 @@
   }
 }
 
-@media (max-width: 768px) {
+/* Mobile: 481px - 768px (2 columns - card layout like PC) */
+@media (max-width: 768px) and (min-width: 481px) {
+  .affiliate-section {
+    padding: 1rem;
+  }
+
+  .affiliate-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem;
+  }
+
+  .affiliate-card {
+    padding: 1rem;
+  }
+
+  .affiliate-card-header {
+    gap: 0.75rem;
+  }
+
+  .affiliate-card-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .affiliate-card h4 {
+    font-size: 0.85rem;
+  }
+
+  .affiliate-card p {
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .affiliate-button {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Small Mobile: 480px and below (1 column) */
+@media (max-width: 480px) {
   .affiliate-section {
     padding: 1rem;
   }
@@ -735,37 +781,13 @@
   }
 
   .affiliate-card h4 {
-    font-size: 0.9rem;
-  }
-
-  .affiliate-card p {
-    font-size: 0.8rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .affiliate-button {
-    padding: 0.625rem 0.875rem;
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .affiliate-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .affiliate-card-image {
-    width: 60px;
-    height: 60px;
-  }
-
-  .affiliate-card h4 {
     font-size: 0.85rem;
     -webkit-line-clamp: 3;
   }
 
   .affiliate-card p {
     font-size: 0.75rem;
+    margin-bottom: 0.75rem;
   }
 
   .affiliate-button {
