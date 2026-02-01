@@ -85,6 +85,8 @@ const LoginPage: React.FC = () => {
     // URLパラメータを取得
     const urlParams = new URLSearchParams(window.location.search);
     const errorParam = urlParams.get('error');
+    const errorMsgParam = urlParams.get('error_msg');
+    const errorDetailsParam = urlParams.get('error_details');
     const verifiedParam = urlParams.get('verified');
     
     // メール認証完了後の場合
@@ -98,6 +100,42 @@ const LoginPage: React.FC = () => {
     
     if (errorParam) {
       let errorMessage = '';
+      
+      // Base64エンコードされたエラー情報をデコード
+      let decodedErrorMsg = '';
+      let decodedErrorDetails = '';
+      
+      if (errorMsgParam) {
+        try {
+          decodedErrorMsg = atob(errorMsgParam);
+        } catch (e) {
+          console.error('Failed to decode error_msg:', e);
+        }
+      }
+      
+      if (errorDetailsParam) {
+        try {
+          decodedErrorDetails = atob(errorDetailsParam);
+        } catch (e) {
+          console.error('Failed to decode error_details:', e);
+        }
+      }
+      
+      // ブラウザコンソールにエラー情報を出力
+      if (decodedErrorMsg || decodedErrorDetails) {
+        console.error('========================================');
+        console.error('❌ X認証エラー詳細情報');
+        console.error('エラータイプ:', errorParam);
+        if (decodedErrorMsg) {
+          console.error('エラーメッセージ:', decodedErrorMsg);
+        }
+        if (decodedErrorDetails) {
+          console.error('詳細情報:', decodedErrorDetails);
+        }
+        console.error('タイムスタンプ:', new Date().toISOString());
+        console.error('========================================');
+      }
+      
       switch (errorParam) {
         case 'user_creation':
           errorMessage = t('auth', 'userCreationError', {}, 'ユーザー作成に失敗しました。しばらく時間をおいて再度お試しください。');
@@ -128,6 +166,8 @@ const LoginPage: React.FC = () => {
       // エラーパラメータをURLから削除（ページリロード時の再表示を防ぐ）
       const url = new URL(window.location.href);
       url.searchParams.delete('error');
+      url.searchParams.delete('error_msg');
+      url.searchParams.delete('error_details');
       window.history.replaceState({}, '', url.toString());
     }
   }, [navigate]);
