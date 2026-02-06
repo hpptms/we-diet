@@ -54,14 +54,6 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- Login Page -->
-  <url>
-    <loc>https://we-diet.net/login</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
   <!-- Privacy Policy -->
   <url>
     <loc>https://we-diet.net/privacy-policy</loc>
