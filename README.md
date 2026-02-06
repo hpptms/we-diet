@@ -19,7 +19,6 @@ A modern SNS community platform for diet & fitness enthusiasts, built with React
 
 ### Authentication
 - **Social Login** — Google, LINE, X (Twitter)
-- **Email Auth** — Traditional email/password authentication
 - **Admin System** — Role-based permission management
 
 ### Internationalization & Accessibility
@@ -156,48 +155,6 @@ frontend/
 ├── .env
 └── .env.development
 ```
-
----
-
-## Development
-
-```bash
-# Start dev server
-npm run dev
-
-# Production build
-npm run build
-
-# Production build (with NODE_ENV)
-npm run build:prod
-
-# Build with HTML minification
-npm run build:minify
-
-# Watch mode
-npm run build:watch
-
-# Preview build
-npm run preview
-
-# Bundle analysis
-npm run analyze
-
-# Generate Protocol Buffers
-npm run proto:generate
-```
-
----
-
-## Environment Variables
-
-Configure the following in `.env`:
-
-- API connection settings
-- Authentication credentials
-- External services (Cloudinary, Google Analytics, etc.)
-
-See `.env.development` for reference.
 
 ---
 
