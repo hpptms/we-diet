@@ -642,12 +642,17 @@
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #e5e7eb;
+  position: relative;
 }
 
 .affiliate-card-image img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Firefox compatibility */
+  -o-object-fit: cover;
+  -o-object-position: center;
 }
 
 /* Product Title */

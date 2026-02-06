@@ -11,6 +11,25 @@ gtag('config', 'G-J3JE0T4ZFM');
 
 // Smooth scroll for anchor links
 document.addEventListener('DOMContentLoaded', function() {
+  // Fix external images for Firefox - add referrerpolicy to prevent blocking
+  document.querySelectorAll('img').forEach(function(img) {
+    var src = img.src || '';
+    // Check if it's an external image (Pexels, Unsplash, etc.)
+    if (src.includes('pexels.com') || src.includes('unsplash.com') || src.includes('images.pexels.com') || src.includes('images.unsplash.com')) {
+      img.setAttribute('referrerpolicy', 'no-referrer');
+      img.setAttribute('crossorigin', 'anonymous');
+    }
+  });
+
+  // Handle image load errors with fallback
+  document.querySelectorAll('.affiliate-card-image img').forEach(function(img) {
+    img.onerror = function() {
+      // Set a placeholder background color and hide the broken image
+      this.style.display = 'none';
+      this.parentElement.style.background = 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)';
+      this.parentElement.innerHTML = '<span style="color: #6366f1; font-size: 24px;">📦</span>';
+    };
+  });
   // Add smooth scrolling to anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
