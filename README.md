@@ -1,188 +1,209 @@
-# 🏃‍♀️ We-Diet Frontend ✨
+# We-Diet Frontend
 
-A comprehensive web application supporting diet and fitness! A modern SNS community platform built with React & TypeScript 💪
+A modern SNS community platform for diet & fitness enthusiasts, built with React + TypeScript.
 
-## 🌐 Live Application
+## Live Application
 
-Visit our official site: [https://we-diet.net/](https://we-diet.net/) 🌟
+**Official Site:** [https://we-diet.net/](https://we-diet.net/)
 
-## 🎯 Main Features
+---
 
-### 📱 Core Features
-- 🍽️ **Food Logging**: Record meals with photos and manage nutritional information
-- 🏋️‍♀️ **Exercise Recording**: Log various exercises including strength training and aerobic activities
-- ⚖️ **Weight Management**: Visualize weight and body fat progress with graphs
-- 👤 **Profile Settings**: Customizable user profiles with avatar support
-- 💬 **SNS Community**: Post, like, and comment features for diet companions
+## Features
 
-### 🔐 Authentication & Login Features
-- 🌐 **Social Authentication**: Easy login with Google
-- 📧 **Email Authentication**: Traditional email/password authentication support
-- 🛡️ **Permission Management**: Administrator permission system
+### Core Features
+- **Food Logging** — Record meals with photos and track nutritional information
+- **Exercise Tracking** — Log strength training, cardio, and various workouts
+- **Weight Management** — Visualize weight and body fat trends with interactive charts
+- **Profile Settings** — Customizable user profiles with avatar support
+- **SNS Community** — Post, like, comment, and connect with diet companions
 
-### 🌍 Multi-language & Accessibility
-- 🗣️ **Multi-language Support**: Japanese🇯🇵, English🇺🇸, Chinese🇨🇳, Korean🇰🇷, Spanish🇪🇸
-- 📱 **PWA Support**: Progressive Web App that feels like a smartphone app
-- 🔄 **Responsive Design**: Fully compatible with desktop and mobile
+### Authentication
+- **Social Login** — Google, LINE, X (Twitter)
+- **Email Auth** — Traditional email/password authentication
+- **Admin System** — Role-based permission management
 
-### ⚡ Advanced Features
-- 🔔 **Notification System**: Real-time notification management
-- 🔄 **Device Sync**: Data synchronization across multiple devices
-- 📊 **Performance Monitoring**: User experience optimization
-- 🐛 **Debug Log Feature**: Development and maintenance log management
-- 🔍 **IndexNow API**: SEO optimization with quick search indexing
-- 📈 **Google Analytics**: User behavior analysis integration
+### Internationalization & Accessibility
+- **Multi-language** — Japanese, English, Chinese, Korean, Spanish
+- **PWA Support** — Add to home screen, offline capabilities, shortcuts
+- **Responsive Design** — Fully optimized for desktop and mobile
 
-### 📲 PWA Feature Details
-- 🏠 **Add to Home Screen**: Add app icon to smartphone home screen
-- ⚡ **Fast Launch**: Some features available offline
-- 🎯 **Shortcuts**: Direct access to food, exercise, and weight recording
-- 🔗 **Share Function**: Share images and text directly from other apps
+### Advanced Features
+- **Notifications** — Real-time notification management
+- **Messaging** — Direct messaging between users
+- **Hashtags & Mentions** — Tag posts and mention users
+- **Trending** — Discover popular posts and trends
+- **SEO Optimized** — IndexNow API, sitemap, AMP pages
+- **Analytics** — Google Analytics integration
 
-## 🛠 Technology Stack
+---
 
-### 🏗️ Frontend Foundation
-- ⚛️ **Framework**: React 18.3.1 with TypeScript
-- ⚡ **Build Tool**: Vite 6.3.5
-- 🎨 **UI Framework**: Material-UI (MUI) 5.13.7
-- 🗂️ **State Management**: Recoil 0.7.7
-- 🛣️ **Routing**: React Router DOM 6.23.1
+## Tech Stack
 
-### 📊 Data & Communication
-- 📈 **Charts**: Chart.js with react-chartjs-2
-- 🌐 **HTTP Communication**: Axios 1.11.0
-- 🔄 **Protocol Buffers**: Protocol Buffers (@protobuf-ts/runtime)
-- 🖼️ **Image Management**: Cloudinary 2.6.1
+### Framework & Build Tools
+| Category | Technology | Version |
+|----------|------------|---------|
+| Framework | React | 18.3.1 |
+| Language | TypeScript | 5.4.5 |
+| Build Tool | Vite | 6.3.5 |
+| UI Framework | Material-UI (MUI) | 5.13.7 |
+| State Management | Recoil | 0.7.7 |
+| Routing | React Router DOM | 6.23.1 |
 
-### 🎨 Styling & UI
-- 💅 **CSS-in-JS**: Emotion (@emotion/react, @emotion/styled)
-- 🎪 **Carousel**: React Slick
-- 🎭 **Icons**: React Icons & MUI Icons
-- 📱 **PWA**: Service Worker + Web App Manifest
+### Data & Services
+| Category | Technology | Version |
+|----------|------------|---------|
+| HTTP Client | Axios | 1.11.0 |
+| Protocol Buffers | @protobuf-ts/runtime | 2.11.1 |
+| Charts | Chart.js + react-chartjs-2 | 4.5.0 / 5.3.0 |
+| Image Management | Cloudinary | 2.6.1 |
+| Analytics | react-ga4 | 2.1.0 |
 
-### 📊 Analytics & Monitoring
-- 📈 **Analytics**: Google Analytics (react-ga4)
-- 🔍 **Performance**: Web Vitals monitoring
-- 🐛 **Debug**: Custom logging system
+### Styling & UI
+| Category | Technology |
+|----------|------------|
+| CSS-in-JS | Emotion (@emotion/react, @emotion/styled) |
+| Icons | React Icons, MUI Icons |
+| Carousel | React Slick |
+| SEO | react-helmet-async |
+| Performance | Web Vitals |
 
-## 🏗️ Project Structure
+---
+
+## Project Structure
 
 ```
 frontend/
-├── 📁 public/                 # Static files
-│   ├── 🌐 amp/               # AMP pages
-│   ├── 📄 manifest.json      # PWA configuration
-│   ├── 🤖 robots.txt         # SEO settings
-│   └── 🗺️ sitemap.xml       # Sitemap
-├── 📁 src/
-│   ├── 🎨 component/         # Reusable components
-│   ├── 📱 page/              # Page components
-│   ├── 🪝 hooks/             # Custom hooks
-│   ├── 🗂️ recoil/           # State management (Recoil atoms)
-│   ├── 🌐 i18n/             # Internationalization settings & language files
-│   ├── 🔄 api/              # API communication functions
-│   ├── 🛠️ utils/            # Utility functions
-│   ├── 📋 proto/            # Protocol Buffers definitions
-│   ├── 🎯 context/          # React Context
-│   └── 🎨 styles/           # Style files
-├── 📄 package.json           # Package configuration
-├── ⚙️ vite.config.ts       # Vite configuration
-└── 📝 tsconfig.json         # TypeScript configuration
+├── public/                      # Static assets
+│   ├── amp/                     # AMP pages
+│   ├── blog/                    # Blog pages
+│   ├── fonts/                   # Font files
+│   ├── manifest.json            # PWA manifest
+│   ├── robots.txt               # SEO config
+│   ├── sitemap.xml              # Sitemap
+│   ├── sitemap_multilang.xml    # Multilingual sitemap
+│   ├── sw.js                    # Service Worker
+│   ├── _headers                 # CDN headers config
+│   ├── _redirects               # Redirect rules
+│   └── *.html                   # Static HTML pages
+│
+├── src/
+│   ├── api/                     # API client functions
+│   ├── component/               # Reusable components
+│   │   ├── Dieter/              # SNS feed components
+│   │   ├── ExerciseRecord/      # Exercise tracking
+│   │   ├── FoodLog/             # Food logging
+│   │   ├── ProfileSettings/     # Profile management
+│   │   ├── TopPage/             # Landing page
+│   │   ├── WeightManagement/    # Weight tracking
+│   │   ├── authLogin/           # Auth components
+│   │   ├── common/              # Shared components
+│   │   ├── Header.tsx           # App header
+│   │   ├── Footer.tsx           # App footer
+│   │   ├── LanguageSelector.tsx # Language picker
+│   │   ├── NotificationSettings.tsx
+│   │   ├── SEOHelmet.tsx        # SEO meta tags
+│   │   └── *LoginButton.tsx     # Social login buttons
+│   ├── context/                 # React Context providers
+│   ├── hooks/                   # Custom hooks
+│   │   ├── useAdminPermission.ts
+│   │   ├── useDashboardAnimation.ts
+│   │   ├── useDieterLogic.ts
+│   │   ├── useDieterState.ts
+│   │   ├── useFollowCounts.ts
+│   │   ├── useHashtagSuggestion.ts
+│   │   ├── useMentionSuggestion.ts
+│   │   ├── useMessageManager.ts
+│   │   ├── useNotificationManager.ts
+│   │   ├── usePWAInstall.ts
+│   │   ├── usePostManager.ts
+│   │   ├── useResponsive.ts
+│   │   ├── useToast.ts
+│   │   ├── useTranslation.ts
+│   │   └── useUnifiedPollingManager.ts
+│   ├── i18n/                    # Internationalization
+│   │   ├── index.ts             # i18n config
+│   │   ├── languages/           # Translation files
+│   │   ├── moduleLoader.ts      # Dynamic loader
+│   │   └── tools/               # Translation utilities
+│   ├── image/                   # Image assets
+│   ├── page/                    # Page components
+│   │   ├── DashboardPage.tsx    # Main dashboard
+│   │   ├── LoginPage.tsx        # Login page
+│   │   ├── TopPage.tsx          # Landing page
+│   │   ├── FAQPage.tsx          # FAQ
+│   │   ├── PrivacyPolicy.tsx    # Privacy policy
+│   │   ├── TermsOfService.tsx   # Terms of service
+│   │   ├── VerifyEmailPage.tsx  # Email verification
+│   │   └── MainContent/         # Dashboard content
+│   ├── proto/                   # Protocol Buffers
+│   ├── recoil/                  # Recoil atoms & selectors
+│   ├── styles/                  # Global styles
+│   ├── types/                   # TypeScript types
+│   ├── utils/                   # Utility functions
+│   ├── App.tsx                  # App entry
+│   ├── index.tsx                # React entry point
+│   └── index.css                # Global CSS
+│
+├── scripts/                     # Build scripts
+│   └── minify-html.js           # HTML minifier
+│
+├── build/                       # Build output
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+├── Dockerfile
+├── index.html
+├── .env
+└── .env.development
 ```
 
-# 🍽️ We-Diet Backend ⚡
+---
 
-## 🚀 Main Features
+## Development
 
-### 🔐 Authentication & User Management
-- 🌐 **Social Authentication**: Google, LINE OAuth integration
-- 📧 **Email Authentication System**: Custom email registration & authentication
-- 🔑 **JWT Authentication**: Secure token-based authentication
-- 🛡️ **Permission Management**: Administrator & user permission system
-- 🔒 **Password Management**: Secure hashing with bcrypt
+```bash
+# Start dev server
+npm run dev
 
-### 📱 Core API Features
-- 🍽️ **Food Logging API**: Comprehensive food tracking with Protocol Buffers
-- 🏋️‍♀️ **Exercise Recording API**: Various exercise types & activities logging
-- ⚖️ **Weight Management API**: Weight tracking with historical data
-- 👤 **User Profiles**: Complete profile management system
-- 🖼️ **Image Upload**: Cloudinary integration for optimized image storage
+# Production build
+npm run build
 
-### 💬 SNS Community Features
-- 📝 **Post Management**: Create, edit, delete diet posts
-- ❤️ **Like & Retweet**: Complete social functionality implementation
-- 💭 **Comment System**: Reply & comment management for posts
-- 👥 **Follow System**: User follow & follower functionality
-- 🚫 **Block Feature**: User blocking & reporting system
+# Production build (with NODE_ENV)
+npm run build:prod
 
-### 📊 Advanced Features
-- 🔔 **Notification System**: Real-time notification management API
-- 💬 **Messaging**: User-to-user messaging functionality
-- 📈 **Trending Feature**: Popular posts & trend analysis
-- 🐛 **Debug Logging**: Development & maintenance log management system
-- 🔍 **IndexNow API**: Search engine integration for SEO optimization
-- 🌍 **Multi-language Support**: Display language management
+# Build with HTML minification
+npm run build:minify
 
-## 🛠 Technology Stack
+# Watch mode
+npm run build:watch
 
-### 🏗️ Backend Foundation
-- 🐹 **Language**: Go 1.24.2
-- 🌐 **Web Framework**: Gin 1.10.1
-- 🗄️ **Database**: PostgreSQL with GORM 1.30.0
-- 📦 **ORM**: GORM (Go ORM library)
-- 🐳 **Containerization**: Docker support
+# Preview build
+npm run preview
 
-### 🔐 Authentication & Security
-- 🔑 **Authentication**: OAuth2 + JWT (golang-jwt/jwt/v5 5.2.3)
-- 🔒 **Password**: bcrypt encryption (golang.org/x/crypto)
-- 🌐 **CORS**: gin-contrib/cors 1.7.6
-- 🛡️ **Security**: Secure authentication flow implementation
+# Bundle analysis
+npm run analyze
 
-### 📊 Data & Communication
-- 📋 **Serialization**: Protocol Buffers (google.golang.org/protobuf)
-- 🖼️ **Image Storage**: Cloudinary 2.11.0
-- 📧 **Email**: Custom email templates
-- 🔄 **API**: RESTful API design
-- 📈 **Data Types**: GORM datatypes 1.2.6
-
-### 🌍 External Service Integration
-- 🌐 **Google API**: Google OAuth & API integration
-- 📘 **Facebook SDK**: Facebook authentication integration
-- 🎵 **TikTok API**: TikTok authentication system
-- 📱 **LINE API**: LINE OAuth authentication
-- ☁️ **Cloud**: Google Cloud API integration
-
-## 🏗️ Project Structure
-
+# Generate Protocol Buffers
+npm run proto:generate
 ```
-backend/
-├── 📁 controller/              # API controllers
-│   ├── 🔐 *_auth.go          # Various authentication controllers
-│   ├── 👤 user_*_controller.go   # User management
-│   ├── 🍽️ food_log_controller.go # Food logging
-│   ├── 🏋️‍♀️ exercise_record_controller.go # Exercise recording
-│   ├── ⚖️ weight_record_controller.go # Weight recording
-│   ├── 📝 post_controller.go  # Post management
-│   ├── 💬 message_controller.go # Messaging
-│   ├── 🔔 notification_controller.go # Notifications
-│   ├── 📈 trending_controller.go # Trending
-│   ├── 🖼️ cloudinary_*_controller.go # Image management
-│   └── 🐛 debug_log_controller.go # Debug logging
-├── 📁 database/               # Database related
-│   ├── 📊 model/             # Database models
-│   ├── 🔄 migrate/           # Migrations
-│   └── 🌱 seeds/            # Seed data
-├── 📁 proto/                 # Protocol Buffers definitions
-│   ├── 🔐 auth.proto         # Authentication
-│   ├── 🍽️ dieter.proto      # Diet related
-│   ├── 🏋️‍♀️ exercise_record.proto # Exercise recording
-│   ├── ⚖️ weight_record.proto # Weight recording
-│   └── 🔔 notification.proto # Notifications
-├── 📁 service/               # Business logic
-├── 📁 util/                  # Utilities
-├── 📁 test/                  # Test code
-├── 📁 mail_templates/        # Email templates
-├── 📄 main.go               # Main entry point
-├── 📦 go.mod                # Go modules configuration
-└── 🐳 Dockerfile            # Docker configuration
-```
+
+---
+
+## Environment Variables
+
+Configure the following in `.env`:
+
+- API connection settings
+- Authentication credentials
+- External services (Cloudinary, Google Analytics, etc.)
+
+See `.env.development` for reference.
+
+---
+
+## PWA Features
+
+- Add to home screen
+- Offline support via Service Worker
+- App shortcuts (food, exercise, weight logging)
+- Share target (receive shared content from other apps)
