@@ -102,7 +102,7 @@
   <!-- ブログセクション -->
   <url>
     <loc>https://we-diet.net/blog/</loc>
-    <lastmod>2026-01-31</lastmod>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -566,6 +566,20 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://we-diet.net/blog/page/body-wellness/bowel-movement-and-weight.html</loc>
+    <lastmod>2026-02-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/body-wellness/daily-water-intake-guide.html</loc>
+    <lastmod>2026-02-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- ブログ記事 - 食事・栄養 (food-diet) -->
   <url>
     <loc>https://we-diet.net/blog/page/food-diet/healthy-snacks-guide.html</loc>
@@ -683,6 +697,13 @@
   <url>
     <loc>https://we-diet.net/blog/page/supplements/omega3-fish-oil-guide.html</loc>
     <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/supplements/protein-without-training.html</loc>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1031,6 +1052,20 @@
   </url>
 
   <!-- ブログ記事 - 食材別ダイエット (food-diet) -->
+  <url>
+    <loc>https://we-diet.net/blog/page/food-diet/broccoli-diet-guide.html</loc>
+    <lastmod>2026-02-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://we-diet.net/blog/page/food-diet/chicken-breast-diet-guide.html</loc>
+    <lastmod>2026-02-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <url>
     <loc>https://we-diet.net/blog/page/food-diet/avocado-diet-guide.html</loc>
     <lastmod>2026-02-07</lastmod>
