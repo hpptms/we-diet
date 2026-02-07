@@ -11,6 +11,25 @@ gtag('config', 'G-J3JE0T4ZFM');
 
 // Smooth scroll for anchor links
 document.addEventListener('DOMContentLoaded', function() {
+  // RSSフィード自動検出タグを<head>に追加
+  if (!document.querySelector('link[type="application/rss+xml"]')) {
+    var rssLink = document.createElement('link');
+    rssLink.rel = 'alternate';
+    rssLink.type = 'application/rss+xml';
+    rssLink.title = 'We Diet ブログ RSS';
+    rssLink.href = '/feed.xml';
+    document.head.appendChild(rssLink);
+  }
+
+  // にほんブログ村バナーをヘッダーに追加
+  var header = document.querySelector('.header');
+  if (header) {
+    var blogmura = document.createElement('div');
+    blogmura.className = 'blogmura-banner';
+    blogmura.innerHTML = '<a href="https://diet.blogmura.com/ranking/in?p_cid=11211987" target="_blank" rel="noopener"><img src="https://b.blogmura.com/diet/88_31.gif" width="88" height="31" alt="にほんブログ村 ダイエットブログへ" loading="lazy"></a>';
+    header.appendChild(blogmura);
+  }
+
   // Fix external images for Firefox - add referrerpolicy to prevent blocking
   document.querySelectorAll('img').forEach(function(img) {
     var src = img.src || '';

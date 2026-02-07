@@ -113,3 +113,6 @@ Disallow: /
 # サイトマップの指定
 Sitemap: https://we-diet.net/sitemap.xml
 Sitemap: https://we-diet.net/sitemap_multilang.xml
+
+# RSSフィード
+Allow: /feed.xml

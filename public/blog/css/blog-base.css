@@ -154,6 +154,33 @@ li {
   box-shadow: var(--shadow);
 }
 
+.blogmura-banner {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.blogmura-banner a {
+  display: inline-block;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.blogmura-banner a:hover {
+  opacity: 1;
+}
+
+.blogmura-banner img {
+  vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+  .blogmura-banner {
+    display: none;
+  }
+}
+
 .header-inner {
   max-width: var(--container-wide);
   margin: 0 auto;
