@@ -45,6 +45,7 @@
         "unexpectedError": "An unexpected error occurred",
         "tryAgain": "Try again",
         "loginError": "Login error occurred: {error}",
+        "maxImagesError": "You can select up to 3 images",
         "contactSupport": "Contact Support"
     },
     "ui": {

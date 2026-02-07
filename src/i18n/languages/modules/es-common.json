@@ -45,6 +45,7 @@
         "unexpectedError": "Ha ocurrido un error inesperado",
         "tryAgain": "Intentar de nuevo",
         "loginError": "Error de inicio de sesión: {error}",
+        "maxImagesError": "Puedes seleccionar hasta 3 imágenes",
         "contactSupport": "Contactar soporte"
     },
     "ui": {

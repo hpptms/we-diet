@@ -45,6 +45,7 @@
         "unexpectedError": "发生意外错误",
         "tryAgain": "重试",
         "loginError": "登录出错: {error}",
+        "maxImagesError": "最多可选择3张图片",
         "contactSupport": "联系客服"
     },
     "ui": {

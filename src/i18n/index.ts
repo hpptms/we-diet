@@ -147,7 +147,7 @@ export const setLanguageToSpanish = (): void => {
 };
 
 // 開発用：コンソールから言語を変更できるようにグローバルに公開
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && import.meta.env.DEV) {
     (window as any).setLanguageToEnglish = setLanguageToEnglish;
     (window as any).setLanguageToJapanese = setLanguageToJapanese;
     (window as any).setLanguageToChineseCN = setLanguageToChineseCN;
