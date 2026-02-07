@@ -22,14 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ブログランキングバナーをヘッダーに追加
-  var header = document.querySelector('.header');
-  if (header) {
+  var headerInner = document.querySelector('.header-inner');
+  if (headerInner) {
     var rankings = document.createElement('div');
     rankings.className = 'ranking-banners';
     rankings.innerHTML =
       '<a href="https://diet.blogmura.com/ranking/in?p_cid=11211987" target="_blank" rel="noopener"><img src="https://b.blogmura.com/diet/88_31.gif" width="88" height="31" alt="にほんブログ村 ダイエットブログへ" loading="lazy"></a>' +
-      '<a href="https://blog.with2.net/link/?id=2138563" target="_blank" rel="noopener" title="人気ブログランキング"><img src="https://blog.with2.net/img/banner/banner_13.svg" width="80" height="15" alt="人気ブログランキング" loading="lazy"></a>';
-    header.appendChild(rankings);
+      '<a href="https://blog.with2.net/link/?id=2138563" target="_blank" rel="noopener" title="人気ブログランキング"><img src="https://blog.with2.net/img/banner/banner_13.svg" width="80" height="15" alt="人気ブログランキング" loading="lazy"></a>' +
+      '<a href="https://blogranking.fc2.com/in.php?id=1072821" target="_blank" rel="noopener"><img src="https://static.fc2.com/blogranking/ranking_banner/b_03.gif" alt="FC2 Blog Ranking" loading="lazy"></a>';
+    headerInner.appendChild(rankings);
   }
 
   // Fix external images for Firefox - add referrerpolicy to prevent blocking
