@@ -154,29 +154,33 @@ li {
   box-shadow: var(--shadow);
 }
 
-.blogmura-banner {
+.ranking-banners {
   position: absolute;
   right: 1.5rem;
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.blogmura-banner a {
-  display: inline-block;
+.ranking-banners a {
+  display: inline-flex;
+  align-items: center;
   opacity: 0.9;
   transition: opacity 0.2s;
 }
 
-.blogmura-banner a:hover {
+.ranking-banners a:hover {
   opacity: 1;
 }
 
-.blogmura-banner img {
+.ranking-banners img {
   vertical-align: middle;
 }
 
 @media (max-width: 600px) {
-  .blogmura-banner {
+  .ranking-banners {
     display: none;
   }
 }

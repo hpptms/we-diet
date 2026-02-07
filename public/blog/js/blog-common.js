@@ -21,13 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(rssLink);
   }
 
-  // にほんブログ村バナーをヘッダーに追加
+  // ブログランキングバナーをヘッダーに追加
   var header = document.querySelector('.header');
   if (header) {
-    var blogmura = document.createElement('div');
-    blogmura.className = 'blogmura-banner';
-    blogmura.innerHTML = '<a href="https://diet.blogmura.com/ranking/in?p_cid=11211987" target="_blank" rel="noopener"><img src="https://b.blogmura.com/diet/88_31.gif" width="88" height="31" alt="にほんブログ村 ダイエットブログへ" loading="lazy"></a>';
-    header.appendChild(blogmura);
+    var rankings = document.createElement('div');
+    rankings.className = 'ranking-banners';
+    rankings.innerHTML =
+      '<a href="https://diet.blogmura.com/ranking/in?p_cid=11211987" target="_blank" rel="noopener"><img src="https://b.blogmura.com/diet/88_31.gif" width="88" height="31" alt="にほんブログ村 ダイエットブログへ" loading="lazy"></a>' +
+      '<a href="https://blog.with2.net/link/?id=2138563" target="_blank" rel="noopener" title="人気ブログランキング"><img src="https://blog.with2.net/img/banner/banner_13.svg" width="80" height="15" alt="人気ブログランキング" loading="lazy"></a>';
+    header.appendChild(rankings);
   }
 
   // Fix external images for Firefox - add referrerpolicy to prevent blocking
