@@ -9,6 +9,16 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-J3JE0T4ZFM');
 
+// Load blog i18n script dynamically (for article pages that don't include it in HTML)
+(function() {
+  if (!document.querySelector('script[src*="blog-i18n"]')) {
+    var s = document.createElement('script');
+    s.src = '/blog/js/blog-i18n.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+})();
+
 // Smooth scroll for anchor links
 document.addEventListener('DOMContentLoaded', function() {
   // RSSフィード自動検出タグを<head>に追加

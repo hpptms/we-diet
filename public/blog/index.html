@@ -13,6 +13,12 @@
   <meta property="og:image"
     content="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop">
   <link rel="canonical" href="https://we-diet.net/blog/">
+  <link rel="alternate" hreflang="ja" href="https://we-diet.net/blog/">
+  <link rel="alternate" hreflang="en" href="https://we-diet.net/blog/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://we-diet.net/blog/">
+  <link rel="alternate" hreflang="ko" href="https://we-diet.net/blog/">
+  <link rel="alternate" hreflang="es" href="https://we-diet.net/blog/">
+  <link rel="alternate" hreflang="x-default" href="https://we-diet.net/blog/">
   <link rel="alternate" type="application/rss+xml" title="We Diet ブログ RSS Feed" href="https://we-diet.net/feed.xml">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +30,7 @@
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3JE0T4ZFM"></script>
   <script src="/blog/js/blog-common.js"></script>
+  <script src="/blog/js/blog-i18n.js" defer></script>
 
   <!-- Styles -->
   <link rel="stylesheet" href="/blog/css/blog-base.css">
@@ -46,9 +53,9 @@
     <div class="header-inner">
       <a href="/" class="logo"><span class="logo-icon">W</span>We Diet</a>
       <nav class="nav-links">
-        <a href="/">ホーム</a>
-        <a href="/blog/">ブログ</a>
-        <a href="/faq">よくある質問</a>
+        <a href="/" data-i18n="home">ホーム</a>
+        <a href="/blog/" data-i18n="blog">ブログ</a>
+        <a href="/faq" data-i18n="faq">よくある質問</a>
       </nav>
     </div>
   </header>
@@ -56,13 +63,13 @@
   <section class="hero">
     <div class="hero-content">
       <h1>Diet & Wellness Blog</h1>
-      <p>一人じゃないから、続けられる。ダイエットのコツや健康的な食事のアイデア、モチベーション維持の方法をお届けします。</p>
+      <p data-i18n="heroSubtitle">一人じゃないから、続けられる。ダイエットのコツや健康的な食事のアイデア、モチベーション維持の方法をお届けします。</p>
     </div>
   </section>
 
   <div class="container">
     <div class="section-title">
-      <h2>注目の記事</h2>
+      <h2 data-i18n-section="注目の記事">注目の記事</h2>
     </div>
 
     <div class="featured">
@@ -94,7 +101,7 @@
     </div>
 
     <div class="section-title">
-      <h2>最新記事</h2>
+      <h2 data-i18n-section="最新記事">最新記事</h2>
     </div>
 
     <div class="article-grid">
@@ -408,7 +415,7 @@
     </div>
 
     <div class="section-title">
-      <h2>筋トレ・ボディメイク</h2>
+      <h2 data-i18n-section="筋トレ・ボディメイク">筋トレ・ボディメイク</h2>
     </div>
 
     <div class="article-grid">
@@ -650,7 +657,7 @@
     </div>
 
     <div class="section-title">
-      <h2>ボディ＆ウェルネス</h2>
+      <h2 data-i18n-section="ボディ＆ウェルネス">ボディ＆ウェルネス</h2>
     </div>
 
     <div class="article-grid">
@@ -882,7 +889,7 @@
     </div>
 
     <div class="section-title">
-      <h2>食事・サプリ・ガジェット</h2>
+      <h2 data-i18n-section="食事・サプリ・ガジェット">食事・サプリ・ガジェット</h2>
     </div>
 
     <div class="article-grid">
@@ -1126,7 +1133,7 @@
     </div>
 
     <div class="section-title">
-      <h2>食材ダイエット</h2>
+      <h2 data-i18n-section="食材ダイエット">食材ダイエット</h2>
     </div>
 
     <div class="article-grid">
@@ -1366,7 +1373,7 @@
     </div>
 
     <div class="section-title">
-      <h2>世界のフィットネス</h2>
+      <h2 data-i18n-section="世界のフィットネス">世界のフィットネス</h2>
     </div>
 
     <div class="article-grid">
@@ -1546,7 +1553,7 @@
     </div>
 
     <div class="section-title">
-      <h2>脳と学習</h2>
+      <h2 data-i18n-section="脳と学習">脳と学習</h2>
     </div>
 
     <div class="article-grid">
@@ -1600,7 +1607,7 @@
     </div>
 
     <div class="section-title">
-      <h2>ジム選び</h2>
+      <h2 data-i18n-section="ジム選び">ジム選び</h2>
     </div>
 
     <div class="article-grid">
@@ -1677,7 +1684,7 @@
     </div>
 
     <div class="section-title">
-      <h2>年齢別筋トレ</h2>
+      <h2 data-i18n-section="年齢別筋トレ">年齢別筋トレ</h2>
     </div>
 
     <div class="article-grid">
@@ -1743,7 +1750,7 @@
     </div>
 
     <div class="section-title">
-      <h2>自宅フィットネス</h2>
+      <h2 data-i18n-section="自宅フィットネス">自宅フィットネス</h2>
     </div>
 
     <div class="article-grid">
@@ -1868,7 +1875,7 @@
     </div>
 
     <div class="section-title">
-      <h2>メンタルヘルスと運動</h2>
+      <h2 data-i18n-section="メンタルヘルスと運動">メンタルヘルスと運動</h2>
     </div>
 
     <div class="article-grid">
@@ -1935,9 +1942,9 @@
     </div>
 
     <div class="cta-section">
-      <h2>今日からダイエット仲間と一緒に始めよう</h2>
-      <p>We Dietは、食事記録・運動記録・体重管理ができるダイエットSNSアプリです。<br>仲間と励まし合いながら、楽しくダイエットを続けられます。</p>
-      <a href="/" class="cta-button">無料で始める</a>
+      <h2 data-i18n="ctaTitle">今日からダイエット仲間と一緒に始めよう</h2>
+      <p data-i18n="ctaDescription">We Dietは、食事記録・運動記録・体重管理ができるダイエットSNSアプリです。仲間と励まし合いながら、楽しくダイエットを続けられます。</p>
+      <a href="/" class="cta-button" data-i18n="ctaButton">無料で始める</a>
     </div>
   </div>
 
@@ -1945,7 +1952,7 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <h3>We Diet</h3>
-        <p>一人じゃないから、続けられる。<br>仲間と一緒に、楽しくダイエット。</p>
+        <p data-i18n="footerTagline">一人じゃないから、続けられる。仲間と一緒に、楽しくダイエット。</p>
         <div class="ranking-banners">
           <a href="https://diet.blogmura.com/ranking/in?p_cid=11211987" target="_blank" rel="noopener"><img src="https://b.blogmura.com/diet/88_31.gif" width="88" height="31" alt="にほんブログ村 ダイエットブログへ" loading="lazy"></a>
           <a href="https://blog.with2.net/link/?id=2138563" target="_blank" rel="noopener" title="人気ブログランキング"><img src="https://blog.with2.net/img/banner/banner_13.svg" width="80" height="15" alt="人気ブログランキング" loading="lazy"></a>
@@ -1953,24 +1960,24 @@
         </div>
       </div>
       <div class="footer-links">
-        <h4>サービス</h4>
+        <h4 data-i18n="service">サービス</h4>
         <ul>
-          <li><a href="/">トップページ</a></li>
-          <li><a href="/blog/">ブログ</a></li>
-          <li><a href="/faq">よくある質問</a></li>
+          <li><a href="/" data-i18n="topPage">トップページ</a></li>
+          <li><a href="/blog/" data-i18n="blog">ブログ</a></li>
+          <li><a href="/faq" data-i18n="faq">よくある質問</a></li>
         </ul>
       </div>
       <div class="footer-links">
-        <h4>法的情報</h4>
+        <h4 data-i18n="legalInfo">法的情報</h4>
         <ul>
-          <li><a href="/privacy-policy">プライバシーポリシー</a></li>
-          <li><a href="/terms-of-service">利用規約</a></li>
-          <li><a href="/cookie-policy">Cookieポリシー</a></li>
+          <li><a href="/privacy-policy" data-i18n="privacyPolicy">プライバシーポリシー</a></li>
+          <li><a href="/terms-of-service" data-i18n="termsOfService">利用規約</a></li>
+          <li><a href="/cookie-policy" data-i18n="cookiePolicy">Cookieポリシー</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2025 We Diet. All rights reserved.</p>
+      <p data-i18n="copyright">&copy; 2025 We Diet. All rights reserved.</p>
     </div>
   </footer>
 </body>

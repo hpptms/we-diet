@@ -38,12 +38,20 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "We Diet",
-    "alternateName": "ウィーダイエット",
+    "alternateName": ["ウィーダイエット", "We Diet - Social Diet Tracker", "We Diet - 社交减肥应用", "We Diet - 소셜 다이어트 앱", "We Diet - Red Social de Dieta"],
     "description": "一人では続けにくいダイエットも、仲間がいれば楽しく継続できる。食事記録・運動記録・体重管理をSNSで共有できるダイエット記録アプリ。",
     "url": "https://we-diet.net/",
     "applicationCategory": "HealthApplication",
     "operatingSystem": "Web Browser, iOS, Android",
     "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "inLanguage": ["ja", "en", "zh-CN", "ko", "es"],
+    "availableLanguage": [
+      {"@type": "Language", "name": "Japanese", "alternateName": "ja"},
+      {"@type": "Language", "name": "English", "alternateName": "en"},
+      {"@type": "Language", "name": "Chinese", "alternateName": "zh-CN"},
+      {"@type": "Language", "name": "Korean", "alternateName": "ko"},
+      {"@type": "Language", "name": "Spanish", "alternateName": "es"}
+    ],
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -51,13 +59,13 @@
       "availability": "https://schema.org/InStock"
     },
     "featureList": [
-      "食事記録・カロリー管理",
-      "運動記録・アクティビティトラッキング", 
-      "体重記録・グラフ表示",
-      "SNS機能・コミュニティ",
-      "モチベーション管理",
-      "多言語対応（日本語、英語、中国語、韓国語）",
-      "画像アップロード・共有"
+      "Meal logging with AI food photo analysis / 食事記録・AI画像分析",
+      "Exercise tracking / 運動記録・アクティビティトラッキング",
+      "Weight recording with trend graphs / 体重記録・グラフ表示",
+      "Social feed and community / SNS機能・コミュニティ",
+      "Multi-language support (Japanese, English, Chinese, Korean, Spanish)",
+      "PWA support / ホーム画面追加対応",
+      "Photo upload and sharing / 画像アップロード・共有"
     ],
     "screenshot": "https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp",
     "aggregateRating": {
@@ -97,7 +105,7 @@
       "@type": "ContactPoint",
       "contactType": "Customer Support",
       "email": "support@we-diet.net",
-      "availableLanguage": ["Japanese", "English", "Korean", "Chinese"]
+      "availableLanguage": ["Japanese", "English", "Korean", "Chinese", "Spanish"]
     }
   }
   </script>
@@ -122,7 +130,7 @@
       },
       "query-input": "required name=search_term_string"
     },
-    "inLanguage": ["ja", "en", "ko", "zh-CN"]
+    "inLanguage": ["ja", "en", "ko", "zh-CN", "es"]
   }
   </script>
 

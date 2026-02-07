@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
      xmlns:atom="http://www.w3.org/2005/Atom"
-     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>We Diet ブログ - ダイエット＆フィットネス情報</title>
+    <title>We Diet Blog - Diet &amp; Fitness Information / ダイエット＆フィットネス情報</title>
     <link>https://we-diet.net/blog/</link>
-    <description>ダイエット、筋トレ、食事管理、メンタルヘルスなど、健康的なライフスタイルをサポートする情報を発信。科学的根拠に基づいた実践的なフィットネス・ダイエット記事をお届けします。</description>
+    <description>Diet, fitness, meal management, and mental health — practical articles to support a healthy lifestyle. Available in Japanese, English, Chinese, Korean, and Spanish. / ダイエット、筋トレ、食事管理、メンタルヘルスなど、健康的なライフスタイルをサポートする情報を発信。</description>
     <language>ja</language>
-    <lastBuildDate>Sat, 07 Feb 2026 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 07 Feb 2026 00:00:00 +0900</lastBuildDate>
     <atom:link href="https://we-diet.net/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp</url>
-      <title>We Diet ブログ</title>
+      <title>We Diet Blog</title>
       <link>https://we-diet.net/blog/</link>
     </image>
-    <copyright>Copyright 2025 We Diet. All rights reserved.</copyright>
+    <copyright>Copyright 2026 We Diet. All rights reserved.</copyright>
     <managingEditor>noreply@we-diet.net (We Diet)</managingEditor>
     <webMaster>noreply@we-diet.net (We Diet)</webMaster>
+    <dc:language>ja</dc:language>
     <ttl>1440</ttl>
     <item>
       <title>お通じと体重の関係｜便秘を解消すれば体重は減る？ | We Diet ブログ</title>
