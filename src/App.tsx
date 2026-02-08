@@ -57,9 +57,9 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   // URLパラメータを確認（ソーシャルログインのコールバック処理中の場合は認証をスキップ）
   const urlParams = new URLSearchParams(window.location.search);
   const hasSocialLoginParams = urlParams.get('token') && urlParams.get('user_id');
-  
-  // 仮の認証判定: localStorageにaccountNameがあるか、ソーシャルログインのパラメータがあればログイン済みとみなす
-  const isAuthenticated = !!localStorage.getItem("accountName") || hasSocialLoginParams;
+
+  // 認証判定: accountName、JWTトークン、またはソーシャルログインのパラメータがあればログイン済みとみなす
+  const isAuthenticated = !!localStorage.getItem("accountName") || !!localStorage.getItem("jwt_token") || hasSocialLoginParams;
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
@@ -130,16 +130,6 @@ DashboardRoute.displayName = 'DashboardRoute';
 
 function App() {
   useEffect(() => {
-    // SPAフォールバック: 404.htmlからのリダイレクトを処理
-    const urlParams = new URLSearchParams(window.location.search);
-    const spaPath = urlParams.get('spa_path');
-    
-    if (spaPath) {
-      // spa_pathパラメータを削除して元のパスに遷移
-      const newUrl = spaPath;
-      window.history.replaceState(null, '', newUrl);
-    }
-    
     // Initialize Google Analytics
     initGA();
     
