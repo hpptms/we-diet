@@ -87,28 +87,13 @@ const ScrollToTop = () => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
-
-    // popstateイベント（ブラウザバック/フォワード）でもスクロールをリセット
-    const handlePopState = () => {
-      // 少し遅延させてブラウザのスクロール復元後に実行
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 0);
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-      if ('scrollRestoration' in window.history) {
-        window.history.scrollRestoration = 'auto';
-      }
-    };
   }, []);
 
-  // 通常のルート変更時のスクロールリセット
+  // ルート変更時にスクロールを即座にリセット
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [location.pathname]);
 
   return null;

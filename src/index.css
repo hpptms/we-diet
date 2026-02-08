@@ -12,7 +12,6 @@ body {
   max-width: 100vw;
   /* パフォーマンス最適化 */
   contain: layout style paint;
-  will-change: scroll-position;
 }
 
 /* 全体的なモバイル対応とパフォーマンス最適化 */
@@ -29,8 +28,6 @@ html {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
-  /* スクロール最適化 */
-  scroll-behavior: smooth;
   /* フォント読み込み最適化 */
   font-display: swap;
 }

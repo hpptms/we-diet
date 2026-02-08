@@ -285,33 +285,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
     // メインコンテナのref（overflow: autoのコンテナ用）
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // スクロールをトップにリセットする関数（軽量版）
+    // スクロールを即座にトップにリセットする関数
     const scrollToTop = () => {
-        // windowのスクロールのみリセット（最も効果的かつ軽量）
-        window.scrollTo(0, 0);
-
-        // メインコンテナのスクロールをリセット
-        if (containerRef.current && containerRef.current.scrollTop > 0) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        if (containerRef.current) {
             containerRef.current.scrollTop = 0;
         }
     };
 
-    // ブラウザバック/フォワード時のスクロールリセット(パフォーマンス最適化版)
-    useEffect(() => {
-        const handlePopState = () => {
-            // 1回のrequestAnimationFrameで十分(複数回の呼び出しを削減)
-            requestAnimationFrame(() => {
-                scrollToTop();
-            });
-        };
-
-        window.addEventListener('popstate', handlePopState);
-        return () => {
-            window.removeEventListener('popstate', handlePopState);
-        };
-    }, []);
-
-    // URLに応じてcurrentViewを切り替え
+    // URLに応じてcurrentViewを切り替え＋スクロールリセット
     useEffect(() => {
         if (location.pathname === "/ProfileSettings") {
             setCurrentView("profile");
@@ -329,10 +313,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             setCurrentView("debug");
         }
 
-        // ページ遷移時にスクロールをトップにリセット（1回のみ）
-        requestAnimationFrame(() => {
-            scrollToTop();
-        });
+        scrollToTop();
     }, [location.pathname, setCurrentView]);
 
     const renderContent = () => {

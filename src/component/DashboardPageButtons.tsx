@@ -21,20 +21,6 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // ダッシュボード表示時にスクロールを最上部にリセット
-  useEffect(() => {
-    // スクロールリセット関数（軽量版）
-    const resetScrollPosition = () => {
-      // windowのスクロールのみリセット（最も効果的かつ軽量）
-      window.scrollTo(0, 0);
-    };
-
-    // レンダリング後に1回だけ実行
-    const rafId = requestAnimationFrame(resetScrollPosition);
-
-    return () => cancelAnimationFrame(rafId);
-  }, []); // マウント時に1回だけ実行
-
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);

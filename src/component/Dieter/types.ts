@@ -34,7 +34,7 @@ export interface Comment {
     Content: string;
     AuthorName: string;      // コメント者名（キャッシュ）
     AuthorPicture: string;   // コメント者アイコンURL（キャッシュ）
-    User: {
+    User?: {
         ID: number;
         UserName: string;
         Email: string;
@@ -48,7 +48,7 @@ export interface Retweet {
     ID: number;
     PostID: number;
     UserID: number;
-    User: {
+    User?: {
         ID: number;
         UserName: string;
         Email: string;
@@ -62,7 +62,7 @@ export interface Like {
     ID: number;
     PostID: number;
     UserID: number;
-    User: {
+    User?: {
         ID: number;
         UserName: string;
         Email: string;
