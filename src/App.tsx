@@ -15,6 +15,7 @@ const LazyTopPage = React.lazy(() =>
   import('./page/TopPage').then(module => ({ default: module.TopPage }))
 );
 const LazyLoginPage = React.lazy(() => import('./page/LoginPage'));
+const LazyRegisterPage = React.lazy(() => import('./page/RegisterPage'));
 const LazyDashboardPage = React.lazy(() => import('./page/DashboardPage'));
 const LazyRegisterCompletePage = React.lazy(() => import('./page/RegisterCompletePage'));
 const LazyVerifyEmailPage = React.lazy(() => import('./page/VerifyEmailPage'));
@@ -178,6 +179,11 @@ function App() {
         <Route path="/login" element={
           <Suspense fallback={<LoadingComponent />}>
             <LazyLoginPage />
+          </Suspense>
+        } />
+        <Route path="/register" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyRegisterPage />
           </Suspense>
         } />
         

@@ -36,7 +36,22 @@
         "userinfoError": "ユーザー情報の取得に失敗しました。再度ログインをお試しください。",
         "dbError": "データベースエラーが発生しました。管理者にお問い合わせください。",
         "jwtGenerationError": "認証処理に失敗しました。再度ログインをお試しください。",
-        "loginProcessError": "ログイン処理中にエラーが発生しました。再度お試しください。"
+        "loginProcessError": "ログイン処理中にエラーが発生しました。再度お試しください。",
+        "registerNewAccount": "新規登録する",
+        "newRegistration": "新規登録",
+        "userName": "ユーザー名",
+        "enterUserName": "ユーザー名を入力してください",
+        "userNameMinLength": "ユーザー名は3文字以上である必要があります",
+        "userNameMaxLength": "ユーザー名は30文字以下である必要があります",
+        "userNameTaken": "このユーザー名は既に使用されています",
+        "userNameAvailable": "このユーザー名は使用可能です",
+        "checkingUserName": "確認中...",
+        "registrationSuccess": "登録が完了しました",
+        "registrationFailed": "登録に失敗しました",
+        "backToLogin": "ログインに戻る",
+        "alreadyHaveAccount": "すでにアカウントをお持ちですか？",
+        "rememberMe": "次回から入力しない",
+        "userNotFound": "ユーザーが見つかりません"
     },
     "navigation": {
         "home": "ホーム",

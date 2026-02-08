@@ -36,7 +36,22 @@
         "userinfoError": "사용자 정보 획득에 실패했습니다. 다시 로그인해주세요.",
         "dbError": "데이터베이스 오류가 발생했습니다. 고객지원에 문의해주세요.",
         "jwtGenerationError": "인증 처리에 실패했습니다. 다시 로그인해주세요.",
-        "loginProcessError": "로그인 과정에서 오류가 발생했습니다. 다시 시도해주세요."
+        "loginProcessError": "로그인 과정에서 오류가 발생했습니다. 다시 시도해주세요.",
+        "registerNewAccount": "회원가입하기",
+        "newRegistration": "회원가입",
+        "userName": "사용자 이름",
+        "enterUserName": "사용자 이름을 입력해주세요",
+        "userNameMinLength": "사용자 이름은 3자 이상이어야 합니다",
+        "userNameMaxLength": "사용자 이름은 30자 이하여야 합니다",
+        "userNameTaken": "이미 사용 중인 사용자 이름입니다",
+        "userNameAvailable": "사용 가능한 사용자 이름입니다",
+        "checkingUserName": "확인 중...",
+        "registrationSuccess": "가입이 완료되었습니다",
+        "registrationFailed": "가입에 실패했습니다",
+        "backToLogin": "로그인으로 돌아가기",
+        "alreadyHaveAccount": "이미 계정이 있으신가요?",
+        "rememberMe": "로그인 정보 저장",
+        "userNotFound": "사용자를 찾을 수 없습니다"
     },
     "navigation": {
         "home": "홈",

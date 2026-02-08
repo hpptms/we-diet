@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
 import { SEOHelmet } from "../component/SEOHelmet";
-import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material";
-import { MdLogin } from "react-icons/md";
+import { Box, Typography, Button, useTheme, useMediaQuery, Checkbox, FormControlLabel } from "@mui/material";
+import { MdLogin, MdPersonAdd } from "react-icons/md";
 import axios from "axios";
 import MailRegisterModal from "../component/MailRegisterModal";
 import MailRegisterButton from "../component/MailRegisterButton";
@@ -19,10 +19,12 @@ import { useTranslation } from "../hooks/useTranslation";
 
 const LoginPage: React.FC = () => {
   const { t } = useTranslation();
-  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState(() => localStorage.getItem("rememberedUserName") || "");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(() => !!localStorage.getItem("rememberedUserName"));
   const [error, setError] = useState("");
-  // メール登録用モーダルの状態
+  // メール登録用モーダルの状態（パスワード設定モード用に残す）
+  const [email, setEmail] = useState("");
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerError, setRegisterError] = useState("");
@@ -183,41 +185,38 @@ const LoginPage: React.FC = () => {
     if (isPasswordSetMode) {
       return handlePasswordSet(e);
     }
-    
+
     e.preventDefault();
     setError("");
-    console.log("ログイン開始:", { email, password: "***" });
-    console.log("API Endpoint:", `${import.meta.env.VITE_API_BASE_URL}/api/login`);
-    
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/login`,
         {
-          email: email,
+          userName: userName,
           password,
         }
       );
-      console.log("ログイン成功:", response.data);
-      
-      // レスポンスからアカウント名とユーザーIDとJWTトークンを取得しlocalStorageに保存
+
       const data = response.data;
-      localStorage.setItem("accountName", data.accountName || email);
+      localStorage.setItem("accountName", data.accountName || userName);
       localStorage.setItem("user_id", String(data.userId || data.user_id || 2));
-      
-      // JWTトークンを保存
+
       if (data.token) {
         localStorage.setItem("jwt_token", data.token);
-        console.log("JWTトークンを保存しました");
       }
-      
-      console.log("localStorageに保存:", data.accountName || email, "user_id:", data.userId || data.user_id, "token:", data.token ? "あり" : "なし");
-      
-      // ログイン成功後、プロフィールを取得
+
+      // 「次回から入力しない」チェック時はユーザー名を保存
+      if (rememberMe) {
+        localStorage.setItem("rememberedUserName", userName);
+      } else {
+        localStorage.removeItem("rememberedUserName");
+      }
+
       await fetchUserProfileAfterLogin(data.userId || data.user_id || 2);
-      
+
       navigate("/dashboard");
     } catch (err: any) {
-      console.error("ログインエラー:", err);
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
@@ -410,23 +409,83 @@ const LoginPage: React.FC = () => {
           </form>
             </>
           )}
-          {/* パスワード設定モード時はメール登録・ソーシャルログインボタンを非表示 */}
+          {/* 通常ログインモード：ユーザー名・パスワードフォーム + ソーシャルログイン */}
           {!isPasswordSetMode && (
             <>
-              {/* メールで登録ボタン */}
-              {/* <Box sx={{ 
-                mt: 1, 
-                textAlign: "center", 
-                width: "100%", 
-                maxWidth: shouldUseFullWidth ? "100%" : 400 
-              }}>
-                <MailRegisterButton onClick={() => setShowEmailModal(true)} />
-              </Box> */}
+              <form
+                onSubmit={handleSubmit}
+                style={{
+                  width: "100%",
+                  maxWidth: shouldUseFullWidth ? "100%" : 400,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Box sx={{ width: "100%", mb: 2 }}>
+                  <label style={{ width: "100%", display: "block" }}>
+                    {t('auth', 'userName', {}, 'ユーザー名')}
+                    <input
+                      type="text"
+                      value={userName}
+                      onChange={e => setUserName(e.target.value)}
+                      required
+                      autoComplete="username"
+                      placeholder={t('auth', 'enterUserName', {}, 'ユーザー名を入力してください')}
+                      style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
+                    />
+                  </label>
+                </Box>
+                <Box sx={{ width: "100%", mb: 1 }}>
+                  <label style={{ width: "100%", display: "block" }}>
+                    {t('auth', 'password', {}, 'パスワード')}
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      required
+                      autoComplete="current-password"
+                      style={{ width: "100%", margin: "8px 0", padding: 12, fontSize: 16, boxSizing: "border-box" }}
+                    />
+                  </label>
+                </Box>
+                <Box sx={{ width: "100%", mb: 1 }}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={rememberMe}
+                        onChange={e => setRememberMe(e.target.checked)}
+                        size="small"
+                      />
+                    }
+                    label={
+                      <Typography variant="body2">
+                        {t('auth', 'rememberMe', {}, '次回から入力しない')}
+                      </Typography>
+                    }
+                  />
+                </Box>
+                {error && (
+                  <Typography color="error" sx={{ mb: 1, width: "100%", textAlign: "center" }}>
+                    {error}
+                  </Typography>
+                )}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  startIcon={<MdLogin size={22} />}
+                  sx={{ py: 1.5, fontWeight: 500, fontSize: 16, borderRadius: 1, mt: 1 }}
+                >
+                  {t('auth', 'login', {}, 'ログイン')}
+                </Button>
+              </form>
               {/* ソーシャルログインボタン */}
-              <Box sx={{ 
-                mt: 1, 
-                textAlign: "center", 
-                width: "100%", 
+              <Box sx={{
+                mt: 3,
+                textAlign: "center",
+                width: "100%",
                 maxWidth: shouldUseFullWidth ? "100%" : 400,
                 display: "flex",
                 flexDirection: "column",
@@ -435,8 +494,23 @@ const LoginPage: React.FC = () => {
                 <GoogleLoginButton />
                 <XLoginButton />
                 <LineLoginButton />
-                {/* <FacebookLoginButton /> */}
-                {/* <TiktokLoginButton /> */}
+              </Box>
+              {/* 新規登録ボタン */}
+              <Box sx={{
+                mt: 3,
+                textAlign: "center",
+                width: "100%",
+                maxWidth: shouldUseFullWidth ? "100%" : 400,
+              }}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  startIcon={<MdPersonAdd size={22} />}
+                  onClick={() => navigate("/register")}
+                  sx={{ py: 1.5, fontWeight: 500, fontSize: 16, borderRadius: 1 }}
+                >
+                  {t('auth', 'registerNewAccount', {}, '新規登録する')}
+                </Button>
               </Box>
             </>
           )}

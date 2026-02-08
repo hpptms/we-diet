@@ -36,7 +36,22 @@
         "userinfoError": "获取用户信息失败。请重新登录。",
         "dbError": "数据库错误。请联系支持。",
         "jwtGenerationError": "认证过程失败。请重新登录。",
-        "loginProcessError": "登录过程中发生错误。请重试。"
+        "loginProcessError": "登录过程中发生错误。请重试。",
+        "registerNewAccount": "注册新账户",
+        "newRegistration": "注册新账户",
+        "userName": "用户名",
+        "enterUserName": "请输入用户名",
+        "userNameMinLength": "用户名至少需要3个字符",
+        "userNameMaxLength": "用户名不能超过30个字符",
+        "userNameTaken": "该用户名已被使用",
+        "userNameAvailable": "该用户名可以使用",
+        "checkingUserName": "检查中...",
+        "registrationSuccess": "注册完成",
+        "registrationFailed": "注册失败",
+        "backToLogin": "返回登录",
+        "alreadyHaveAccount": "已有账户？",
+        "rememberMe": "记住我",
+        "userNotFound": "用户未找到"
     },
     "navigation": {
         "home": "首页",

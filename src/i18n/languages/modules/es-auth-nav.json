@@ -36,7 +36,22 @@
         "userinfoError": "Error al obtener información del usuario. Por favor, intenta iniciar sesión de nuevo.",
         "dbError": "Error de base de datos. Por favor, contacta soporte.",
         "jwtGenerationError": "Error en el proceso de autenticación. Por favor, intenta iniciar sesión de nuevo.",
-        "loginProcessError": "Ocurrió un error durante el proceso de inicio de sesión. Por favor, inténtalo de nuevo."
+        "loginProcessError": "Ocurrió un error durante el proceso de inicio de sesión. Por favor, inténtalo de nuevo.",
+        "registerNewAccount": "Crear cuenta",
+        "newRegistration": "Crear cuenta",
+        "userName": "Nombre de usuario",
+        "enterUserName": "Ingresa un nombre de usuario",
+        "userNameMinLength": "El nombre de usuario debe tener al menos 3 caracteres",
+        "userNameMaxLength": "El nombre de usuario debe tener 30 caracteres o menos",
+        "userNameTaken": "Este nombre de usuario ya está en uso",
+        "userNameAvailable": "Este nombre de usuario está disponible",
+        "checkingUserName": "Verificando...",
+        "registrationSuccess": "Registro completado",
+        "registrationFailed": "Error en el registro",
+        "backToLogin": "Volver al inicio de sesión",
+        "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+        "rememberMe": "Recordarme",
+        "userNotFound": "Usuario no encontrado"
     },
     "navigation": {
         "home": "Inicio",

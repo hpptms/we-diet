@@ -36,7 +36,22 @@
         "userinfoError": "Failed to obtain user information. Please try logging in again.",
         "dbError": "Database error occurred. Please contact support.",
         "jwtGenerationError": "Authentication process failed. Please try logging in again.",
-        "loginProcessError": "An error occurred during login process. Please try again."
+        "loginProcessError": "An error occurred during login process. Please try again.",
+        "registerNewAccount": "Create Account",
+        "newRegistration": "Create Account",
+        "userName": "Username",
+        "enterUserName": "Please enter a username",
+        "userNameMinLength": "Username must be at least 3 characters",
+        "userNameMaxLength": "Username must be 30 characters or less",
+        "userNameTaken": "This username is already taken",
+        "userNameAvailable": "This username is available",
+        "checkingUserName": "Checking...",
+        "registrationSuccess": "Registration completed",
+        "registrationFailed": "Registration failed",
+        "backToLogin": "Back to Login",
+        "alreadyHaveAccount": "Already have an account?",
+        "rememberMe": "Remember me",
+        "userNotFound": "User not found"
     },
     "navigation": {
         "home": "Home",
