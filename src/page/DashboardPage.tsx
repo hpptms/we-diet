@@ -243,15 +243,29 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             return;
         }
 
-        if (token && userId && accountName) {
+        if (token && userId) {
             // localStorageに保存
-            localStorage.setItem('accountName', accountName);
             localStorage.setItem('jwt_token', token);
             localStorage.setItem('user_id', userId);
-            
+            if (accountName) {
+                localStorage.setItem('accountName', accountName);
+            }
+
+            // accountNameがURLに含まれていない場合、APIからユーザー情報を取得
+            if (!accountName) {
+                fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.user_name) {
+                            localStorage.setItem('accountName', data.user_name);
+                        }
+                    })
+                    .catch(err => console.error('ユーザー情報取得エラー:', err));
+            }
+
             // サーバーからプロフィール情報を取得
             fetchUserProfile(userId);
-            
+
             // URLからパラメータを削除してダッシュボードを表示
             navigate('/Dashboard', { replace: true });
         }
