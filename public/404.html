@@ -90,6 +90,30 @@
       text-decoration: underline;
     }
   </style>
+
+  <!-- SPA Fallback: Redirect to React app with path preserved -->
+  <script>
+    // URLパラメータとパスを保持してindex.htmlにリダイレクト
+    (function () {
+      var path = window.location.pathname;
+      var search = window.location.search;
+      var hash = window.location.hash;
+
+      // AMPページや実際に存在しないページ以外はSPAにリダイレクト
+      if (!path.includes('/amp/') && path !== '/404.html') {
+        // sessionStorageに元のURLを保存
+        try {
+          sessionStorage.setItem('spa_redirect', path + search + hash);
+        } catch (e) {
+          // sessionStorage無効の場合は無視
+        }
+
+        // index.htmlにリダイレクト（パスをクエリパラメータとして渡す）
+        var redirectUrl = '/?spa_path=' + encodeURIComponent(path + search + hash);
+        window.location.replace(redirectUrl);
+      }
+    })();
+  </script>
 </head>
 
 <body>

@@ -130,6 +130,16 @@ DashboardRoute.displayName = 'DashboardRoute';
 
 function App() {
   useEffect(() => {
+    // SPAフォールバック: 404.htmlからのリダイレクトを処理
+    const urlParams = new URLSearchParams(window.location.search);
+    const spaPath = urlParams.get('spa_path');
+    
+    if (spaPath) {
+      // spa_pathパラメータを削除して元のパスに遷移
+      const newUrl = spaPath;
+      window.history.replaceState(null, '', newUrl);
+    }
+    
     // Initialize Google Analytics
     initGA();
     
