@@ -23,6 +23,8 @@ import {
     ReportPostResponse,
     Like
 } from '../proto/dieter';
+import { GetUserProfileResponse as ProtoGetUserProfileResponse } from '../proto/user_profile';
+import { NotificationsResponse as ProtoNotificationsResponse, NotificationUnreadCountResponse as ProtoNotificationUnreadCountResponse, NotificationType as ProtoNotificationType, Notification as ProtoNotification } from '../proto/notification';
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
@@ -305,6 +307,106 @@ const convertLikeToLegacy = (like: Like): LegacyLike => ({
     UpdatedAt: like.updatedAt,
 });
 
+/**
+ * Protobuf Message → LegacyMessage 変換
+ */
+const convertMessageToLegacy = (msg: { id: number; senderId: number; receiverId: number; content: string; isRead: boolean; senderName: string; senderPicture: string; createdAt: string; updatedAt: string }): LegacyMessage => ({
+    ID: msg.id,
+    SenderID: msg.senderId,
+    ReceiverID: msg.receiverId,
+    Content: msg.content,
+    IsRead: msg.isRead,
+    SenderName: msg.senderName,
+    SenderPicture: msg.senderPicture,
+    CreatedAt: msg.createdAt,
+    UpdatedAt: msg.updatedAt,
+});
+
+/**
+ * Protobuf ConversationItem → LegacyConversationItem 変換
+ */
+const convertConversationToLegacy = (conv: { userId: number; userName: string; userPicture: string; lastMessage: string; lastMessageAt: string; unreadCount: number; isSender: boolean }): LegacyConversationItem => ({
+    user_id: conv.userId,
+    user_name: conv.userName,
+    user_picture: conv.userPicture,
+    last_message: conv.lastMessage,
+    last_message_at: conv.lastMessageAt,
+    unread_count: conv.unreadCount,
+    is_sender: conv.isSender,
+});
+
+/**
+ * Proto NotificationType enum → string 変換
+ */
+const convertNotificationTypeToString = (type: ProtoNotificationType): string => {
+    switch (type) {
+        case ProtoNotificationType.LIKE: return 'like';
+        case ProtoNotificationType.COMMENT: return 'comment';
+        case ProtoNotificationType.FOLLOW: return 'follow';
+        case ProtoNotificationType.RETWEET: return 'retweet';
+        case ProtoNotificationType.MESSAGE: return 'message';
+        case ProtoNotificationType.SYSTEM: return 'system';
+        default: return 'unknown';
+    }
+};
+
+/**
+ * Proto Notification → Legacy Notification 変換 (flat → nested)
+ */
+const convertNotificationToLegacy = (n: ProtoNotification): any => ({
+    id: n.id,
+    user_id: n.userId,
+    actor_id: n.relatedUserId,
+    post_id: n.relatedPostId,
+    type: convertNotificationTypeToString(n.type),
+    is_read: n.isRead,
+    created_at: n.createdAt,
+    updated_at: n.updatedAt,
+    actor: {
+        ID: n.relatedUserId,
+        UserName: n.relatedUserName,
+        Email: '',
+        Picture: n.relatedUserPicture,
+    },
+    post: {
+        ID: n.relatedPostId,
+        Content: n.relatedPostContent,
+        AuthorName: '',
+        AuthorPicture: '',
+    },
+});
+
+/**
+ * Proto UserProfile → Legacy snake_case UserProfile 変換
+ */
+const convertUserProfileToLegacy = (p: any): any => ({
+    id: p.id,
+    user_id: p.userId,
+    display_name: p.displayName,
+    selected_preset_id: p.selectedPresetId ?? null,
+    icon_type: p.iconType,
+    uploaded_icon: p.uploadedIcon ?? null,
+    uploaded_icon_public_id: p.uploadedIconPublicId ?? null,
+    gender: p.gender,
+    age: p.age ?? null,
+    height: p.height ?? null,
+    activity_level: p.activityLevel,
+    current_weight: p.currentWeight ?? null,
+    target_weight: p.targetWeight ?? null,
+    show_preset: p.showPreset,
+    pr_text: p.prText,
+    is_gender_private: p.isGenderPrivate,
+    is_age_private: p.isAgePrivate,
+    is_height_private: p.isHeightPrivate,
+    is_activity_private: p.isActivityPrivate,
+    is_current_weight_private: p.isCurrentWeightPrivate,
+    is_target_weight_private: p.isTargetWeightPrivate,
+    enable_sensitive_filter: p.enableSensitiveFilter,
+    enable_global_filter: p.enableGlobalFilter,
+    created_at: p.createdAt,
+    updated_at: p.updatedAt,
+});
+
 export const dieterApi = {
     // 投稿一覧取得（公開エンドポイント）
     async getPosts(page: number = 1, limit: number = 20): Promise<LegacyPostsResponse> {
@@ -338,24 +440,44 @@ export const dieterApi = {
         }
     },
 
-    // フォロー中ユーザーの投稿一覧取得（認証付きエンドポイント）
+    // フォロー中ユーザーの投稿一覧取得（認証付きエンドポイント・Protobuf）
     async getFollowingPosts(page: number = 1, limit: number = 20): Promise<LegacyPostsResponse> {
         try {
+            const headers = {
+                ...getAuthHeaders(),
+                Accept: 'application/x-protobuf'
+            };
             const response = await axios.get(`${API_BASE_URL}/api/posts/following?page=${page}&limit=${limit}`, {
-                headers: getAuthHeaders()
+                headers,
+                responseType: 'arraybuffer'
             });
-            return response.data;
+            const postsResponse = PostsResponse.fromBinary(new Uint8Array(response.data));
+            const legacyPosts = postsResponse.posts.map(convertPostToLegacy);
+            return {
+                posts: legacyPosts,
+                pagination: postsResponse.pagination
+                    ? {
+                        page: postsResponse.pagination.page,
+                        limit: postsResponse.pagination.limit,
+                        total: postsResponse.pagination.total,
+                    }
+                    : { page: 1, limit: legacyPosts.length, total: legacyPosts.length },
+            };
         } catch (error) {
             console.error('Failed to fetch following posts:', error);
             throw error;
         }
     },
 
-    // 特定の投稿取得（公開エンドポイント）
+    // 特定の投稿取得（公開エンドポイント・Protobuf）
     async getPost(id: number): Promise<LegacyPost> {
         try {
-            const response = await axios.get(`${API_BASE_URL}/public/posts/${id}`);
-            return response.data;
+            const response = await axios.get(`${API_BASE_URL}/public/posts/${id}`, {
+                headers: { Accept: 'application/x-protobuf' },
+                responseType: 'arraybuffer'
+            });
+            const post = Post.fromBinary(new Uint8Array(response.data));
+            return convertPostToLegacy(post);
         } catch (error) {
             console.error('Failed to fetch post:', error);
             throw error;
@@ -574,7 +696,7 @@ export const dieterApi = {
         }
     },
 
-    // 通知一覧取得（認証付きエンドポイント）
+    // 通知一覧取得（認証付きエンドポイント・Protobuf）
     async getNotifications(page: number = 1, limit: number = 20, unreadOnly: boolean = false): Promise<any> {
         try {
             const url = new URL(`${API_BASE_URL}/api/notifications`);
@@ -585,9 +707,22 @@ export const dieterApi = {
             }
 
             const response = await axios.get(url.toString(), {
-                headers: getAuthHeaders(),
+                headers: {
+                    ...getAuthHeaders(),
+                    Accept: 'application/x-protobuf',
+                },
+                responseType: 'arraybuffer',
             });
-            return response.data;
+            const protoResp = ProtoNotificationsResponse.fromBinary(new Uint8Array(response.data));
+            return {
+                notifications: protoResp.notifications.map(convertNotificationToLegacy),
+                pagination: {
+                    page,
+                    limit,
+                    total: protoResp.totalCount,
+                    total_pages: Math.ceil(protoResp.totalCount / limit),
+                },
+            };
         } catch (error) {
             console.error('Failed to fetch notifications:', error);
             throw error;
@@ -620,7 +755,7 @@ export const dieterApi = {
         }
     },
 
-    // 未読通知数取得（認証付きエンドポイント）
+    // 未読通知数取得（認証付きエンドポイント・Protobuf）
     async getUnreadNotificationCount(): Promise<{ unread_count: number }> {
         try {
             const token = getAuthToken();
@@ -629,9 +764,14 @@ export const dieterApi = {
             }
 
             const response = await axios.get(`${API_BASE_URL}/api/notifications/unread-count`, {
-                headers: getAuthHeaders(),
+                headers: {
+                    ...getAuthHeaders(),
+                    Accept: 'application/x-protobuf',
+                },
+                responseType: 'arraybuffer',
             });
-            return response.data;
+            const protoResp = ProtoNotificationUnreadCountResponse.fromBinary(new Uint8Array(response.data));
+            return { unread_count: protoResp.unreadCount };
         } catch (error: any) {
             if (error.response?.status === 401) {
                 localStorage.removeItem('jwt_token');
@@ -657,26 +797,45 @@ export const dieterApi = {
         }
     },
 
-    // メッセージ一覧取得（特定のユーザーとの会話履歴）（認証付きエンドポイント）
+    // メッセージ一覧取得（特定のユーザーとの会話履歴）（認証付きエンドポイント・Protobuf）
     async getMessages(userId: number, page: number = 1, limit: number = 50): Promise<LegacyMessagesResponse> {
         try {
             const response = await axios.get(`${API_BASE_URL}/api/messages/${userId}?page=${page}&limit=${limit}`, {
-                headers: getAuthHeaders(),
+                headers: {
+                    ...getAuthHeaders(),
+                    Accept: 'application/x-protobuf',
+                },
+                responseType: 'arraybuffer',
             });
-            return response.data;
+            const protoResp = MessagesResponse.fromBinary(new Uint8Array(response.data));
+            return {
+                messages: protoResp.messages.map(convertMessageToLegacy),
+                pagination: {
+                    page: protoResp.pagination?.page ?? page,
+                    limit: protoResp.pagination?.limit ?? limit,
+                    total: protoResp.pagination?.total ?? 0,
+                },
+            };
         } catch (error) {
             console.error('Failed to fetch messages:', error);
             throw error;
         }
     },
 
-    // メッセージ会話リスト取得（DM一覧）（認証付きエンドポイント）
+    // メッセージ会話リスト取得（DM一覧）（認証付きエンドポイント・Protobuf）
     async getMessageConversations(): Promise<LegacyConversationsResponse> {
         try {
             const response = await axios.get(`${API_BASE_URL}/api/messages`, {
-                headers: getAuthHeaders(),
+                headers: {
+                    ...getAuthHeaders(),
+                    Accept: 'application/x-protobuf',
+                },
+                responseType: 'arraybuffer',
             });
-            return response.data;
+            const protoResp = ConversationsResponse.fromBinary(new Uint8Array(response.data));
+            return {
+                conversations: protoResp.conversations.map(convertConversationToLegacy),
+            };
         } catch (error) {
             console.error('Failed to fetch message conversations:', error);
             throw error;
@@ -691,7 +850,7 @@ export const dieterApi = {
         });
     },
 
-    // 未読メッセージ数取得（認証付きエンドポイント）
+    // 未読メッセージ数取得（認証付きエンドポイント・Protobuf）
     async getUnreadMessageCount(): Promise<{ unread_count: number }> {
         try {
             const token = getAuthToken();
@@ -700,9 +859,14 @@ export const dieterApi = {
             }
 
             const response = await axios.get(`${API_BASE_URL}/api/messages/unread-count`, {
-                headers: getAuthHeaders(),
+                headers: {
+                    ...getAuthHeaders(),
+                    Accept: 'application/x-protobuf',
+                },
+                responseType: 'arraybuffer',
             });
-            return response.data;
+            const protoResp = UnreadCountResponse.fromBinary(new Uint8Array(response.data));
+            return { unread_count: protoResp.unreadCount };
         } catch (error: any) {
             if (error.response?.status === 401) {
                 localStorage.removeItem('jwt_token');
@@ -715,11 +879,20 @@ export const dieterApi = {
         }
     },
 
-    // ユーザープロフィール取得（公開エンドポイント）
+    // ユーザープロフィール取得（公開エンドポイント・Protobuf）
     async getUserProfile(userId: number): Promise<any> {
         try {
-            const response = await axios.get(`${API_BASE_URL}/public/user_profile/${userId}`);
-            return response.data;
+            const response = await axios.get(`${API_BASE_URL}/public/user_profile/${userId}`, {
+                headers: {
+                    Accept: 'application/x-protobuf',
+                },
+                responseType: 'arraybuffer',
+            });
+            const protoResp = ProtoGetUserProfileResponse.fromBinary(new Uint8Array(response.data));
+            if (protoResp.profile) {
+                return convertUserProfileToLegacy(protoResp.profile);
+            }
+            return null;
         } catch (error) {
             console.error('Failed to fetch user profile:', error);
             throw error;
@@ -780,7 +953,7 @@ export const dieterApi = {
         }
     },
 
-    // 投稿検索（公開エンドポイント）
+    // 投稿検索（公開エンドポイント・Protobuf）
     async searchPosts(query: string, page: number = 1, limit: number = 20): Promise<LegacyPostsResponse & { query: string }> {
         try {
             const url = new URL(`${API_BASE_URL}/public/posts/search`);
@@ -788,11 +961,28 @@ export const dieterApi = {
             url.searchParams.append('page', page.toString());
             url.searchParams.append('limit', limit.toString());
 
-            // 認証ヘッダーを含める（オプション - ブロック機能のため）
-            const headers = getAuthHeaders();
+            const headers = {
+                ...getAuthHeaders(),
+                Accept: 'application/x-protobuf'
+            };
 
-            const response = await axios.get(url.toString(), { headers });
-            return response.data;
+            const response = await axios.get(url.toString(), {
+                headers,
+                responseType: 'arraybuffer'
+            });
+            const postsResponse = PostsResponse.fromBinary(new Uint8Array(response.data));
+            const legacyPosts = postsResponse.posts.map(convertPostToLegacy);
+            return {
+                posts: legacyPosts,
+                pagination: postsResponse.pagination
+                    ? {
+                        page: postsResponse.pagination.page,
+                        limit: postsResponse.pagination.limit,
+                        total: postsResponse.pagination.total,
+                    }
+                    : { page: 1, limit: legacyPosts.length, total: legacyPosts.length },
+                query,
+            };
         } catch (error) {
             console.error('Failed to search posts:', error);
             throw error;
@@ -814,7 +1004,7 @@ export const dieterApi = {
         }
     },
 
-    // ハッシュタグで投稿検索（公開エンドポイント）
+    // ハッシュタグで投稿検索（公開エンドポイント・Protobuf）
     async getPostsByHashtag(hashtag: string, page: number = 1, limit: number = 20): Promise<LegacyPostsResponse & { hashtag: string }> {
         try {
             // #を削除してエンコード
@@ -823,11 +1013,28 @@ export const dieterApi = {
             url.searchParams.append('page', page.toString());
             url.searchParams.append('limit', limit.toString());
 
-            // 認証ヘッダーを含める（オプション - ブロック機能のため）
-            const headers = getAuthHeaders();
+            const headers = {
+                ...getAuthHeaders(),
+                Accept: 'application/x-protobuf'
+            };
 
-            const response = await axios.get(url.toString(), { headers });
-            return response.data;
+            const response = await axios.get(url.toString(), {
+                headers,
+                responseType: 'arraybuffer'
+            });
+            const postsResponse = PostsResponse.fromBinary(new Uint8Array(response.data));
+            const legacyPosts = postsResponse.posts.map(convertPostToLegacy);
+            return {
+                posts: legacyPosts,
+                pagination: postsResponse.pagination
+                    ? {
+                        page: postsResponse.pagination.page,
+                        limit: postsResponse.pagination.limit,
+                        total: postsResponse.pagination.total,
+                    }
+                    : { page: 1, limit: legacyPosts.length, total: legacyPosts.length },
+                hashtag: cleanHashtag,
+            };
         } catch (error) {
             console.error('Failed to fetch posts by hashtag:', error);
             throw error;

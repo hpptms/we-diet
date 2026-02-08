@@ -16,6 +16,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Snackbar,
 } from '@mui/material';
 import {
   Favorite,
@@ -30,6 +31,7 @@ import {
   PersonAdd,
   PersonRemove,
   Block,
+  IosShare,
 } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
 import { Post, Comment } from '../types';
@@ -81,7 +83,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
   const [clickPosition, setClickPosition] = useState<{x: number, y: number} | null>(null);
-  
+  const [shareSnackbarOpen, setShareSnackbarOpen] = useState(false);
+
   // フォローコンテキストを取得（オプション）
   const followContext = useFollowContextOptional();
 
@@ -188,6 +191,25 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
     }
     
     return undefined;
+  };
+
+  const handleShare = async () => {
+    const shareUrl = `https://we-diet.net/post/${post.ID}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShareSnackbarOpen(true);
+    } catch {
+      // フォールバック: clipboardが使えない場合
+      const textArea = document.createElement('textarea');
+      textArea.value = shareUrl;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setShareSnackbarOpen(true);
+    }
   };
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -793,7 +815,25 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                 {likeCount}
               </Typography>
             </Box>
-            <IconButton 
+            <Box display="flex" alignItems="center">
+              <IconButton
+                size="medium"
+                onClick={handleShare}
+                sx={{
+                  color: '#29b6f6',
+                  borderRadius: 3,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    backgroundColor: 'rgba(41, 182, 246, 0.1)',
+                    transform: 'scale(1.1)',
+                    boxShadow: '0 4px 12px rgba(41, 182, 246, 0.3)'
+                  }
+                }}
+              >
+                <IosShare />
+              </IconButton>
+            </Box>
+            <IconButton
               size="medium"
               onClick={handleMenuClick}
               sx={{
@@ -1076,6 +1116,15 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
         onNext={handleLightboxNext}
         onPrevious={handleLightboxPrevious}
         clickPosition={clickPosition}
+      />
+
+      {/* シェアリンクコピー通知 */}
+      <Snackbar
+        open={shareSnackbarOpen}
+        autoHideDuration={2000}
+        onClose={() => setShareSnackbarOpen(false)}
+        message="リンクをコピーしました"
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       />
     </Box>
   );

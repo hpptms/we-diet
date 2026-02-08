@@ -43,6 +43,23 @@ import {
     UpdateWeightRecordRequest,
     UpdateWeightRecordResponse
 } from '../../proto/weight_record_pb';
+import {
+    GetWeightRecordResponse as ProtoGetWeightRecordResponse,
+    GetWeightRecordsResponse as ProtoGetWeightRecordsResponse,
+} from '../../proto/weight_record';
+
+// Protobuf → Legacy変換
+const convertProtoWeightRecordToLegacy = (wr: { id: number; userId: number; date: string; weight: number; bodyFat?: number; note: string; isPublic: boolean; createdAt: string; updatedAt: string }): WeightRecord => ({
+    id: wr.id,
+    user_id: wr.userId,
+    date: wr.date,
+    weight: wr.weight,
+    body_fat: wr.bodyFat,
+    note: wr.note,
+    is_public: wr.isPublic,
+    created_at: wr.createdAt,
+    updated_at: wr.updatedAt,
+});
 
 import '../../styles/mobile-responsive-fix.css';
 
@@ -260,10 +277,11 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                         start_date: startDate.toISOString().slice(0, 10),
                         end_date: endDate.toISOString().slice(0, 10)
                     },
-                    headers
+                    headers: { ...headers, Accept: 'application/x-protobuf' },
+                    responseType: 'arraybuffer',
                 });
-                // console.log('API Response:', response.data);
-                const records = response.data.records || [];
+                const protoResp = ProtoGetWeightRecordsResponse.fromBinary(new Uint8Array(response.data));
+                const records = protoResp.records.map(convertProtoWeightRecordToLegacy);
                 // console.log('Extracted records:', records);
                 setWeightRecords(records);
                 
@@ -339,10 +357,12 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                     user_id: userId,
                     date: date
                 },
-                headers
+                headers: { ...headers, Accept: 'application/x-protobuf' },
+                responseType: 'arraybuffer',
             });
 
-            return response.data.record;
+            const protoResp = ProtoGetWeightRecordResponse.fromBinary(new Uint8Array(response.data));
+            return protoResp.record ? convertProtoWeightRecordToLegacy(protoResp.record) : null;
         } catch (error) {
             console.error(t('weight', 'checkExistingFailed'), error);
             return null;

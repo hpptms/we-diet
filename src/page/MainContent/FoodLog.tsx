@@ -33,6 +33,22 @@ import {
     GetFoodLogsResponse,
     type FoodLog as FoodLogType
 } from '../../proto/food_log_pb';
+import {
+    GetFoodLogResponse as ProtoGetFoodLogResponse,
+    GetFoodLogsResponse as ProtoGetFoodLogsResponse,
+} from '../../proto/food_log';
+
+// Protobuf → Legacy変換
+const convertProtoFoodLogToLegacy = (fl: { id: number; userId: number; date: string; diary: string; photos: string[]; isPublic: boolean; createdAt: string; updatedAt: string }): FoodLogType => ({
+    id: fl.id,
+    user_id: fl.userId,
+    date: fl.date,
+    diary: fl.diary,
+    photos: fl.photos,
+    is_public: fl.isPublic,
+    created_at: fl.createdAt,
+    updated_at: fl.updatedAt,
+});
 
 // Import components
 import FoodLogHeader from '../../component/FoodLog/FoodLogHeader';
@@ -104,18 +120,21 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 user_id: userId
             };
 
-            const response = await axios.post<GetFoodLogsResponse>(
+            const response = await axios.post(
                 `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/list`,
                 request,
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                    }
+                        Accept: 'application/x-protobuf',
+                    },
+                    responseType: 'arraybuffer',
                 }
             );
 
-            if (response.data.success) {
-                const dates = response.data.records.map(record => record.date);
+            const protoResp = ProtoGetFoodLogsResponse.fromBinary(new Uint8Array(response.data));
+            if (protoResp.success) {
+                const dates = protoResp.records.map(record => record.date);
                 setFoodLog(prev => ({
                     ...prev,
                     recordedDates: dates
@@ -294,18 +313,21 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 date: yesterdayString
             };
 
-            const response = await axios.post<GetFoodLogResponse>(
+            const response = await axios.post(
                 `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/get`,
                 request,
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                    }
+                        Accept: 'application/x-protobuf',
+                    },
+                    responseType: 'arraybuffer',
                 }
             );
 
-            if (response.data.success && response.data.record) {
-                setViewingRecord(response.data.record);
+            const protoResp = ProtoGetFoodLogResponse.fromBinary(new Uint8Array(response.data));
+            if (protoResp.success && protoResp.record) {
+                setViewingRecord(convertProtoFoodLogToLegacy(protoResp.record));
                 setRecordViewOpen(true);
             } else {
                 setError(t('food', 'noYesterdayRecord'));
@@ -325,18 +347,21 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 date: dateString
             };
 
-            const response = await axios.post<GetFoodLogResponse>(
-                `${import.meta.env.VITE_API_BASE_URL}api/proto/food_log/get`,
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/get`,
                 request,
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                    }
+                        Accept: 'application/x-protobuf',
+                    },
+                    responseType: 'arraybuffer',
                 }
             );
 
-            if (response.data.success && response.data.record) {
-                setViewingRecord(response.data.record);
+            const protoResp2 = ProtoGetFoodLogResponse.fromBinary(new Uint8Array(response.data));
+            if (protoResp2.success && protoResp2.record) {
+                setViewingRecord(convertProtoFoodLogToLegacy(protoResp2.record));
                 setRecordViewOpen(true);
             } else {
                 setError(t('food', 'noSelectedDateRecord'));

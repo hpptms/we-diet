@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { ChevronLeft, ChevronRight, Close } from '@mui/icons-material';
 import { GetFoodLogDatesRequest, GetFoodLogDatesResponse } from '../../proto/food_log_dates_pb';
+import { GetFoodLogDatesResponse as ProtoGetFoodLogDatesResponse } from '../../proto/food_log';
 import { useTranslation } from '../../hooks/useTranslation';
 
 interface FoodCalendarProps {
@@ -48,21 +49,24 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
                 month: month + 1 // JavaScript months are 0-indexed, but API expects 1-indexed
             };
 
-            const response = await axios.post<GetFoodLogDatesResponse>(
+            const response = await axios.post(
                 `${import.meta.env.VITE_API_BASE_URL}/api/proto/food_log/dates`,
                 request,
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                    }
+                        Accept: 'application/x-protobuf',
+                    },
+                    responseType: 'arraybuffer',
                 }
             );
 
-            if (response.data.success) {
-                console.log('API Response:', response.data);
-                console.log('Recorded days:', response.data.recorded_days);
+            const protoResp = ProtoGetFoodLogDatesResponse.fromBinary(new Uint8Array(response.data));
+            if (protoResp.success) {
+                console.log('API Response:', protoResp);
+                console.log('Recorded days:', protoResp.recordedDays);
                 // 暫定的に26日を追加してテスト
-                const days = response.data.recorded_days || [];
+                const days = [...protoResp.recordedDays];
                 if (year === 2025 && month === 6) { // July (0-indexed)
                     days.push(26);
                 }

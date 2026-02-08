@@ -24,6 +24,7 @@ const LazyDataDeletion = React.lazy(() => import('./page/DataDeletion'));
 const LazyTermsOfService = React.lazy(() => import('./page/TermsOfService'));
 const LazyFAQPage = React.lazy(() => import('./page/FAQPage'));
 const LazyHashtagFeed = React.lazy(() => import('./page/MainContent/HashtagFeed'));
+const LazyPostDetailPage = React.lazy(() => import('./page/PostDetailPage'));
 
 // Loading component for suspense
 const LoadingComponent = () => {
@@ -189,6 +190,12 @@ function App() {
               </Suspense>
             </DashboardLayout>
           </PrivateRoute>
+        } />
+        {/* 公開投稿詳細ページ（認証不要） */}
+        <Route path="/post/:id" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyPostDetailPage />
+          </Suspense>
         } />
         <Route path="/DebugLog" element={<DashboardRoute initialView="debug" />} />
         <Route path="/register/complete" element={
