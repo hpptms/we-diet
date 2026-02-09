@@ -420,12 +420,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         sx={{
         backgroundColor: isDarkMode ? '#000000' : 'transparent',
       minHeight: {
-        xs: 'calc(100vh - 200px)', // スマホ・縦画面: フッター完全表示のため更に余裕を持たせる
+        xs: 'auto',                // スマホ: Footerが非表示のため自然な高さ
         sm: 'calc(100vh - 150px)',  // タブレット: フッター表示のため余裕を持たせる
         md: '100vh'                // デスクトップ: 従来通り
       },
       maxHeight: {
-        xs: 'calc(100vh - 200px)', // スマホでは最大高さも制限
+        xs: 'none',                // スマホ: 高さ制限なし（白いブロック防止）
         sm: 'calc(100vh - 150px)',
         md: 'none'
       },
