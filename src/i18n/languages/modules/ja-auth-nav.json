@@ -78,7 +78,9 @@
         "statistics": "統計",
         "goals": "目標",
         "achievements": "実績",
-        "addToHome": "ホームに追加"
+        "addToHome": "ホームに追加",
+        "blog": "ブログ",
+        "debug": "デバッグ"
     },
     "search": {
         "searchPlaceholder": "検索...",

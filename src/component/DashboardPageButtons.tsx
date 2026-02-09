@@ -116,7 +116,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
           window.location.href = '/blog/index.html';
         }}
       >
-        📝 ブログ
+        📝 {t('dashboard', 'blog', {}, 'ブログ')}
       </button>
 
       {/* 管理者専用デバッグボタン */}
@@ -128,7 +128,7 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
             onViewChange('debug');
           }}
         >
-          🔧 デバッグ
+          🔧 {t('dashboard', 'debug', {}, 'デバッグ')}
         </button>
       )}
 

@@ -78,7 +78,9 @@
         "statistics": "통계",
         "goals": "목표",
         "achievements": "성과",
-        "addToHome": "홈에 추가"
+        "addToHome": "홈에 추가",
+        "blog": "블로그",
+        "debug": "디버그"
     },
     "search": {
         "searchPlaceholder": "검색...",

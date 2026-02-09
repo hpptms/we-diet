@@ -50,6 +50,7 @@ import { formatRelativeTime } from '../../../utils/timeFormat';
 import { useLinkPreview } from '../../../hooks/useLinkPreview';
 import { highlightMentionsAndHashtags } from '../../../utils/hashtagUtils';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface PostCardProps {
   post: Post;
@@ -60,6 +61,7 @@ interface PostCardProps {
 const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
   const isDarkMode = useRecoilValue(darkModeState);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const profileSettings = useRecoilValue(profileSettingsState);
   const serverProfile = useRecoilValue(serverProfileState);
   const [liked, setLiked] = useState(false);
@@ -156,7 +158,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
       console.log('コメントが投稿されました:', newComment);
     } catch (error) {
       console.error('コメントの投稿に失敗しました:', error);
-      alert('コメントの投稿に失敗しました。もう一度お試しください。');
+      alert(t('dieter', 'post.commentFailed', {}, 'コメントの投稿に失敗しました。もう一度お試しください。'));
     } finally {
       setIsSubmittingComment(false);
     }
@@ -235,7 +237,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
       
     } catch (error) {
       console.error('投稿の報告に失敗しました:', error);
-      alert('投稿の報告に失敗しました。もう一度お試しください。');
+      alert(t('dieter', 'post.reportFailed', {}, '投稿の報告に失敗しました。もう一度お試しください。'));
     }
     handleMenuClose();
   };
@@ -255,7 +257,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
       console.log('投稿を非表示にしました:', post.ID);
     } catch (error) {
       console.error('投稿の非表示に失敗しました:', error);
-      alert('投稿の非表示に失敗しました。もう一度お試しください。');
+      alert(t('dieter', 'post.hideFailed', {}, '投稿の非表示に失敗しました。もう一度お試しください。'));
     }
   };
 
@@ -274,7 +276,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
       setProfileModalOpen(true);
     } catch (error) {
       console.error('プロフィール取得に失敗しました:', error);
-      alert('プロフィールの取得に失敗しました。');
+      alert(t('dieter', 'post.profileFetchFailed', {}, 'プロフィールの取得に失敗しました。'));
     } finally {
       setIsLoadingProfile(false);
     }
@@ -390,8 +392,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
       });
       
       // より詳細なエラーメッセージを表示
-      const errorMessage = error.response?.data?.error || error.message || 'フォロー操作に失敗しました。もう一度お試しください。';
-      alert(`エラー: ${errorMessage}`);
+      const errorMessage = error.response?.data?.error || error.message || '';
+      alert(`${t('common', 'error', {}, 'エラー')}: ${errorMessage}`);
     } finally {
       setIsFollowLoading(false);
       handleMenuClose();
@@ -406,7 +408,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
       setIsBlockLoading(true);
       await blockUser(post.UserID);
       setIsBlocked(true);
-      alert('ユーザーをブロックしました');
+      alert(t('dieter', 'post.userBlocked', {}, 'ユーザーをブロックしました'));
       
       // 投稿を非表示にする（親コンポーネントに通知）
       if (onPostDelete) {
@@ -414,8 +416,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
       }
     } catch (error: any) {
       console.error('ブロックに失敗しました:', error);
-      const errorMessage = error.message || 'ブロックに失敗しました。もう一度お試しください。';
-      alert(`エラー: ${errorMessage}`);
+      const errorMessage = error.message || t('dieter', 'post.blockFailed', {}, 'ブロックに失敗しました。もう一度お試しください。');
+      alert(`${t('common', 'error', {}, 'エラー')}: ${errorMessage}`);
     } finally {
       setIsBlockLoading(false);
       handleMenuClose();
@@ -486,7 +488,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
             fontSize: '0.9rem',
             fontWeight: 500
           }}>
-            {post.RetweetUserName || 'ユーザー'}がリツイート
+            {t('dieter', 'post.retweetedBy', {user: post.RetweetUserName || t('common', 'user', {}, 'ユーザー')}, `${post.RetweetUserName || 'ユーザー'}がリツイート`)}
           </Typography>
           <Typography variant="body2" sx={{ 
             color: '#90a4ae',
@@ -499,7 +501,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
       <Box display="flex" gap={{ xs: 1.5, sm: 2, md: 3 }}>
         <Avatar
           src={post.AuthorPicture && post.AuthorPicture.trim() !== '' ? post.AuthorPicture : undefined}
-          alt={post.AuthorName || 'ユーザー'}
+          alt={post.AuthorName || t('common', 'user', {}, 'ユーザー')}
           onClick={handleAvatarClick}
           slotProps={{
             img: {
@@ -543,7 +545,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
               color: '#0277bd',
               fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' }
             }}>
-              {post.AuthorName || 'ユーザー'}
+              {post.AuthorName || t('common', 'user', {}, 'ユーザー')}
             </Typography>
             <Typography variant="body2" sx={{
               color: '#546e7a',
@@ -875,7 +877,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                   <ListItemIcon>
                     <Delete fontSize="small" sx={{ color: '#f44336' }} />
                   </ListItemIcon>
-                  <ListItemText sx={{ color: '#f44336' }}>削除</ListItemText>
+                  <ListItemText sx={{ color: '#f44336' }}>{t('dieter', 'post.delete', {}, '削除')}</ListItemText>
                 </MenuItem>
               ) : (
                 <>
@@ -891,7 +893,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                       color: isFollowing ? '#ff9800' : '#4caf50',
                       opacity: isFollowLoading ? 0.5 : 1
                     }}>
-                      {isFollowLoading ? '処理中...' : (isFollowing ? 'フォロー解除' : 'フォローする')}
+                      {isFollowLoading ? t('dieter', 'post.processing', {}, '処理中...') : (isFollowing ? t('dieter', 'post.unfollowUser', {}, 'フォロー解除') : t('dieter', 'post.followUser', {}, 'フォローする'))}
                     </ListItemText>
                   </MenuItem>
                   <MenuItem onClick={handleBlock} disabled={isBlockLoading || isBlocked}>
@@ -902,14 +904,14 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                       color: '#f44336',
                       opacity: isBlockLoading ? 0.5 : 1
                     }}>
-                      {isBlockLoading ? '処理中...' : (isBlocked ? 'ブロック済み' : 'NGに追加する')}
+                      {isBlockLoading ? t('dieter', 'post.processing', {}, '処理中...') : (isBlocked ? t('dieter', 'post.blocked', {}, 'ブロック済み') : t('dieter', 'post.addToNG', {}, 'NGに追加する'))}
                     </ListItemText>
                   </MenuItem>
                   <MenuItem onClick={handleReport}>
                     <ListItemIcon>
                       <Flag fontSize="small" sx={{ color: '#f44336' }} />
                     </ListItemIcon>
-                    <ListItemText sx={{ color: '#f44336' }}>報告</ListItemText>
+                    <ListItemText sx={{ color: '#f44336' }}>{t('dieter', 'post.report', {}, '報告')}</ListItemText>
                   </MenuItem>
                 </>
               )}
@@ -929,11 +931,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
             }}
           >
             <DialogTitle sx={{ fontWeight: 600 }}>
-              投稿を削除しますか？
+              {t('dieter', 'post.deleteConfirmTitle', {}, '投稿を削除しますか？')}
             </DialogTitle>
             <DialogContent>
               <Typography>
-                この操作は取り消すことができません。本当に削除しますか？
+                {t('dieter', 'post.deleteConfirmMessage', {}, 'この操作は取り消すことができません。本当に削除しますか？')}
               </Typography>
             </DialogContent>
             <DialogActions sx={{ p: 2, gap: 1 }}>
@@ -948,7 +950,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                   }
                 }}
               >
-                キャンセル
+                {t('common', 'cancel', {}, 'キャンセル')}
               </Button>
               <Button
                 onClick={handleDeleteConfirm}
@@ -961,7 +963,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                   }
                 }}
               >
-                削除
+                {t('dieter', 'post.delete', {}, '削除')}
               </Button>
             </DialogActions>
           </Dialog>
@@ -988,7 +990,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                     fullWidth
                     multiline
                     rows={2}
-                    placeholder="返信を投稿..."
+                    placeholder={t('dieter', 'post.replyPlaceholder', {}, '返信を投稿...')}
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -1020,7 +1022,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                   />
                   <Box display="flex" justifyContent="space-between" alignItems="center" mt={1}>
                     <Typography variant="caption" sx={{ color: '#90a4ae' }}>
-                      Ctrl + Enter で投稿
+                      {t('dieter', 'post.ctrlEnterToPost', {}, 'Ctrl + Enter で投稿')}
                     </Typography>
                     <Button
                       variant="contained"
@@ -1041,7 +1043,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                         },
                       }}
                     >
-                      {isSubmittingComment ? '投稿中...' : '返信'}
+                      {isSubmittingComment ? t('dieter', 'post.posting', {}, '投稿中...') : t('dieter', 'post.reply', {}, '返信')}
                     </Button>
                   </Box>
                 </Box>
@@ -1074,7 +1076,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
                               color: '#0277bd',
                               fontSize: '0.9rem'
                             }}>
-                              {comment.AuthorName || comment.User?.UserName || 'ユーザー'}
+                              {comment.AuthorName || comment.User?.UserName || t('common', 'user', {}, 'ユーザー')}
                             </Typography>
                             <Typography variant="caption" sx={{ color: '#90a4ae' }}>
                               ·
@@ -1123,7 +1125,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onPostDelete }) => {
         open={shareSnackbarOpen}
         autoHideDuration={2000}
         onClose={() => setShareSnackbarOpen(false)}
-        message="リンクをコピーしました"
+        message={t('dieter', 'post.linkCopied', {}, 'リンクをコピーしました')}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       />
     </Box>

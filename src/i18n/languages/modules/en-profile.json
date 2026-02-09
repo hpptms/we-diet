@@ -81,7 +81,11 @@
         "notificationDescriptions": "• When new messages arrive\n• When important announcements are made\n• Sound can be enabled/disabled in settings\n• Notification frequency can be set to immediate or 10-minute limit",
         "testNotificationTitle": "Test Notification",
         "testNotificationBody": "This is a test notification. Your notification settings are working properly.",
-        "selectPresetIcon": "Select a preset icon:"
+        "selectPresetIcon": "Select a preset icon:",
+        "profileTitle": "Profile",
+        "user": "User",
+        "yearsOld": "{age} years old",
+        "registrationDate": "Registered"
     },
     "posts": {
         "createPost": "Create Post",

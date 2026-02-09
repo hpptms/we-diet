@@ -81,7 +81,11 @@
         "notificationDescriptions": "• 新しいメッセージが届いた時\n• 重要なお知らせがある時\n• 音は設定により有効/無効にできます\n• 通知頻度は即座通知または10分制限から選択可能",
         "testNotificationTitle": "テスト通知",
         "testNotificationBody": "これはテスト通知です。通知設定が正常に動作しています。",
-        "selectPresetIcon": "プリセットアイコンを選択："
+        "selectPresetIcon": "プリセットアイコンを選択：",
+        "profileTitle": "プロフィール",
+        "user": "ユーザー",
+        "yearsOld": "{age}歳",
+        "registrationDate": "登録日"
     },
     "posts": {
         "createPost": "投稿を作成",

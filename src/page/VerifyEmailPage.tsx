@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import './VerifyEmailPage.css';
 import { SEOHelmet } from '../component/SEOHelmet';
+import { useTranslation } from '../hooks/useTranslation';
 
 const VerifyEmailPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('');
   const [loginInfo, setLoginInfo] = useState<{email: string, password: string, username: string} | null>(null);
@@ -15,7 +17,7 @@ const VerifyEmailPage: React.FC = () => {
     
     if (!token) {
       setStatus('error');
-      setMessage('認証トークンが見つかりません。');
+      setMessage(t('pages', 'verifyEmail.tokenNotFound', {}, '認証トークンが見つかりません。'));
       return;
     }
 
@@ -35,7 +37,7 @@ const VerifyEmailPage: React.FC = () => {
 
       if (response.ok) {
         setStatus('success');
-        setMessage(data.message || 'メール認証が完了しました！');
+        setMessage(data.message || t('pages', 'verifyEmail.verificationComplete', {}, 'メール認証が完了しました！'));
         
         // ログイン情報を設定
         if (data.email && data.temp_password && data.username) {
@@ -51,12 +53,12 @@ const VerifyEmailPage: React.FC = () => {
         }
       } else {
         setStatus('error');
-        setMessage(data.error || 'メール認証に失敗しました。');
+        setMessage(data.error || t('pages', 'verifyEmail.verificationFailed', {}, 'メール認証に失敗しました。'));
       }
     } catch (error) {
       console.error('認証エラー:', error);
       setStatus('error');
-      setMessage('ネットワークエラーが発生しました。');
+      setMessage(t('pages', 'verifyEmail.networkError', {}, 'ネットワークエラーが発生しました。'));
     }
   };
 
@@ -67,8 +69,8 @@ const VerifyEmailPage: React.FC = () => {
   return (
     <>
       <SEOHelmet
-        title="メール認証 | We Diet - ダイエットSNS"
-        description="We Dietのメール認証ページです。"
+        title={t('pages', 'verifyEmail.title', {}, 'メール認証 | We Diet - ダイエットSNS')}
+        description={t('pages', 'verifyEmail.description', {}, 'We Dietのメール認証ページです。')}
         canonicalUrl="https://we-diet.net/verify-email"
         noindex={true}
       />
@@ -77,35 +79,35 @@ const VerifyEmailPage: React.FC = () => {
         {status === 'loading' && (
           <div className="verify-status loading">
             <div className="spinner"></div>
-            <h2>メール認証を確認中...</h2>
-            <p>しばらくお待ちください</p>
+            <h2>{t('pages', 'verifyEmail.verifying', {}, 'メール認証を確認中...')}</h2>
+            <p>{t('pages', 'verifyEmail.pleaseWait', {}, 'しばらくお待ちください')}</p>
           </div>
         )}
 
         {status === 'success' && (
           <div className="verify-status success">
             <div className="success-icon">🎉</div>
-            <h2>登録完了おめでとうございます！</h2>
+            <h2>{t('pages', 'verifyEmail.congratulations', {}, '登録完了おめでとうございます！')}</h2>
             <p>{message}</p>
             
             {loginInfo && (
               <div className="login-info-display">
-                <h3>🔐 ログイン情報</h3>
+                <h3>🔐 {t('pages', 'verifyEmail.loginInfo', {}, 'ログイン情報')}</h3>
                 <p className="welcome-message">
-                  {loginInfo.username}さん、We-Dietへようこそ！🌟
+                  {t('pages', 'verifyEmail.welcomeMessage', {username: loginInfo.username}, `${loginInfo.username}さん、We-Dietへようこそ！`)}🌟
                 </p>
                 <div className="login-credentials">
                   <div className="credential-item">
-                    <label>メールアドレス</label>
+                    <label>{t('pages', 'verifyEmail.emailLabel', {}, 'メールアドレス')}</label>
                     <div className="credential-value">{loginInfo.email}</div>
                   </div>
                   <div className="credential-item">
-                    <label>仮パスワード</label>
+                    <label>{t('pages', 'verifyEmail.temporaryPassword', {}, '仮パスワード')}</label>
                     <div className="credential-value password-value">{loginInfo.password}</div>
                   </div>
                 </div>
                 <div className="password-warning">
-                  🔒 <strong>重要</strong>：プロフィール変更でパスワードを必ず変更してください。
+                  🔒 {t('pages', 'verifyEmail.importantPasswordChange', {}, '重要：プロフィール変更でパスワードを必ず変更してください。')}
                 </div>
               </div>
             )}
@@ -118,7 +120,7 @@ const VerifyEmailPage: React.FC = () => {
                 }}
                 className="btn btn-primary login-btn"
               >
-                プロフィール設定へ移動
+                {t('pages', 'verifyEmail.goToProfileSettings', {}, 'プロフィール設定へ移動')}
               </button>
             </div>
           </div>
@@ -127,14 +129,14 @@ const VerifyEmailPage: React.FC = () => {
         {status === 'error' && (
           <div className="verify-status error">
             <div className="error-icon">✗</div>
-            <h2>認証に失敗しました</h2>
+            <h2>{t('pages', 'verifyEmail.verificationFailedTitle', {}, '認証に失敗しました')}</h2>
             <p>{message}</p>
             <div className="error-actions">
               <button 
                 onClick={handleReturnToLogin}
                 className="btn btn-primary"
               >
-                ログインページに戻る
+                {t('pages', 'verifyEmail.backToLoginPage', {}, 'ログインページに戻る')}
               </button>
             </div>
           </div>

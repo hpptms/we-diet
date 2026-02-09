@@ -81,7 +81,11 @@
         "notificationDescriptions": "• 새 메시지가 도착했을 때\n• 중요한 공지사항이 있을 때\n• 설정에서 소리를 활성화/비활성화할 수 있습니다\n• 알림 빈도는 즉시 알림 또는 10분 제한으로 선택할 수 있습니다",
         "testNotificationTitle": "테스트 알림",
         "testNotificationBody": "이것은 테스트 알림입니다. 알림 설정이 정상적으로 작동하고 있습니다.",
-        "selectPresetIcon": "기본 아이콘 선택："
+        "selectPresetIcon": "기본 아이콘 선택：",
+        "profileTitle": "프로필",
+        "user": "사용자",
+        "yearsOld": "{age}세",
+        "registrationDate": "가입일"
     },
     "posts": {
         "createPost": "게시물 작성",

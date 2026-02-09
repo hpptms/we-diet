@@ -15,6 +15,7 @@ import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../recoil/darkModeAtom';
 import { UserProfile } from '../../../api/postsApi';
 import { DEFAULT_IMAGES } from '../../../image/DefaultImage';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface UserProfileModalProps {
   open: boolean;
@@ -24,6 +25,7 @@ interface UserProfileModalProps {
 
 const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, profile }) => {
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
 
   if (!profile) return null;
 
@@ -43,9 +45,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
   const getGenderDisplay = () => {
     if (profile.IsGenderPrivate) return null;
     switch (profile.Gender) {
-      case 'male': return '男性';
-      case 'female': return '女性';
-      case 'secret': return '非公開';
+      case 'male': return t('profile', 'male', {}, '男性');
+      case 'female': return t('profile', 'female', {}, '女性');
+      case 'secret': return t('profile', 'private', {}, '非公開');
       default: return profile.Gender;
     }
   };
@@ -83,7 +85,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
         borderBottom: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}`
       }}>
         <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          プロフィール
+          {t('profile', 'profileTitle', {}, 'プロフィール')}
         </Typography>
         <IconButton onClick={onClose} sx={{ color: isDarkMode ? 'white' : 'black' }}>
           <Close />
@@ -109,7 +111,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
             {profile.DisplayName ? profile.DisplayName.charAt(0).toUpperCase() : 'U'}
           </Avatar>
           <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
-            {profile.DisplayName || 'ユーザー'}
+            {profile.DisplayName || t('profile', 'user', {}, 'ユーザー')}
           </Typography>
           {profile.PrText && (
             <Typography
@@ -136,7 +138,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
               <Person sx={{ color: '#29b6f6' }} />
               <Box>
                 <Typography variant="body2" sx={{ color: isDarkMode ? '#b0b0b0' : '#666' }}>
-                  性別
+                  {t('profile', 'gender', {}, '性別')}
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 500 }}>
                   {getGenderDisplay()}
@@ -151,10 +153,10 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
               <Cake sx={{ color: '#29b6f6' }} />
               <Box>
                 <Typography variant="body2" sx={{ color: isDarkMode ? '#b0b0b0' : '#666' }}>
-                  年齢
+                  {t('profile', 'age', {}, '年齢')}
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                  {profile.Age}歳
+                  {t('profile', 'yearsOld', {age: String(profile.Age)}, `${profile.Age}歳`)}
                 </Typography>
               </Box>
             </Box>
@@ -166,7 +168,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
               <Height sx={{ color: '#29b6f6' }} />
               <Box>
                 <Typography variant="body2" sx={{ color: isDarkMode ? '#b0b0b0' : '#666' }}>
-                  身長
+                  {t('profile', 'height', {}, '身長')}
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 500 }}>
                   {profile.Height}cm
@@ -181,7 +183,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
               <MonitorWeight sx={{ color: '#29b6f6' }} />
               <Box>
                 <Typography variant="body2" sx={{ color: isDarkMode ? '#b0b0b0' : '#666' }}>
-                  現在の体重
+                  {t('profile', 'currentWeight', {}, '現在の体重')}
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 500 }}>
                   {profile.CurrentWeight}kg
@@ -196,7 +198,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
               <Flag sx={{ color: '#29b6f6' }} />
               <Box>
                 <Typography variant="body2" sx={{ color: isDarkMode ? '#b0b0b0' : '#666' }}>
-                  目標体重
+                  {t('profile', 'targetWeight', {}, '目標体重')}
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 500 }}>
                   {profile.TargetWeight}kg
@@ -211,7 +213,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
               <FitnessCenter sx={{ color: '#29b6f6' }} />
               <Box>
                 <Typography variant="body2" sx={{ color: isDarkMode ? '#b0b0b0' : '#666' }}>
-                  アクティビティレベル
+                  {t('profile', 'activityLevel', {}, 'アクティビティレベル')}
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 500 }}>
                   {profile.ActivityLevel}
@@ -257,7 +259,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, prof
         {/* 登録日時 */}
         <Box mt={3} pt={2} sx={{ borderTop: `1px solid ${isDarkMode ? '#333' : '#e0e0e0'}` }}>
           <Typography variant="caption" sx={{ color: isDarkMode ? '#888' : '#999' }}>
-            登録日: {new Date(profile.CreatedAt).toLocaleDateString('ja-JP')}
+            {t('profile', 'registrationDate', {}, '登録日')}: {new Date(profile.CreatedAt).toLocaleDateString()}
           </Typography>
         </Box>
       </DialogContent>

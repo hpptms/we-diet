@@ -78,7 +78,9 @@
         "statistics": "Estadísticas",
         "goals": "Objetivos",
         "achievements": "Logros",
-        "addToHome": "Añadir al inicio"
+        "addToHome": "Añadir al inicio",
+        "blog": "Blog",
+        "debug": "Depuración"
     },
     "search": {
         "searchPlaceholder": "Buscar...",

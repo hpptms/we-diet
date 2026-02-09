@@ -81,7 +81,11 @@
         "notificationDescriptions": "• Cuando lleguen nuevos mensajes\n• Cuando se hagan anuncios importantes\n• El sonido puede habilitarse/deshabilitarse en la configuración\n• La frecuencia de notificaciones puede establecerse como inmediata o con límite de 10 minutos",
         "testNotificationTitle": "Notificación de prueba",
         "testNotificationBody": "Esta es una notificación de prueba. Tu configuración de notificaciones funciona correctamente.",
-        "selectPresetIcon": "Selecciona un icono predeterminado:"
+        "selectPresetIcon": "Selecciona un icono predeterminado:",
+        "profileTitle": "Perfil",
+        "user": "Usuario",
+        "yearsOld": "{age} años",
+        "registrationDate": "Fecha de registro"
     },
     "posts": {
         "createPost": "Crear publicación",

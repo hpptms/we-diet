@@ -11,7 +11,7 @@ import {
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../../../../recoil/darkModeAtom';
 import { useTranslation } from '../../../../hooks/useTranslation';
-import { emojiCategories, getRecentEmojis, addRecentEmoji } from '../../emoji';
+import { getTranslatedEmojiCategories, getRecentEmojis, addRecentEmoji } from '../../emoji';
 
 interface EmojiPickerProps {
   anchorEl: HTMLButtonElement | null;
@@ -40,7 +40,7 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({
 
   // 最近使った絵文字を含む動的なカテゴリーリストを生成
   const getDynamicEmojiCategories = () => {
-    const categories = [...emojiCategories];
+    const categories = [...getTranslatedEmojiCategories(t)];
     const recentEmojis = getRecentEmojis();
     categories[0] = {
       ...categories[0],

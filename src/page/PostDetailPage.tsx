@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { darkModeState } from '../recoil/darkModeAtom';
+import { useTranslation } from '../hooks/useTranslation';
 import { dieterApi, LegacyPost } from '../api/dieterApi';
 import PostCard from '../component/Dieter/post/PostCard';
 import { Post } from '../component/Dieter/types';
@@ -87,6 +88,7 @@ const PostDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isDarkMode = useRecoilValue(darkModeState);
+  const { t } = useTranslation();
 
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -97,7 +99,7 @@ const PostDetailPage: React.FC = () => {
 
     const postId = parseInt(id, 10);
     if (isNaN(postId)) {
-      setError('無効な投稿IDです');
+      setError(t('dieter', 'post.invalidPostId', {}, '無効な投稿IDです'));
       setIsLoading(false);
       return;
     }
@@ -109,7 +111,7 @@ const PostDetailPage: React.FC = () => {
       setPost(convertLegacyPostToPost(response));
     } catch (err) {
       console.error('Failed to fetch post:', err);
-      setError('投稿が見つかりませんでした');
+      setError(t('dieter', 'post.postNotFound', {}, '投稿が見つかりませんでした'));
     } finally {
       setIsLoading(false);
     }
@@ -133,13 +135,13 @@ const PostDetailPage: React.FC = () => {
 
   // OGP用のデータ
   const ogTitle = post
-    ? `${post.AuthorName}さんの投稿 | We Diet`
-    : 'We Diet - ダイエットSNS';
+    ? t('dieter', 'post.userPostTitle', {user: post.AuthorName}, `${post.AuthorName}さんの投稿 | We Diet`)
+    : `We Diet - ${t('dieter', 'post.dietSNS', {}, 'ダイエットSNS')}`;
   const ogDescription = post
     ? post.Content.length > 100
       ? post.Content.substring(0, 100) + '...'
       : post.Content
-    : 'ダイエット仲間と一緒に頑張ろう';
+    : t('dieter', 'post.defaultDescription', {}, 'ダイエット仲間と一緒に頑張ろう');
   const ogImage = post?.Images && post.Images.length > 0
     ? post.Images[0]
     : post?.ImageURL || undefined;
@@ -186,7 +188,7 @@ const PostDetailPage: React.FC = () => {
                 color: isDarkMode ? '#fff' : '#333',
               }}
             >
-              投稿
+              {t('dieter', 'post.postHeader', {}, '投稿')}
             </Typography>
           </Box>
         </Box>
@@ -233,7 +235,7 @@ const PostDetailPage: React.FC = () => {
                   mb: 3,
                 }}
               >
-                この投稿は削除されたか、非公開に設定されている可能性があります。
+                {t('dieter', 'post.postMayBeDeletedOrPrivate', {}, 'この投稿は削除されたか、非公開に設定されている可能性があります。')}
               </Typography>
               <Button
                 component={Link}
@@ -250,7 +252,7 @@ const PostDetailPage: React.FC = () => {
                   },
                 }}
               >
-                トップページへ
+                {t('dieter', 'post.goToTopPage', {}, 'トップページへ')}
               </Button>
             </Box>
           ) : post ? (
@@ -277,7 +279,7 @@ const PostDetailPage: React.FC = () => {
                       mb: 2,
                     }}
                   >
-                    We Dietに参加してダイエット仲間と一緒に頑張ろう！
+                    {t('dieter', 'post.joinWeDiet', {}, 'We Dietに参加してダイエット仲間と一緒に頑張ろう！')}
                   </Typography>
                   <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
                     <Button
@@ -295,7 +297,7 @@ const PostDetailPage: React.FC = () => {
                         },
                       }}
                     >
-                      新規登録
+                      {t('auth', 'register', {}, '新規登録')}
                     </Button>
                     <Button
                       component={Link}
@@ -313,7 +315,7 @@ const PostDetailPage: React.FC = () => {
                         },
                       }}
                     >
-                      ログイン
+                      {t('auth', 'login', {}, 'ログイン')}
                     </Button>
                   </Box>
                 </Box>

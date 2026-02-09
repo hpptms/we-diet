@@ -19,6 +19,7 @@ import {
     Add,
     Restaurant
 } from '@mui/icons-material';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface MealTimeCardProps {
     mealTime: 'breakfast' | 'lunch' | 'dinner' | 'snack';
@@ -28,48 +29,58 @@ interface MealTimeCardProps {
 
 const MealTimeCard: React.FC<MealTimeCardProps> = ({ mealTime, content, onChange }) => {
     const [expanded, setExpanded] = useState(false);
-    const [suggestions] = useState([
-        '🍞 パン', '🍚 ご飯', '🥗 サラダ', '🍖 肉料理', '🐟 魚料理', 
-        '🍜 ラーメン', '🍝 パスタ', '🍲 スープ', '🥛 牛乳', '☕ コーヒー'
-    ]);
+    const { t } = useTranslation();
+
+    const suggestions = [
+        t('food', 'mealTimeCard.bread', {}, '🍞 パン'),
+        t('food', 'mealTimeCard.rice', {}, '🍚 ご飯'),
+        t('food', 'mealTimeCard.salad', {}, '🥗 サラダ'),
+        t('food', 'mealTimeCard.meat', {}, '🍖 肉料理'),
+        t('food', 'mealTimeCard.fish', {}, '🐟 魚料理'),
+        t('food', 'mealTimeCard.ramen', {}, '🍜 ラーメン'),
+        t('food', 'mealTimeCard.pasta', {}, '🍝 パスタ'),
+        t('food', 'mealTimeCard.soup', {}, '🍲 スープ'),
+        t('food', 'mealTimeCard.milk', {}, '🥛 牛乳'),
+        t('food', 'mealTimeCard.coffee', {}, '☕ コーヒー'),
+    ];
 
     const getMealConfig = () => {
         switch (mealTime) {
             case 'breakfast':
                 return {
-                    title: '🌅 朝食',
+                    title: t('food', 'mealTimeCard.breakfastTitle', {}, '🌅 朝食'),
                     icon: <WbSunny />,
                     color: '#FFD54F',
                     gradient: 'linear-gradient(135deg, #FFD54F 0%, #FFECB3 100%)',
-                    placeholder: '今日の朝食は何でしたか？例：トースト、コーヒー',
-                    tips: ['バランスの良い朝食で一日をスタート！', '水分補給も忘れずに'],
+                    placeholder: t('food', 'mealTimeCard.breakfastPlaceholder', {}, '今日の朝食は何でしたか？例：トースト、コーヒー'),
+                    tips: [t('food', 'mealTimeCard.breakfastTip1', {}, 'バランスの良い朝食で一日をスタート！'), t('food', 'mealTimeCard.breakfastTip2', {}, '水分補給も忘れずに')],
                 };
             case 'lunch':
                 return {
-                    title: '☀️ 昼食',
+                    title: t('food', 'mealTimeCard.lunchTitle', {}, '☀️ 昼食'),
                     icon: <LightMode />,
                     color: '#66BB6A',
                     gradient: 'linear-gradient(135deg, #66BB6A 0%, #C8E6C9 100%)',
-                    placeholder: 'お昼に食べたものを記録しましょう！例：定食、おにぎり',
-                    tips: ['エネルギー補給の大切な時間', '野菜を意識して摂取しましょう'],
+                    placeholder: t('food', 'mealTimeCard.lunchPlaceholder', {}, 'お昼に食べたものを記録しましょう！例：定食、おにぎり'),
+                    tips: [t('food', 'mealTimeCard.lunchTip1', {}, 'エネルギー補給の大切な時間'), t('food', 'mealTimeCard.lunchTip2', {}, '野菜を意識して摂取しましょう')],
                 };
             case 'dinner':
                 return {
-                    title: '🌙 夕食',
+                    title: t('food', 'mealTimeCard.dinnerTitle', {}, '🌙 夕食'),
                     icon: <WbTwilight />,
                     color: '#AB47BC',
                     gradient: 'linear-gradient(135deg, #AB47BC 0%, #E1BEE7 100%)',
-                    placeholder: '今日の夕食を教えてください！例：焼き魚、味噌汁、野菜炒め',
-                    tips: ['一日の疲れを癒す美味しい夕食', '就寝3時間前までに食事を'],
+                    placeholder: t('food', 'mealTimeCard.dinnerPlaceholder', {}, '今日の夕食を教えてください！例：焼き魚、味噌汁、野菜炒め'),
+                    tips: [t('food', 'mealTimeCard.dinnerTip1', {}, '一日の疲れを癒す美味しい夕食'), t('food', 'mealTimeCard.dinnerTip2', {}, '就寝3時間前までに食事を')],
                 };
             case 'snack':
                 return {
-                    title: '🍪 間食・おやつ',
+                    title: t('food', 'mealTimeCard.snackTitle', {}, '🍪 間食・おやつ'),
                     icon: <LocalCafe />,
                     color: '#FF8A65',
                     gradient: 'linear-gradient(135deg, #FF8A65 0%, #FFCCBC 100%)',
-                    placeholder: '間食やおやつがあれば記録しましょう！例：クッキー、果物',
-                    tips: ['適度な間食でエネルギーチャージ', '糖分の摂りすぎに注意'],
+                    placeholder: t('food', 'mealTimeCard.snackPlaceholder', {}, '間食やおやつがあれば記録しましょう！例：クッキー、果物'),
+                    tips: [t('food', 'mealTimeCard.snackTip1', {}, '適度な間食でエネルギーチャージ'), t('food', 'mealTimeCard.snackTip2', {}, '糖分の摂りすぎに注意')],
                 };
         }
     };
@@ -136,7 +147,7 @@ const MealTimeCard: React.FC<MealTimeCardProps> = ({ mealTime, content, onChange
                 
                 {content && (
                     <Chip
-                        label="記録済み"
+                        label={t('food', 'mealTimeCard.recorded', {}, '記録済み')}
                         size="small"
                         sx={{
                             bgcolor: 'rgba(255, 255, 255, 0.9)',
@@ -181,7 +192,7 @@ const MealTimeCard: React.FC<MealTimeCardProps> = ({ mealTime, content, onChange
                     {/* 候補タグ */}
                     <Box sx={{ mb: 2 }}>
                         <Typography variant="body2" sx={{ mb: 1, color: 'text.secondary' }}>
-                            よく使う食材・料理：
+                            {t('food', 'mealTimeCard.commonFoods', {}, 'よく使う食材・料理：')}
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                             {suggestions.map((suggestion, index) => (
@@ -211,7 +222,7 @@ const MealTimeCard: React.FC<MealTimeCardProps> = ({ mealTime, content, onChange
                         }}
                     >
                         <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
-                            💡 ヒント：
+                            {t('food', 'mealTimeCard.hints', {}, '💡 ヒント：')}
                         </Typography>
                         {config.tips.map((tip, index) => (
                             <Typography key={`tip-${index}-${tip.slice(0, 10)}`} variant="body2" sx={{ color: 'text.secondary' }}>

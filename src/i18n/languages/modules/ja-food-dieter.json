@@ -137,6 +137,37 @@
             "foodPhoto": "美味しい料理 {number}",
             "expandView": "拡大表示",
             "close": "閉じる"
+        },
+        "mealTimeCard": {
+            "breakfastTitle": "🌅 朝食",
+            "lunchTitle": "☀️ 昼食",
+            "dinnerTitle": "🌙 夕食",
+            "snackTitle": "🍪 間食・おやつ",
+            "breakfastPlaceholder": "今日の朝食は何でしたか？例：トースト、コーヒー",
+            "lunchPlaceholder": "お昼に食べたものを記録しましょう！例：定食、おにぎり",
+            "dinnerPlaceholder": "今日の夕食を教えてください！例：焼き魚、味噌汁、野菜炒め",
+            "snackPlaceholder": "間食やおやつがあれば記録しましょう！例：クッキー、果物",
+            "breakfastTip1": "バランスの良い朝食で一日をスタート！",
+            "breakfastTip2": "水分補給も忘れずに",
+            "lunchTip1": "エネルギー補給の大切な時間",
+            "lunchTip2": "野菜を意識して摂取しましょう",
+            "dinnerTip1": "一日の疲れを癒す美味しい夕食",
+            "dinnerTip2": "就寝3時間前までに食事を",
+            "snackTip1": "適度な間食でエネルギーチャージ",
+            "snackTip2": "糖分の摂りすぎに注意",
+            "recorded": "記録済み",
+            "commonFoods": "よく使う食材・料理：",
+            "hints": "💡 ヒント：",
+            "bread": "🍞 パン",
+            "rice": "🍚 ご飯",
+            "salad": "🥗 サラダ",
+            "meat": "🍖 肉料理",
+            "fish": "🐟 魚料理",
+            "ramen": "🍜 ラーメン",
+            "pasta": "🍝 パスタ",
+            "soup": "🍲 スープ",
+            "milk": "🥛 牛乳",
+            "coffee": "☕ コーヒー"
         }
     },
     "dieter": {
@@ -212,6 +243,49 @@
             "noFollowing": "フォロー中のユーザーはいません",
             "noBlocked": "NG中のユーザーはいません",
             "fetchError": "フォロー情報の取得に失敗しました"
+        },
+        "post": {
+            "delete": "削除",
+            "processing": "処理中...",
+            "followUser": "フォローする",
+            "unfollowUser": "フォロー解除",
+            "blocked": "ブロック済み",
+            "addToNG": "NGに追加する",
+            "report": "報告",
+            "deleteConfirmTitle": "投稿を削除しますか？",
+            "deleteConfirmMessage": "この操作は取り消すことができません。本当に削除しますか？",
+            "replyPlaceholder": "返信を投稿...",
+            "ctrlEnterToPost": "Ctrl + Enter で投稿",
+            "posting": "投稿中...",
+            "reply": "返信",
+            "linkCopied": "リンクをコピーしました",
+            "retweetedBy": "{user}がリツイート",
+            "commentFailed": "コメントの投稿に失敗しました。もう一度お試しください。",
+            "reportFailed": "投稿の報告に失敗しました。もう一度お試しください。",
+            "hideFailed": "投稿の非表示に失敗しました。もう一度お試しください。",
+            "profileFetchFailed": "プロフィールの取得に失敗しました。",
+            "userBlocked": "ユーザーをブロックしました",
+            "blockFailed": "ブロックに失敗しました。もう一度お試しください。",
+            "postHeader": "投稿",
+            "invalidPostId": "無効な投稿IDです",
+            "postNotFound": "投稿が見つかりませんでした",
+            "postMayBeDeletedOrPrivate": "この投稿は削除されたか、非公開に設定されている可能性があります。",
+            "goToTopPage": "トップページへ",
+            "joinWeDiet": "We Dietに参加してダイエット仲間と一緒に頑張ろう！",
+            "defaultDescription": "ダイエット仲間と一緒に頑張ろう",
+            "dietSNS": "ダイエットSNS",
+            "userPostTitle": "{user}さんの投稿 | We Diet"
+        },
+        "emojiCategory": {
+            "recent": "最近使った絵文字",
+            "peopleAndFaces": "人と表情",
+            "animalsAndNature": "動物と自然",
+            "foodAndDrink": "食べ物と飲み物",
+            "activities": "アクティビティ",
+            "travelAndPlaces": "旅行と場所",
+            "objects": "もの",
+            "symbols": "記号",
+            "flags": "旗"
         }
     },
     "pages": {
@@ -298,6 +372,25 @@
                 "privacyPolicy": "プライバシーポリシー",
                 "termsOfService": "利用規約"
             }
+        },
+        "verifyEmail": {
+            "title": "メール認証 | We Diet - ダイエットSNS",
+            "description": "We Dietのメール認証ページです。",
+            "tokenNotFound": "認証トークンが見つかりません。",
+            "verificationComplete": "メール認証が完了しました！",
+            "verificationFailed": "メール認証に失敗しました。",
+            "networkError": "ネットワークエラーが発生しました。",
+            "verifying": "メール認証を確認中...",
+            "pleaseWait": "しばらくお待ちください",
+            "congratulations": "登録完了おめでとうございます！",
+            "loginInfo": "ログイン情報",
+            "welcomeMessage": "{username}さん、We-Dietへようこそ！",
+            "emailLabel": "メールアドレス",
+            "temporaryPassword": "仮パスワード",
+            "importantPasswordChange": "重要：プロフィール変更でパスワードを必ず変更してください。",
+            "goToProfileSettings": "プロフィール設定へ移動",
+            "verificationFailedTitle": "認証に失敗しました",
+            "backToLoginPage": "ログインページに戻る"
         }
     }
 }

@@ -30,53 +30,59 @@ export const addRecentEmoji = (emoji: string): void => {
     localStorage.setItem('recentEmojis', JSON.stringify(recent));
 };
 
-export const emojiCategories: EmojiCategory[] = [
+// 翻訳関数を受け取って翻訳されたカテゴリーを返す
+export const getTranslatedEmojiCategories = (t: (category: string, key: string, placeholders?: Record<string, string>, fallback?: string) => string): EmojiCategory[] => [
     {
-        name: '最近使った絵文字',
+        name: t('dieter', 'emojiCategory.recent', {}, '最近使った絵文字'),
         icon: '🕒',
-        emojis: [] // 動的に更新される
+        emojis: []
     },
     {
-        name: '人と表情',
+        name: t('dieter', 'emojiCategory.peopleAndFaces', {}, '人と表情'),
         icon: '😀',
         emojis: peopleAndFacesEmojis
     },
     {
-        name: '動物と自然',
+        name: t('dieter', 'emojiCategory.animalsAndNature', {}, '動物と自然'),
         icon: '🐶',
         emojis: animalsAndNatureEmojis
     },
     {
-        name: '食べ物と飲み物',
+        name: t('dieter', 'emojiCategory.foodAndDrink', {}, '食べ物と飲み物'),
         icon: '🍎',
         emojis: foodAndDrinkEmojis
     },
     {
-        name: 'アクティビティ',
+        name: t('dieter', 'emojiCategory.activities', {}, 'アクティビティ'),
         icon: '⚽',
         emojis: activitiesEmojis
     },
     {
-        name: '旅行と場所',
+        name: t('dieter', 'emojiCategory.travelAndPlaces', {}, '旅行と場所'),
         icon: '🚗',
         emojis: travelAndPlacesEmojis
     },
     {
-        name: 'もの',
+        name: t('dieter', 'emojiCategory.objects', {}, 'もの'),
         icon: '💡',
         emojis: objectsEmojis
     },
     {
-        name: '記号',
+        name: t('dieter', 'emojiCategory.symbols', {}, '記号'),
         icon: '❤️',
         emojis: symbolsEmojis
     },
     {
-        name: '旗',
+        name: t('dieter', 'emojiCategory.flags', {}, '旗'),
         icon: '🚩',
         emojis: flagsEmojis
     }
 ];
+
+// デフォルトのカテゴリー（後方互換性のため）
+export const emojiCategories: EmojiCategory[] = getTranslatedEmojiCategories(
+    (_cat, _key, _ph, fallback) => fallback || ''
+);
 
 // すべての絵文字を一つの配列として取得
 export const allEmojis = emojiCategories.reduce((acc, category) => {

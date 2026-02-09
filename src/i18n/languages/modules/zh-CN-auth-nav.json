@@ -78,7 +78,9 @@
         "statistics": "统计",
         "goals": "目标",
         "achievements": "成就",
-        "addToHome": "添加到主屏幕"
+        "addToHome": "添加到主屏幕",
+        "blog": "博客",
+        "debug": "调试"
     },
     "search": {
         "searchPlaceholder": "搜索...",

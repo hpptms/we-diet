@@ -81,7 +81,11 @@
         "notificationDescriptions": "• 当新消息到达时\n• 当有重要公告时\n• 声音可在设置中启用/禁用\n• 通知频率可设置为即时或10分钟限制",
         "testNotificationTitle": "测试通知",
         "testNotificationBody": "这是一个测试通知。您的通知设置运行正常。",
-        "selectPresetIcon": "选择预设头像："
+        "selectPresetIcon": "选择预设头像：",
+        "profileTitle": "个人资料",
+        "user": "用户",
+        "yearsOld": "{age}岁",
+        "registrationDate": "注册日期"
     },
     "posts": {
         "createPost": "创建帖子",

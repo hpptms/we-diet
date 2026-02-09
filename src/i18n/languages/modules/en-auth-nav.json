@@ -78,7 +78,9 @@
         "statistics": "Statistics",
         "goals": "Goals",
         "achievements": "Achievements",
-        "addToHome": "Add to Home"
+        "addToHome": "Add to Home",
+        "blog": "Blog",
+        "debug": "Debug"
     },
     "search": {
         "searchPlaceholder": "Search...",
