@@ -14,6 +14,43 @@
   var translations = null;
   var affiliateData = null;
   var isLoadingTranslations = false;
+  var originalMeta = null;
+
+  /** Save original text of an element before translation */
+  function saveOriginalText(el) {
+    if (!el.hasAttribute('data-original-text')) {
+      el.setAttribute('data-original-text', el.textContent);
+    }
+  }
+
+  /** Save original href of an element before translation */
+  function saveOriginalHref(el) {
+    if (!el.hasAttribute('data-original-href')) {
+      el.setAttribute('data-original-href', el.getAttribute('href'));
+    }
+  }
+
+  /** Restore all elements to their original Japanese text */
+  function restoreOriginals() {
+    var textEls = document.querySelectorAll('[data-original-text]');
+    for (var i = 0; i < textEls.length; i++) {
+      textEls[i].textContent = textEls[i].getAttribute('data-original-text');
+    }
+    var hrefEls = document.querySelectorAll('[data-original-href]');
+    for (var j = 0; j < hrefEls.length; j++) {
+      hrefEls[j].setAttribute('href', hrefEls[j].getAttribute('data-original-href'));
+    }
+    if (originalMeta) {
+      document.title = originalMeta.title;
+      var metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', originalMeta.description);
+      var ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', originalMeta.ogTitle);
+      var ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', originalMeta.ogDescription);
+    }
+    document.documentElement.lang = 'ja';
+  }
 
   /**
    * Detect language: localStorage > navigator.languages > default
@@ -77,6 +114,23 @@
    * Apply translations to the page
    */
   function applyTranslations(lang) {
+    // Save original meta values before first translation
+    if (!originalMeta) {
+      var md = document.querySelector('meta[name="description"]');
+      var ot = document.querySelector('meta[property="og:title"]');
+      var od = document.querySelector('meta[property="og:description"]');
+      originalMeta = {
+        title: document.title,
+        description: md ? md.getAttribute('content') : '',
+        ogTitle: ot ? ot.getAttribute('content') : '',
+        ogDescription: od ? od.getAttribute('content') : ''
+      };
+    }
+
+    // Restore all elements to original Japanese text first
+    restoreOriginals();
+
+    // For Japanese (default), restoration is sufficient
     if (!translations || lang === DEFAULT_LANG) return;
 
     var uiData = translations.ui;
@@ -91,6 +145,7 @@
       for (var i = 0; i < elements.length; i++) {
         var key = elements[i].getAttribute('data-i18n');
         if (uiData[key]) {
+          saveOriginalText(elements[i]);
           elements[i].textContent = uiData[key];
         }
       }
@@ -102,6 +157,7 @@
       for (var j = 0; j < sectionElements.length; j++) {
         var sectionKey = sectionElements[j].getAttribute('data-i18n-section');
         if (sectionData[sectionKey]) {
+          saveOriginalText(sectionElements[j]);
           sectionElements[j].textContent = sectionData[sectionKey];
         }
       }
@@ -116,6 +172,7 @@
         if (featuredLink) {
           var featuredHref = featuredLink.getAttribute('href');
           if (articleData[featuredHref]) {
+            saveOriginalText(featuredTitles[k]);
             featuredTitles[k].textContent = articleData[featuredHref];
           }
         }
@@ -128,6 +185,7 @@
         if (articleLink) {
           var articleHref = articleLink.getAttribute('href');
           if (articleData[articleHref]) {
+            saveOriginalText(articleTitles[l]);
             articleTitles[l].textContent = articleData[articleHref];
           }
         }
@@ -140,6 +198,7 @@
       for (var m = 0; m < categoryElements.length; m++) {
         var originalCategory = categoryElements[m].textContent.trim();
         if (categoryData[originalCategory]) {
+          saveOriginalText(categoryElements[m]);
           categoryElements[m].textContent = categoryData[originalCategory];
         }
       }
@@ -151,6 +210,7 @@
       for (var n = 0; n < excerpts.length; n++) {
         var excerptKey = excerpts[n].getAttribute('data-i18n-excerpt');
         if (uiData[excerptKey]) {
+          saveOriginalText(excerpts[n]);
           excerpts[n].textContent = uiData[excerptKey];
         }
       }
@@ -238,6 +298,7 @@
       if (domainConfig.tag) {
         newUrl += '&tag=' + domainConfig.tag;
       }
+      saveOriginalHref(buttons[i]);
       buttons[i].setAttribute('href', newUrl);
 
       // Translate product name (h4) in the same card
@@ -248,6 +309,7 @@
           if (h4) {
             var originalName = h4.textContent.trim();
             if (productNameData[originalName]) {
+              saveOriginalText(h4);
               h4.textContent = productNameData[originalName];
             }
           }
