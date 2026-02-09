@@ -22,7 +22,7 @@ const FAQPage: React.FC = () => {
     },
     {
       question: "アカウントの作成方法は？",
-      answer: "メールアドレスでの登録、またはGoogle、Facebook、LINE、X（Twitter）、TikTokなどのソーシャルアカウントで簡単に登録できます。登録後すぐに全機能をご利用いただけます。"
+      answer: "すぐに登録できます。またはGoogle、LINE、X（Twitter）などのソーシャルアカウントで簡単に登録できます。登録後すぐに全機能をご利用いただけます。"
     },
     {
       question: "スマートフォンでも利用できますか？",
