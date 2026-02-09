@@ -45,19 +45,19 @@
       <a href="/" class="logo">We Diet</a>
       <div style="display:flex;align-items:center;gap:1rem;">
         <a href="/blog/" class="nav-link" style="color:rgba(255,255,255,0.9);text-decoration:none;font-size:0.95rem;font-weight:500;">ブログ一覧</a>
-        <div class="translate-wrapper">
-          <button class="translate-btn" onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='block'?'none':'block'" aria-label="Language">
-            Language <span class="arrow">&#9662;</span>
+        <div class="translate-wrapper" style="position:relative">
+          <button class="translate-btn" onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='block'?'none':'block'" aria-label="Language" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.35);color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap">
+            Language &#9662;
           </button>
-          <div class="translate-dropdown" style="display:none">
-            <a href="https://translate.google.com/translate?sl=ja&tl=en&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">English</a>
-            <a href="https://translate.google.com/translate?sl=ja&tl=zh-CN&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">中文（简体）</a>
-            <a href="https://translate.google.com/translate?sl=ja&tl=zh-TW&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">中文（繁體）</a>
-            <a href="https://translate.google.com/translate?sl=ja&tl=ko&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">한국어</a>
-            <a href="https://translate.google.com/translate?sl=ja&tl=es&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">Español</a>
-            <a href="https://translate.google.com/translate?sl=ja&tl=fr&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">Français</a>
-            <a href="https://translate.google.com/translate?sl=ja&tl=de&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">Deutsch</a>
-            <a href="https://translate.google.com/translate?sl=ja&tl=pt&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">Português</a>
+          <div class="translate-dropdown" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:#fff;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.15);min-width:170px;z-index:1001;overflow:hidden">
+            <a href="https://translate.google.com/translate?sl=ja&tl=en&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener" style="display:block;padding:10px 16px;color:#1e293b;font-size:14px;text-decoration:none;border-bottom:1px solid #f1f5f9">English</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=zh-CN&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener" style="display:block;padding:10px 16px;color:#1e293b;font-size:14px;text-decoration:none;border-bottom:1px solid #f1f5f9">中文（简体）</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=zh-TW&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener" style="display:block;padding:10px 16px;color:#1e293b;font-size:14px;text-decoration:none;border-bottom:1px solid #f1f5f9">中文（繁體）</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=ko&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener" style="display:block;padding:10px 16px;color:#1e293b;font-size:14px;text-decoration:none;border-bottom:1px solid #f1f5f9">한국어</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=es&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener" style="display:block;padding:10px 16px;color:#1e293b;font-size:14px;text-decoration:none;border-bottom:1px solid #f1f5f9">Español</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=fr&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener" style="display:block;padding:10px 16px;color:#1e293b;font-size:14px;text-decoration:none;border-bottom:1px solid #f1f5f9">Français</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=de&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener" style="display:block;padding:10px 16px;color:#1e293b;font-size:14px;text-decoration:none;border-bottom:1px solid #f1f5f9">Deutsch</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=pt&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener" style="display:block;padding:10px 16px;color:#1e293b;font-size:14px;text-decoration:none">Português</a>
           </div>
         </div>
       </div>
