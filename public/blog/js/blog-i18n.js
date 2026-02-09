@@ -10,8 +10,10 @@
   var SUPPORTED_LANGS = ['ja', 'en', 'zh-CN', 'ko', 'es'];
   var DEFAULT_LANG = 'ja';
   var LS_KEY = 'preferredLanguage';
+  var currentLang = DEFAULT_LANG;
   var translations = null;
   var affiliateData = null;
+  var isLoadingTranslations = false;
 
   /**
    * Detect language: localStorage > navigator.languages > default
@@ -38,12 +40,19 @@
   }
 
   /**
-   * Load translations JSON
+   * Load translations JSON for specific language
    */
-  function loadTranslations(callback) {
+  function loadTranslations(lang, callback) {
+    // Japanese is the default, no need to load translations
+    if (lang === DEFAULT_LANG) {
+      translations = {};
+      callback(null);
+      return;
+    }
+
     var script = document.currentScript || document.querySelector('script[src*="blog-i18n"]');
     var basePath = script ? script.src.replace(/js\/blog-i18n\.js.*$/, '') : '/blog/';
-    var url = basePath + 'i18n/blog-translations.json';
+    var url = basePath + 'i18n/blog-translations-' + lang + '.json';
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -70,11 +79,11 @@
   function applyTranslations(lang) {
     if (!translations || lang === DEFAULT_LANG) return;
 
-    var uiData = translations.ui && translations.ui[lang];
-    var sectionData = translations.sections && translations.sections[lang];
-    var categoryData = translations.categories && translations.categories[lang];
-    var articleData = translations.articles && translations.articles[lang];
-    var metaData = translations.meta && translations.meta[lang];
+    var uiData = translations.ui;
+    var sectionData = translations.sections;
+    var categoryData = translations.categories;
+    var articleData = translations.articles;
+    var metaData = translations.meta;
 
     // 1. Translate [data-i18n] elements
     if (uiData) {
@@ -167,12 +176,19 @@
   }
 
   /**
-   * Load affiliate translations JSON
+   * Load affiliate translations JSON for specific language
    */
-  function loadAffiliateTranslations(callback) {
+  function loadAffiliateTranslations(lang, callback) {
+    // Japanese is the default, no need to load translations
+    if (lang === DEFAULT_LANG) {
+      affiliateData = {};
+      callback(null);
+      return;
+    }
+
     var script = document.currentScript || document.querySelector('script[src*="blog-i18n"]');
     var basePath = script ? script.src.replace(/js\/blog-i18n\.js.*$/, '') : '/blog/';
-    var url = basePath + 'i18n/affiliate-translations.json';
+    var url = basePath + 'i18n/affiliate-translations-' + lang + '.json';
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -200,9 +216,9 @@
   function applyAffiliateTranslations(lang) {
     if (!affiliateData || lang === DEFAULT_LANG) return;
 
-    var domainConfig = affiliateData.domains && affiliateData.domains[lang];
-    var keywordData = affiliateData.keywords && affiliateData.keywords[lang];
-    var productNameData = affiliateData.productNames && affiliateData.productNames[lang];
+    var domainConfig = affiliateData.domains;
+    var keywordData = affiliateData.keywords;
+    var productNameData = affiliateData.productNames;
 
     if (!domainConfig || !keywordData) return;
 
@@ -238,6 +254,78 @@
         }
       }
     }
+  }
+
+  /**
+   * Switch language dynamically without page reload
+   */
+  function switchLanguage(newLang, button, langNames) {
+    if (newLang === currentLang) return;
+
+    isLoadingTranslations = true;
+
+    // Update button to show loading state
+    var originalButtonText = button.innerHTML;
+    button.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Loading...';
+    button.disabled = true;
+
+    // Load translations for new language
+    loadTranslations(newLang, function (err) {
+      if (err) {
+        console.warn('[blog-i18n] Failed to load translations:', err);
+        button.innerHTML = originalButtonText;
+        button.disabled = false;
+        isLoadingTranslations = false;
+        return;
+      }
+
+      // Apply translations
+      applyTranslations(newLang);
+
+      // Update <html lang>
+      document.documentElement.lang = newLang === 'zh-CN' ? 'zh-Hans' : newLang;
+
+      // Load and apply affiliate translations if needed
+      var hasAffiliateLinks = document.querySelector('.affiliate-button');
+      if (hasAffiliateLinks) {
+        loadAffiliateTranslations(newLang, function (affErr) {
+          if (!affErr) {
+            applyAffiliateTranslations(newLang);
+          }
+          finalizeSwitching();
+        });
+      } else {
+        finalizeSwitching();
+      }
+
+      function finalizeSwitching() {
+        // Update button text
+        button.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> ' + langNames[newLang];
+        button.disabled = false;
+
+        // Update active state in dropdown
+        var options = document.querySelectorAll('.lang-option');
+        for (var i = 0; i < options.length; i++) {
+          options[i].classList.remove('active');
+          if (options[i].getAttribute('data-lang') === newLang) {
+            options[i].classList.add('active');
+          }
+        }
+
+        // Update current language
+        currentLang = newLang;
+        isLoadingTranslations = false;
+
+        // Update or show translate banner for article pages
+        var existingBanner = document.querySelector('.translate-banner');
+        if (existingBanner) {
+          existingBanner.remove();
+        }
+        if (newLang !== DEFAULT_LANG) {
+          showTranslateBanner(newLang);
+        }
+      }
+    });
   }
 
   /**
@@ -277,8 +365,12 @@
       option.addEventListener('click', (function (selectedLang) {
         return function (e) {
           e.preventDefault();
+
+          // Prevent multiple simultaneous language switches
+          if (isLoadingTranslations) return;
+
           localStorage.setItem(LS_KEY, selectedLang);
-          window.location.reload();
+          switchLanguage(selectedLang, button, langNames);
         };
       })(lang));
       dropdown.appendChild(option);
@@ -370,19 +462,22 @@
    */
   function init() {
     var lang = detectLanguage();
+    currentLang = lang;
 
     // Listen for dynamic content rendering (blog-renderer.js, blog-category.js)
     document.addEventListener('blog:rendered', function () {
-      if (translations && lang !== DEFAULT_LANG) {
-        applyTranslations(lang);
+      if (translations && currentLang !== DEFAULT_LANG) {
+        applyTranslations(currentLang);
       }
     });
 
-    // Skip if Japanese (default)
+    // Inject styles first
+    injectStyles();
+
+    // Skip translation loading if Japanese (default)
     if (lang === DEFAULT_LANG) {
       // Still show language switcher for Japanese users who might want other languages
-      injectStyles();
-      loadTranslations(function (err) {
+      loadTranslations(lang, function (err) {
         if (!err) {
           createLanguageSwitcher(lang);
         }
@@ -390,8 +485,8 @@
       return;
     }
 
-    injectStyles();
-    loadTranslations(function (err) {
+    // Load translations for non-default language
+    loadTranslations(lang, function (err) {
       if (err) {
         console.warn('[blog-i18n] Failed to load translations:', err);
         return;
@@ -403,7 +498,7 @@
       // Load and apply affiliate translations for article pages
       var hasAffiliateLinks = document.querySelector('.affiliate-button');
       if (hasAffiliateLinks) {
-        loadAffiliateTranslations(function (affErr) {
+        loadAffiliateTranslations(lang, function (affErr) {
           if (!affErr) {
             applyAffiliateTranslations(lang);
           }
