@@ -51,6 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
     };
   });
 
+  // Close translate dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    var dropdown = document.querySelector('.translate-dropdown');
+    var btn = document.querySelector('.translate-btn');
+    if (dropdown && btn && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.remove('open');
+    }
+  });
+
   // Add smooth scrolling to anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {

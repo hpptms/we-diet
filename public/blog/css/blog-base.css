@@ -233,21 +233,21 @@ li {
 }
 
 /* ==========================================================================
-   Translate Button
+   Language Button & Dropdown
    ========================================================================== */
 .translate-btn {
   position: relative;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.15);
   border: 1px solid rgba(255,255,255,0.3);
   color: var(--white);
-  padding: 0.4rem 0.85rem;
+  padding: 0.45rem 1rem;
   border-radius: var(--radius-full);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   transition: background 0.2s, border-color 0.2s;
   font-family: var(--font-sans);
   white-space: nowrap;
@@ -261,7 +261,6 @@ li {
 .translate-btn svg {
   width: 16px;
   height: 16px;
-  fill: currentColor;
   flex-shrink: 0;
 }
 
@@ -273,9 +272,15 @@ li {
   background: var(--white);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-lg);
-  min-width: 160px;
+  min-width: 180px;
   z-index: 1001;
   overflow: hidden;
+  animation: dropdownFadeIn 0.15s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .translate-dropdown.open {
@@ -284,11 +289,16 @@ li {
 
 .translate-dropdown a {
   display: block;
-  padding: 0.6rem 1rem;
+  padding: 0.65rem 1rem;
   color: var(--text);
   font-size: 0.9rem;
   text-decoration: none;
   transition: background 0.15s;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.translate-dropdown a:last-child {
+  border-bottom: none;
 }
 
 .translate-dropdown a:hover {
