@@ -44,15 +44,30 @@
 
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <a href="/" class="logo">We Diet</a>
-            <nav class="nav-links">
-                <a href="/">ホーム</a>
-                <a href="/blog/">ブログ</a>
-            </nav>
+      <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">We Diet</a>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <a href="/blog/" class="nav-link" style="color:rgba(255,255,255,0.9);text-decoration:none;font-size:0.95rem;font-weight:500;">ブログ一覧</a>
+        <div class="translate-wrapper" style="position:relative;">
+          <button class="translate-btn" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Translate">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+            <span>翻訳</span>
+          </button>
+          <div class="translate-dropdown">
+            <a href="https://translate.google.com/translate?sl=ja&tl=en&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">English</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=zh-CN&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">中文（简体）</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=zh-TW&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">中文（繁體）</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=ko&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">한국어</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=es&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">Español</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=fr&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">Français</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=de&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">Deutsch</a>
+            <a href="https://translate.google.com/translate?sl=ja&tl=pt&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">Português</a>
+          </div>
         </div>
-    </header>
+      </div>
+    </div>
+  </header>
 
     <section class="hero">
         <span class="category-badge">💧 体質改善</span>
@@ -434,16 +449,39 @@
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="/">ホーム</a>
-                <a href="/blog/">ブログ</a>
-                <a href="/terms.html">利用規約</a>
-                <a href="/privacy.html">プライバシーポリシー</a>
-            </div>
-            <p class="copyright">&copy; 2025 We Diet All Rights Reserved.</p>
+      <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>We Diet</h3>
+        <p>一人じゃないから、続けられる。仲間と一緒に、楽しくダイエット。</p>
+        <div class="ranking-banners">
+          <a href="https://diet.blogmura.com/ranking/in?p_cid=11211987" target="_blank" rel="noopener"><img src="https://b.blogmura.com/diet/88_31.gif" width="88" height="31" alt="にほんブログ村 ダイエットブログへ" loading="lazy"></a>
+          <a href="https://blog.with2.net/link/?id=2138563" target="_blank" rel="noopener" title="人気ブログランキング"><img src="https://blog.with2.net/img/banner/banner_13.svg" width="80" height="15" alt="人気ブログランキング" loading="lazy"></a>
+          <a href="https://blogranking.fc2.com/in.php?id=1072821" target="_blank" rel="noopener"><img src="https://static.fc2.com/blogranking/ranking_banner/b_03.gif" alt="FC2 Blog Ranking" loading="lazy"></a>
         </div>
-    </footer>
+      </div>
+      <div class="footer-links">
+        <h4>サービス</h4>
+        <ul>
+          <li><a href="/">トップページ</a></li>
+          <li><a href="/blog/">ブログ</a></li>
+          <li><a href="/faq">よくある質問</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>法的情報</h4>
+        <ul>
+          <li><a href="/privacy-policy">プライバシーポリシー</a></li>
+          <li><a href="/terms-of-service">利用規約</a></li>
+          <li><a href="/cookie-policy">Cookieポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 We Diet. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>document.addEventListener('click',function(e){if(!e.target.closest('.translate-wrapper')){var d=document.querySelector('.translate-dropdown');if(d)d.classList.remove('open')}})</script>
 </body>
 </html>
