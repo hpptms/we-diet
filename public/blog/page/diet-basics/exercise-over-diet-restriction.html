@@ -77,10 +77,10 @@
       <div style="display:flex;align-items:center;gap:1rem;">
         <a href="/blog/" class="nav-link" style="color:rgba(255,255,255,0.9);text-decoration:none;font-size:0.95rem;font-weight:500;">ブログ一覧</a>
         <div class="translate-wrapper">
-          <button class="translate-btn" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Language">
+          <button class="translate-btn" onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='block'?'none':'block'" aria-label="Language">
             Language <span class="arrow">&#9662;</span>
           </button>
-          <div class="translate-dropdown">
+          <div class="translate-dropdown" style="display:none">
             <a href="https://translate.google.com/translate?sl=ja&tl=en&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">English</a>
             <a href="https://translate.google.com/translate?sl=ja&tl=zh-CN&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">中文（简体）</a>
             <a href="https://translate.google.com/translate?sl=ja&tl=zh-TW&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">中文（繁體）</a>

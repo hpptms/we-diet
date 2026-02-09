@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var dropdown = document.querySelector('.translate-dropdown');
     var btn = document.querySelector('.translate-btn');
     if (dropdown && btn && !btn.contains(e.target) && !dropdown.contains(e.target)) {
-      dropdown.classList.remove('open');
+      dropdown.style.display = 'none';
     }
   });
 
