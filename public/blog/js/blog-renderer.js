@@ -68,6 +68,9 @@
 
   fetch('/blog/blog-data.json')
     .then(function (res) { return res.json(); })
-    .then(render)
+    .then(function (data) {
+      render(data);
+      document.dispatchEvent(new CustomEvent('blog:rendered'));
+    })
     .catch(function (err) { console.error('Failed to load blog data:', err); });
 })();

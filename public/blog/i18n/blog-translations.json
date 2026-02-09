@@ -18,7 +18,8 @@
       "copyright": "© 2025 We Diet. All rights reserved.",
       "translateBanner": "This article can be translated with Google Translate",
       "translateButton": "Read with Google Translate",
-      "langSwitcherLabel": "Language"
+      "langSwitcherLabel": "Language",
+      "backToBlog": "← Back to Blog"
     },
     "zh-CN": {
       "home": "首页",
@@ -38,7 +39,8 @@
       "copyright": "© 2025 We Diet. All rights reserved.",
       "translateBanner": "本文可通过Google翻译进行翻译",
       "translateButton": "使用Google翻译阅读",
-      "langSwitcherLabel": "语言"
+      "langSwitcherLabel": "语言",
+      "backToBlog": "← 返回博客列表"
     },
     "ko": {
       "home": "홈",
@@ -58,7 +60,8 @@
       "copyright": "© 2025 We Diet. All rights reserved.",
       "translateBanner": "이 기사는 Google 번역으로 번역할 수 있습니다",
       "translateButton": "Google 번역으로 읽기",
-      "langSwitcherLabel": "언어"
+      "langSwitcherLabel": "언어",
+      "backToBlog": "← 블로그 목록으로 돌아가기"
     },
     "es": {
       "home": "Inicio",
@@ -78,7 +81,8 @@
       "copyright": "© 2025 We Diet. All rights reserved.",
       "translateBanner": "Este artículo se puede traducir con Google Translate",
       "translateButton": "Leer con Google Translate",
-      "langSwitcherLabel": "Idioma"
+      "langSwitcherLabel": "Idioma",
+      "backToBlog": "← Volver al blog"
     }
   },
   "sections": {

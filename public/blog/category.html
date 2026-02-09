@@ -16,6 +16,7 @@
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3JE0T4ZFM"></script>
   <script src="/blog/js/blog-common.js"></script>
+  <script src="/blog/js/blog-i18n.js" defer></script>
 
   <link rel="stylesheet" href="/blog/css/blog-base.css">
   <link rel="stylesheet" href="/blog/css/blog-index.css">
@@ -27,9 +28,9 @@
     <div class="header-inner">
       <a href="/" class="logo"><span class="logo-icon">W</span>We Diet</a>
       <nav class="nav-links">
-        <a href="/">ホーム</a>
-        <a href="/blog/">ブログ</a>
-        <a href="/faq">よくある質問</a>
+        <a href="/" data-i18n="home">ホーム</a>
+        <a href="/blog/" data-i18n="blog">ブログ</a>
+        <a href="/faq" data-i18n="faq">よくある質問</a>
       </nav>
     </div>
   </header>
@@ -37,7 +38,7 @@
   <div class="category-hero">
     <div class="category-hero-inner">
       <nav class="breadcrumb">
-        <a href="/blog/">ブログ</a> <span>&gt;</span> <span id="breadcrumb-category">カテゴリ</span>
+        <a href="/blog/" data-i18n="blog">ブログ</a> <span>&gt;</span> <span id="breadcrumb-category">カテゴリ</span>
       </nav>
       <h1 id="category-name">カテゴリ</h1>
       <p id="category-count"></p>
@@ -48,7 +49,7 @@
     <div class="article-grid" id="category-articles"></div>
 
     <div class="back-to-blog">
-      <a href="/blog/">&larr; ブログ一覧に戻る</a>
+      <a href="/blog/" data-i18n="backToBlog">&larr; ブログ一覧に戻る</a>
     </div>
   </div>
 
@@ -56,27 +57,27 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <h3>We Diet</h3>
-        <p>一人じゃないから、続けられる。仲間と一緒に、楽しくダイエット。</p>
+        <p data-i18n="footerTagline">一人じゃないから、続けられる。仲間と一緒に、楽しくダイエット。</p>
       </div>
       <div class="footer-links">
-        <h4>サービス</h4>
+        <h4 data-i18n="service">サービス</h4>
         <ul>
-          <li><a href="/">トップページ</a></li>
-          <li><a href="/blog/">ブログ</a></li>
-          <li><a href="/faq">よくある質問</a></li>
+          <li><a href="/" data-i18n="topPage">トップページ</a></li>
+          <li><a href="/blog/" data-i18n="blog">ブログ</a></li>
+          <li><a href="/faq" data-i18n="faq">よくある質問</a></li>
         </ul>
       </div>
       <div class="footer-links">
-        <h4>法的情報</h4>
+        <h4 data-i18n="legalInfo">法的情報</h4>
         <ul>
-          <li><a href="/privacy-policy">プライバシーポリシー</a></li>
-          <li><a href="/terms-of-service">利用規約</a></li>
-          <li><a href="/cookie-policy">Cookieポリシー</a></li>
+          <li><a href="/privacy-policy" data-i18n="privacyPolicy">プライバシーポリシー</a></li>
+          <li><a href="/terms-of-service" data-i18n="termsOfService">利用規約</a></li>
+          <li><a href="/cookie-policy" data-i18n="cookiePolicy">Cookieポリシー</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2025 We Diet. All rights reserved.</p>
+      <p data-i18n="copyright">&copy; 2025 We Diet. All rights reserved.</p>
     </div>
   </footer>
 

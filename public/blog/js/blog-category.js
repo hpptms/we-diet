@@ -68,6 +68,7 @@
         html += createArticleCard(matched[i]);
       }
       container.innerHTML = html;
+      document.dispatchEvent(new CustomEvent('blog:rendered'));
     })
     .catch(function (err) {
       console.error('Failed to load blog data:', err);

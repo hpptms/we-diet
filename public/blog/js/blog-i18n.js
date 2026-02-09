@@ -371,6 +371,13 @@
   function init() {
     var lang = detectLanguage();
 
+    // Listen for dynamic content rendering (blog-renderer.js, blog-category.js)
+    document.addEventListener('blog:rendered', function () {
+      if (translations && lang !== DEFAULT_LANG) {
+        applyTranslations(lang);
+      }
+    });
+
     // Skip if Japanese (default)
     if (lang === DEFAULT_LANG) {
       // Still show language switcher for Japanese users who might want other languages
