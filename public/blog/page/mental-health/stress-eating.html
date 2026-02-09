@@ -71,10 +71,9 @@
       <a href="/" class="logo">We Diet</a>
       <div style="display:flex;align-items:center;gap:1rem;">
         <a href="/blog/" class="nav-link" style="color:rgba(255,255,255,0.9);text-decoration:none;font-size:0.95rem;font-weight:500;">ブログ一覧</a>
-        <div class="translate-wrapper" style="position:relative;">
+        <div class="translate-wrapper">
           <button class="translate-btn" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Language">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
-            <span>Language</span>
+            Language <span class="arrow">&#9662;</span>
           </button>
           <div class="translate-dropdown">
             <a href="https://translate.google.com/translate?sl=ja&tl=en&u=" onclick="this.href+=encodeURIComponent(location.href)" target="_blank" rel="noopener">English</a>
