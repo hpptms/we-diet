@@ -49,7 +49,7 @@
       "@type": "ContactPoint",
       "telephone": "+81-3-1234-5678",
       "contactType": "Customer Service",
-      "email": "support@we-diet.com",
+      "email": "we.diet.dev@gmail.com",
       "availableLanguage": ["Japanese", "English"]
     },
     "address": {

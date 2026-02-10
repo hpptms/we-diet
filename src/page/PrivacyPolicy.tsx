@@ -87,7 +87,6 @@ const PrivacyPolicy: React.FC = () => {
         <ul>
           <li>{t('pages', 'privacyPolicy.externalServicesItem1')}</li>
           <li>{t('pages', 'privacyPolicy.externalServicesItem2')}</li>
-          <li>{t('pages', 'privacyPolicy.externalServicesItem3')}</li>
         </ul>
         <p>{t('pages', 'privacyPolicy.externalServicesNote')}</p>
 

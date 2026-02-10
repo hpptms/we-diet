@@ -103,13 +103,6 @@ const DataDeletion: React.FC = () => {
           </ul>
         </div>
 
-        <h2>{t('pages', 'dataDeletion.facebookTitle')}</h2>
-        <p>{t('pages', 'dataDeletion.facebookContent')}</p>
-        <ol>
-          <li>{t('pages', 'dataDeletion.facebookStep1')}</li>
-          <li>{t('pages', 'dataDeletion.facebookStep2')}</li>
-        </ol>
-
         <h2>{t('pages', 'dataDeletion.processingTimeTitle')}</h2>
         <ul>
           <li><strong>{t('pages', 'dataDeletion.processingTimeApp')}</strong></li>
