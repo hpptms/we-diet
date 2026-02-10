@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Snackbar, Alert, CircularProgress } from "@mui/material";
 import DashboardPageButtons from "../component/DashboardPageButtons";
 import { useTranslation } from "../hooks/useTranslation";
-import { setLanguageToEnglish, setLanguageToJapanese, setLanguageToChineseCN, setLanguageToKorean, setLanguageToSpanish } from "../i18n";
+import { setLanguageToEnglish, setLanguageToJapanese, setLanguageToChineseCN, setLanguageToKorean, setLanguageToSpanish, setLanguageToPortuguese } from "../i18n";
 import { SEOHelmet } from "../component/SEOHelmet";
 
 // Lazy load heavy components
@@ -78,6 +78,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
         console.log('🔄 言語をスペイン語に切り替えました (テスト用)');
     };
 
+    // デバッグ用: ポルトガル語テスト関数
+    const switchToPortugueseForTest = () => {
+        setLanguageToPortuguese();
+        setLanguage('pt');
+        console.log('🔄 言語をポルトガル語に切り替えました (テスト用)');
+    };
+
     // デバッグ用: コンソールに関数を公開
     React.useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -86,12 +93,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             (window as any).switchToChineseForTest = switchToChineseForTest;
             (window as any).switchToKoreanForTest = switchToKoreanForTest;
             (window as any).switchToSpanishForTest = switchToSpanishForTest;
+            (window as any).switchToPortugueseForTest = switchToPortugueseForTest;
             console.log('🌐 多言語テスト用デバッグ関数が利用可能です:');
             console.log('  switchToEnglishForTest() - 英語表示に切り替え');
             console.log('  switchToJapaneseForTest() - 日本語表示に切り替え');
             console.log('  switchToChineseForTest() - 中国語(簡体字)表示に切り替え');
             console.log('  switchToKoreanForTest() - 韓国語表示に切り替え');
             console.log('  switchToSpanishForTest() - スペイン語表示に切り替え');
+            console.log('  switchToPortugueseForTest() - ポルトガル語表示に切り替え');
             console.log('  現在の言語:', language);
         }
     }, [language]);
@@ -526,6 +535,21 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             }}
           >
             🇪🇸 ES
+          </button>
+          <button
+            onClick={switchToPortugueseForTest}
+            style={{
+              backgroundColor: language === 'pt' ? '#4caf50' : '#009688',
+              color: 'white',
+              border: 'none',
+              padding: '6px 10px',
+              borderRadius: '4px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              opacity: 0.8
+            }}
+          >
+            🇧🇷 PT
           </button>
           <div style={{
             backgroundColor: 'rgba(0,0,0,0.7)',

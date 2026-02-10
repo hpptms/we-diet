@@ -10,6 +10,7 @@ import {
     setLanguageToChineseCN,
     setLanguageToKorean,
     setLanguageToSpanish,
+    setLanguageToPortuguese,
 } from '../i18n';
 
 /**
@@ -23,6 +24,7 @@ const detectLanguageFromURL = (): SupportedLanguage | null => {
         '/es/': 'es',
         '/ko/': 'ko',
         '/zh/': 'zh-CN',
+        '/pt/': 'pt',
     };
     return langMap[path] || null;
 };
@@ -90,6 +92,10 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
             };
             (window as any).setLanguageToSpanish = () => {
                 setLanguageToSpanish();
+                window.location.reload();
+            };
+            (window as any).setLanguageToPortuguese = () => {
+                setLanguageToPortuguese();
                 window.location.reload();
             };
         }

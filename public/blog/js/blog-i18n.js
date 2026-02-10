@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var SUPPORTED_LANGS = ['ja', 'en', 'zh-CN', 'ko', 'es'];
+  var SUPPORTED_LANGS = ['ja', 'en', 'zh-CN', 'ko', 'es', 'pt'];
   var DEFAULT_LANG = 'ja';
   var LS_KEY = 'preferredLanguage';
   var currentLang = DEFAULT_LANG;
@@ -71,6 +71,7 @@
       if (base === 'en') return 'en';
       if (base === 'ko') return 'ko';
       if (base === 'es') return 'es';
+      if (base === 'pt') return 'pt';
       if (base === 'ja') return 'ja';
     }
     return DEFAULT_LANG;
@@ -402,7 +403,8 @@
       'en': 'English',
       'zh-CN': '中文(简体)',
       'ko': '한국어',
-      'es': 'Español'
+      'es': 'Español',
+      'pt': 'Português'
     };
 
     var switcher = document.createElement('div');

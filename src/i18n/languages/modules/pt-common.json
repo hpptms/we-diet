@@ -1,0 +1,65 @@
+{
+    "common": {
+        "save": "Salvar",
+        "cancel": "Cancelar",
+        "delete": "Excluir",
+        "edit": "Editar",
+        "submit": "Enviar",
+        "loading": "Carregando...",
+        "error": "Ocorreu um erro",
+        "success": "Sucesso",
+        "confirm": "Confirmar",
+        "yes": "Sim",
+        "no": "Não",
+        "close": "Fechar",
+        "search": "Buscar",
+        "next": "Próximo",
+        "previous": "Anterior",
+        "more": "Ver mais",
+        "less": "Ver menos",
+        "user": "Usuário",
+        "recorded": "Registrado"
+    },
+    "time": {
+        "now": "Agora",
+        "justNow": "Agora mesmo",
+        "minutesAgo": "há {count} minutos",
+        "hoursAgo": "há {count} horas",
+        "daysAgo": "há {count} dias",
+        "weeksAgo": "há {count} semanas",
+        "monthsAgo": "há {count} meses",
+        "yearsAgo": "há {count} anos",
+        "today": "Hoje",
+        "yesterday": "Ontem",
+        "thisWeek": "Esta semana",
+        "thisMonth": "Este mês",
+        "thisYear": "Este ano"
+    },
+    "errors": {
+        "networkError": "Erro de rede",
+        "serverError": "Erro do servidor",
+        "unauthorizedError": "Autenticação necessária",
+        "forbiddenError": "Acesso negado",
+        "notFoundError": "Página não encontrada",
+        "validationError": "Por favor, verifique sua entrada",
+        "unexpectedError": "Ocorreu um erro inesperado",
+        "tryAgain": "Tentar novamente",
+        "loginError": "Erro de login: {error}",
+        "maxImagesError": "Você pode selecionar até 3 imagens",
+        "contactSupport": "Contatar suporte"
+    },
+    "ui": {
+        "darkMode": "Modo Escuro",
+        "logoutConfirmation": "Confirmação de Logout",
+        "logoutConfirmMessage": "Tem certeza de que deseja sair?"
+    },
+    "pwa": {
+        "installed": "We Diet foi adicionado à sua tela inicial!",
+        "iosInstallInstruction": "No Safari, toque em \"Compartilhar\" → \"Adicionar à Tela Inicial\"",
+        "browserInstallInstruction": "Você pode instalar como PWA no menu superior direito do navegador \"Instalar aplicativo\"",
+        "unsupportedBrowser": "Este navegador não suporta a instalação de PWA",
+        "installing": "Instalando We Diet...",
+        "installCancelled": "A instalação foi cancelada",
+        "installError": "Ocorreu um erro durante a instalação"
+    }
+}

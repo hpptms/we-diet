@@ -40,6 +40,14 @@ import esWeightModule from './languages/modules/es-weight.json';
 import esExerciseModule from './languages/modules/es-exercise.json';
 import esFoodDieterModule from './languages/modules/es-food-dieter.json';
 
+// ポルトガル語モジュールのインポート
+import ptCommonModule from './languages/modules/pt-common.json';
+import ptAuthNavModule from './languages/modules/pt-auth-nav.json';
+import ptProfileModule from './languages/modules/pt-profile.json';
+import ptWeightModule from './languages/modules/pt-weight.json';
+import ptExerciseModule from './languages/modules/pt-exercise.json';
+import ptFoodDieterModule from './languages/modules/pt-food-dieter.json';
+
 /**
  * オブジェクトをディープマージする関数
  */
@@ -134,6 +142,20 @@ export function loadSpanishTranslations() {
 }
 
 /**
+ * ポルトガル語翻訳データを統合して返す
+ */
+export function loadPortugueseTranslations() {
+    return deepMerge(
+        ptCommonModule,
+        ptAuthNavModule,
+        ptProfileModule,
+        ptWeightModule,
+        ptExerciseModule,
+        ptFoodDieterModule
+    );
+}
+
+/**
  * 言語コードに基づいて適切な翻訳データを読み込む
  */
 export async function loadTranslationsForLanguage(languageCode: string) {
@@ -148,6 +170,8 @@ export async function loadTranslationsForLanguage(languageCode: string) {
             return loadKoreanTranslations();
         case 'es':
             return loadSpanishTranslations();
+        case 'pt':
+            return loadPortugueseTranslations();
         default:
             // デフォルトは日本語
             return loadJapaneseTranslations();
@@ -158,12 +182,13 @@ export async function loadTranslationsForLanguage(languageCode: string) {
  * 全言語の翻訳データを読み込む（従来の方式との互換性のため）
  */
 export async function loadAllTranslations() {
-    const [ja, en, zhCN, ko, es] = await Promise.all([
+    const [ja, en, zhCN, ko, es, pt] = await Promise.all([
         loadJapaneseTranslations(),
         loadEnglishTranslations(),
         loadChineseTranslations(),
         loadKoreanTranslations(),
-        loadSpanishTranslations()
+        loadSpanishTranslations(),
+        loadPortugueseTranslations()
     ]);
 
     return {
@@ -171,6 +196,7 @@ export async function loadAllTranslations() {
         en,
         'zh-CN': zhCN,
         ko,
-        es
+        es,
+        pt
     };
 }

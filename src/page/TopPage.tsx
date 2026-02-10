@@ -5,7 +5,7 @@ import Footer from '../component/Footer';
 import { HeroSection, FeatureSection, ProductSection } from '../component/TopPage';
 import { SEOHelmet } from '../component/SEOHelmet';
 import { useTranslation } from '../hooks/useTranslation';
-import { setLanguageToEnglish, setLanguageToJapanese, setLanguageToChineseCN, setLanguageToKorean, setLanguageToSpanish } from '../i18n';
+import { setLanguageToEnglish, setLanguageToJapanese, setLanguageToChineseCN, setLanguageToKorean, setLanguageToSpanish, setLanguageToPortuguese } from '../i18n';
 
 // 言語に対応したAMPリンクを生成
 const getAMPLink = (type: 'privacy' | 'terms' | 'dataDeletion', language: string): string => {
@@ -19,8 +19,9 @@ const getAMPLink = (type: 'privacy' | 'terms' | 'dataDeletion', language: string
   const langCodeMap: { [key: string]: string } = {
     'zh-CN': 'zh',
     'en': 'en',
-    'ko': 'ko', 
-    'es': 'es'
+    'ko': 'ko',
+    'es': 'es',
+    'pt': 'pt'
   };
   
   const langCode = langCodeMap[language] || language;
@@ -47,6 +48,8 @@ export const TopPage = () => {
         return `${baseUrl}/zh/`;
       case 'es':
         return `${baseUrl}/es/`;
+      case 'pt':
+        return `${baseUrl}/pt/`;
       case 'ja':
       default:
         return `${baseUrl}/`;
@@ -60,6 +63,7 @@ export const TopPage = () => {
     { lang: 'ko', url: 'https://we-diet.net/ko/' },
     { lang: 'zh', url: 'https://we-diet.net/zh/' },
     { lang: 'es', url: 'https://we-diet.net/es/' },
+    { lang: 'pt', url: 'https://we-diet.net/pt/' },
     { lang: 'x-default', url: 'https://we-diet.net/' }
   ];
 
@@ -85,6 +89,11 @@ export const TopPage = () => {
         return {
           title: 'We Diet - App SNS de Dieta | Gestión de Peso, Registro de Comidas y Ejercicio con Amigos',
           description: '¿Es difícil seguir una dieta solo? ¡Con We Diet es divertido con amigos! Comparte registros de comidas, ejercicio y control de peso en una plataforma social. App gratuita de seguimiento de dieta con apoyo motivacional.'
+        };
+      case 'pt':
+        return {
+          title: 'We Diet - App SNS de Dieta | Gestão de Peso, Registro de Refeições e Exercícios com Amigos',
+          description: 'É difícil continuar a dieta sozinho? Com o We Diet é divertido com amigos! Compartilhe registros de refeições, exercícios e controle de peso em uma plataforma social. App gratuito de acompanhamento de dieta com apoio motivacional.'
         };
       case 'ja':
       default:
@@ -135,6 +144,13 @@ export const TopPage = () => {
     console.log('🔄 言語をスペイン語に切り替えました (テスト用)');
   };
 
+  // デバッグ用: ポルトガル語テスト関数
+  const switchToPortugueseForTest = () => {
+    setLanguageToPortuguese();
+    setLanguage('pt');
+    console.log('🔄 言語をポルトガル語に切り替えました (テスト用)');
+  };
+
   // デバッグ用: コンソールに関数を公開
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -143,12 +159,14 @@ export const TopPage = () => {
       (window as any).switchToChineseForTest = switchToChineseForTest;
       (window as any).switchToKoreanForTest = switchToKoreanForTest;
       (window as any).switchToSpanishForTest = switchToSpanishForTest;
+      (window as any).switchToPortugueseForTest = switchToPortugueseForTest;
       console.log('🌐 多言語テスト用デバッグ関数が利用可能です(TopPage):');
       console.log('  switchToEnglishForTest() - 英語表示に切り替え');
       console.log('  switchToJapaneseForTest() - 日本語表示に切り替え');
       console.log('  switchToChineseForTest() - 中国語(簡体字)表示に切り替え');
       console.log('  switchToKoreanForTest() - 韓国語表示に切り替え');
       console.log('  switchToSpanishForTest() - スペイン語表示に切り替え');
+      console.log('  switchToPortugueseForTest() - ポルトガル語表示に切り替え');
       console.log('  現在の言語:', language);
     }
   }, [language]);
@@ -257,6 +275,21 @@ export const TopPage = () => {
             }}
           >
             🇪🇸 ES
+          </button>
+          <button
+            onClick={switchToPortugueseForTest}
+            style={{
+              backgroundColor: language === 'pt' ? '#4caf50' : '#009688',
+              color: 'white',
+              border: 'none',
+              padding: '6px 10px',
+              borderRadius: '4px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              opacity: 0.8
+            }}
+          >
+            🇧🇷 PT
           </button>
           <div style={{
             backgroundColor: 'rgba(0,0,0,0.7)',

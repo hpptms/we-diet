@@ -248,6 +248,11 @@ function App() {
             <LazyTopPage />
           </Suspense>
         } />
+        <Route path="/pt/" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyTopPage />
+          </Suspense>
+        } />
         {/* 404ページのフォールバック - 不正なルートをトップページにリダイレクト */}
         <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

@@ -1,0 +1,430 @@
+{
+    "food": {
+        "food": "Comida",
+        "meal": "Refeição",
+        "breakfast": "Café da manhã",
+        "lunch": "Almoço",
+        "dinner": "Jantar",
+        "snack": "Lanche",
+        "calories": "Calorias",
+        "protein": "Proteína",
+        "carbs": "Carboidratos",
+        "fat": "Gordura",
+        "fiber": "Fibra",
+        "sugar": "Açúcar",
+        "sodium": "Sódio",
+        "recordMeal": "Registrar Refeição",
+        "mealHistory": "Histórico de Refeições",
+        "nutritionFacts": "Informações Nutricionais",
+        "foodDiary": "Diário Alimentar",
+        "dailyCalories": "Calorias Diárias",
+        "remainingCalories": "Calorias Restantes",
+        "saveRecord": "Salvar",
+        "saving": "Salvando...",
+        "back": "← Voltar",
+        "saveConfirmTitle": "Confirmar Salvamento do Registro de Refeição",
+        "saveConfirmUpdate": "Atualizar registro existente. Tem certeza?",
+        "saveConfirmNew": "Salvar novo registro de refeição. Tem certeza?",
+        "recordSaved": "Registro de refeição salvo com sucesso!",
+        "recordUpdated": "Registro de refeição atualizado com sucesso!",
+        "saveFailed": "Falha ao salvar o registro de refeição",
+        "saveFailedBadRequest": "Solicitação inválida. Por favor, verifique sua entrada",
+        "saveFailedAuth": "Erro de autenticação. Por favor, faça login novamente",
+        "saveFailedServer": "Erro do servidor. Por favor, tente novamente mais tarde",
+        "saveFailedNetwork": "Erro de rede. Por favor, verifique sua conexão",
+        "yesterdayRecord": "Registro de Ontem",
+        "viewPastRecords": "Ver Registros Anteriores",
+        "noYesterdayRecord": "Nenhum registro de ontem encontrado",
+        "noSelectedDateRecord": "Nenhum registro encontrado para a data selecionada",
+        "loadRecordFailed": "Falha ao carregar o registro",
+        "loadRecordDatesFailed": "Falha ao carregar as datas de registro",
+        "postContent": "Registro de refeição de hoje 🍽️",
+        "hashtag": "#RefeijãoDeHoje",
+        "dieterPostFailed": "O registro de refeição foi salvo, mas falhou a criação do post no Dieter.",
+        "header": {
+            "title": "Registro de Refeição",
+            "subtitle": "Vamos registrar as refeições de hoje!"
+        },
+        "dailyProgress": {
+            "title": "Progresso de Hoje",
+            "recordedDays": "Dias Registrados",
+            "totalDays": "Dias Totais"
+        },
+        "actionButtons": {
+            "yesterdayRecord": "Registro de ontem",
+            "viewPastRecords": "Ver registros anteriores"
+        },
+        "mealCard": {
+            "title": "Refeições de Hoje",
+            "placeholder": "Escreva livremente sobre o que comeu hoje e seus pensamentos!",
+            "example": "Exemplo: Café da manhã foi iogurte e frutas / Almoço foi massa deliciosa com amigos🍝 / Jantar foi curry caseiro🍛 / Só registrar já está ótimo!"
+        },
+        "photoUpload": {
+            "title": "Fotos da refeição de hoje"
+        },
+        "saveConfirm": {
+            "title": "Confirmar salvamento do registro alimentar",
+            "saveButton": "Salvar"
+        },
+        "motivationalMessages": [
+            "Vamos registrar as deliciosas refeições de hoje! 🍽️",
+            "Este é o primeiro passo para uma dieta saudável! 💪",
+            "Que tal registrar e refletir sobre as refeições de hoje? 📝",
+            "Registros deliciosos te esperam! ✨",
+            "Torne o controle da saúde divertido com registros de refeição! 🌟"
+        ],
+        "unifiedMealCard": {
+            "title": "Registro Alimentar de Hoje",
+            "placeholder": "Registre livremente os alimentos e bebidas que teve hoje.\n\nExemplo:\nCafé da manhã: Torrada, Café\nAlmoço: 2 onigiri, Chá\nJantar: Arroz com curry, Salada\nLanche: 2 biscoitos",
+            "description": "Registre livremente café da manhã, almoço, jantar e lanches",
+            "characterCount": "{current}/{max} caracteres",
+            "characterLimitExceeded": "Limite de caracteres excedido. Por favor, remova {count} caracteres."
+        },
+        "dailyProgressCard": {
+            "title": "Status da Sequência de Registros",
+            "consecutiveDays": "Dias Consecutivos de Registro",
+            "totalRecords": "Total de Registros {count} dias",
+            "streakMessages": {
+                "0": "🌱 Vamos começar a registrar hoje! Crescimento de um novo broto!",
+                "1": "🔥 Registro iniciado! Ardendo como fogo!",
+                "3": "🚩 3 dias seguidos! Bandeira plantada!",
+                "6": "💫 6 dias alcançados! Bonito como uma estrela cadente!",
+                "9": "🔮 9 dias continuados! Posso sentir o poder mágico!",
+                "12": "🌸 12 dias alcançados! Persistência bonita como flores de cerejeira!",
+                "15": "☀️ 15 dias continuados! Brilhando como o sol!",
+                "18": "🌙 18 dias alcançados! Poder lunar!",
+                "21": "🎊 3 semanas continuadas! Vamos celebrar!",
+                "24": "✨ 24 dias alcançados! Brilhando intensamente!",
+                "27": "🌈 27 dias continuados! Brilho de arco-íris!",
+                "30": "💪 1 mês alcançado! Você subiu de nível!",
+                "45": "⚡ 45 dias alcançados! Persistência como um raio!",
+                "60": "🔱 2 meses continuados! Poder de tridente!",
+                "75": "🥇 75 dias superados! Nível ouro!",
+                "90": "🏅 3 meses alcançados! Hábito maravilhoso!",
+                "120": "🎖️ 4 meses continuados! Você é um medalhista!",
+                "150": "🏆 150 dias alcançados! Nível campeão!",
+                "180": "🎯 Meio ano alcançado! Persistência perfeita!",
+                "210": "⭐ 210 dias alcançados! Você está no nível estrela!",
+                "240": "🚀 240 dias continuados! Persistência de nível cósmico!",
+                "270": "💎 270 dias alcançados! Nível diamante!",
+                "300": "🌟 300 dias superados! Você é um mestre dos hábitos!",
+                "365": "🎉 1 ano consecutivo alcançado! Você está no nível lendário! 🎉"
+            },
+            "consecutiveCount": "{count} dias seguidos"
+        },
+        "calendar": {
+            "selectPastRecord": "Selecionar registro anterior",
+            "close": "Fechar",
+            "yearMonthFormat": "{month}/{year}",
+            "weekdays": [
+                "Dom",
+                "Seg",
+                "Ter",
+                "Qua",
+                "Qui",
+                "Sex",
+                "Sáb"
+            ],
+            "locale": "pt-BR"
+        },
+        "recordViewDialog": {
+            "title": "Registro Delicioso",
+            "public": "Público",
+            "private": "Privado",
+            "todaysRecord": "Registro de hoje",
+            "photoGallery": "Galeria de fotos",
+            "photosCount": "{count} fotos",
+            "foodPhoto": "Prato delicioso {number}",
+            "expandView": "Ampliar visualização",
+            "close": "Fechar"
+        },
+        "mealTimeCard": {
+            "breakfastTitle": "🌅 Café da Manhã",
+            "lunchTitle": "☀️ Almoço",
+            "dinnerTitle": "🌙 Jantar",
+            "snackTitle": "🍪 Lanches",
+            "breakfastPlaceholder": "O que você tomou no café da manhã? Ex: Torrada, Café",
+            "lunchPlaceholder": "Registre seu almoço! Ex: Prato do dia, Salada",
+            "dinnerPlaceholder": "O que você jantou hoje? Ex: Peixe grelhado, Sopa, Refogado",
+            "snackPlaceholder": "Registre seus lanches! Ex: Biscoitos, Frutas",
+            "breakfastTip1": "Comece o dia com um café da manhã equilibrado!",
+            "breakfastTip2": "Não esqueça de se hidratar",
+            "lunchTip1": "Um momento importante para recarregar as energias",
+            "lunchTip2": "Tente incluir vegetais na sua refeição",
+            "dinnerTip1": "Um jantar delicioso para terminar o dia",
+            "dinnerTip2": "Coma pelo menos 3 horas antes de dormir",
+            "snackTip1": "Lanches moderados para um impulso de energia",
+            "snackTip2": "Cuidado com o consumo de açúcar",
+            "recorded": "Registrado",
+            "commonFoods": "Alimentos comuns:",
+            "hints": "💡 Dicas:",
+            "bread": "🍞 Pão",
+            "rice": "🍚 Arroz",
+            "salad": "🥗 Salada",
+            "meat": "🍖 Carne",
+            "fish": "🐟 Peixe",
+            "ramen": "🍜 Ramen",
+            "pasta": "🍝 Massa",
+            "soup": "🍲 Sopa",
+            "milk": "🥛 Leite",
+            "coffee": "☕ Café"
+        }
+    },
+    "dieter": {
+        "backToDashboard": "Voltar ao Painel",
+        "createPost": "Criar Publicação",
+        "searchPlaceholder": "Buscar no Dieter",
+        "recommendedUsers": "Usuários Recomendados",
+        "trendingTopics": "Assuntos em Alta",
+        "followManagement": "Gestão de Seguidores",
+        "homeTimeline": "Timeline Início",
+        "followingPosts": "Publicações de Seguidos",
+        "publicPosts": "Publicações Públicas",
+        "dieter": "Dieter",
+        "navigation": {
+            "home": "Início",
+            "followTL": "Seguidos TL",
+            "notifications": "Notificações",
+            "messages": "Mensagens",
+            "profile": "Perfil",
+            "todaysExercise": "Exercício de Hoje",
+            "recordMeal": "Registrar Refeição"
+        },
+        "userCard": {
+            "followers": "Seguidores",
+            "following": "Seguindo",
+            "posts": "Publicações"
+        },
+        "postModal": {
+            "title": "Nova Publicação",
+            "placeholder": "O que está acontecendo?",
+            "post": "Publicar",
+            "cancel": "Cancelar",
+            "sensitive": "Conteúdo Sensível"
+        },
+        "timeline": {
+            "home": "Início TL",
+            "following": "Seguindo TL",
+            "followingDescription": "Apenas publicações de usuários seguidos",
+            "searching": "Buscando...",
+            "loading": "Carregando publicações...",
+            "noPostsYet": "Ainda não há publicações.<br />Faça sua primeira publicação!",
+            "noPosts": "Ainda não há publicações.<br />Faça sua primeira publicação!",
+            "noFollowingPosts": "Não há publicações de usuários seguidos.<br />Siga usuários para enriquecer sua timeline!",
+            "loadingPosts": "Carregando publicações...",
+            "noMorePosts": "Não há mais publicações"
+        },
+        "search": {
+            "placeholder": "Buscar",
+            "title": "Buscar",
+            "resultsFor": "Resultados de busca para \"{searchQuery}\"",
+            "noResults": "Nenhuma publicação encontrada para \"{searchQuery}\".<br />Por favor, tente buscar com palavras-chave diferentes."
+        },
+        "recommendations": {
+            "title": "Usuários Recomendados"
+        },
+        "notifications": {
+            "title": "Notificações",
+            "empty": {
+                "title": "Não há notificações",
+                "description": "Novas notificações aparecerão aqui quando chegarem"
+            }
+        },
+        "messages": {
+            "noMessages": "Não há mensagens"
+        },
+        "followManagement": {
+            "title": "Gestão de Seguidores",
+            "back": "Voltar",
+            "followers": "Seguidores",
+            "following": "Seguindo",
+            "blocked": "Bloqueados",
+            "unfollow": "Deixar de seguir",
+            "unblock": "Desbloquear",
+            "noFollowers": "Não há seguidores",
+            "noFollowing": "Você não segue nenhum usuário",
+            "noBlocked": "Não há usuários bloqueados",
+            "fetchError": "Falha ao carregar informações de seguidores"
+        },
+        "post": {
+            "delete": "Excluir",
+            "processing": "Processando...",
+            "followUser": "Seguir",
+            "unfollowUser": "Deixar de seguir",
+            "blocked": "Bloqueado",
+            "addToNG": "Bloquear usuário",
+            "report": "Denunciar",
+            "deleteConfirmTitle": "Excluir esta publicação?",
+            "deleteConfirmMessage": "Esta ação não pode ser desfeita. Tem certeza de que deseja excluir?",
+            "replyPlaceholder": "Publicar uma resposta...",
+            "ctrlEnterToPost": "Ctrl + Enter para publicar",
+            "posting": "Publicando...",
+            "reply": "Responder",
+            "linkCopied": "Link copiado",
+            "retweetedBy": "{user} retuitou",
+            "commentFailed": "Falha ao publicar comentário. Por favor, tente novamente.",
+            "reportFailed": "Falha ao denunciar publicação. Por favor, tente novamente.",
+            "hideFailed": "Falha ao ocultar publicação. Por favor, tente novamente.",
+            "profileFetchFailed": "Falha ao carregar perfil.",
+            "userBlocked": "Usuário bloqueado",
+            "blockFailed": "Falha ao bloquear usuário. Por favor, tente novamente.",
+            "postHeader": "Publicação",
+            "invalidPostId": "ID de publicação inválido",
+            "postNotFound": "Publicação não encontrada",
+            "postMayBeDeletedOrPrivate": "Esta publicação pode ter sido excluída ou configurada como privada.",
+            "goToTopPage": "Ir para a página principal",
+            "joinWeDiet": "Junte-se ao We Diet e trabalhe junto com seus amigos em direção às suas metas!",
+            "defaultDescription": "Trabalhe junto com seus companheiros de dieta",
+            "dietSNS": "SNS de Dieta",
+            "userPostTitle": "Publicação de {user} | We Diet"
+        },
+        "emojiCategory": {
+            "recent": "Recentes",
+            "peopleAndFaces": "Pessoas e rostos",
+            "animalsAndNature": "Animais e natureza",
+            "foodAndDrink": "Comida e bebida",
+            "activities": "Atividades",
+            "travelAndPlaces": "Viagens e lugares",
+            "objects": "Objetos",
+            "symbols": "Símbolos",
+            "flags": "Bandeiras"
+        }
+    },
+    "pages": {
+        "registerComplete": {
+            "title": "Registro concluído",
+            "redirectMessage": "Redirecionando para o painel de controle..."
+        },
+        "termsOfService": {
+            "title": "Termos de Serviço",
+            "lastUpdated": "Última atualização:",
+            "acceptanceTitle": "Aceitação dos Termos",
+            "acceptanceContent": "Ao acessar e utilizar o We Diet (\"o Serviço\"), você aceita e concorda em estar sujeito aos termos e disposições deste acordo.",
+            "serviceDescriptionTitle": "Descrição do Serviço",
+            "serviceDescriptionContent": "We Diet é uma plataforma social de bem-estar que permite aos usuários:",
+            "serviceFeature1": "Registrar refeições diárias, exercícios e gestão de peso",
+            "serviceFeature2": "Registrar e compartilhar o progresso da jornada fitness",
+            "serviceFeature3": "Conectar-se com uma comunidade de apoio",
+            "serviceFeature4": "Acessar recursos de saúde e bem-estar",
+            "userAccountsTitle": "Contas de Usuário",
+            "userAccountsContent": "Para usar certas funcionalidades do Serviço, você deve registrar uma conta. Você concorda em:",
+            "userAccountsItem1": "Fornecer informações precisas e completas",
+            "userAccountsItem2": "Manter a segurança das credenciais da sua conta",
+            "userAccountsItem3": "Ser responsável por todas as atividades sob sua conta",
+            "userAccountsItem4": "Notificar-nos sobre qualquer uso não autorizado",
+            "userConductTitle": "Conteúdo e Conduta do Usuário",
+            "userConductContent": "Você concorda em não:",
+            "userConductItem1": "Publicar conteúdo prejudicial, ofensivo ou inapropriado",
+            "userConductItem2": "Violar qualquer lei ou regulamento aplicável",
+            "userConductItem3": "Infringir direitos de propriedade intelectual",
+            "userConductItem4": "Enviar spam ou assediar outros usuários",
+            "userConductItem5": "Compartilhar informações de saúde falsas ou enganosas",
+            "privacyTitle": "Privacidade",
+            "privacyContent": "Sua privacidade é importante para nós. Por favor, revise nossa Política de Privacidade, que também rege seu uso do Serviço, para entender nossas práticas.",
+            "thirdPartyTitle": "Serviços de Terceiros",
+            "thirdPartyContent": "Nosso Serviço se integra com plataformas de terceiros incluindo:",
+            "thirdPartyItem1": "Login com Facebook",
+            "thirdPartyItem2": "Google OAuth",
+            "thirdPartyItem3": "Login com TikTok",
+            "thirdPartyNote": "Seu uso desses serviços está sujeito aos seus respectivos termos e políticas de privacidade.",
+            "disclaimersTitle": "Isenções de Responsabilidade",
+            "disclaimersContent": "O Serviço é fornecido \"como está\" sem garantias de qualquer tipo. Não fornecemos aconselhamento médico e recomendamos consultar profissionais de saúde para questões médicas.",
+            "limitationTitle": "Limitação de Responsabilidade",
+            "limitationContent": "Não seremos responsáveis por quaisquer danos indiretos, incidentais, especiais, consequenciais ou punitivos resultantes do seu uso do Serviço.",
+            "modificationsTitle": "Modificações",
+            "modificationsContent": "Reservamo-nos o direito de modificar estes termos a qualquer momento. As alterações serão efetivas após a publicação nesta página.",
+            "terminationTitle": "Rescisão",
+            "terminationContent": "Podemos encerrar ou suspender sua conta a qualquer momento por violações destes termos.",
+            "contactTitle": "Informações de Contato",
+            "contactContent": "Se você tiver alguma dúvida sobre estes Termos de Serviço, entre em contato conosco em:",
+            "contactEmail": "Email: we.diet.dev@gmail.com",
+            "governingLawTitle": "Lei Aplicável",
+            "governingLawContent": "Estes termos são regidos pelas leis do Japão."
+        },
+        "privacyPolicy": {
+            "title": "Política de Privacidade",
+            "lastUpdated": "Última atualização:",
+            "collectionTitle": "Coleta de Informações",
+            "collectionContent": "We Diet (\"o Serviço\") pode coletar as seguintes informações pessoais:",
+            "collectionItem1": "Nome, endereço de e-mail",
+            "collectionItem2": "Informações do perfil (altura, peso, idade, etc.)",
+            "collectionItem3": "Registros de refeições, registros de exercícios",
+            "collectionItem4": "Informações fornecidas por serviços externos como Facebook e Google",
+            "usageTitle": "Uso de Informações Pessoais",
+            "usageContent": "Utilizamos as informações pessoais coletadas para os seguintes propósitos:",
+            "usageItem1": "Fornecer, operar e melhorar o serviço",
+            "usageItem2": "Suporte ao usuário",
+            "usageItem3": "Criar dados estatísticos (de forma que não seja possível identificar indivíduos)",
+            "thirdPartyTitle": "Divulgação a Terceiros",
+            "thirdPartyContent": "Não forneceremos informações pessoais a terceiros sem seu consentimento, exceto quando exigido por lei.",
+            "managementTitle": "Segurança da Informação",
+            "managementContent": "Implementamos medidas de segurança apropriadas para prevenir vazamento, perda ou danos a informações pessoais.",
+            "cookiesTitle": "Sobre os Cookies",
+            "cookiesContent": "Este serviço pode utilizar cookies para melhorar o serviço. Se você não desejar usar cookies, pode desativá-los nas configurações do seu navegador.",
+            "externalServicesTitle": "Integração de Serviços Externos",
+            "externalServicesContent": "Este serviço se integra com os seguintes serviços externos:",
+            "externalServicesItem1": "Login com Facebook",
+            "externalServicesItem2": "Google OAuth",
+            "externalServicesItem3": "Login com TikTok",
+            "externalServicesNote": "Consulte os sites oficiais de cada serviço para suas políticas de privacidade.",
+            "contactTitle": "Entre em Contato",
+            "contactContent": "Para consultas sobre o tratamento de informações pessoais, entre em contato conosco em:",
+            "contactEmail": "Email: privacy@we-diet.net",
+            "changesTitle": "Alterações na Política de Privacidade",
+            "changesContent": "Esta política de privacidade pode ser alterada devido a mudanças nas leis ou melhorias no serviço. Quando alterações forem realizadas, notificaremos você publicando-as neste site."
+        },
+        "topPage": {
+            "hero": {
+                "subtitle": "Pode ser difícil continuar sozinho, mas com companheiros se torna divertido",
+                "loginButton": "Página de Login",
+                "punchLines": [
+                    "Exercício⇒Registro⇒Compartilhar",
+                    "😊",
+                    "Refeição⇒Registro⇒Compartilhar",
+                    "🙄"
+                ]
+            },
+            "features": {
+                "exercise": {
+                    "title": "Exercício",
+                    "description": "Quantos quilômetros você caminhou hoje? Vamos exibir sua distância"
+                },
+                "indulgence": {
+                    "title": "Banquete",
+                    "description": "Hoje é dia de trapacear! Vamos fazer terror gastronômico com seu banquete"
+                },
+                "sns": {
+                    "title": "Integração SNS",
+                    "description": "Este é um lugar para compartilhar seus registros de saúde nas redes sociais e compartilhar com alguém."
+                }
+            },
+            "product": {
+                "title": "Apoio à Dieta",
+                "description": "Este é um aplicativo tipo rede social centrado em registros de exercício, saúde e refeição."
+            },
+            "footer": {
+                "privacyPolicy": "Política de Privacidade",
+                "termsOfService": "Termos de Serviço"
+            }
+        },
+        "verifyEmail": {
+            "title": "Verificação de e-mail | We Diet - SNS de Dieta",
+            "description": "Página de verificação de e-mail do We Diet.",
+            "tokenNotFound": "Token de verificação não encontrado.",
+            "verificationComplete": "Verificação de e-mail concluída!",
+            "verificationFailed": "A verificação de e-mail falhou.",
+            "networkError": "Ocorreu um erro de rede.",
+            "verifying": "Verificando e-mail...",
+            "pleaseWait": "Por favor, aguarde",
+            "congratulations": "Parabéns por concluir o registro!",
+            "loginInfo": "Informações de login",
+            "welcomeMessage": "Bem-vindo ao We-Diet, {username}!",
+            "emailLabel": "E-mail",
+            "temporaryPassword": "Senha temporária",
+            "importantPasswordChange": "Importante: Por favor, altere sua senha nas configurações do perfil.",
+            "goToProfileSettings": "Ir para configurações do perfil",
+            "verificationFailedTitle": "A verificação falhou",
+            "backToLoginPage": "Voltar à página de login"
+        }
+    }
+}

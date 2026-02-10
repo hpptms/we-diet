@@ -3,7 +3,8 @@ import {
     loadEnglishTranslations,
     loadChineseTranslations,
     loadKoreanTranslations,
-    loadSpanishTranslations
+    loadSpanishTranslations,
+    loadPortugueseTranslations
 } from './moduleLoader';
 
 // 分割されたモジュールからすべての言語翻訳を読み込み
@@ -12,8 +13,9 @@ const enTranslations = loadEnglishTranslations();
 const zhCNTranslations = loadChineseTranslations();
 const koTranslations = loadKoreanTranslations();
 const esTranslations = loadSpanishTranslations();
+const ptTranslations = loadPortugueseTranslations();
 
-export type SupportedLanguage = 'ja' | 'en' | 'zh-CN' | 'ko' | 'es';
+export type SupportedLanguage = 'ja' | 'en' | 'zh-CN' | 'ko' | 'es' | 'pt';
 
 export interface LanguageInfo {
     code: SupportedLanguage;
@@ -27,6 +29,7 @@ export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
     { code: 'zh-CN', name: 'Chinese (Simplified)', nativeName: '简体中文' },
     { code: 'ko', name: 'Korean', nativeName: '한국어' },
     { code: 'es', name: 'Spanish', nativeName: 'Español' },
+    { code: 'pt', name: 'Portuguese', nativeName: 'Português' },
 ];
 
 const translations = {
@@ -35,6 +38,7 @@ const translations = {
     'zh-CN': zhCNTranslations,
     ko: koTranslations,
     es: esTranslations,
+    pt: ptTranslations,
 };
 
 export type TranslationKey = keyof typeof jaTranslations;
@@ -146,6 +150,10 @@ export const setLanguageToSpanish = (): void => {
     setStoredLanguage('es');
 };
 
+export const setLanguageToPortuguese = (): void => {
+    setStoredLanguage('pt');
+};
+
 // 開発用：コンソールから言語を変更できるようにグローバルに公開
 if (typeof window !== 'undefined' && import.meta.env.DEV) {
     (window as any).setLanguageToEnglish = setLanguageToEnglish;
@@ -153,6 +161,7 @@ if (typeof window !== 'undefined' && import.meta.env.DEV) {
     (window as any).setLanguageToChineseCN = setLanguageToChineseCN;
     (window as any).setLanguageToKorean = setLanguageToKorean;
     (window as any).setLanguageToSpanish = setLanguageToSpanish;
+    (window as any).setLanguageToPortuguese = setLanguageToPortuguese;
 }
 
 /**
