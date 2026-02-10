@@ -45,6 +45,8 @@ export const TopPage = () => {
         return `${baseUrl}/ko/`;
       case 'zh-CN':
         return `${baseUrl}/zh/`;
+      case 'es':
+        return `${baseUrl}/es/`;
       case 'ja':
       default:
         return `${baseUrl}/`;
@@ -57,6 +59,7 @@ export const TopPage = () => {
     { lang: 'en', url: 'https://we-diet.net/en/' },
     { lang: 'ko', url: 'https://we-diet.net/ko/' },
     { lang: 'zh', url: 'https://we-diet.net/zh/' },
+    { lang: 'es', url: 'https://we-diet.net/es/' },
     { lang: 'x-default', url: 'https://we-diet.net/' }
   ];
 
@@ -77,6 +80,11 @@ export const TopPage = () => {
         return {
           title: 'We Diet - 减肥SNS应用 | 与伙伴一起坚持的体重管理、饮食记录、运动记录',
           description: '一个人很难坚持减肥，但有伙伴就能愉快地持续下去。We Diet是可以在SNS上分享饮食记录、运动记录、体重管理的减肥记录应用。支持维持动力的健康管理SNS平台。免费开始使用。'
+        };
+      case 'es':
+        return {
+          title: 'We Diet - App SNS de Dieta | Gestión de Peso, Registro de Comidas y Ejercicio con Amigos',
+          description: '¿Es difícil seguir una dieta solo? ¡Con We Diet es divertido con amigos! Comparte registros de comidas, ejercicio y control de peso en una plataforma social. App gratuita de seguimiento de dieta con apoyo motivacional.'
         };
       case 'ja':
       default:

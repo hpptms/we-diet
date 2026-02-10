@@ -12,6 +12,21 @@ import {
     setLanguageToSpanish,
 } from '../i18n';
 
+/**
+ * URLパスから言語を検出する
+ * /en/ → 'en', /es/ → 'es', /ko/ → 'ko', /zh/ → 'zh-CN'
+ */
+const detectLanguageFromURL = (): SupportedLanguage | null => {
+    const path = window.location.pathname;
+    const langMap: { [key: string]: SupportedLanguage } = {
+        '/en/': 'en',
+        '/es/': 'es',
+        '/ko/': 'ko',
+        '/zh/': 'zh-CN',
+    };
+    return langMap[path] || null;
+};
+
 export interface LanguageContextType {
     language: SupportedLanguage;
     setLanguage: (language: SupportedLanguage) => void;
@@ -33,7 +48,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
     defaultLanguage,
 }) => {
     const [language, setCurrentLanguage] = useState<SupportedLanguage>(() => {
-        return defaultLanguage || getCurrentLanguage();
+        // 優先度: URLパス > デフォルト引数 > 保存済み/ブラウザ設定
+        return detectLanguageFromURL() || defaultLanguage || getCurrentLanguage();
     });
 
     // 初期化処理（言語の再評価 + ストレージ監視 + グローバル関数公開）

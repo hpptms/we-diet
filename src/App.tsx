@@ -227,6 +227,27 @@ function App() {
             <LazyTopPage />
           </Suspense>
         } />
+        {/* 多言語トップページルート */}
+        <Route path="/en/" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyTopPage />
+          </Suspense>
+        } />
+        <Route path="/es/" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyTopPage />
+          </Suspense>
+        } />
+        <Route path="/ko/" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyTopPage />
+          </Suspense>
+        } />
+        <Route path="/zh/" element={
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyTopPage />
+          </Suspense>
+        } />
         {/* 404ページのフォールバック - 不正なルートをトップページにリダイレクト */}
         <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
