@@ -374,7 +374,7 @@ export const TopPage = () => {
                 borderRadius: "4px"
               }}
             >
-              データ削除手順
+              {t('pages', 'topPage.footer.dataDeletion')}
             </a>
             <a
               href="/blog/index.html"
@@ -386,7 +386,7 @@ export const TopPage = () => {
                 borderRadius: "4px"
               }}
             >
-              {t('pages', 'topPage.footer.blog', {}, 'ブログ')}
+              {t('pages', 'topPage.footer.blog')}
             </a>
           </div>
         </div>

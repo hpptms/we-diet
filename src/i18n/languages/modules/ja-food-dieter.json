@@ -370,7 +370,9 @@
             },
             "footer": {
                 "privacyPolicy": "プライバシーポリシー",
-                "termsOfService": "利用規約"
+                "termsOfService": "利用規約",
+                "dataDeletion": "データ削除手順",
+                "blog": "ブログ"
             }
         },
         "verifyEmail": {

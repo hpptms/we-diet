@@ -404,7 +404,9 @@
             },
             "footer": {
                 "privacyPolicy": "隐私政策",
-                "termsOfService": "服务条款"
+                "termsOfService": "服务条款",
+                "dataDeletion": "数据删除步骤",
+                "blog": "博客"
             }
         },
         "verifyEmail": {

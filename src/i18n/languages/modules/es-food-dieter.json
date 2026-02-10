@@ -404,7 +404,9 @@
             },
             "footer": {
                 "privacyPolicy": "Política de Privacidad",
-                "termsOfService": "Términos de Servicio"
+                "termsOfService": "Términos de Servicio",
+                "dataDeletion": "Eliminación de datos",
+                "blog": "Blog"
             }
         },
         "verifyEmail": {
