@@ -24,7 +24,8 @@ const PrivacyPolicy: React.FC = () => {
   };
 
   const handleBackClick = () => {
-    navigate('/');
+    const langPrefix = language === 'ja' ? '/' : `/${language === 'zh-CN' ? 'zh' : language}/`;
+    navigate(langPrefix);
   };
 
   return (
@@ -32,7 +33,7 @@ const PrivacyPolicy: React.FC = () => {
       <SEOHelmet
         title={`${t('pages', 'privacyPolicy.title')} | We Diet`}
         description={t('pages', 'privacyPolicy.collectionContent')}
-        canonicalUrl="https://we-diet.net/privacy-policy"
+        canonicalUrl={`https://we-diet.net${language === 'ja' ? '' : `/${language === 'zh-CN' ? 'zh' : language}`}/privacy-policy`}
         ogType="article"
       />
       <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>

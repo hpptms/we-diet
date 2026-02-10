@@ -291,7 +291,7 @@
         }
     },
     "pages": {
-        "backToTop": "← Volver a la página principal",
+        "backToTop": "← Volver al TOP",
         "registerComplete": {
             "title": "Registro completado",
             "redirectMessage": "Redirigiendo al panel de control..."

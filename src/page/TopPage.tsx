@@ -315,7 +315,7 @@ export const TopPage = () => {
             flexWrap: "wrap"
           }}>
             <a
-              href="/privacy-policy"
+              href={`${language === 'ja' ? '' : `/${language === 'zh-CN' ? 'zh' : language}`}/privacy-policy`}
               style={{
                 color: "#6c757d",
                 textDecoration: "none",
@@ -327,7 +327,7 @@ export const TopPage = () => {
               {t('pages', 'topPage.footer.privacyPolicy')}
             </a>
             <a
-              href="/terms-of-service"
+              href={`${language === 'ja' ? '' : `/${language === 'zh-CN' ? 'zh' : language}`}/terms-of-service`}
               style={{
                 color: "#6c757d",
                 textDecoration: "none",
@@ -339,7 +339,7 @@ export const TopPage = () => {
               {t('pages', 'topPage.footer.termsOfService')}
             </a>
             <a
-              href="/data-deletion"
+              href={`${language === 'ja' ? '' : `/${language === 'zh-CN' ? 'zh' : language}`}/data-deletion`}
               style={{
                 color: "#6c757d",
                 textDecoration: "none",

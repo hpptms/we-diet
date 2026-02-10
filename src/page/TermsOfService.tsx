@@ -24,7 +24,8 @@ const TermsOfService: React.FC = () => {
   };
 
   const handleBackClick = () => {
-    navigate('/');
+    const langPrefix = language === 'ja' ? '/' : `/${language === 'zh-CN' ? 'zh' : language}/`;
+    navigate(langPrefix);
   };
 
   return (
@@ -32,7 +33,7 @@ const TermsOfService: React.FC = () => {
       <SEOHelmet
         title={`${t('pages', 'termsOfService.title')} | We Diet`}
         description={t('pages', 'termsOfService.acceptanceContent')}
-        canonicalUrl="https://we-diet.net/terms-of-service"
+        canonicalUrl={`https://we-diet.net${language === 'ja' ? '' : `/${language === 'zh-CN' ? 'zh' : language}`}/terms-of-service`}
         ogType="article"
       />
       <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>

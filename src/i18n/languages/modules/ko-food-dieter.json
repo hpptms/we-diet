@@ -291,7 +291,7 @@
         }
     },
     "pages": {
-        "backToTop": "← 홈페이지로 돌아가기",
+        "backToTop": "← TOP으로 돌아가기",
         "registerComplete": {
             "title": "가입이 완료되었습니다",
             "redirectMessage": "대시보드로 리다이렉트합니다..."

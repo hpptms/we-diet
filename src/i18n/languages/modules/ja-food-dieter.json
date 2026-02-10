@@ -289,7 +289,7 @@
         }
     },
     "pages": {
-        "backToTop": "← トップページに戻る",
+        "backToTop": "← TOPに戻る",
         "registerComplete": {
             "title": "登録が完了しました",
             "redirectMessage": "ダッシュボードへリダイレクトします..."

@@ -291,7 +291,7 @@
         }
     },
     "pages": {
-        "backToTop": "← Back to Top Page",
+        "backToTop": "← Back to TOP",
         "registerComplete": {
             "title": "Registration Complete",
             "redirectMessage": "Redirecting to dashboard..."

@@ -222,6 +222,26 @@ function App() {
             <LazyTermsOfService />
           </Suspense>
         } />
+        {/* 多言語法的ページルート */}
+        {['en', 'es', 'ko', 'zh', 'pt'].map(lang => (
+          <React.Fragment key={lang}>
+            <Route path={`/${lang}/privacy-policy`} element={
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyPrivacyPolicy />
+              </Suspense>
+            } />
+            <Route path={`/${lang}/terms-of-service`} element={
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyTermsOfService />
+              </Suspense>
+            } />
+            <Route path={`/${lang}/data-deletion`} element={
+              <Suspense fallback={<LoadingComponent />}>
+                <LazyDataDeletion />
+              </Suspense>
+            } />
+          </React.Fragment>
+        ))}
         <Route path="/faq" element={
           <Suspense fallback={<LoadingComponent />}>
             <LazyFAQPage />

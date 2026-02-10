@@ -15,18 +15,23 @@ import {
 
 /**
  * URLパスから言語を検出する
- * /en/ → 'en', /es/ → 'es', /ko/ → 'ko', /zh/ → 'zh-CN'
+ * /en/ → 'en', /en/privacy-policy → 'en', /es/ → 'es', /ko/ → 'ko', /zh/ → 'zh-CN'
  */
 const detectLanguageFromURL = (): SupportedLanguage | null => {
     const path = window.location.pathname;
-    const langMap: { [key: string]: SupportedLanguage } = {
-        '/en/': 'en',
-        '/es/': 'es',
-        '/ko/': 'ko',
-        '/zh/': 'zh-CN',
-        '/pt/': 'pt',
-    };
-    return langMap[path] || null;
+    const langPrefixes: { prefix: string; lang: SupportedLanguage }[] = [
+        { prefix: '/en/', lang: 'en' },
+        { prefix: '/es/', lang: 'es' },
+        { prefix: '/ko/', lang: 'ko' },
+        { prefix: '/zh/', lang: 'zh-CN' },
+        { prefix: '/pt/', lang: 'pt' },
+    ];
+    for (const { prefix, lang } of langPrefixes) {
+        if (path === prefix || path.startsWith(prefix)) {
+            return lang;
+        }
+    }
+    return null;
 };
 
 export interface LanguageContextType {
@@ -56,10 +61,13 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
 
     // 初期化処理（言語の再評価 + ストレージ監視 + グローバル関数公開）
     useEffect(() => {
-        // 言語設定の再評価
-        const currentLang = getCurrentLanguage();
-        if (currentLang !== language) {
-            setCurrentLanguage(currentLang);
+        // URL検出の言語が最優先（URL指定がない場合のみ保存済み設定を使用）
+        const urlLang = detectLanguageFromURL();
+        if (!urlLang) {
+            const currentLang = getCurrentLanguage();
+            if (currentLang !== language) {
+                setCurrentLanguage(currentLang);
+            }
         }
 
         // HTML lang属性を設定

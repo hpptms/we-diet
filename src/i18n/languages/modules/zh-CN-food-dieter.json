@@ -291,7 +291,7 @@
         }
     },
     "pages": {
-        "backToTop": "← 返回首页",
+        "backToTop": "← 返回TOP",
         "registerComplete": {
             "title": "注册已完成",
             "redirectMessage": "正在重定向到仪表板..."

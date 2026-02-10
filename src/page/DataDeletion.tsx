@@ -24,7 +24,8 @@ const DataDeletion: React.FC = () => {
   };
 
   const handleBackClick = () => {
-    navigate('/');
+    const langPrefix = language === 'ja' ? '/' : `/${language === 'zh-CN' ? 'zh' : language}/`;
+    navigate(langPrefix);
   };
 
   return (
@@ -32,7 +33,7 @@ const DataDeletion: React.FC = () => {
       <SEOHelmet
         title={`${t('pages', 'dataDeletion.title')} | We Diet`}
         description={t('pages', 'dataDeletion.overviewContent')}
-        canonicalUrl="https://we-diet.net/data-deletion"
+        canonicalUrl={`https://we-diet.net${language === 'ja' ? '' : `/${language === 'zh-CN' ? 'zh' : language}`}/data-deletion`}
         ogType="article"
       />
       <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
