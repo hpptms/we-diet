@@ -8,7 +8,7 @@
     <link>https://we-diet.net/blog/</link>
     <description>Diet, fitness, meal management, and mental health — practical articles to support a healthy lifestyle. Available in Japanese, English, Chinese, Korean, and Spanish. / ダイエット、筋トレ、食事管理、メンタルヘルスなど、健康的なライフスタイルをサポートする情報を発信。</description>
     <language>ja</language>
-    <lastBuildDate>Mon, 10 Feb 2026 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 11 Feb 2026 00:00:00 +0900</lastBuildDate>
     <atom:link href="https://we-diet.net/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp</url>
@@ -20,6 +20,22 @@
     <webMaster>we.diet.dev@gmail.com (We Diet)</webMaster>
     <dc:language>ja</dc:language>
     <ttl>1440</ttl>
+    <item>
+      <title>階段で息が上がる人でもマラソンは走れる？体力ゼロからの完走ロードマップ | We Diet ブログ</title>
+      <link>https://we-diet.net/blog/page/body-wellness/marathon-beginners-guide.html</link>
+      <description>階段を上るだけで息が上がる体力に自信がない方へ。体力ゼロの状態からマラソン完走を目指すステップを解説。ウォーキングから始めて段階的に走力をつける方法を紹介します。</description>
+      <category>ボディ＆ウェルネス</category>
+      <pubDate>Wed, 11 Feb 2026 00:00:00 +0900</pubDate>
+      <guid isPermaLink="true">https://we-diet.net/blog/page/body-wellness/marathon-beginners-guide.html</guid>
+    </item>
+    <item>
+      <title>コレステロール値が高いと言われたら？運動初心者でも続けられる改善エクササイズ | We Diet ブログ</title>
+      <link>https://we-diet.net/blog/page/body-wellness/cholesterol-exercise-beginners.html</link>
+      <description>健康診断でコレステロール値が高いと指摘された方へ。運動習慣がない初心者でも無理なく続けられる運動を厳選して紹介。ウォーキングやスロージョギングなど今日から始められる方法を解説します。</description>
+      <category>ボディ＆ウェルネス</category>
+      <pubDate>Wed, 11 Feb 2026 00:00:00 +0900</pubDate>
+      <guid isPermaLink="true">https://we-diet.net/blog/page/body-wellness/cholesterol-exercise-beginners.html</guid>
+    </item>
     <item>
       <title>辛いものを食べるとダイエット効果はあるのか？｜カプサイシンと代謝の科学 | We Diet ブログ</title>
       <link>https://we-diet.net/blog/page/food-diet/spicy-food-diet-effects.html</link>
