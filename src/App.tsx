@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { CircularProgress, Box } from '@mui/material';
 import { HelmetProvider } from 'react-helmet-async';
 import DashboardLayout from './component/DashboardLayout';
-import AMPRedirect from './component/AMPRedirect';
 import { initGA, trackPageView } from './utils/googleAnalytics';
 import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 import { notifyPageView } from './utils/indexNow';
@@ -209,13 +208,19 @@ function App() {
           </Suspense>
         } />
         <Route path="/privacy-policy" element={
-          <AMPRedirect ampPath="/amp/privacy-policy.html" />
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyPrivacyPolicy />
+          </Suspense>
         } />
         <Route path="/data-deletion" element={
-          <AMPRedirect ampPath="/amp/data-deletion.html" />
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyDataDeletion />
+          </Suspense>
         } />
         <Route path="/terms-of-service" element={
-          <AMPRedirect ampPath="/amp/terms-of-service.html" />
+          <Suspense fallback={<LoadingComponent />}>
+            <LazyTermsOfService />
+          </Suspense>
         } />
         <Route path="/faq" element={
           <Suspense fallback={<LoadingComponent />}>

@@ -7,32 +7,6 @@ import { SEOHelmet } from '../component/SEOHelmet';
 import { useTranslation } from '../hooks/useTranslation';
 import { setLanguageToEnglish, setLanguageToJapanese, setLanguageToChineseCN, setLanguageToKorean, setLanguageToSpanish, setLanguageToPortuguese } from '../i18n';
 
-// 言語に対応したAMPリンクを生成
-const getAMPLink = (type: 'privacy' | 'terms' | 'dataDeletion', language: string): string => {
-  if (language === 'ja') {
-    return type === 'privacy' ? '/amp/privacy-policy.html' : 
-           type === 'terms' ? '/amp/terms-of-service.html' : 
-           '/amp/data-deletion.html';
-  }
-  
-  // 各言語コードのマッピング
-  const langCodeMap: { [key: string]: string } = {
-    'zh-CN': 'zh',
-    'en': 'en',
-    'ko': 'ko',
-    'es': 'es',
-    'pt': 'pt'
-  };
-  
-  const langCode = langCodeMap[language] || language;
-  
-  return type === 'privacy' 
-    ? `/amp/privacy-policy/${langCode}.html` 
-    : type === 'terms'
-    ? `/amp/terms-of-service/${langCode}.html`
-    : `/amp/data-deletion/${langCode}.html`;
-};
-
 export const TopPage = () => {
   const { t, language, setLanguage } = useTranslation();
   
@@ -340,8 +314,8 @@ export const TopPage = () => {
             gap: "20px",
             flexWrap: "wrap"
           }}>
-            <a 
-              href={getAMPLink('privacy', language)}
+            <a
+              href="/privacy-policy"
               style={{
                 color: "#6c757d",
                 textDecoration: "none",
@@ -352,8 +326,8 @@ export const TopPage = () => {
             >
               {t('pages', 'topPage.footer.privacyPolicy')}
             </a>
-            <a 
-              href={getAMPLink('terms', language)}
+            <a
+              href="/terms-of-service"
               style={{
                 color: "#6c757d",
                 textDecoration: "none",
@@ -365,7 +339,7 @@ export const TopPage = () => {
               {t('pages', 'topPage.footer.termsOfService')}
             </a>
             <a
-              href={getAMPLink('dataDeletion', language)}
+              href="/data-deletion"
               style={{
                 color: "#6c757d",
                 textDecoration: "none",
