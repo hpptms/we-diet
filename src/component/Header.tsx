@@ -9,11 +9,73 @@ import { DEFAULT_IMAGES } from '../image/DefaultImage';
 import { useTranslation } from '../hooks/useTranslation';
 import axios from 'axios';
 
+// 言語切り替えボタンコンポーネント（全ページ共通で表示）
+const LanguageButton: React.FC = () => {
+  const isDarkMode = useRecoilValue(darkModeState);
+  const { language, setLanguage, availableLanguages } = useTranslation();
+  const [langMenuAnchor, setLangMenuAnchor] = useState<null | HTMLElement>(null);
+
+  return (
+    <>
+      <IconButton
+        onClick={(e) => setLangMenuAnchor(e.currentTarget)}
+        sx={{
+          color: isDarkMode ? '#29b6f6' : '#ffffff',
+          border: isDarkMode ? '1.5px solid #29b6f6' : '1.5px solid #ffffff',
+          borderRadius: '8px',
+          padding: '4px 8px',
+          fontSize: '0.75rem',
+          gap: 0.5,
+          '&:hover': {
+            backgroundColor: isDarkMode ? 'rgba(41, 182, 246, 0.1)' : 'rgba(255, 255, 255, 0.2)',
+          },
+        }}
+      >
+        <Language sx={{ fontSize: '1.2rem' }} />
+        <Typography sx={{ fontSize: '0.7rem', fontWeight: 600 }}>
+          {availableLanguages.find(l => l.code === language)?.nativeName || language}
+        </Typography>
+      </IconButton>
+      <Menu
+        anchorEl={langMenuAnchor}
+        open={Boolean(langMenuAnchor)}
+        onClose={() => setLangMenuAnchor(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        {availableLanguages.map((lang) => (
+          <MenuItem
+            key={lang.code}
+            selected={lang.code === language}
+            onClick={() => {
+              setLanguage(lang.code);
+              setLangMenuAnchor(null);
+            }}
+            sx={{
+              minWidth: 160,
+              ...(lang.code === language && {
+                backgroundColor: 'rgba(25, 118, 210, 0.08)',
+                fontWeight: 600,
+              }),
+            }}
+          >
+            <ListItemText
+              primary={lang.nativeName}
+              secondary={lang.name}
+              primaryTypographyProps={{ fontSize: '0.9rem' }}
+              secondaryTypographyProps={{ fontSize: '0.75rem' }}
+            />
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+};
+
 const Header: React.FC = () => {
   const location = useLocation();
   const isDarkMode = useRecoilValue(darkModeState);
-  const { t } = useTranslation();
-  
+
   // 青系ストライプ色を定義
   const stripes = ['#cceeff', '#b3e5fc', '#e0f7fa', '#b2ebf2', '#80deea', '#4dd0e1', '#26c6da'];
 
@@ -22,8 +84,8 @@ const Header: React.FC = () => {
     ${stripes.map((color, i) => `${color} ${i * 14.2}% ${(i + 1) * 14.2}%`).join(', ')}
   )`;
 
-  // ログインページまたはトップページの場合はアイコンを非表示
-  const shouldHideIcon = location.pathname === '/login' || location.pathname === '/';
+  // ログインページまたはトップページの場合はプロフィールアイコンを非表示
+  const shouldHideProfileIcon = location.pathname === '/login' || location.pathname === '/';
 
   return (
     <AppBar
@@ -65,11 +127,11 @@ const Header: React.FC = () => {
         >
           We Diet
         </Typography>
-        {!shouldHideIcon && (
-          <Box sx={{ ml: 'auto' }}>
-            <ProfileIcon />
-          </Box>
-        )}
+        <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
+          {/* 言語ボタンは全ページで常に表示 */}
+          <LanguageButton />
+          {!shouldHideProfileIcon && <ProfileIcon />}
+        </Box>
       </Toolbar>
     </AppBar>
   );
@@ -84,8 +146,7 @@ const ProfileIcon: React.FC = () => {
   const navigate = useNavigate();
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useRecoilState(darkModeState);
-  const { t, language, setLanguage, availableLanguages } = useTranslation();
-  const [langMenuAnchor, setLangMenuAnchor] = useState<null | HTMLElement>(null);
+  const { t } = useTranslation();
 
   // サーバーからプロフィール情報を取得
   useEffect(() => {
@@ -203,59 +264,6 @@ const ProfileIcon: React.FC = () => {
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        {/* 言語切り替えボタン */}
-        <IconButton
-          onClick={(e) => setLangMenuAnchor(e.currentTarget)}
-          sx={{
-            color: isDarkMode ? '#29b6f6' : '#ffffff',
-            border: isDarkMode ? '1.5px solid #29b6f6' : '1.5px solid #ffffff',
-            borderRadius: '8px',
-            padding: '4px 8px',
-            fontSize: '0.75rem',
-            gap: 0.5,
-            '&:hover': {
-              backgroundColor: isDarkMode ? 'rgba(41, 182, 246, 0.1)' : 'rgba(255, 255, 255, 0.2)',
-            },
-          }}
-        >
-          <Language sx={{ fontSize: '1.2rem' }} />
-          <Typography sx={{ fontSize: '0.7rem', fontWeight: 600 }}>
-            {availableLanguages.find(l => l.code === language)?.nativeName || language}
-          </Typography>
-        </IconButton>
-        <Menu
-          anchorEl={langMenuAnchor}
-          open={Boolean(langMenuAnchor)}
-          onClose={() => setLangMenuAnchor(null)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-        >
-          {availableLanguages.map((lang) => (
-            <MenuItem
-              key={lang.code}
-              selected={lang.code === language}
-              onClick={() => {
-                setLanguage(lang.code);
-                setLangMenuAnchor(null);
-              }}
-              sx={{
-                minWidth: 160,
-                ...(lang.code === language && {
-                  backgroundColor: 'rgba(25, 118, 210, 0.08)',
-                  fontWeight: 600,
-                }),
-              }}
-            >
-              <ListItemText
-                primary={lang.nativeName}
-                secondary={lang.name}
-                primaryTypographyProps={{ fontSize: '0.9rem' }}
-                secondaryTypographyProps={{ fontSize: '0.75rem' }}
-              />
-            </MenuItem>
-          ))}
-        </Menu>
-
         {/* ダークモードトグル */}
         <FormControlLabel
           control={
