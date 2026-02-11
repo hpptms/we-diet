@@ -1,6 +1,6 @@
-// HealthKit Service Layer for Capacitor iOS
-// Uses capacitor-health plugin (v7+)
-import { isIOSNative } from './platform';
+// Health Service Layer for Capacitor iOS/Android
+// Uses capacitor-health plugin (v7+) - supports HealthKit (iOS) and Health Connect (Android)
+import { isNativePlatform } from './platform';
 import type { DeviceExerciseData } from './deviceSync';
 
 export interface HealthKitPermissionStatus {
@@ -24,7 +24,7 @@ let _pluginLoaded = false;
 const ensurePlugin = async (): Promise<boolean> => {
   if (_pluginLoaded) return _health !== null;
   _pluginLoaded = true;
-  if (!isIOSNative()) return false;
+  if (!isNativePlatform()) return false;
   try {
     const mod = await import('capacitor-health');
     _health = mod.Health;
@@ -35,11 +35,11 @@ const ensurePlugin = async (): Promise<boolean> => {
 };
 
 export const isHealthKitAvailable = (): boolean => {
-  return isIOSNative();
+  return isNativePlatform();
 };
 
 export const requestHealthKitPermissions = async (): Promise<HealthKitPermissionStatus> => {
-  if (!isIOSNative()) {
+  if (!isNativePlatform()) {
     return { granted: false, error: 'Not iOS native' };
   }
 
@@ -77,7 +77,7 @@ export const requestHealthKitPermissions = async (): Promise<HealthKitPermission
 };
 
 export const readHealthKitExerciseData = async (): Promise<DeviceExerciseData | null> => {
-  if (!isIOSNative()) return null;
+  if (!isNativePlatform()) return null;
 
   try {
     const ready = await ensurePlugin();

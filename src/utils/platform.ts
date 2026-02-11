@@ -17,13 +17,8 @@ export const isWeb = (): boolean => {
 };
 
 /**
- * OAuth認証URLを開く
- * iOS ネイティブ: In-App Browser (SFSafariViewController) で開き、platform=ios パラメータを追加
- * Web: 通常の window.location.href でリダイレクト
- */
-/**
  * 外部URLをブラウザで開く（ブログなど）
- * iOS ネイティブ: In-App Browser (SFSafariViewController) で開く
+ * ネイティブ: In-App Browser で開く
  * Web: 通常のナビゲーション
  */
 export const openExternalUrl = (url: string): void => {
@@ -40,13 +35,12 @@ export const openExternalUrl = (url: string): void => {
 
 export const openAuthUrl = (url: string): void => {
   if (isNativePlatform()) {
-    // iOS/Android: In-App Browser で開く + platform パラメータ追加
+    const platform = isIOSNative() ? 'ios' : 'android';
     const separator = url.includes('?') ? '&' : '?';
-    const nativeUrl = `${url}${separator}platform=ios`;
+    const nativeUrl = `${url}${separator}platform=${platform}`;
     import('@capacitor/browser').then(({ Browser }) => {
       Browser.open({ url: nativeUrl });
     }).catch(() => {
-      // fallback
       window.location.href = nativeUrl;
     });
   } else {

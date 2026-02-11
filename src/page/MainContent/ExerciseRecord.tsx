@@ -26,7 +26,7 @@ import {
   initiateGoogleFitAuth,
   handleGoogleFitAuthCallback
 } from '../../utils/deviceSync';
-import { isIOSNative } from '../../utils/platform';
+import { isIOSNative, isNativePlatform } from '../../utils/platform';
 import { useHealthKit } from '../../hooks/useHealthKit';
 import '../../styles/mobile-responsive-fix.css';
 
@@ -117,8 +117,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     if (isExerciseDataEmpty(exerciseData)) {
       // データが空の場合のみサーバーに問い合わせ
       loadTodayData().then(() => {
-        // サーバーからもデータがなく、iOS ネイティブの場合は HealthKit から自動取得
-        if (isIOSNative() && isExerciseDataEmpty(exerciseData)) {
+        // サーバーからもデータがなく、ネイティブの場合はヘルスデータから自動取得
+        if (isNativePlatform() && isExerciseDataEmpty(exerciseData)) {
           refreshHKData().then((hkData) => {
             if (hkData) {
               const converted = convertDeviceDataToExerciseRecord(hkData);
@@ -460,20 +460,21 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
 
   // デバイス同期の処理（iOS HealthKit / Android ヘルスアプリ連携）
   const handleDeviceSync = async () => {
-    // iOS ネイティブ: HealthKit から直接取得
-    if (isIOSNative()) {
+    // ネイティブ: HealthKit / Health Connect から直接取得
+    if (isNativePlatform()) {
       setSyncLoading(true);
       try {
-        showInfo('ヘルスケアからデータを取得中...');
+        const healthAppName = isIOSNative() ? 'ヘルスケア' : 'Health Connect';
+        showInfo(`${healthAppName}からデータを取得中...`);
         const hkData = await refreshHKData();
         if (hkData) {
-          await handleSyncSuccess(hkData, 'ヘルスケア');
+          await handleSyncSuccess(hkData, healthAppName);
         } else {
-          showWarning('ヘルスケアからデータを取得できませんでした。');
+          showWarning(`${healthAppName}からデータを取得できませんでした。`);
           setSettingsDialogOpen(true);
         }
       } catch {
-        showError('ヘルスケア同期中にエラーが発生しました。');
+        showError(`${isIOSNative() ? 'ヘルスケア' : 'Health Connect'}同期中にエラーが発生しました。`);
       } finally {
         setSyncLoading(false);
       }
@@ -731,8 +732,8 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       {/* ヘッダー */}
       <ExerciseHeader isDarkMode={isDarkMode} />
 
-      {/* スマホ同期ボタン（iOSネイティブ時のみ表示） */}
-      {isIOSNative() && (
+      {/* スマホ同期ボタン（ネイティブ時のみ表示） */}
+      {isNativePlatform() && (
         <Box sx={{ mb: 2, mt: 1, textAlign: 'center', px: 2 }}>
           <Button
             variant="contained"
@@ -804,7 +805,10 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
               )
             }
           >
-            {syncLoading ? 'ヘルスケアと同期中...' : 'ヘルスケアと同期'}
+            {syncLoading
+              ? (isIOSNative() ? 'ヘルスケアと同期中...' : 'Health Connectと同期中...')
+              : (isIOSNative() ? 'ヘルスケアと同期' : 'Health Connectと同期')
+            }
           </Button>
           <style>
             {`
