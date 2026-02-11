@@ -1,6 +1,7 @@
 import React from "react";
 import { trackLogin } from "../../utils/googleAnalytics";
 import { useTranslation } from "../../hooks/useTranslation";
+import { openAuthUrl } from "../../utils/platform";
 
 const GoogleLoginButton: React.FC = () => {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ const GoogleLoginButton: React.FC = () => {
         // VITE_API_BASE_URLからbaseURLを取得し、authパスを追加
         const baseUrl = apiEndpoint.endsWith('/') ? apiEndpoint : apiEndpoint + '/';
         console.log('Redirecting to:', `${baseUrl}auth/google/login`);
-        window.location.href = `${baseUrl}auth/google/login`; 
+        openAuthUrl(`${baseUrl}auth/google/login`);
       }}
     style={{
       width: "100%",

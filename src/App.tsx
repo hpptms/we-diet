@@ -8,6 +8,7 @@ import { initPerformanceMonitoring } from './utils/performanceMonitoring';
 import { notifyPageView } from './utils/indexNow';
 import { LanguageProvider } from './context/LanguageContext';
 import { useTranslation } from './hooks/useTranslation';
+import { isNativePlatform } from './utils/platform';
 
 // Lazy load page components with better optimization
 const LazyTopPage = React.lazy(() => 
@@ -118,28 +119,66 @@ function App() {
     // Initialize Google Analytics
     initGA();
     
-    // Initialize Facebook SDK when app starts
-    // initializeFacebookSDK();
-    
     // Initialize performance monitoring
     const performanceMonitor = initPerformanceMonitoring();
     
-    // Register Service Worker for performance optimization (excluding iOS Safari)
-    if ('serviceWorker' in navigator) {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-      
-      // iOSのSafariではService Workerを登録しない
-      if (!isIOS || !isSafari) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              // Service Worker registered successfully - silent handling
-            })
-            .catch((registrationError) => {
-              // Service Worker registration failed - silent handling
-            });
+    // Capacitor ネイティブアプリの初期化
+    if (isNativePlatform()) {
+      import('@capacitor/status-bar').then(({ StatusBar, Style }) => {
+        StatusBar.setStyle({ style: Style.Default }).catch(() => {});
+      }).catch(() => {});
+
+      import('@capacitor/splash-screen').then(({ SplashScreen }) => {
+        SplashScreen.hide().catch(() => {});
+      }).catch(() => {});
+
+      // OAuth コールバック用: カスタムURLスキーム (wediet://) のリスナー
+      import('@capacitor/app').then(({ App: CapApp }) => {
+        CapApp.addListener('appUrlOpen', (event) => {
+          // wediet://dashboard?token=xxx&user_id=xxx のようなURLを処理
+          try {
+            const url = new URL(event.url);
+            const token = url.searchParams.get('token');
+            const userId = url.searchParams.get('user_id');
+            const accountName = url.searchParams.get('account_name');
+            const error = url.searchParams.get('error');
+
+            if (error) {
+              window.location.href = `/login?error=${encodeURIComponent(error)}`;
+              return;
+            }
+
+            if (token && userId) {
+              localStorage.setItem('jwt_token', token);
+              localStorage.setItem('user_id', userId);
+              if (accountName) {
+                localStorage.setItem('accountName', accountName);
+              }
+              // In-App Browser を閉じる
+              import('@capacitor/browser').then(({ Browser }) => {
+                Browser.close().catch(() => {});
+              }).catch(() => {});
+              // ダッシュボードへ遷移
+              window.location.href = '/Dashboard';
+            }
+          } catch (e) {
+            console.error('URL open handler error:', e);
+          }
         });
+      }).catch(() => {});
+    } else {
+      // Web: Register Service Worker for performance optimization (excluding iOS Safari)
+      if ('serviceWorker' in navigator) {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+        if (!isIOS || !isSafari) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+              .then(() => {})
+              .catch(() => {});
+          });
+        }
       }
     }
     

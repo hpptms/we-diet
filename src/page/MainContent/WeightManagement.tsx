@@ -61,6 +61,7 @@ const convertProtoWeightRecordToLegacy = (wr: { id: number; userId: number; date
     updated_at: wr.updatedAt,
 });
 
+import { useHealthKit } from '../../hooks/useHealthKit';
 import '../../styles/mobile-responsive-fix.css';
 
 // Import components
@@ -148,6 +149,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     const isDarkMode = useRecoilValue(darkModeState);
     const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
     const { t } = useTranslation();
+    const { available: hkAvailable, writeWeight } = useHealthKit();
     
     // State
     const [weightRecords, setWeightRecords] = useState<any[]>([]);
@@ -377,10 +379,13 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             const token = localStorage.getItem("token");
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-            // console.log('Sending overwrite request:', pendingRecord);
             const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record/overwrite`, pendingRecord, { headers });
-            // console.log('Overwrite response:', response.data);
-            
+
+            // HealthKit に体重を書き込み（iOSネイティブ時）
+            if (hkAvailable && pendingRecord.weight) {
+                writeWeight({ weight: pendingRecord.weight });
+            }
+
             // Reset states
             setFormData({
                 date: new Date().toISOString().slice(0, 10),
@@ -488,9 +493,12 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             // console.log('体重記録送信データ:', request);
 
             const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record`, request, { headers });
-            
-            // console.log('体重記録レスポンス:', response.data);
-            
+
+            // HealthKit に体重を書き込み（iOSネイティブ時）
+            if (hkAvailable) {
+                writeWeight({ weight: weightValue });
+            }
+
             setFormData({
                 date: new Date().toISOString().slice(0, 10),
                 weight: '',
@@ -596,9 +604,12 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
             // console.log('過去の体重記録送信データ:', request);
 
             const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}api/weight_record`, request, { headers });
-            
-            // console.log('過去の体重記録レスポンス:', response.data);
-            
+
+            // HealthKit に体重を書き込み（iOSネイティブ時）
+            if (hkAvailable) {
+                writeWeight({ weight: weightValue, date: new Date(pastFormData.date) });
+            }
+
             setPastFormData({
                 date: new Date().toISOString().slice(0, 10),
                 weight: '',

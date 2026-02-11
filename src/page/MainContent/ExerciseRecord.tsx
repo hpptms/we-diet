@@ -26,6 +26,8 @@ import {
   initiateGoogleFitAuth,
   handleGoogleFitAuthCallback
 } from '../../utils/deviceSync';
+import { isIOSNative } from '../../utils/platform';
+import { useHealthKit } from '../../hooks/useHealthKit';
 import '../../styles/mobile-responsive-fix.css';
 
 // Import components
@@ -61,6 +63,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
   // レスポンシブデザイン用のブレークポイント
   const { isTabletOrMobile, isPortraitMode, isSmallScreen } = useResponsive();
   const { t } = useTranslation();
+  const { available: hkAvailable, refreshExerciseData: refreshHKData } = useHealthKit();
 
   // サーバーから本日のデータを取得する関数
   const loadTodayData = async () => {
@@ -113,10 +116,23 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     // 現在のRecoil状態（ローカルストレージから復元済み）をチェック
     if (isExerciseDataEmpty(exerciseData)) {
       // データが空の場合のみサーバーに問い合わせ
-      // console.log('ローカルデータが空のため、サーバーからデータを取得します');
-      loadTodayData();
-    } else {
-      // console.log('ローカルストレージからデータを復元しました');
+      loadTodayData().then(() => {
+        // サーバーからもデータがなく、iOS ネイティブの場合は HealthKit から自動取得
+        if (isIOSNative() && isExerciseDataEmpty(exerciseData)) {
+          refreshHKData().then((hkData) => {
+            if (hkData) {
+              const converted = convertDeviceDataToExerciseRecord(hkData);
+              setExerciseData((prev: ExerciseRecordData) => ({
+                ...prev,
+                walkingSteps: converted.walkingSteps || prev.walkingSteps,
+                walkingDistance: converted.walkingDistance || prev.walkingDistance,
+                walkingTime: converted.walkingTime || prev.walkingTime,
+                otherExerciseTime: converted.otherExerciseTime || prev.otherExerciseTime,
+              }));
+            }
+          });
+        }
+      });
     }
 
     // Google Fit OAuth認証コールバックをチェック
@@ -442,8 +458,28 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     // 注意: setLoading(false)はここでは呼び出さない（呼び出し元で処理される）
   };
 
-  // デバイス同期の処理（Android端末でヘルスアプリ連携）
+  // デバイス同期の処理（iOS HealthKit / Android ヘルスアプリ連携）
   const handleDeviceSync = async () => {
+    // iOS ネイティブ: HealthKit から直接取得
+    if (isIOSNative()) {
+      setSyncLoading(true);
+      try {
+        showInfo('ヘルスケアからデータを取得中...');
+        const hkData = await refreshHKData();
+        if (hkData) {
+          await handleSyncSuccess(hkData, 'ヘルスケア');
+        } else {
+          showWarning('ヘルスケアからデータを取得できませんでした。');
+          setSettingsDialogOpen(true);
+        }
+      } catch {
+        showError('ヘルスケア同期中にエラーが発生しました。');
+      } finally {
+        setSyncLoading(false);
+      }
+      return;
+    }
+
     if (!isDeviceSyncSupported()) {
       showWarning('お使いのデバイスは同期機能をサポートしていません。');
       return;
@@ -693,53 +729,43 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       {/* ヘッダー */}
       <ExerciseHeader isDarkMode={isDarkMode} />
 
-      {/* dieterに投稿設定 */}
-      <PublicToggle
-        isPublic={exerciseData.isPublic}
-        onChange={(isPublic) => setExerciseData({ ...exerciseData, isPublic })}
-        isSensitive={exerciseData.isSensitive}
-        onSensitiveChange={(isSensitive) => setExerciseData({ ...exerciseData, isSensitive })}
-        showSensitiveOption={true}
-        isDarkMode={isDarkMode}
-      />
-
-      {/* スマホ同期ボタン（常に非表示） */}
-      {false && (
-        <Box sx={{ mb: 3, textAlign: 'center', px: 2 }}>
+      {/* スマホ同期ボタン（iOSネイティブ時のみ表示） */}
+      {isIOSNative() && (
+        <Box sx={{ mb: 2, mt: 1, textAlign: 'center', px: 2 }}>
           <Button
             variant="contained"
             onClick={handleDeviceSync}
             disabled={loading || syncLoading}
             sx={{
-              background: syncLoading 
+              background: syncLoading
                 ? (isDarkMode ? 'linear-gradient(45deg, #424242 30%, #616161 90%)' : 'linear-gradient(45deg, #e0e0e0 30%, #f5f5f5 90%)')
-                : (isDarkMode 
+                : (isDarkMode
                   ? 'linear-gradient(45deg, #FF6B6B 30%, #4ECDC4 50%, #45B7D1 90%)'
                   : 'linear-gradient(45deg, #FF6B6B 30%, #4ECDC4 50%, #45B7D1 90%)'
                 ),
               border: 0,
               borderRadius: '25px',
-              boxShadow: syncLoading 
-                ? '0 2px 4px 0 rgba(0,0,0,0.2)' 
+              boxShadow: syncLoading
+                ? '0 2px 4px 0 rgba(0,0,0,0.2)'
                 : '0 4px 15px 0 rgba(255,107,107,0.3), 0 4px 15px 0 rgba(78,205,196,0.2)',
               color: 'white',
-              height: 56,
-              padding: '12px 32px',
-              fontSize: '16px',
+              height: 48,
+              padding: '10px 28px',
+              fontSize: '15px',
               fontWeight: 'bold',
               textTransform: 'none',
-              minWidth: '280px',
+              minWidth: '240px',
               position: 'relative',
               overflow: 'hidden',
               '&:hover': {
-                background: syncLoading 
+                background: syncLoading
                   ? (isDarkMode ? 'linear-gradient(45deg, #424242 30%, #616161 90%)' : 'linear-gradient(45deg, #e0e0e0 30%, #f5f5f5 90%)')
-                  : (isDarkMode 
+                  : (isDarkMode
                     ? 'linear-gradient(45deg, #FF5252 30%, #26C6DA 50%, #42A5F5 90%)'
                     : 'linear-gradient(45deg, #FF5252 30%, #26C6DA 50%, #42A5F5 90%)'
                   ),
-                boxShadow: syncLoading 
-                  ? '0 2px 4px 0 rgba(0,0,0,0.2)' 
+                boxShadow: syncLoading
+                  ? '0 2px 4px 0 rgba(0,0,0,0.2)'
                   : '0 6px 20px 0 rgba(255,107,107,0.4), 0 6px 20px 0 rgba(78,205,196,0.3)',
                 transform: syncLoading ? 'none' : 'translateY(-2px)',
               },
@@ -764,19 +790,19 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
             }}
             startIcon={
               syncLoading ? (
-                <div style={{ 
+                <div style={{
                   animation: 'spin 1s linear infinite',
                   display: 'inline-block',
-                  fontSize: '20px'
+                  fontSize: '18px'
                 }}>
                   ⚡
                 </div>
               ) : (
-                <div style={{ fontSize: '20px', marginRight: '8px' }}>📱✨</div>
+                <div style={{ fontSize: '18px', marginRight: '4px' }}>📱✨</div>
               )
             }
           >
-            {syncLoading ? t('exercise', 'syncingWithDevice') : t('exercise', 'syncWithDevice')}
+            {syncLoading ? 'ヘルスケアと同期中...' : 'ヘルスケアと同期'}
           </Button>
           <style>
             {`
@@ -788,6 +814,16 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
           </style>
         </Box>
       )}
+
+      {/* dieterに投稿設定 */}
+      <PublicToggle
+        isPublic={exerciseData.isPublic}
+        onChange={(isPublic) => setExerciseData({ ...exerciseData, isPublic })}
+        isSensitive={exerciseData.isSensitive}
+        onSensitiveChange={(isSensitive) => setExerciseData({ ...exerciseData, isSensitive })}
+        showSensitiveOption={true}
+        isDarkMode={isDarkMode}
+      />
 
       {/* 有酸素運動 */}
       <AerobicExerciseCard

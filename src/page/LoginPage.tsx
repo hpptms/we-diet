@@ -9,8 +9,6 @@ import axios from "axios";
 import MailRegisterModal from "../component/MailRegisterModal";
 import MailRegisterButton from "../component/MailRegisterButton";
 import GoogleLoginButton from "../component/authLogin/GoogleLoginButton";
-import FacebookLoginButton from "../component/FacebookLoginButton";
-import TiktokLoginButton from "../component/TiktokLoginButton";
 import LineLoginButton from "../component/LineLoginButton";
 import XLoginButton from "../component/XLoginButton";
 import { useSetRecoilState } from "recoil";
@@ -306,7 +304,7 @@ const LoginPage: React.FC = () => {
       <SEOHelmet
         title="ログイン | We Diet - ダイエットSNS"
         description="We Dietにログイン。ダイエット仲間と一緒に健康的な生活を始めましょう。Google、LINE、Xでの簡単ログインに対応。"
-        keywords="ログイン,We Diet,ダイエットSNS,アカウント,サインイン,Google,LINE,X,Twitter,Facebook,TikTok"
+        keywords="ログイン,We Diet,ダイエットSNS,アカウント,サインイン,Google,LINE,X,Twitter"
         canonicalUrl="https://we-diet.net/login"
         noindex={true}
       />

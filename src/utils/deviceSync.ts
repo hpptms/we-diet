@@ -1,4 +1,6 @@
 // デバイス同期用ユーティリティ
+import { isIOSNative } from './platform';
+import { readHealthKitExerciseData } from './healthKit';
 
 export interface DeviceExerciseData {
     steps?: number;
@@ -417,8 +419,9 @@ export const getDeviceInfo = (): DeviceInfo => {
 
 // デバイスがフィットネス機能をサポートしているかチェック
 export const isDeviceSyncSupported = (): boolean => {
+    // ネイティブiOSアプリの場合、HealthKitでサポート
+    if (isIOSNative()) return true;
     const deviceInfo = getDeviceInfo();
-    // iOSはWebブラウザから実質的にフィットネスデータにアクセス不可能のため除外
     // AndroidのみでWeb APIによる同期をサポート
     return deviceInfo.isAndroid;
 };
@@ -432,7 +435,17 @@ export const getSettingsInstructions = (): {
 } => {
     const deviceInfo = getDeviceInfo();
 
-    if (deviceInfo.isIOS) {
+    if (deviceInfo.isIOS && isIOSNative()) {
+        return {
+            title: 'ヘルスケア同期設定',
+            instructions: [
+                '📱 iPhoneの「設定」→「ヘルスケア」→「データアクセスとデバイス」',
+                '✅ 「We Diet」をタップして必要な項目を許可',
+                '🔄 アプリに戻って再度同期ボタンを押してください',
+            ],
+            alternativeMethod: 'ヘルスケアアプリで今日の歩数を確認し、手動で入力してください'
+        };
+    } else if (deviceInfo.isIOS) {
         return {
             title: 'iPhone同期設定',
             instructions: [
@@ -472,9 +485,16 @@ export const getSettingsInstructions = (): {
     };
 };
 
-// 実際のデバイス同期のみを試行（Google Fit API優先）
+// 実際のデバイス同期のみを試行（HealthKit / Google Fit API優先）
 export const syncWithDevice = async (): Promise<DeviceExerciseData | null> => {
     try {
+        // ネイティブiOS: HealthKitから取得
+        if (isIOSNative()) {
+            const hkData = await readHealthKitExerciseData();
+            if (hkData) return hkData;
+            return null;
+        }
+
         const deviceInfo = getDeviceInfo();
 
         // Android端末でGoogle Fit認証済みの場合はGAPI使用

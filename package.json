@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/browser": "^8.0.0",
+    "@capacitor/core": "^8.0.2",
+    "@capacitor/ios": "^8.0.2",
+    "@capacitor/splash-screen": "^8.0.0",
+    "@capacitor/status-bar": "^8.0.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^5.13.7",
@@ -19,6 +25,7 @@
     "@types/react-dom": "^18.2.18",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.11.0",
+    "capacitor-health": "^7.0.0",
     "chart.js": "^4.5.0",
     "cloudinary": "^2.6.1",
     "protobufjs": "^7.5.3",
@@ -44,7 +51,11 @@
     "build:prod": "NODE_ENV=production vite build",
     "proto:generate": "protoc --ts_out frontend/src/proto --ts_opt target=ts --proto_path backend/proto backend/proto/*.proto",
     "minify-html": "node scripts/minify-html.js",
-    "build:minify": "npm run build && npm run minify-html"
+    "build:minify": "npm run build && npm run minify-html",
+    "postinstall": "node -e \"const fs=require('fs');const p='node_modules/capacitor-health/Package.swift';if(fs.existsSync(p)){let c=fs.readFileSync(p,'utf8');c=c.replace('from: \\\"7.0.0\\\"','\\\"7.0.0\\\"..<\\\"9.0.0\\\"');fs.writeFileSync(p,c);}\"",
+    "cap:build": "npm run build && npx cap copy ios",
+    "cap:sync": "npx cap sync ios",
+    "cap:open:ios": "npx cap open ios"
   },
   "eslintConfig": {
     "extends": [
@@ -66,6 +77,7 @@
   },
   "proxy": "http://localhost:8080",
   "devDependencies": {
+    "@capacitor/cli": "^8.0.2",
     "@protobuf-ts/plugin": "^2.11.1",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/react-slick": "^0.23.13",
