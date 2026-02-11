@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../recoil/darkModeAtom';
 import { useTranslation } from '../hooks/useTranslation';
+import { openExternalUrl, isNativePlatform } from '../utils/platform';
 import './DashboardPageButtons.css';
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter' | 'debug';
@@ -113,7 +114,11 @@ const DashboardPageButtons: React.FC<DashboardPageButtonsProps> = ({ onViewChang
       <button
         className={`dashboard-button-base button-blog ${isDarkMode ? 'dark-mode' : ''}`}
         onClick={() => {
-          window.location.href = '/blog/index.html';
+          if (isNativePlatform()) {
+            openExternalUrl('https://we-diet.net/blog/index.html');
+          } else {
+            window.location.href = '/blog/index.html';
+          }
         }}
       >
         📝 {t('dashboard', 'blog', {}, 'ブログ')}

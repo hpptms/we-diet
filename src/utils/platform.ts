@@ -21,6 +21,23 @@ export const isWeb = (): boolean => {
  * iOS ネイティブ: In-App Browser (SFSafariViewController) で開き、platform=ios パラメータを追加
  * Web: 通常の window.location.href でリダイレクト
  */
+/**
+ * 外部URLをブラウザで開く（ブログなど）
+ * iOS ネイティブ: In-App Browser (SFSafariViewController) で開く
+ * Web: 通常のナビゲーション
+ */
+export const openExternalUrl = (url: string): void => {
+  if (isNativePlatform()) {
+    import('@capacitor/browser').then(({ Browser }) => {
+      Browser.open({ url });
+    }).catch(() => {
+      window.open(url, '_blank');
+    });
+  } else {
+    window.location.href = url;
+  }
+};
+
 export const openAuthUrl = (url: string): void => {
   if (isNativePlatform()) {
     // iOS/Android: In-App Browser で開く + platform パラメータ追加

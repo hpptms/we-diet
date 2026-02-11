@@ -1,5 +1,6 @@
-import React from 'react';
-import { Snackbar, Alert } from '@mui/material';
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { Alert } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../recoil/darkModeAtom';
 import { ToastState } from '../hooks/useToast';
@@ -13,81 +14,79 @@ interface ToastProviderProps {
 const ToastProvider: React.FC<ToastProviderProps> = ({ toast, onClose, position = 'center' }) => {
     const isDarkMode = useRecoilValue(darkModeState);
 
-    // 位置に応じてスタイルを調整
-    const getPositionStyles = () => {
+    // Auto-dismiss
+    useEffect(() => {
+        if (toast.open) {
+            const timer = setTimeout(onClose, 6000);
+            return () => clearTimeout(timer);
+        }
+    }, [toast.open, onClose]);
+
+    if (!toast.open) return null;
+
+    const alertSx = {
+        fontSize: '14px',
+        fontWeight: 'normal',
+        minWidth: '300px',
+        maxWidth: '90vw',
+        wordBreak: 'break-word',
+        whiteSpace: 'pre-line',
+        borderRadius: '12px',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.25)',
+        backgroundColor: isDarkMode ? (
+            toast.severity === 'success' ? '#2e7d32' :
+            toast.severity === 'info' ? '#1976d2' :
+            toast.severity === 'warning' ? '#ed6c02' : '#d32f2f'
+        ) : (
+            toast.severity === 'success' ? '#4caf50' :
+            toast.severity === 'info' ? '#2196f3' :
+            toast.severity === 'warning' ? '#ff9800' : '#f44336'
+        )
+    };
+
+    const getWrapperStyle = (): React.CSSProperties => {
         switch (position) {
-            case 'bottom':
-                return {
-                    position: 'fixed' as const,
-                    bottom: '120px', // 保存・戻るボタンの上に表示
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    zIndex: 10000,
-                    width: 'auto',
-                    maxWidth: '90vw',
-                };
             case 'top':
                 return {
-                    position: 'fixed' as const,
-                    top: '80px',
+                    position: 'fixed',
+                    top: 'calc(env(safe-area-inset-top, 20px) + 8px)',
                     left: '50%',
                     transform: 'translateX(-50%)',
                     zIndex: 10000,
-                    width: 'auto',
-                    maxWidth: '90vw',
+                };
+            case 'bottom':
+                return {
+                    position: 'fixed',
+                    bottom: '120px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 10000,
                 };
             default: // center
                 return {
-                    position: 'fixed' as const,
+                    position: 'fixed',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     zIndex: 10000,
-                    width: 'auto',
-                    maxWidth: '90vw',
                 };
         }
     };
 
-    return (
-        <Snackbar
-            open={toast.open}
-            autoHideDuration={6000}
-            onClose={onClose}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            sx={{
-                ...getPositionStyles(),
-                '& .MuiSnackbarContent-root': {
-                    minWidth: '300px',
-                    maxWidth: '90vw'
-                }
-            }}
-        >
-                <Alert 
-                    onClose={onClose} 
-                    severity={toast.severity}
-                    variant="filled"
-                    sx={{
-                        fontSize: '14px',
-                        fontWeight: 'normal',
-                        minWidth: '300px',
-                        maxWidth: '90vw',
-                        wordBreak: 'break-word',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                        backgroundColor: isDarkMode ? (
-                            toast.severity === 'success' ? '#2e7d32' :
-                            toast.severity === 'info' ? '#1976d2' :
-                            toast.severity === 'warning' ? '#ed6c02' : '#d32f2f'
-                        ) : (
-                            toast.severity === 'success' ? '#4caf50' :
-                            toast.severity === 'info' ? '#2196f3' :
-                            toast.severity === 'warning' ? '#ff9800' : '#f44336'
-                        )
-                    }}
-                >
-                    {toast.message}
-                </Alert>
-        </Snackbar>
+    // React Portalでdocument.body直下に描画
+    // bodyのcontain/transform等のCSS影響を回避するためportal先はdocument.documentElement(html要素)
+    return ReactDOM.createPortal(
+        <div style={getWrapperStyle()}>
+            <Alert
+                onClose={onClose}
+                severity={toast.severity}
+                variant="filled"
+                sx={alertSx}
+            >
+                {toast.message}
+            </Alert>
+        </div>,
+        document.documentElement
     );
 };
 

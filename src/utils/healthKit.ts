@@ -14,19 +14,24 @@ export interface HealthKitBodyData {
 }
 
 // capacitor-health plugin reference (loaded lazily to avoid import errors on web)
-let healthPlugin: any = null;
+// IMPORTANT: Never return this proxy from an async function!
+// Capacitor's registerPlugin returns a Proxy that intercepts ALL property access.
+// If returned from an async function, the Promise resolution algorithm calls .then()
+// on the proxy, which gets routed to the native side and fails.
+let _health: any = null;
+let _pluginLoaded = false;
 
-const getHealthPlugin = async () => {
-  if (!isIOSNative()) return null;
-  if (!healthPlugin) {
-    try {
-      const module = await import('capacitor-health');
-      healthPlugin = module.Health;
-    } catch {
-      return null;
-    }
+const ensurePlugin = async (): Promise<boolean> => {
+  if (_pluginLoaded) return _health !== null;
+  _pluginLoaded = true;
+  if (!isIOSNative()) return false;
+  try {
+    const mod = await import('capacitor-health');
+    _health = mod.Health;
+    return true;
+  } catch {
+    return false;
   }
-  return healthPlugin;
 };
 
 export const isHealthKitAvailable = (): boolean => {
@@ -39,24 +44,31 @@ export const requestHealthKitPermissions = async (): Promise<HealthKitPermission
   }
 
   try {
-    const health = await getHealthPlugin();
-    if (!health) return { granted: false, error: 'Plugin not available' };
+    const ready = await ensurePlugin();
+    if (!ready || !_health) return { granted: false, error: 'Plugin not available' };
 
     // Check availability first
-    const availability = await health.isAvailable();
+    const availability = await _health.isHealthAvailable();
     if (!availability.available) {
-      return { granted: false, error: availability.reason || 'HealthKit not available' };
+      return { granted: false, error: 'HealthKit not available' };
     }
 
-    await health.requestAuthorization({
-      read: ['steps', 'distance', 'calories', 'heartRate', 'weight'],
-      write: ['weight'],
+    await _health.requestHealthPermissions({
+      permissions: [
+        'READ_STEPS',
+        'READ_DISTANCE',
+        'READ_ACTIVE_CALORIES',
+        'READ_TOTAL_CALORIES',
+        'READ_HEART_RATE',
+        'READ_WORKOUTS',
+      ],
     });
 
     // Apple HealthKit does not expose whether the user actually granted permission.
-    // requestAuthorization resolves successfully regardless of user choice.
+    // requestHealthPermissions resolves successfully regardless of user choice.
     return { granted: true };
   } catch (error: any) {
+    console.error('[HealthKit] Permission request error:', error);
     return {
       granted: false,
       error: error?.message || 'Permission request failed',
@@ -68,72 +80,69 @@ export const readHealthKitExerciseData = async (): Promise<DeviceExerciseData | 
   if (!isIOSNative()) return null;
 
   try {
-    const health = await getHealthPlugin();
-    if (!health) return null;
+    const ready = await ensurePlugin();
+    if (!ready || !_health) return null;
 
     const now = new Date();
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const startDate = startOfDay.toISOString();
     const endDate = now.toISOString();
 
-    // Use queryAggregated for efficient daily totals
-    const [stepsResult, distanceResult, caloriesResult, heartRateResult] =
+    // Query steps and active calories via queryAggregated
+    // Query workouts for distance and heart rate
+    const [stepsResult, caloriesResult, workoutsResult] =
       await Promise.allSettled([
-        health.queryAggregated({
+        _health.queryAggregated({
+          startDate,
+          endDate,
           dataType: 'steps',
-          startDate,
-          endDate,
           bucket: 'day',
-          aggregation: 'sum',
         }),
-        health.queryAggregated({
-          dataType: 'distance',
+        _health.queryAggregated({
           startDate,
           endDate,
+          dataType: 'active-calories',
           bucket: 'day',
-          aggregation: 'sum',
         }),
-        health.queryAggregated({
-          dataType: 'calories',
+        _health.queryWorkouts({
           startDate,
           endDate,
-          bucket: 'day',
-          aggregation: 'sum',
-        }),
-        health.readSamples({
-          dataType: 'heartRate',
-          startDate,
-          endDate,
-          limit: 1,
+          includeHeartRate: true,
+          includeRoute: false,
+          includeSteps: true,
         }),
       ]);
 
+    // Steps from aggregated data
     let steps = 0;
-    if (stepsResult.status === 'fulfilled' && stepsResult.value?.samples?.length > 0) {
-      steps = stepsResult.value.samples.reduce(
+    if (stepsResult.status === 'fulfilled' && stepsResult.value?.aggregatedData?.length > 0) {
+      steps = stepsResult.value.aggregatedData.reduce(
         (sum: number, sample: any) => sum + (sample.value || 0), 0
       );
     }
 
-    // distance is in meters
-    let distanceMeters = 0;
-    if (distanceResult.status === 'fulfilled' && distanceResult.value?.samples?.length > 0) {
-      distanceMeters = distanceResult.value.samples.reduce(
-        (sum: number, sample: any) => sum + (sample.value || 0), 0
-      );
-    }
-
-    // calories in kilocalories
+    // Calories from aggregated data
     let calories = 0;
-    if (caloriesResult.status === 'fulfilled' && caloriesResult.value?.samples?.length > 0) {
-      calories = caloriesResult.value.samples.reduce(
+    if (caloriesResult.status === 'fulfilled' && caloriesResult.value?.aggregatedData?.length > 0) {
+      calories = caloriesResult.value.aggregatedData.reduce(
         (sum: number, sample: any) => sum + (sample.value || 0), 0
       );
     }
 
+    // Distance and heart rate from workouts
+    let distanceMeters = 0;
     let heartRate: number | undefined;
-    if (heartRateResult.status === 'fulfilled' && heartRateResult.value?.samples?.length > 0) {
-      heartRate = heartRateResult.value.samples[0].value;
+    if (workoutsResult.status === 'fulfilled' && workoutsResult.value?.workouts?.length > 0) {
+      const workouts = workoutsResult.value.workouts;
+      distanceMeters = workouts.reduce(
+        (sum: number, w: any) => sum + (w.distance || 0), 0
+      );
+      // Get latest heart rate from most recent workout
+      const latestWorkout = workouts[workouts.length - 1];
+      if (latestWorkout.heartRate?.length > 0) {
+        const lastHR = latestWorkout.heartRate[latestWorkout.heartRate.length - 1];
+        heartRate = lastHR.bpm;
+      }
     }
 
     if (steps === 0 && distanceMeters === 0 && calories === 0) {
@@ -152,60 +161,20 @@ export const readHealthKitExerciseData = async (): Promise<DeviceExerciseData | 
       heartRate,
     };
   } catch (error) {
-    console.error('HealthKit read error:', error);
+    console.error('[HealthKit] read error:', error);
     return null;
   }
 };
 
+// Note: capacitor-health v7 does not support reading/writing weight data.
+// Weight management remains manual input only.
 export const readHealthKitWeight = async (): Promise<{ weight?: number; date?: string } | null> => {
-  if (!isIOSNative()) return null;
-
-  try {
-    const health = await getHealthPlugin();
-    if (!health) return null;
-
-    const endDate = new Date().toISOString();
-    const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-
-    const result = await health.readSamples({
-      dataType: 'weight',
-      startDate,
-      endDate,
-      limit: 1,
-    });
-
-    if (!result?.samples?.length) return null;
-
-    const sample = result.samples[0];
-    return {
-      weight: sample.value, // kg
-      date: sample.startDate,
-    };
-  } catch (error) {
-    console.error('HealthKit weight read error:', error);
-    return null;
-  }
+  return null;
 };
 
 export const writeWeightToHealthKit = async (data: HealthKitBodyData): Promise<boolean> => {
-  if (!isIOSNative()) return false;
-
-  try {
-    const health = await getHealthPlugin();
-    if (!health) return false;
-
-    if (data.weight) {
-      await health.saveSample({
-        dataType: 'weight',
-        value: data.weight, // kg (default unit)
-      });
-    }
-
-    return true;
-  } catch (error) {
-    console.error('HealthKit write error:', error);
-    return false;
-  }
+  // Not supported by capacitor-health v7
+  return false;
 };
 
 // Local storage key for tracking permission request state

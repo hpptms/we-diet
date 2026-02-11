@@ -74,7 +74,7 @@ import OverwriteConfirmDialog from '../../component/WeightManagement/OverwriteCo
 
 // Protobuf communication utilities
 const sendProtobufRequest = async (endpoint: string, requestData: any): Promise<any> => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("jwt_token");
     const headers: any = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -103,7 +103,7 @@ const sendProtobufRequest = async (endpoint: string, requestData: any): Promise<
 };
 
 const sendProtobufGetRequest = async (endpoint: string, params?: any): Promise<any> => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("jwt_token");
     const headers: any = {
         'Accept': 'application/json'
     };
@@ -181,7 +181,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     });
     const [viewPeriod, setViewPeriod] = useState<'month' | 'year'>(cache.viewPeriod);
 
-    const userId = 1;
+    const userId = parseInt(localStorage.getItem('user_id') || '0');
 
     // Handle back navigation
     const handleBack = () => {
@@ -245,7 +245,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         setLoading(true);
         setError(null);
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("jwt_token");
             let startDate: Date;
             let endDate: Date;
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -303,7 +303,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 startDate = new Date(currentDate.getFullYear(), 0, 1);
                 endDate = new Date(currentDate.getFullYear(), 11, 31);
                 
-                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}api/weight_records`, {
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/weight_records`, {
                     params: {
                         user_id: userId,
                         start_date: startDate.toISOString().slice(0, 10),
@@ -351,7 +351,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     // Check if record exists for given date
     const checkExistingRecord = async (date: string) => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("jwt_token");
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
             const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record`, {
@@ -376,7 +376,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         if (!pendingRecord) return;
 
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("jwt_token");
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
             const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record/overwrite`, pendingRecord, { headers });
@@ -479,7 +479,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         }
 
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("jwt_token");
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
             const request = {
@@ -590,7 +590,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
         }
 
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("jwt_token");
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
             const request = {
@@ -603,7 +603,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
             // console.log('過去の体重記録送信データ:', request);
 
-            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}api/weight_record`, request, { headers });
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/weight_record`, request, { headers });
 
             // HealthKit に体重を書き込み（iOSネイティブ時）
             if (hkAvailable) {

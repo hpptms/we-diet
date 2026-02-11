@@ -37,7 +37,7 @@ const FoodCalendar: React.FC<FoodCalendarProps> = ({
     const today = new Date();
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    const userId = 1; // TODO: 実際のユーザーIDを取得
+    const userId = parseInt(localStorage.getItem('user_id') || '0');
 
     // Load recorded days for the current month
     const loadRecordedDays = async (year: number, month: number) => {

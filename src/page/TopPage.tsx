@@ -351,7 +351,9 @@ export const TopPage = () => {
               {t('pages', 'topPage.footer.dataDeletion')}
             </a>
             <a
-              href="/blog/index.html"
+              href="https://we-diet.net/blog/index.html"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 color: "#6c757d",
                 textDecoration: "none",

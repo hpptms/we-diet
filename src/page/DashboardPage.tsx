@@ -22,6 +22,7 @@ import { useToast } from "../hooks/useToast";
 import { usePWAInstall } from "../hooks/usePWAInstall";
 import { useDashboardAnimation } from "../hooks/useDashboardAnimation";
 import { useAdminPermission } from "../hooks/useAdminPermission";
+import { useSwipeBack } from "../hooks/useSwipeBack";
 import ToastProvider from "../component/ToastProvider";
 
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter' | 'debug';
@@ -236,6 +237,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialView, subView }) =
             navigate("/DebugLog");
         }
     };
+
+    // 右スワイプでダッシュボードに戻る
+    useSwipeBack({
+        enabled: currentView !== 'dashboard',
+        onSwipeRight: () => handleViewChange('dashboard'),
+    });
 
     // ソーシャルログイン（Google・Facebook等）のコールバック処理
     useEffect(() => {

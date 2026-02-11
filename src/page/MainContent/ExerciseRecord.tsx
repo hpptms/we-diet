@@ -650,7 +650,9 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
     if (convertedData.otherExerciseTime) syncedItems.push(`その他運動: ${convertedData.otherExerciseTime}分`);
 
     if (syncedItems.length > 0) {
-      showSuccess(`${appName}から同期完了！\\n${syncedItems.join('\\n')}`);
+      showSuccess(`${appName}から同期完了！\n${syncedItems.join('\n')}`);
+    } else {
+      showSuccess(`${appName}から同期完了！（新しいデータはありませんでした）`);
     }
   };
 
@@ -1489,7 +1491,7 @@ const ExerciseRecord: React.FC<ExerciseRecordProps> = ({ onBack }) => {
       </Dialog>
 
       {/* 共通トースト */}
-      <ToastProvider toast={toast} onClose={hideToast} position="bottom" />
+      <ToastProvider toast={toast} onClose={hideToast} position="center" />
     </Box>
   );
 };

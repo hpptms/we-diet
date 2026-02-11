@@ -95,7 +95,7 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
         snack: ''
     });
 
-    const userId = 1; // TODO: 実際のユーザーIDを取得
+    const userId = parseInt(localStorage.getItem('user_id') || '0');
 
     // Load today's record on component mount
     useEffect(() => {
