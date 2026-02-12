@@ -12,6 +12,7 @@
         "loginWithLine": "LINEでログイン",
         "loginWithTiktok": "TikTokでログイン",
         "loginWithX": "Xでログイン",
+        "loginWithApple": "Apple IDでログイン",
         "signUp": "アカウント作成",
         "signIn": "サインイン",
         "passwordSet": "パスワード設定",

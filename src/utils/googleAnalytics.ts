@@ -173,7 +173,7 @@ export const trackDietEvent = (
 /**
  * ログインイベントを追跡
  */
-export const trackLogin = (method: 'google' | 'facebook' | 'tiktok' | 'email' | 'x') => {
+export const trackLogin = (method: 'google' | 'facebook' | 'tiktok' | 'email' | 'x' | 'apple') => {
     try {
         // 一時的にGoogle Analytics無効化（hook エラー回避）
         console.log('Login tracked (GA disabled for debugging):', method);

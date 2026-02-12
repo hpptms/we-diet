@@ -12,6 +12,7 @@
         "loginWithLine": "LINE으로 로그인",
         "loginWithTiktok": "TikTok으로 로그인",
         "loginWithX": "X로 로그인",
+        "loginWithApple": "Apple로 로그인",
         "signUp": "가입하기",
         "signIn": "로그인",
         "passwordSet": "비밀번호 설정",

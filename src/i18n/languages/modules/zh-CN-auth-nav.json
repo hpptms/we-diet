@@ -12,6 +12,7 @@
         "loginWithLine": "使用LINE登录",
         "loginWithTiktok": "使用TikTok登录",
         "loginWithX": "使用X登录",
+        "loginWithApple": "通过Apple登录",
         "signUp": "注册",
         "signIn": "登录",
         "passwordSet": "密码设置",
