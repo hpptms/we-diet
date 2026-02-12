@@ -222,7 +222,7 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
     
     try {
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}admin/users/${deleteUserDialog.user.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}admin/users/${deleteUserDialog.user.ID}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -246,7 +246,7 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
     
     try {
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}admin/posts/${deletePostDialog.post.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}admin/posts/${deletePostDialog.post.ID}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -268,7 +268,7 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
   const handleTogglePostVisibility = async (post: AdminPost) => {
     try {
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}admin/posts/${post.id}/toggle-visibility`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}admin/posts/${post.ID}/toggle-visibility`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -278,7 +278,7 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
       if (!response.ok) throw new Error('Failed to toggle post visibility');
 
       fetchPosts(); // リフレッシュ
-      const action = post.is_hide ? '表示' : '非表示';
+      const action = post.IsHide ? '表示' : '非表示';
       alert(`投稿を${action}にしました`);
     } catch (error) {
       console.error('Error toggling post visibility:', error);
@@ -677,26 +677,26 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
                       </TableRow>
                     ) : (
                       users.map((user) => (
-                        <TableRow key={user.id} hover>
+                        <TableRow key={user.ID} hover>
                           <TableCell>
                             <Avatar
-                              src={user.picture}
+                              src={user.Picture}
                               sx={{ width: 40, height: 40 }}
                             >
-                              {user.user_name?.charAt(0) || 'U'}
+                              {user.UserName?.charAt(0) || 'U'}
                             </Avatar>
                           </TableCell>
-                          <TableCell>{user.id}</TableCell>
-                          <TableCell>{user.user_name || '-'}</TableCell>
-                          <TableCell>{user.email}</TableCell>
+                          <TableCell>{user.ID}</TableCell>
+                          <TableCell>{user.UserName || '-'}</TableCell>
+                          <TableCell>{user.Email}</TableCell>
                           <TableCell>
                             <Chip
-                              label={user.permission >= 10 ? '管理者' : '一般'}
-                              color={user.permission >= 10 ? 'error' : 'default'}
+                              label={user.Permission >= 10 ? '管理者' : '一般'}
+                              color={user.Permission >= 10 ? 'error' : 'default'}
                               size="small"
                             />
                           </TableCell>
-                          <TableCell>{formatDate(user.created_at)}</TableCell>
+                          <TableCell>{formatDate(user.CreatedAt)}</TableCell>
                           <TableCell>
                             <Button
                               variant="outlined"
@@ -841,20 +841,20 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
                       </TableRow>
                     ) : (
                       posts.map((post) => (
-                        <TableRow key={post.id} hover>
-                          <TableCell>{post.id}</TableCell>
+                        <TableRow key={post.ID} hover>
+                          <TableCell>{post.ID}</TableCell>
                           <TableCell>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                               <Avatar
-                                src={post.author_picture}
+                                src={post.AuthorPicture}
                                 sx={{ width: 32, height: 32 }}
                               >
-                                {post.author_name?.charAt(0) || 'U'}
+                                {post.AuthorName?.charAt(0) || 'U'}
                               </Avatar>
                               <Box>
-                                <Typography variant="body2">{post.author_name}</Typography>
+                                <Typography variant="body2">{post.AuthorName}</Typography>
                                 <Typography variant="caption" color="textSecondary">
-                                  ID: {post.user_id}
+                                  ID: {post.UserID}
                                 </Typography>
                               </Box>
                             </Box>
@@ -868,33 +868,33 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
                               WebkitLineClamp: 3,
                               WebkitBoxOrient: 'vertical'
                             }}>
-                              {post.content}
+                              {post.Content}
                             </Typography>
                           </TableCell>
                           <TableCell>
                             <Chip
-                              label={post.is_hide ? '非表示' : '公開'}
-                              color={post.is_hide ? 'error' : 'success'}
+                              label={post.IsHide ? '非表示' : '公開'}
+                              color={post.IsHide ? 'error' : 'success'}
                               size="small"
                             />
                           </TableCell>
                           <TableCell>
                             <Chip
-                              label={post.karma}
-                              color={post.karma >= 10 ? 'error' : post.karma >= 5 ? 'warning' : 'default'}
+                              label={post.Karma}
+                              color={post.Karma >= 10 ? 'error' : post.Karma >= 5 ? 'warning' : 'default'}
                               size="small"
                             />
                           </TableCell>
-                          <TableCell>{formatDate(post.created_at)}</TableCell>
+                          <TableCell>{formatDate(post.CreatedAt)}</TableCell>
                           <TableCell>
                             <Box sx={{ display: 'flex', gap: 1 }}>
                               <Button
                                 variant="outlined"
-                                color={post.is_hide ? 'success' : 'warning'}
+                                color={post.IsHide ? 'success' : 'warning'}
                                 size="small"
                                 onClick={() => handleTogglePostVisibility(post)}
                               >
-                                {post.is_hide ? '表示' : '非表示'}
+                                {post.IsHide ? '表示' : '非表示'}
                               </Button>
                               <Button
                                 variant="outlined"
@@ -944,7 +944,7 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
         <DialogTitle>ユーザー削除確認</DialogTitle>
         <DialogContent>
           <Typography>
-            ユーザー「{deleteUserDialog.user?.user_name}」を削除しますか？
+            ユーザー「{deleteUserDialog.user?.UserName}」を削除しますか？
             この操作は元に戻せません。
           </Typography>
         </DialogContent>
@@ -963,7 +963,7 @@ const DebugLogViewer: React.FC<DebugLogViewerProps> = ({ onBack }) => {
         <DialogTitle>投稿削除確認</DialogTitle>
         <DialogContent>
           <Typography>
-            投稿ID「{deletePostDialog.post?.id}」を削除しますか？
+            投稿ID「{deletePostDialog.post?.ID}」を削除しますか？
             この操作は元に戻せません。
           </Typography>
         </DialogContent>

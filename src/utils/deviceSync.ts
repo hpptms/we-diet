@@ -1,5 +1,5 @@
 // デバイス同期用ユーティリティ
-import { isIOSNative } from './platform';
+import { isIOSNative, isAndroidNative, isNativePlatform } from './platform';
 import { readHealthKitExerciseData } from './healthKit';
 
 export interface DeviceExerciseData {
@@ -458,6 +458,19 @@ export const getSettingsInstructions = (): {
                 '⚠️ 権限を求めるポップアップが表示されたら「許可」を選択してください'
             ],
             alternativeMethod: 'ヘルスケアアプリで今日の歩数を確認し、手動で入力してください'
+        };
+    } else if (isAndroidNative()) {
+        return {
+            title: 'Health Connect 同期設定',
+            instructions: [
+                '📱 「Health Connect」アプリがインストールされているか確認してください',
+                '　　（Google Playストアで「Health Connect」を検索）',
+                '🔧 Androidの「設定」→「アプリ」→「Health Connect」を開く',
+                '✅ 「アプリの権限」から「We Diet」を選択し、すべての項目を許可',
+                '🏃 歩数を記録するアプリ（Google Fit等）がHealth Connectと連携済みか確認',
+                '🔄 アプリに戻って再度「Health Connectと同期」ボタンを押してください',
+            ],
+            alternativeMethod: 'Health Connectアプリまたは歩数計アプリで今日の歩数を確認し、手動で入力してください'
         };
     } else if (deviceInfo.isAndroid) {
         return {

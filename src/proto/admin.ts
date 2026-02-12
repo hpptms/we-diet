@@ -7,15 +7,15 @@ export interface GetUsersRequest {
 }
 
 export interface AdminUser {
-    id: number;
-    user_name: string;
-    email: string;
-    picture: string;
-    permission: number;
-    subscribe: boolean;
-    email_verified: boolean;
-    created_at: string;
-    updated_at: string;
+    ID: number;
+    UserName: string;
+    Email: string;
+    Picture: string;
+    Permission: number;
+    Subscribe: boolean;
+    EmailVerified: boolean;
+    CreatedAt: string;
+    UpdatedAt: string;
 }
 
 export interface Pagination {
@@ -48,17 +48,17 @@ export interface GetPostsRequest {
 }
 
 export interface AdminPost {
-    id: number;
-    user_id: number;
-    content: string;
-    author_name: string;
-    author_picture: string;
-    is_public: boolean;
-    is_hide: boolean;
-    karma: number;
-    created_at: string;
-    updated_at: string;
-    user?: AdminUser;
+    ID: number;
+    UserID: number;
+    Content: string;
+    AuthorName: string;
+    AuthorPicture: string;
+    IsPublic: boolean;
+    IsHide: boolean;
+    Karma: number;
+    CreatedAt: string;
+    UpdatedAt: string;
+    User?: AdminUser;
 }
 
 export interface GetPostsResponse {
