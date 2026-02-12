@@ -26,6 +26,7 @@ export const PunchLineSlider: React.FC = () => {
   return (
     <Typography
       variant="h3"
+      component="h1"
       gutterBottom
       sx={{ 
         color: 'white', 
