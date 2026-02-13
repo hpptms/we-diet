@@ -174,6 +174,12 @@
         "backToDashboard": "Back to Dashboard",
         "createPost": "Create Post",
         "searchPlaceholder": "Search Dieter",
+        "loginRequired": {
+            "title": "Registration Required",
+            "message": "You need to register to create posts",
+            "register": "Register",
+            "cancel": "Cancel"
+        },
         "recommendedUsers": "Recommended Users",
         "trendingTopics": "Trending Topics",
         "followManagement": "Follow Management",
@@ -188,7 +194,9 @@
             "messages": "Messages",
             "profile": "Profile",
             "todaysExercise": "Today's Exercise",
-            "recordMeal": "Record Meal"
+            "recordMeal": "Record Meal",
+            "blog": "Blog",
+            "weightTransition": "Weight Trends"
         },
         "userCard": {
             "followers": "Followers",
@@ -394,7 +402,7 @@
         "topPage": {
             "hero": {
                 "subtitle": "It may be difficult to continue alone, but with companions it becomes enjoyable",
-                "loginButton": "Login Page",
+                "loginButton": "See Everyone's Posts",
                 "punchLines": [
                     "Exercise⇒Record⇒Share",
                     "😊",

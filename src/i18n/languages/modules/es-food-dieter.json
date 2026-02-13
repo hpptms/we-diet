@@ -174,6 +174,12 @@
         "backToDashboard": "Volver al Panel",
         "createPost": "Crear Publicación",
         "searchPlaceholder": "Buscar en Dieter",
+        "loginRequired": {
+            "title": "Registro necesario",
+            "message": "Necesitas registrarte para crear publicaciones",
+            "register": "Registrarse",
+            "cancel": "Cancelar"
+        },
         "recommendedUsers": "Usuarios Recomendados",
         "trendingTopics": "Temas Trending",
         "followManagement": "Gestión de Seguimiento",
@@ -188,7 +194,9 @@
             "messages": "Mensajes",
             "profile": "Perfil",
             "todaysExercise": "Ejercicio de Hoy",
-            "recordMeal": "Registrar Comida"
+            "recordMeal": "Registrar Comida",
+            "blog": "Blog",
+            "weightTransition": "Evolución del Peso"
         },
         "userCard": {
             "followers": "Seguidores",
@@ -425,7 +433,7 @@
         "topPage": {
             "hero": {
                 "subtitle": "Puede ser difícil continuar solo, pero con compañeros se vuelve divertido",
-                "loginButton": "Página de Inicio de Sesión",
+                "loginButton": "Ver publicaciones de todos",
                 "punchLines": [
                     "Ejercicio⇒Registro⇒Compartir",
                     "😊",

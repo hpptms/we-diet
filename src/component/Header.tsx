@@ -84,8 +84,9 @@ const Header: React.FC = () => {
     ${stripes.map((color, i) => `${color} ${i * 14.2}% ${(i + 1) * 14.2}%`).join(', ')}
   )`;
 
-  // ログインページまたはトップページの場合はプロフィールアイコンを非表示
-  const shouldHideProfileIcon = location.pathname === '/login' || location.pathname === '/';
+  // ログインページ、トップページ、または未認証でDieterページの場合はプロフィールアイコンを非表示
+  const isAuthenticated = !!localStorage.getItem("accountName") || !!localStorage.getItem("jwt_token");
+  const shouldHideProfileIcon = location.pathname === '/login' || location.pathname === '/' || (!isAuthenticated && location.pathname === '/Dieter');
 
   return (
     <AppBar

@@ -1,5 +1,7 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
 import { darkModeState } from '../../recoil/darkModeAtom';
 import { LeftSidebar } from '../../component/Dieter/layout';
 import { SearchBar, TrendingTopics } from '../../component/Dieter/discover';
@@ -20,6 +22,11 @@ import PostModal from '../../component/Dieter/modal/PostModal';
 import { useDieterState } from '../../hooks/useDieterState';
 import { useDieterLogic } from '../../hooks/useDieterLogic';
 
+// 認証チェック関数
+const checkIsAuthenticated = (): boolean => {
+  return !!localStorage.getItem("accountName") || !!localStorage.getItem("jwt_token");
+};
+
 type CurrentView = 'dashboard' | 'profile' | 'exercise' | 'weight' | 'FoodLog' | 'dieter';
 
 interface DieterProps {
@@ -31,10 +38,52 @@ interface DieterProps {
 const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
   const isDarkMode = useRecoilValue(darkModeState);
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  // 認証必要ダイアログの状態
+  const [loginRequiredDialogOpen, setLoginRequiredDialogOpen] = useState(false);
+
+  // 認証が必要なアクションをガードするラッパー
+  const requireAuth = useCallback((action: () => void) => {
+    if (checkIsAuthenticated()) {
+      action();
+    } else {
+      setLoginRequiredDialogOpen(true);
+    }
+  }, []);
 
   // Use custom hooks for state and logic
   const dieterState = useDieterState(onViewChange);
   const dieterLogic = useDieterLogic(dieterState);
+
+  // 認証ガード付きのコールバック
+  const handleOpenPostModalGuarded = useCallback(() => {
+    requireAuth(dieterLogic.handleOpenPostModal);
+  }, [requireAuth, dieterLogic.handleOpenPostModal]);
+
+  const handleFollowGuarded = useCallback(async (userId: number) => {
+    if (checkIsAuthenticated()) {
+      await dieterLogic.handleFollow(userId);
+    } else {
+      setLoginRequiredDialogOpen(true);
+    }
+  }, [dieterLogic.handleFollow]);
+
+  const handleNavigateToMessagesGuarded = useCallback(() => {
+    requireAuth(dieterLogic.handleNavigateToMessages);
+  }, [requireAuth, dieterLogic.handleNavigateToMessages]);
+
+  const handleNavigateToNotificationsGuarded = useCallback(() => {
+    requireAuth(dieterLogic.handleNavigateToNotifications);
+  }, [requireAuth, dieterLogic.handleNavigateToNotifications]);
+
+  const handleToggleFollowingPostsGuarded = useCallback(() => {
+    requireAuth(dieterLogic.handleToggleFollowingPosts);
+  }, [requireAuth, dieterLogic.handleToggleFollowingPosts]);
+
+  const handleNavigateToFollowManagementGuarded = useCallback(() => {
+    requireAuth(dieterLogic.handleNavigateToFollowManagement);
+  }, [requireAuth, dieterLogic.handleNavigateToFollowManagement]);
 
   // subViewに基づいてフォロー管理画面の表示を制御
   useEffect(() => {
@@ -76,12 +125,12 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
       onNavigateToProfile={dieterLogic.handleNavigateToProfile}
       onNavigateToExercise={dieterLogic.handleNavigateToExercise}
       onNavigateToFoodLog={dieterLogic.handleNavigateToFoodLog}
-      onNavigateToFollowManagement={dieterLogic.handleNavigateToFollowManagement}
-      onNavigateToMessages={dieterLogic.handleNavigateToMessages}
-      onNavigateToNotifications={dieterLogic.handleNavigateToNotifications}
+      onNavigateToFollowManagement={handleNavigateToFollowManagementGuarded}
+      onNavigateToMessages={handleNavigateToMessagesGuarded}
+      onNavigateToNotifications={handleNavigateToNotificationsGuarded}
       onNavigateToHome={dieterLogic.handleNavigateToHome}
-      onToggleFollowingPosts={dieterLogic.handleToggleFollowingPosts}
-      onOpenPostModal={dieterLogic.handleOpenPostModal}
+      onToggleFollowingPosts={handleToggleFollowingPostsGuarded}
+      onOpenPostModal={handleOpenPostModalGuarded}
       showFollowingPosts={dieterState.showFollowingPosts}
       showNotifications={dieterState.showNotifications}
       notificationManager={dieterState.notificationManager}
@@ -92,12 +141,12 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
     dieterLogic.handleNavigateToProfile,
     dieterLogic.handleNavigateToExercise,
     dieterLogic.handleNavigateToFoodLog,
-    dieterLogic.handleNavigateToFollowManagement,
-    dieterLogic.handleNavigateToMessages,
-    dieterLogic.handleNavigateToNotifications,
+    handleNavigateToFollowManagementGuarded,
+    handleNavigateToMessagesGuarded,
+    handleNavigateToNotificationsGuarded,
     dieterLogic.handleNavigateToHome,
-    dieterLogic.handleToggleFollowingPosts,
-    dieterLogic.handleOpenPostModal,
+    handleToggleFollowingPostsGuarded,
+    handleOpenPostModalGuarded,
     dieterState.showFollowingPosts,
     dieterState.showNotifications,
     dieterState.notificationManager,
@@ -113,10 +162,10 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
       )}
       <RecommendedUsers
         users={dieterState.recommendedUsers}
-        onFollow={dieterLogic.handleFollow}
+        onFollow={handleFollowGuarded}
       />
     </>
-  ), [dieterLogic.handleSearch, dieterState.trendingTopics, dieterState.recommendedUsers, dieterLogic.handleFollow]);
+  ), [dieterLogic.handleSearch, dieterState.trendingTopics, dieterState.recommendedUsers, handleFollowGuarded]);
 
   // フォロー管理画面を表示中の場合
   if (dieterState.showFollowManagement) {
@@ -136,9 +185,9 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
             showNotifications={dieterState.showNotifications}
             isSearching={dieterState.isSearching}
             onNavigateToHome={dieterLogic.handleNavigateToHome}
-            onOpenPostModal={dieterLogic.handleOpenPostModal}
+            onOpenPostModal={handleOpenPostModalGuarded}
             onNavigateToProfile={dieterLogic.handleNavigateToProfile}
-            onNavigateToNotifications={dieterLogic.handleNavigateToNotifications}
+            onNavigateToNotifications={handleNavigateToNotificationsGuarded}
             onSearch={dieterLogic.handleSearch}
           />
         }
@@ -206,6 +255,54 @@ const Dieter: React.FC<DieterProps> = ({ onBack, onViewChange, subView }) => {
         onPost={dieterLogic.handlePost}
         currentUser={dieterLogic.currentUser}
       />
+
+      {/* 認証必要ダイアログ */}
+      <Dialog
+        open={loginRequiredDialogOpen}
+        onClose={() => setLoginRequiredDialogOpen(false)}
+        sx={{
+          '& .MuiDialog-paper': {
+            borderRadius: 2,
+            padding: 1,
+            backgroundColor: isDarkMode ? '#1a1a1a' : 'white',
+            color: isDarkMode ? 'white' : 'black',
+          },
+        }}
+      >
+        <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+          {t('dieter', 'loginRequired.title', {}, '登録が必要です')}
+        </DialogTitle>
+        <DialogContent sx={{ textAlign: 'center', pb: 2 }}>
+          <Typography>
+            {t('dieter', 'loginRequired.message', {}, '投稿するには登録が必要です')}
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', gap: 2, pb: 2 }}>
+          <Button
+            onClick={() => setLoginRequiredDialogOpen(false)}
+            variant="outlined"
+            sx={{ minWidth: 100 }}
+          >
+            {t('dieter', 'loginRequired.cancel', {}, 'キャンセル')}
+          </Button>
+          <Button
+            onClick={() => {
+              setLoginRequiredDialogOpen(false);
+              navigate('/login');
+            }}
+            variant="contained"
+            sx={{
+              minWidth: 100,
+              background: 'linear-gradient(45deg, #29b6f6 30%, #42a5f5 90%)',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #0288d1 30%, #1976d2 90%)',
+              },
+            }}
+          >
+            {t('dieter', 'loginRequired.register', {}, '登録する')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </FollowProvider>
   );
 };

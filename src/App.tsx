@@ -114,6 +114,18 @@ const DashboardRoute = React.memo(({ initialView, subView }: { initialView?: str
 });
 DashboardRoute.displayName = 'DashboardRoute';
 
+// 認証不要の公開ダッシュボードルート（Dieterページ用）
+const PublicDieterRoute = React.memo(({ initialView, subView }: { initialView?: string; subView?: string }) => {
+  return (
+    <DashboardLayout>
+      <Suspense fallback={<LoadingComponent />}>
+        <LazyDashboardPage initialView={initialView as any} subView={subView} />
+      </Suspense>
+    </DashboardLayout>
+  );
+});
+PublicDieterRoute.displayName = 'PublicDieterRoute';
+
 function App() {
   useEffect(() => {
     // Initialize Google Analytics
@@ -218,7 +230,7 @@ function App() {
         <Route path="/Exercise" element={<DashboardRoute initialView="exercise" />} />
         <Route path="/WeightManagement" element={<DashboardRoute initialView="weight" />} />
         <Route path="/FoodLog" element={<DashboardRoute initialView="FoodLog" />} />
-        <Route path="/Dieter" element={<DashboardRoute initialView="dieter" />} />
+        <Route path="/Dieter" element={<PublicDieterRoute initialView="dieter" />} />
         <Route path="/Dieter/Follow" element={<DashboardRoute initialView="dieter" subView="follow" />} />
         <Route path="/hashtag/:hashtag" element={
           <PrivateRoute>

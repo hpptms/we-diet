@@ -174,6 +174,12 @@
         "backToDashboard": "대시보드로 돌아가기",
         "createPost": "포스트 작성",
         "searchPlaceholder": "Dieter 검색",
+        "loginRequired": {
+            "title": "가입이 필요합니다",
+            "message": "게시물을 작성하려면 가입이 필요합니다",
+            "register": "가입하기",
+            "cancel": "취소"
+        },
         "recommendedUsers": "추천 사용자",
         "trendingTopics": "인기 주제",
         "followManagement": "팔로우 관리",
@@ -188,7 +194,9 @@
             "messages": "메시지",
             "profile": "프로필",
             "todaysExercise": "오늘의 운동",
-            "recordMeal": "식사 기록"
+            "recordMeal": "식사 기록",
+            "blog": "블로그",
+            "weightTransition": "체중 변화"
         },
         "userCard": {
             "followers": "팔로워",
@@ -425,7 +433,7 @@
         "topPage": {
             "hero": {
                 "subtitle": "혼자서는 지속하기 어려워도, 동료가 있으면 즐거워집니다",
-                "loginButton": "로그인 페이지",
+                "loginButton": "모두의 게시물 보기",
                 "punchLines": [
                     "운동⇒기록⇒공유",
                     "😊",

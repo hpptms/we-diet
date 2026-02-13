@@ -173,7 +173,7 @@ export const HeroSection: React.FC<LanguageProps> = ({ language }) => {
           size="large"
           variant="contained"
           color="primary"
-          onClick={() => navigate('/login')}
+          onClick={() => navigate('/Dieter')}
           sx={{ 
             mt: 2,
             // レスポンシブボタンサイズ

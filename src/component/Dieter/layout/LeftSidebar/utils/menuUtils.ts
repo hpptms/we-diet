@@ -70,6 +70,8 @@ export const createMenuItems = (
     const additionalMenuItems: MenuItem[] = [
         { icon: React.createElement('span', { style: { fontSize: '24px' } }, '💪'), label: t ? t('dieter', 'navigation.todaysExercise', {}, '今日の運動') : '今日の運動', active: false, onClick: onNavigateToExercise },
         { icon: React.createElement('span', { style: { fontSize: '24px' } }, '🍽️'), label: t ? t('dieter', 'navigation.recordMeal', {}, '食事を記録') : '食事を記録', active: false, onClick: onNavigateToFoodLog },
+        { icon: React.createElement('span', { style: { fontSize: '24px' } }, '📝'), label: t ? t('dieter', 'navigation.blog', {}, 'ブログ') : 'ブログ', active: false, onClick: () => window.open('https://we-diet.net/blog/', '_blank') },
+        { icon: React.createElement('span', { style: { fontSize: '24px' } }, '⚖️'), label: t ? t('dieter', 'navigation.weightTransition', {}, '体重の推移') : '体重の推移', active: false, onClick: () => { window.location.href = '/WeightManagement'; } },
     ];
 
     return { leftMenuItems, additionalMenuItems };
