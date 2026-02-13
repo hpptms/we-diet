@@ -12,6 +12,7 @@ import GoogleLoginButton from "../component/authLogin/GoogleLoginButton";
 import LineLoginButton from "../component/LineLoginButton";
 import XLoginButton from "../component/XLoginButton";
 import AppleLoginButton from "../component/authLogin/AppleLoginButton";
+import { isIOSNative } from "../utils/platform";
 import { useSetRecoilState } from "recoil";
 import { serverProfileState, profileSettingsState, convertServerProfileToLocalProfile } from "../recoil/profileSettingsAtom";
 import { useTranslation } from "../hooks/useTranslation";
@@ -493,7 +494,7 @@ const LoginPage: React.FC = () => {
                 <GoogleLoginButton />
                 <XLoginButton />
                 <LineLoginButton />
-                <AppleLoginButton />
+                {isIOSNative() && <AppleLoginButton />}
               </Box>
               {/* 新規登録ボタン */}
               <Box sx={{
