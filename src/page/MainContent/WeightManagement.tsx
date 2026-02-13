@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
-import { Box } from '@mui/material';
+import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 // Static import for Chart.js to ensure proper registration
 import {
@@ -138,11 +139,16 @@ const sendProtobufGetRequest = async (endpoint: string, params?: any): Promise<a
     }
 };
 
+const checkIsAuthenticated = (): boolean => {
+    return !!localStorage.getItem("accountName") || !!localStorage.getItem("jwt_token");
+};
+
 interface WeightManagementProps {
     onBack?: () => void;
 }
 
 const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightManagementProps) => {
+    const navigate = useNavigate();
     // Recoil state
     const [cache, setCache] = useRecoilState(weightRecordCacheAtom);
     const setClearCache = useSetRecoilState(clearWeightCacheAtom);
@@ -150,6 +156,7 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     const { toast, hideToast, showSuccess, showError, showWarning } = useToast();
     const { t } = useTranslation();
     const { available: hkAvailable, writeWeight } = useHealthKit();
+    const [loginRequiredDialogOpen, setLoginRequiredDialogOpen] = useState(false);
     
     // State
     const [weightRecords, setWeightRecords] = useState<any[]>([]);
@@ -450,6 +457,10 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
 
     // Add weight record handlers
     const handleAddWeight = async () => {
+        if (!checkIsAuthenticated()) {
+            setLoginRequiredDialogOpen(true);
+            return;
+        }
         if (!formData.weight) {
             showWarning(t('weight', 'enterWeight'));
             return;
@@ -561,6 +572,10 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
     };
 
     const handleAddPastWeight = async () => {
+        if (!checkIsAuthenticated()) {
+            setLoginRequiredDialogOpen(true);
+            return;
+        }
         if (!pastFormData.weight) {
             showWarning(t('weight', 'enterWeight'));
             return;
@@ -1093,6 +1108,26 @@ const WeightManagement: React.FC<WeightManagementProps> = ({ onBack }: WeightMan
                 newWeight={pendingRecord?.weight || 0}
             />
             
+            {/* 登録必要ダイアログ */}
+            <Dialog
+                open={loginRequiredDialogOpen}
+                onClose={() => setLoginRequiredDialogOpen(false)}
+                PaperProps={{ sx: { borderRadius: 3, p: 1 } }}
+            >
+                <DialogTitle>{t('dieter', 'loginRequired.title')}</DialogTitle>
+                <DialogContent>
+                    <Typography>{t('dieter', 'loginRequired.recordMessage')}</Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setLoginRequiredDialogOpen(false)}>
+                        {t('dieter', 'loginRequired.cancel')}
+                    </Button>
+                    <Button variant="contained" onClick={() => navigate('/login')}>
+                        {t('dieter', 'loginRequired.register')}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
             {/* 共通トースト */}
             <ToastProvider toast={toast} onClose={hideToast} />
         </Box>

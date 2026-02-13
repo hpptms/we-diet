@@ -177,6 +177,8 @@
         "loginRequired": {
             "title": "需要注册",
             "message": "发布动态需要先注册账号",
+            "saveMessage": "保存需要先注册账号",
+            "recordMessage": "记录需要先注册账号",
             "register": "去注册",
             "cancel": "取消"
         },

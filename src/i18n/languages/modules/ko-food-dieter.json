@@ -177,6 +177,8 @@
         "loginRequired": {
             "title": "가입이 필요합니다",
             "message": "게시물을 작성하려면 가입이 필요합니다",
+            "saveMessage": "저장하려면 가입이 필요합니다",
+            "recordMessage": "기록하려면 가입이 필요합니다",
             "register": "가입하기",
             "cancel": "취소"
         },

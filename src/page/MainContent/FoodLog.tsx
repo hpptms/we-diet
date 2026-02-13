@@ -17,6 +17,7 @@ import {
     Button
 } from '@mui/material';
 import { Save, PhotoCamera } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { darkModeState } from '../../recoil/darkModeAtom';
 import { foodLogState } from '../../recoil/foodLogAtom';
@@ -62,13 +63,19 @@ import RecordViewDialog from '../../component/FoodLog/RecordViewDialog';
 import { trackDietEvent } from '../../utils/googleAnalytics';
 import '../../styles/mobile-responsive-fix.css';
 
+const checkIsAuthenticated = (): boolean => {
+    return !!localStorage.getItem("accountName") || !!localStorage.getItem("jwt_token");
+};
+
 interface FoodLogProps {
     onBack?: () => void;
 }
 
 const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
+    const navigate = useNavigate();
     const [foodLog, setFoodLog] = useRecoilState(foodLogState);
     const [loading, setLoading] = useState(false);
+    const [loginRequiredDialogOpen, setLoginRequiredDialogOpen] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const [calendarOpen, setCalendarOpen] = useState(false);
@@ -159,6 +166,10 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
     };
 
     const handleSave = async () => {
+        if (!checkIsAuthenticated()) {
+            setLoginRequiredDialogOpen(true);
+            return;
+        }
         setLoading(true);
         setError(null);
         setSuccess(null);
@@ -687,6 +698,26 @@ const FoodLog: React.FC<FoodLogProps> = ({ onBack }) => {
                 </DialogActions>
             </Dialog>
             
+            {/* 登録必要ダイアログ */}
+            <Dialog
+                open={loginRequiredDialogOpen}
+                onClose={() => setLoginRequiredDialogOpen(false)}
+                PaperProps={{ sx: { borderRadius: 3, p: 1 } }}
+            >
+                <DialogTitle>{t('dieter', 'loginRequired.title')}</DialogTitle>
+                <DialogContent>
+                    <Typography>{t('dieter', 'loginRequired.saveMessage')}</Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setLoginRequiredDialogOpen(false)}>
+                        {t('dieter', 'loginRequired.cancel')}
+                    </Button>
+                    <Button variant="contained" onClick={() => navigate('/login')}>
+                        {t('dieter', 'loginRequired.register')}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
             {/* 共通トースト */}
             <ToastProvider toast={toast} onClose={hideToast} />
         </Box>

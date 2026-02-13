@@ -177,6 +177,8 @@
         "loginRequired": {
             "title": "Registration Required",
             "message": "You need to register to create posts",
+            "saveMessage": "You need to register to save",
+            "recordMessage": "You need to register to record",
             "register": "Register",
             "cancel": "Cancel"
         },

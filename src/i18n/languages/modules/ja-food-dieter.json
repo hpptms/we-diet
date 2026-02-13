@@ -177,6 +177,8 @@
         "loginRequired": {
             "title": "登録が必要です",
             "message": "投稿するには登録が必要です",
+            "saveMessage": "保存するには登録が必要です",
+            "recordMessage": "記録するには登録が必要です",
             "register": "登録する",
             "cancel": "キャンセル"
         },

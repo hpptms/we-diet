@@ -177,6 +177,8 @@
         "loginRequired": {
             "title": "Registro necessário",
             "message": "Você precisa se registrar para criar publicações",
+            "saveMessage": "Você precisa se registrar para salvar",
+            "recordMessage": "Você precisa se registrar para registrar",
             "register": "Registrar-se",
             "cancel": "Cancelar"
         },
