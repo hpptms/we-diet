@@ -5,9 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO最適化 -->
-  <title>We Diet - ダイエット・健康管理SNSアプリ | 食事記録・運動記録・体重管理</title>
-  <meta name="description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。We Dietはダイエットと健康管理をサポートするソーシャルプラットフォームです。" />
+  <!-- SEO - title, descriptionはreact-helmet-asyncで言語別に動的設定 -->
 
   <!-- アイコン設定 -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -17,20 +15,7 @@
   <!-- PWA対応 -->
   <meta name="theme-color" content="#2196f3" />
 
-  <!-- OGP Tags -->
-  <meta property="og:title" content="We Diet - ダイエット・健康管理SNSアプリ" />
-  <meta property="og:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://we-diet.net/" />
-  <meta property="og:image"
-    content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" />
-
-  <!-- Twitter Card Tags -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="We Diet - ダイエット・健康管理SNSアプリ" />
-  <meta name="twitter:description" content="一人では続けるのが難しくても、仲間がいれば楽しくなる。" />
-  <meta name="twitter:image"
-    content="https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp" />
+  <!-- OGP/Twitter Cardタグはreact-helmet-asyncで言語別に動的設定 -->
 
   <!-- 構造化データ (JSON-LD) - WebApplication -->
   <script type="application/ld+json">
@@ -134,10 +119,7 @@
   }
   </script>
 
-  <!-- 追加のSEOメタタグ -->
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <meta name="googlebot" content="index, follow" />
-  <link rel="canonical" href="https://we-diet.net/" />
+  <!-- robots, canonical はreact-helmet-asyncで動的設定 -->
 </head>
 
 <body>
