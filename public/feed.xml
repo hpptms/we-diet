@@ -8,7 +8,7 @@
     <link>https://we-diet.net/blog/</link>
     <description>Diet, fitness, meal management, and mental health — practical articles to support a healthy lifestyle. Available in Japanese, English, Chinese, Korean, and Spanish. / ダイエット、筋トレ、食事管理、メンタルヘルスなど、健康的なライフスタイルをサポートする情報を発信。</description>
     <language>ja</language>
-    <lastBuildDate>Wed, 11 Feb 2026 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 18 Feb 2026 00:00:00 +0900</lastBuildDate>
     <atom:link href="https://we-diet.net/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://res.cloudinary.com/drmyhhtjo/image/upload/v1753593907/afa4835f-e2b4-49f9-b342-1c272be930d3_cngflc.webp</url>
@@ -20,6 +20,14 @@
     <webMaster>we.diet.dev@gmail.com (We Diet)</webMaster>
     <dc:language>ja</dc:language>
     <ttl>1440</ttl>
+    <item>
+      <title>お酒を飲むと太る？アルコールのカロリー・飲む時間帯・おつまみの選び方 | We Diet ブログ</title>
+      <link>https://we-diet.net/blog/page/food-diet/alcohol-and-weight-gain.html</link>
+      <description>お酒を飲むと太るのか？ビール・ワイン・ハイボールなど種類別カロリー比較、太りにくい飲む時間帯（BMAL1の影響）、ダイエット中でも安心のおつまみ選びまで徹底解説します。</description>
+      <category>食事・栄養</category>
+      <pubDate>Wed, 18 Feb 2026 00:00:00 +0900</pubDate>
+      <guid isPermaLink="true">https://we-diet.net/blog/page/food-diet/alcohol-and-weight-gain.html</guid>
+    </item>
     <item>
       <title>階段で息が上がる人でもマラソンは走れる？体力ゼロからの完走ロードマップ | We Diet ブログ</title>
       <link>https://we-diet.net/blog/page/body-wellness/marathon-beginners-guide.html</link>
